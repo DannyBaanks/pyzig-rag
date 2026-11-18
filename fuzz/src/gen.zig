@@ -3,6 +3,23 @@
 // Every generator is a pure function of (schema, seed stream): the same seed
 // always yields byte-identical cases. The alphabet is boundary-biased
 // (empty, 1 byte, max, off-by-one) because that is where semantics break.
+//
+// A case is a sequence of length-prefixed fields (see proto.zig). The layout
+// of each schema is documented in the corpus contract (`fuzz.schema_version`)
+// and mirrored by the Python reference models:
+//
+//   argv/v1     [prog, arg...]
+//   kv/v1       [text]
+//   read/v1     [path, present, content, limit]     present: 0=ausente 1=archivo 2=dir
+//   write/v1    [mode, pre, data]                   mode: truncate | append
+//   exists/v1   [kind, path]                        kind: file | missing | dir
+//   splitfmt/v1 [sep, text, mac, ip, width]
+//   sleep/v1    [ms]
+//   env/v1      [key]
+//   spawn/v1    [pre, prog, arg...]
+//   stdout/v1   [stream, msg]                       stream: out | err
+//   sha256/v1   [data]
+//   pipe/v1     [data]                              (reservado para pipelines, F2)
 const std = @import("std");
 const proto = @import("proto.zig");
 const rngmod = @import("rng.zig");
@@ -20,6 +37,7 @@ pub const Schema = enum {
     env,
     spawn,
     stdout,
+    sha256,
     pipe,
 
     pub fn fromName(s: []const u8) ?Schema {
@@ -42,7 +60,6 @@ const COMMANDS = [_][]const []const u8{
     &.{ "printf", "%s", "con espacios y \xc3\xb1" },
     &.{ "true" },
     &.{ "false" },
-    &.{ "cat" },
     &.{ "sh", "-c", "exit 0" },
     &.{ "sh", "-c", "exit 3" },
     &.{ "sh", "-c", "echo out; echo err >&2; exit 7" },
@@ -74,7 +91,7 @@ fn asciiPrintable() []const u8 {
 fn randomBytes(r: *Rng, out: []u8) void {
     for (out) |*b| {
         if (r.chance(1, 16)) {
-            b.* = r.pick(u8, "\x00\x0a\x0d\x09\x7f\xff");
+            b.* = r.pick(u8, "\x00\x0a\x0d\t\x7f\xff");
         } else {
             b.* = r.pick(u8, asciiPrintable());
         }
@@ -83,6 +100,12 @@ fn randomBytes(r: *Rng, out: []u8) void {
 
 fn decimal(gpa: std.mem.Allocator, value: usize) ![]const u8 {
     return std.fmt.allocPrint(gpa, "{d}", .{value});
+}
+
+/// One in N cases is deliberately malformed: both sides must reject it the
+/// same way (status `invalid`), which is itself a comparison.
+fn maybeInvalid(r: *Rng) bool {
+    return r.chance(1, 16);
 }
 
 fn genArgv(r: *Rng, gpa: std.mem.Allocator) ![]u8 {
@@ -134,8 +157,14 @@ fn genKv(r: *Rng, gpa: std.mem.Allocator) ![]u8 {
 }
 
 fn genRead(r: *Rng, gpa: std.mem.Allocator) ![]u8 {
-    const paths = [_][]const u8{ "f.txt", "sub/g.txt", "missing.txt", "dir" };
-    const path = r.pick([]const u8, &paths);
+    const PathKind = struct { path: []const u8, present: []const u8 };
+    const paths = [_]PathKind{
+        .{ .path = "f.txt", .present = "1" },
+        .{ .path = "sub/g.txt", .present = "1" },
+        .{ .path = "missing.txt", .present = "0" },
+        .{ .path = "dir", .present = "2" },
+    };
+    const p = r.pick(PathKind, &paths);
     var content: [8192]u8 = undefined;
     const len = switch (r.below(8)) {
         0 => 0,
@@ -154,14 +183,21 @@ fn genRead(r: *Rng, gpa: std.mem.Allocator) ![]u8 {
         5 => 65536,
         else => r.boundaryLen(4096),
     };
-    const limit_str = try std.fmt.allocPrint(gpa, "{d}", .{limit});
-    defer gpa.free(limit_str);
-    const payload = try proto.packFields(gpa, &.{ path, content[0..len], limit_str });
+    var limit_buf: [32]u8 = undefined;
+    const limit_str: []const u8 = if (maybeInvalid(r))
+        "no-es-un-numero"
+    else
+        try std.fmt.bufPrint(&limit_buf, "{d}", .{limit});
+    const payload = try proto.packFields(gpa, &.{ p.path, p.present, content[0..len], limit_str });
     return payload;
 }
 
 fn genWrite(r: *Rng, gpa: std.mem.Allocator) ![]u8 {
-    const mode = if (r.chance(1, 2)) "1" else "0";
+    const mode = switch (r.below(3)) {
+        0 => "truncate",
+        1 => "append",
+        else => if (maybeInvalid(r)) "modo-inexistente" else "truncate",
+    };
     var pre: [16]u8 = undefined;
     var data: [4096]u8 = undefined;
     const pre_len = r.boundaryLen(pre.len);
@@ -178,16 +214,21 @@ fn genWrite(r: *Rng, gpa: std.mem.Allocator) ![]u8 {
 }
 
 fn genExists(r: *Rng, gpa: std.mem.Allocator) ![]u8 {
-    const kind = switch (r.below(3)) {
-        0 => "0", // file
-        1 => "1", // missing
-        else => "2", // directory
+    const kind = switch (r.below(4)) {
+        0 => if (maybeInvalid(r)) "kind-inexistente" else "file",
+        1 => "missing",
+        2 => "dir",
+        else => "file",
     };
-    const payload = try proto.packFields(gpa, &.{ kind, "x" });
+    const paths = [_][]const u8{ "x.txt", "sub/y.txt", "dir" };
+    const path = r.pick([]const u8, &paths);
+    const payload = try proto.packFields(gpa, &.{ kind, path });
     return payload;
 }
 
 fn genSplitFmt(r: *Rng, gpa: std.mem.Allocator) ![]u8 {
+    // separador vacio: invalido (en Python lanza ValueError, en Zig el
+    // split por vacio no termina) -> ambos lados deben rechazar el caso.
     const seps = [_][]const u8{ ",", ";", " ", "|", "\t", "" };
     const sep = r.pick([]const u8, &seps);
     var text: [128]u8 = undefined;
@@ -197,16 +238,24 @@ fn genSplitFmt(r: *Rng, gpa: std.mem.Allocator) ![]u8 {
     const ips = [_][]const u8{ "192.168.1.10", "", "x", "10.0.0.1" };
     const mac = r.pick([]const u8, &macs);
     const ip = r.pick([]const u8, &ips);
-    const width = try decimal(gpa, r.boundaryLen(24));
-    defer gpa.free(width);
-    const payload = try proto.packFields(gpa, &.{ sep, text[0..text_len], mac, ip, width });
+    var width_buf: [16]u8 = undefined;
+    const width_str: []const u8 = if (maybeInvalid(r))
+        "ancho"
+    else
+        try std.fmt.bufPrint(&width_buf, "{d}", .{r.boundaryLen(24)});
+    const payload = try proto.packFields(gpa, &.{ sep, text[0..text_len], mac, ip, width_str });
     return payload;
 }
 
 fn genSleep(r: *Rng, gpa: std.mem.Allocator) ![]u8 {
-    const ms = try decimal(gpa, r.boundaryLen(10));
-    defer gpa.free(ms);
-    const payload = try proto.packFields(gpa, &.{ms});
+    // El esquema duerme de verdad: milisegundos cortos para no gastar el
+    // presupuesto del fuzzer en dormir (500 casos por chunk).
+    var ms_buf: [16]u8 = undefined;
+    const ms_str: []const u8 = if (maybeInvalid(r))
+        "-1"
+    else
+        try std.fmt.bufPrint(&ms_buf, "{d}", .{r.boundaryLen(3)});
+    const payload = try proto.packFields(gpa, &.{ms_str});
     return payload;
 }
 
@@ -238,11 +287,24 @@ fn genSpawn(r: *Rng, gpa: std.mem.Allocator) ![]u8 {
 }
 
 fn genStdout(r: *Rng, gpa: std.mem.Allocator) ![]u8 {
-    const mode = if (r.chance(1, 2)) "1" else "0";
+    const stream = if (r.chance(1, 2)) "out" else "err";
     var msg: [256]u8 = undefined;
     const len = r.boundaryLen(msg.len);
     randomBytes(r, msg[0..len]);
-    const payload = try proto.packFields(gpa, &.{ mode, msg[0..len] });
+    const payload = try proto.packFields(gpa, &.{ stream, msg[0..len] });
+    return payload;
+}
+
+fn genSha256(r: *Rng, gpa: std.mem.Allocator) ![]u8 {
+    var data: [4096]u8 = undefined;
+    const len = switch (r.below(6)) {
+        0 => 0,
+        1 => 1,
+        2 => 4096,
+        else => r.boundaryLen(data.len),
+    };
+    randomBytes(r, data[0..len]);
+    const payload = try proto.packFields(gpa, &.{data[0..len]});
     return payload;
 }
 
@@ -272,6 +334,7 @@ pub fn generate(gpa: std.mem.Allocator, schema: Schema, r: *Rng) ![]u8 {
         .env => genEnv(r, gpa),
         .spawn => genSpawn(r, gpa),
         .stdout => genStdout(r, gpa),
+        .sha256 => genSha256(r, gpa),
         .pipe => genPipe(r, gpa),
     };
 }
@@ -310,8 +373,27 @@ test "read cases keep limit and content consistent" {
     defer gpa.free(payload);
     var f = proto.Fields.init(payload);
     const path = f.next().?;
+    const present = f.next().?;
     _ = f.next().?;
     const limit = f.next().?;
     try std.testing.expect(path.len > 0);
-    try std.testing.expect(std.mem.eql(u8, limit, "0") or std.fmt.parseInt(usize, limit, 10) catch 0 >= 0);
+    try std.testing.expect(present.len == 1);
+    try std.testing.expect(limit.len > 0);
+}
+
+test "every schema produces a decodable case" {
+    const gpa = std.testing.allocator;
+    inline for (@typeInfo(Schema).@"enum".fields) |f| {
+        const schema: Schema = @enumFromInt(f.value);
+        var r = Rng.init(7);
+        var i: usize = 0;
+        while (i < 20) : (i += 1) {
+            const payload = try generate(gpa, schema, &r);
+            defer gpa.free(payload);
+            var fields = proto.Fields.init(payload);
+            var count: usize = 0;
+            while (fields.next() != null) count += 1;
+            try std.testing.expect(count >= 1);
+        }
+    }
 }

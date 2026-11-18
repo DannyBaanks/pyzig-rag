@@ -297,11 +297,18 @@ fn out(io: std.Io, comptime fmt: []const u8, args: anytype) !void {
     try w.interface.flush();
 }
 
+// stderr con el mismo contrato (buffer + flush explicito)
+fn outErr(io: std.Io, comptime fmt: []const u8, args: anytype) !void {
+    var buf: [4096]u8 = undefined;
+    var w = std.Io.File.stderr().writer(io, &buf);
+    try w.interface.print(fmt, args);
+    try w.interface.flush();
+}
+
 // sin buffer (logs de servicio)
 fn raw(io: std.Io, bytes: []const u8) !void {
     try std.Io.File.stdout().writeStreamingAll(io, bytes);
-}
-// stderr: std.Io.File.stderr().writer(io, &buf)''',
+}''',
     zig_test='''const std = @import("std");
 
 test "writer con flush round-tripa en archivo" {
@@ -545,8 +552,16 @@ with open(log, "ab") as f:
     zig_impl='''// hostapd u otro demonio: spawn y esperar (o dejar huérfano a init)
 fn spawnRedirected(io: std.Io, dir: *std.Io.Dir, log_sub: []const u8, argv: []const []const u8) !std.process.Child {
     var logf = try dir.createFile(io, log_sub, .{ .truncate = false });
+    // append real: createFile(.truncate=false) deja el fd al principio, hay
+    // que carriedarlo al final para que el hijo ANADE y no sobrescriba.
+    const end = try logf.length(io);
+    {
+        var seek_buf: [1]u8 = undefined;
+        var w = logf.writerStreaming(io, &seek_buf);
+        try w.seekTo(end);
+    }
     // nota: el hijo recibe el fd; cerrar la copia del padre tras spawn
-    var child = try std.process.spawn(io, .{
+    const child = try std.process.spawn(io, .{
         .argv = argv,
         .stdin = .ignore,
         .stdout = .{ .file = logf },
@@ -557,6 +572,24 @@ fn spawnRedirected(io: std.Io, dir: *std.Io.Dir, log_sub: []const u8, argv: []co
 }
 // const term = try child.wait(io);  // term.exited / term.signal''',
     zig_test='''const std = @import("std");
+
+fn spawnRedirected(io: std.Io, dir: *std.Io.Dir, log_sub: []const u8, argv: []const []const u8) !std.process.Child {
+    var logf = try dir.createFile(io, log_sub, .{ .truncate = false });
+    const end = try logf.length(io);
+    {
+        var seek_buf: [1]u8 = undefined;
+        var w = logf.writerStreaming(io, &seek_buf);
+        try w.seekTo(end);
+    }
+    const child = try std.process.spawn(io, .{
+        .argv = argv,
+        .stdin = .ignore,
+        .stdout = .{ .file = logf },
+        .stderr = .{ .file = logf },
+    });
+    logf.close(io);
+    return child;
+}
 
 test "hijo redirigido escribe y su exit code se ve" {
     const alloc = std.testing.allocator;
@@ -577,6 +610,20 @@ test "hijo redirigido escribe y su exit code se ve" {
     const got = try tmp.dir.readFileAlloc(io, "out.log", alloc, .limited(256));
     defer alloc.free(got);
     try std.testing.expect(std.mem.indexOf(u8, got, "spawn-ok") != null);
+}
+
+test "el log se ANADE: el contenido previo no se pisa" {
+    const alloc = std.testing.allocator;
+    const io = std.testing.io;
+    var tmp = std.testing.tmpDir(.{});
+    defer tmp.cleanup();
+    try tmp.dir.writeFile(io, .{ .sub_path = "app.log", .data = "PRE" });
+    var child = try spawnRedirected(io, &tmp.dir, "app.log", &.{ "sh", "-c", "printf POST" });
+    const term = try child.wait(io);
+    try std.testing.expect(term == .exited);
+    const got = try tmp.dir.readFileAlloc(io, "app.log", alloc, .limited(256));
+    defer alloc.free(got);
+    try std.testing.expectEqualStrings("PREPOST", got);
 }''',
     apis_used=["std.process.spawn","std.process.Child.wait","Child.SpawnOptions.StdIo.file","Io.Dir.createFile","File.close"],
     constraints=["sin root","binary accesible"],

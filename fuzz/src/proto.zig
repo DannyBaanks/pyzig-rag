@@ -14,6 +14,10 @@ const std = @import("std");
 pub const Status = enum {
     ok,
     err,
+    /// El caso no es aplicable a este lado (la operacion no existe aqui).
+    unsupported,
+    /// El caso es invalido para este lado (entrada malformada).
+    invalid,
     crash,
     timeout,
     missing,
@@ -22,6 +26,8 @@ pub const Status = enum {
         return switch (self) {
             .ok => "ok",
             .err => "err",
+            .unsupported => "unsupported",
+            .invalid => "invalid",
             .crash => "crash",
             .timeout => "timeout",
             .missing => "missing",

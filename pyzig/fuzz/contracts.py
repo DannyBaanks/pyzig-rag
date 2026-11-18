@@ -54,12 +54,35 @@ CONTRACTS: dict[str, dict] = {
         "argv", "drivers/argv.zig", "argv",
         ["status", "error", "term", "exit_code", "stdout_len", "stderr_len"],
         type_sig={"input": "argv", "output": "process_result"},
+        known=[{
+            "id": "capture-64kib",
+            "fields": ["status", "error", "term", "exit_code", "stdout_len"],
+            "expect": {"status": "err", "error": "StreamTooLong", "term": "spawn_error", "exit_code": "", "stdout_len": "0"},
+            "oracle": {"status": "ok", "error": "", "term": "exited", "exit_code": "0", "stdout_len": "70000"},
+            "why": "la receta Zig limita la captura del hijo a 64 KiB; subprocess.run captura sin limite",
+        }],
     ),
     "zig0.16/read-file-text-limited": _c(
         "read", "drivers/read.zig", "read",
         ["status", "error", "size"],
         type_sig={"input": "path", "output": "bytes"},
         pipeline={"input": "path", "output": "bytes", "adapter": "step_read_path_to_bytes"},
+        known=[
+            {
+                "id": "read-sin-limite",
+                "fields": ["status", "error", "size"],
+                "expect": {"status": "err", "error": "StreamTooLong"},
+                "oracle": {"status": "ok", "error": ""},
+                "why": "read_file_text_limit falla con StreamTooLong pasado el limite; Path.read_text no tiene limite",
+            },
+            {
+                "id": "read-directorio-precedencia",
+                "fields": ["error"],
+                "expect": {"error": "StreamTooLong"},
+                "oracle": {"error": "IsDir"},
+                "why": "en directorios la receta Zig comprueba el limite antes de abrir; Python falla con IsADirectoryError al abrir",
+            },
+        ],
     ),
     "zig0.16/write-file-bytes-atomic": _c(
         "write", "drivers/write.zig", "write",
@@ -93,6 +116,13 @@ CONTRACTS: dict[str, dict] = {
         ["status", "error", "tokens", "formatted"],
         type_sig={"input": "split_input", "output": "bytes"},
         pipeline={"input": "split_input", "output": "bytes", "adapter": "step_split_to_bytes"},
+        known=[{
+            "id": "padding-bytes-vs-codepoints",
+            "fields": ["formatted"],
+            "expect": {"formatted": "*"},
+            "oracle": {"formatted": "*"},
+            "why": "bufPrint con {s:<N} rellena bytes UTF-8; la f-string de Python rellena codepoints, asi que '\\xc3\\xb1' ocupa dos columnas menos en Zig",
+        }],
     ),
     "zig0.16/spawn-redirect-child": _c(
         "spawn", "drivers/spawn.zig", "spawn",
@@ -133,6 +163,18 @@ def by_schema(schema: str) -> list[tuple[str, dict]]:
         if c["fuzzable"] and c["schema"] == schema:
             out.append((oid, copy.deepcopy(c)))
     return out
+
+
+def contract_for_schema(schema: str) -> dict:
+    """Contrato de un esquema (el unico caso: un esquema, una entrada).
+
+    El esquema `pipe` esta reservado para los pipelines (F2): todavia no
+    tiene receta, asi que no se puede diferencializar.
+    """
+    matches = by_schema(schema)
+    if not matches:
+        raise KeyError(f"sin contrato de fuzzing para el esquema: {schema}")
+    return matches[0][1]
 
 
 def fuzzable_ids() -> list[str]:

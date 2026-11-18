@@ -85,7 +85,6 @@ pub const RunOpts = struct {
     timeout_ms: u64 = 60_000,
     cpu_seconds: u64 = 30,
     fsize_bytes: u64 = 64 * 1024 * 1024,
-    nproc: u64 = 128,
 };
 
 pub const Outcome = struct {
@@ -129,13 +128,16 @@ pub fn runBatch(gpa: std.mem.Allocator, io: std.Io, p: Probe, opts: RunOpts, pay
     if (!use_bwrap and !opts.allow_unsandboxed) return error.SandboxUnavailable;
 
     if (p.prlimit) |pr| {
-        const cpu = try std.fmt.allocPrint(gpa, "--cpu={d}", .{opts.cpu_seconds});
-        defer gpa.free(cpu);
-        const fsize = try std.fmt.allocPrint(gpa, "--fsize={d}", .{opts.fsize_bytes});
-        defer gpa.free(fsize);
-        const nproc = try std.fmt.allocPrint(gpa, "--nproc={d}", .{opts.nproc});
-        defer gpa.free(nproc);
-        try argv.appendSlice(gpa, &.{ pr, cpu, fsize, nproc, "--nofile=256", "--" });
+        // Buffers de pila: su vida llega hasta el final de la funcion, asi
+        // que el argv no puede quedar apuntando a memoria liberada.
+        var cpu_buf: [32]u8 = undefined;
+        var fsize_buf: [32]u8 = undefined;
+        const cpu = try std.fmt.bufPrint(&cpu_buf, "--cpu={d}", .{opts.cpu_seconds});
+        const fsize = try std.fmt.bufPrint(&fsize_buf, "--fsize={d}", .{opts.fsize_bytes});
+        // RLIMIT_NPROC no se usa: es por usuario, no por proceso, y un limite
+        // bajo hace fallar el fork que bwrap necesita para el namespace
+        // ("Creating new namespace failed: Resource temporarily unavailable").
+        try argv.appendSlice(gpa, &.{ pr, cpu, fsize, "--nofile=256", "--" });
     }
 
     if (use_bwrap) {
@@ -148,9 +150,9 @@ pub fn runBatch(gpa: std.mem.Allocator, io: std.Io, p: Probe, opts: RunOpts, pay
             "--ro-bind", "/usr",   "/usr",
             "--ro-bind", "/lib",   "/lib",
             "--ro-bind", "/lib64", "/lib64",
-            "--proc",   "/proc",   "/proc",
-            "--dev",    "/dev",    "/dev",
-            "--tmpfs",  "/tmp",    "/tmp",
+            "--proc",   "/proc",
+            "--dev",    "/dev",
+            "--tmpfs",  "/tmp",
             "--bind",   opts.workdir, "/work",
             "--chdir",  "/work",
             "--clearenv",

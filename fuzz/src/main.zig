@@ -20,6 +20,7 @@ const Config = struct {
     seed: u64 = 1337,
     iterations: u64 = 1000,
     chunk: usize = 500,
+    replay: usize = 16,
     timeout_ms: u64 = 60_000,
     subject: []const u8 = "",
     python: []const u8 = "/usr/bin/python3",
@@ -27,6 +28,7 @@ const Config = struct {
     workdir: []const u8 = "",
     run_dir: []const u8 = "",
     out: []const u8 = "",
+    fields: []const u8 = "",
     sandbox: runner.SandboxMode = .auto,
     allow_unsandboxed: bool = false,
     json: bool = false,
@@ -39,10 +41,11 @@ fn usage(io: std.Io) void {
         \\Usage:
         \\  pyzig-fuzz doctor [--json]
         \\  pyzig-fuzz gen --schema <s> --seed <n> --iterations <n> --out <file>
-        \\  pyzig-fuzz diff --op <id> --schema <s> --seed <n> --iterations <n>
+        \\  pyzig-fuzz diff --op <id> --schema <s> --fields <a,b,c>
+        \\                  --seed <n> --iterations <n>
         \\                  --subject <bin> --repo <dir> [--python <bin>]
         \\                  --workdir <dir> --run-dir <dir>
-        \\                  [--chunk <n>] [--timeout-ms <n>]
+        \\                  [--chunk <n>] [--replay <n>] [--timeout-ms <n>]
         \\                  [--sandbox auto|bwrap|none] [--allow-unsandboxed] [--json]
         \\  pyzig-fuzz assemble --corpus <file> --ops <op1,op2,...> --out <file>
         \\  pyzig-fuzz harvest --run-dir <dir> --out <candidates.jsonl> [--schema <s>]
@@ -180,11 +183,23 @@ fn absPath(gpa: std.mem.Allocator, io: std.Io, path: []const u8) ![]const u8 {
     return std.fs.path.join(gpa, &.{ cwd, path });
 }
 
+/// Never compare against observations left by an earlier chunk or run.
+/// A stale obs file is a silent false result; absence of a file is fine.
+fn clearObs(io: std.Io, paths: []const []const u8) !void {
+    for (paths) |path| {
+        std.Io.Dir.deleteFileAbsolute(io, path) catch |err| switch (err) {
+            error.FileNotFound => {},
+            else => return err,
+        };
+    }
+}
+
 /// Find the first case that kills the subject on its own. Returns null when
 /// no single case reproduces the failure (an interaction between cases).
-fn localizeFailure(gpa: std.mem.Allocator, io: std.Io, p: runner.Probe, cfg: Config, chunk: *const Chunk, from: usize, to: usize, cases_path: []const u8) !?usize {
+fn localizeFailure(gpa: std.mem.Allocator, io: std.Io, p: runner.Probe, cfg: Config, chunk: *const Chunk, from: usize, to: usize, cases_path: []const u8, single_obs_path: []const u8) !?usize {
     var i = from;
     while (i < to) : (i += 1) {
+        try clearObs(io, &.{single_obs_path});
         try writeCases(gpa, io, cases_path, chunk, i, i + 1);
         const out = try runSubject(gpa, io, p, cfg, "cases.hexl", "single.zigl");
         if (out.timed_out or out.signal != null or (out.exit_code != null and out.exit_code.? != 0)) {
@@ -194,9 +209,24 @@ fn localizeFailure(gpa: std.mem.Allocator, io: std.Io, p: runner.Probe, cfg: Con
     return null;
 }
 
+fn splitCsv(gpa: std.mem.Allocator, csv: []const u8) ![][]const u8 {
+    var out: std.ArrayList([]const u8) = .empty;
+    errdefer out.deinit(gpa);
+    var it = std.mem.splitScalar(u8, csv, ',');
+    while (it.next()) |part| {
+        const t = std.mem.trim(u8, part, " \t");
+        if (t.len > 0) try out.append(gpa, t);
+    }
+    return out.toOwnedSlice(gpa);
+}
+
 fn cmdDiff(gpa: std.mem.Allocator, io: std.Io, cfg: Config, path_env: ?[]const u8) !u8 {
     if (cfg.subject.len == 0 or cfg.repo.len == 0 or cfg.workdir.len == 0 or cfg.run_dir.len == 0) {
         std.debug.print("diff necesita --subject --repo --workdir --run-dir\n", .{});
+        return 2;
+    }
+    if (cfg.fields.len == 0) {
+        std.debug.print("diff necesita --fields (contrato del corpus: campos comparados)\n", .{});
         return 2;
     }
 
@@ -207,6 +237,9 @@ fn cmdDiff(gpa: std.mem.Allocator, io: std.Io, cfg: Config, path_env: ?[]const u
         std.debug.print("sandbox no disponible ({s}); reintenta con --allow-unsandboxed\n", .{p.note});
         return 2;
     }
+
+    const fields = try splitCsv(gpa, cfg.fields);
+    defer gpa.free(fields);
 
     const workdir = try absPath(gpa, io, cfg.workdir);
     defer gpa.free(workdir);
@@ -222,6 +255,12 @@ fn cmdDiff(gpa: std.mem.Allocator, io: std.Io, cfg: Config, path_env: ?[]const u
     defer gpa.free(oracle_obs_path);
     const subject_obs_path = try std.fs.path.join(gpa, &.{ workdir, "subject.zigl" });
     defer gpa.free(subject_obs_path);
+    const replay_cases_path = try std.fs.path.join(gpa, &.{ workdir, "replay.hexl" });
+    defer gpa.free(replay_cases_path);
+    const replay_obs_path = try std.fs.path.join(gpa, &.{ workdir, "replay.zigl" });
+    defer gpa.free(replay_obs_path);
+    const single_obs_path = try std.fs.path.join(gpa, &.{ workdir, "single.zigl" });
+    defer gpa.free(single_obs_path);
 
     const started = evidence.monotonicNanos();
     var r = rngmod.Rng.fork(cfg.seed, cfg.op);
@@ -231,7 +270,6 @@ fn cmdDiff(gpa: std.mem.Allocator, io: std.Io, cfg: Config, path_env: ?[]const u
     defer results.deinit(gpa);
     var divergences: u64 = 0;
     var generated: u64 = 0;
-    var harness_errors: u64 = 0;
 
     while (generated < cfg.iterations) {
         const remaining = cfg.iterations - generated;
@@ -239,20 +277,32 @@ fn cmdDiff(gpa: std.mem.Allocator, io: std.Io, cfg: Config, path_env: ?[]const u
         var chunk = try buildChunk(gpa, cfg, &r, n);
         defer chunk.deinit(gpa);
 
+        try clearObs(io, &.{ oracle_obs_path, subject_obs_path, replay_obs_path, single_obs_path });
         try writeCases(gpa, io, cases_path, &chunk, 0, n);
 
         const oracle_out = try runOracle(gpa, io, p, cfg, "cases.hexl", "oracle.zigl");
         const subject_out = try runSubject(gpa, io, p, cfg, "cases.hexl", "subject.zigl");
 
         if (oracle_out.spawn_failed) {
-            harness_errors += 1;
             std.debug.print("oracle no arranco: {s}\n", .{oracle_out.stderr});
             return 2;
         }
         if (subject_out.spawn_failed) {
-            harness_errors += 1;
             std.debug.print("subject no arranco: {s}\n", .{subject_out.stderr});
             return 2;
+        }
+        // Fallo visible: un lado que sale con codigo != 0 sin observaciones
+        // es un fallo del arnes, no una divergencia silenciosa.
+        if (oracle_out.exit_code == null or oracle_out.exit_code.? != 0) {
+            std.debug.print("oracle fallo (exit={?}, timeout={}): {s}\n", .{
+                oracle_out.exit_code, oracle_out.timed_out, oracle_out.stderr,
+            });
+            return 2;
+        }
+        if (subject_out.exit_code == null or subject_out.exit_code.? != 0) {
+            std.debug.print("subject fallo (exit={?}, timeout={}): {s}\n", .{
+                subject_out.exit_code, subject_out.timed_out, subject_out.stderr,
+            });
         }
 
         const oracle_bytes = (try evidence.readFileAbs(io, gpa, oracle_obs_path, 64 * 1024 * 1024)) orelse "";
@@ -275,7 +325,8 @@ fn cmdDiff(gpa: std.mem.Allocator, io: std.Io, cfg: Config, path_env: ?[]const u
             if (i < oracle_lines.len) {
                 oracle_obs = proto.parseObsLine(gpa, oracle_lines[i]) catch null;
             }
-            const d = compare.classify(subject_obs, oracle_obs);
+            const d = try compare.classifyFields(gpa, fields, subject_obs, oracle_obs);
+            defer d.deinit(gpa);
             counts[@intFromEnum(d.class)] += 1;
             if (d.class.isDivergence()) {
                 divergences += 1;
@@ -289,13 +340,38 @@ fn cmdDiff(gpa: std.mem.Allocator, io: std.Io, cfg: Config, path_env: ?[]const u
         // the first failing case by re-running single cases.
         if (subject_out.exit_code == null or subject_out.signal != null or subject_out.timed_out) {
             if (subject_lines.len < n) {
-                const culprit = try localizeFailure(gpa, io, p, cfg, &chunk, subject_lines.len, n, cases_path);
+                const culprit = try localizeFailure(gpa, io, p, cfg, &chunk, subject_lines.len, n, cases_path, single_obs_path);
                 if (culprit) |idx| {
                     counts[@intFromEnum(compare.Class.CRASH)] += 1;
                     divergences += 1;
                     try appendCrash(gpa, &results, idx, chunk.payloads.items[idx]);
                 } else {
                     counts[@intFromEnum(compare.Class.INCONCLUSIVE)] += @intCast(n - subject_lines.len);
+                }
+            }
+        }
+
+        // Replay a sample of the chunk: the same input must give the same answer.
+        if (cfg.replay > 0 and n > 0) {
+            const sample = @min(cfg.replay, n);
+            try clearObs(io, &.{replay_obs_path});
+            try writeCases(gpa, io, replay_cases_path, &chunk, 0, sample);
+            _ = try runSubject(gpa, io, p, cfg, "replay.hexl", "replay.zigl");
+            const replay_bytes = (try evidence.readFileAbs(io, gpa, replay_obs_path, 64 * 1024 * 1024)) orelse "";
+            defer gpa.free(replay_bytes);
+            const replay_lines = try proto.splitLines(replay_bytes, gpa);
+            defer gpa.free(replay_lines);
+            var j: usize = 0;
+            while (j < sample) : (j += 1) {
+                if (j >= replay_lines.len or j >= subject_lines.len) continue;
+                const a = proto.parseObsLine(gpa, subject_lines[j]) catch continue;
+                defer proto.freeObs(gpa, a);
+                const b = proto.parseObsLine(gpa, replay_lines[j]) catch continue;
+                defer proto.freeObs(gpa, b);
+                if (!compare.isStable(a, b)) {
+                    counts[@intFromEnum(compare.Class.NONDETERMINISTIC)] += 1;
+                    divergences += 1;
+                    try appendUnstable(gpa, &results, j, chunk.payloads.items[j]);
                 }
             }
         }
@@ -321,12 +397,9 @@ fn cmdDiff(gpa: std.mem.Allocator, io: std.Io, cfg: Config, path_env: ?[]const u
         printOut(io, "op={s} schema={s} casos={d} divergencias={d} sandbox={s} ops/s={d:.0}\n", .{
             cfg.op, cfg.schema.name(), generated, divergences, sandbox_label, ops_per_sec,
         });
-        printOut(io, "  EQUIV: {d}\n", .{counts[0]});
-        printOut(io, "  DIVERGENT: {d}\n", .{counts[1]});
-        printOut(io, "  CRASH: {d}\n", .{counts[2]});
-        printOut(io, "  TIMEOUT: {d}\n", .{counts[3]});
-        printOut(io, "  INCONCLUSIVE: {d}\n", .{counts[4]});
-        printOut(io, "  NONDETERMINISTIC: {d}\n", .{counts[5]});
+        inline for (@typeInfo(compare.Class).@"enum".fields) |f| {
+            printOut(io, "  {s}: {d}\n", .{ f.name, counts[@intFromEnum(@field(compare.Class, f.name))] });
+        }
         printOut(io, "evidencia: {s}/results.jsonl\n", .{run_dir});
     }
 
@@ -352,6 +425,26 @@ fn appendResult(gpa: std.mem.Allocator, results: *std.ArrayList(u8), index: usiz
     try buf.print(gpa, "\"class\":\"{s}\",", .{d.class.name()});
     try buf.print(gpa, "\"case_sha256\":\"{s}\",", .{case_sha});
     try buf.print(gpa, "\"case\":\"{s}\",", .{case_hex});
+    try buf.print(gpa, "\"fields\":[", .{});
+    for (d.field_diffs, 0..) |fd, k| {
+        if (k > 0) try buf.appendSlice(gpa, ",");
+        // Los valores vienen de datos del caso: pueden traer comillas,
+        // saltos de linea o bytes no imprimibles -> hay que escaparlos, si no
+        // results.jsonl deja de ser JSON valido.
+        const name_j = try evidence.jsonString(gpa, fd.name);
+        const subj_j = try evidence.jsonString(gpa, fd.subject);
+        const orac_j = try evidence.jsonString(gpa, fd.oracle);
+        try buf.print(gpa, "{{\"name\":{s},\"subject\":{s},\"oracle\":{s}}}", .{
+            name_j, subj_j, orac_j,
+        });
+        // Se liberan tras escribir: en el camino de error el proceso muere
+        // igual, y meter `defer` aqui acumularia liberaciones hasta el final
+        // de la funcion.
+        gpa.free(name_j);
+        gpa.free(subj_j);
+        gpa.free(orac_j);
+    }
+    try buf.print(gpa, "],", .{});
     try buf.print(gpa, "\"subject\":{{", .{});
     try buf.print(gpa, "\"status\":\"{s}\",", .{subject_status});
     try buf.print(gpa, "\"payload\":\"{s}\"", .{subject_hex});
@@ -359,11 +452,11 @@ fn appendResult(gpa: std.mem.Allocator, results: *std.ArrayList(u8), index: usiz
     try buf.print(gpa, "\"oracle\":{{", .{});
     try buf.print(gpa, "\"status\":\"{s}\",", .{oracle_status});
     try buf.print(gpa, "\"payload\":\"{s}\"", .{oracle_hex});
-    if (d.first_diff_offset) |o| {
-        try buf.print(gpa, ",\"first_diff\":{d}", .{o});
-    }
     try buf.print(gpa, "}}", .{});
-    try buf.print(gpa, "\n", .{});
+    // Cierre del REGISTRO: el `}}` de arriba cierra el objeto "oracle"; sin
+    // este segundo, results.jsonl quedaba con JSON truncado (y el hash de
+    // evidencia registraba un fichero ilegible para cualquier parser).
+    try buf.print(gpa, "}}\n", .{});
     try results.appendSlice(gpa, buf.items);
 }
 
@@ -374,6 +467,7 @@ fn appendCrash(gpa: std.mem.Allocator, results: *std.ArrayList(u8), index: usize
 
     var buf: std.ArrayList(u8) = .empty;
     defer buf.deinit(gpa);
+
     try buf.print(gpa, "{{", .{});
     try buf.print(gpa, "\"i\":{d},", .{index});
     try buf.print(gpa, "\"class\":\"CRASH\",", .{});
@@ -383,7 +477,22 @@ fn appendCrash(gpa: std.mem.Allocator, results: *std.ArrayList(u8), index: usize
     try results.appendSlice(gpa, buf.items);
 }
 
+fn appendUnstable(gpa: std.mem.Allocator, results: *std.ArrayList(u8), index: usize, payload: []const u8) !void {
+    const case_hex = try proto.hexEncode(gpa, payload);
+    defer gpa.free(case_hex);
+    const case_sha = evidence.sha256Hex(payload);
 
+    var buf: std.ArrayList(u8) = .empty;
+    defer buf.deinit(gpa);
+
+    try buf.print(gpa, "{{", .{});
+    try buf.print(gpa, "\"i\":{d},", .{index});
+    try buf.print(gpa, "\"class\":\"NONDETERMINISTIC\",", .{});
+    try buf.print(gpa, "\"case_sha256\":\"{s}\",", .{case_sha});
+    try buf.print(gpa, "\"case\":\"{s}\"", .{case_hex});
+    try buf.print(gpa, "}}\n", .{});
+    try results.appendSlice(gpa, buf.items);
+}
 
 fn writeRunEvidence(
     gpa: std.mem.Allocator,
@@ -415,9 +524,11 @@ fn writeRunEvidence(
         \\  "engine_version": "{s}",
         \\  "op": "{s}",
         \\  "schema": "{s}",
+        \\  "fields": "{s}",
         \\  "seed": {d},
         \\  "iterations": {d},
         \\  "chunk": {d},
+        \\  "replay": {d},
         \\  "timeout_ms": {d},
         \\  "sandbox": "{s}",
         \\  "bwrap_usable": {s},
@@ -436,9 +547,11 @@ fn writeRunEvidence(
         VERSION,
         cfg.op,
         cfg.schema.name(),
+        cfg.fields,
         cfg.seed,
         cfg.iterations,
         cfg.chunk,
+        cfg.replay,
         cfg.timeout_ms,
         sandbox_label,
         if (p.bwrap_usable) "true" else "false",
@@ -459,23 +572,17 @@ fn writeRunEvidence(
     var count_json: std.ArrayList(u8) = .empty;
     defer count_json.deinit(gpa);
     try count_json.appendSlice(gpa, "{");
-    try count_json.print(gpa, "\"EQUIV\":{d}", .{counts[0]});
-    try count_json.appendSlice(gpa, ",");
-    try count_json.print(gpa, "\"DIVERGENT\":{d}", .{counts[1]});
-    try count_json.appendSlice(gpa, ",");
-    try count_json.print(gpa, "\"CRASH\":{d}", .{counts[2]});
-    try count_json.appendSlice(gpa, ",");
-    try count_json.print(gpa, "\"TIMEOUT\":{d}", .{counts[3]});
-    try count_json.appendSlice(gpa, ",");
-    try count_json.print(gpa, "\"INCONCLUSIVE\":{d}", .{counts[4]});
-    try count_json.appendSlice(gpa, ",");
-    try count_json.print(gpa, "\"NONDETERMINISTIC\":{d}", .{counts[5]});
+    inline for (@typeInfo(compare.Class).@"enum".fields, 0..) |f, k| {
+        if (k > 0) try count_json.appendSlice(gpa, ",");
+        try count_json.print(gpa, "\"{s}\":{d}", .{ f.name, counts[@intFromEnum(@field(compare.Class, f.name))] });
+    }
     try count_json.appendSlice(gpa, "}");
 
     const summary = try std.fmt.allocPrint(gpa,
         \\{{
         \\  "op": "{s}",
         \\  "schema": "{s}",
+        \\  "fields": "{s}",
         \\  "seed": {d},
         \\  "cases": {d},
         \\  "divergences": {d},
@@ -490,6 +597,7 @@ fn writeRunEvidence(
     , .{
         cfg.op,
         cfg.schema.name(),
+        cfg.fields,
         cfg.seed,
         cases,
         divergences,
@@ -503,7 +611,6 @@ fn writeRunEvidence(
     defer gpa.free(summary);
     try evidence.writeFile(io, summary_path, summary);
 }
-
 
 pub fn main(init: std.process.Init) !void {
     const gpa = init.gpa;
@@ -543,6 +650,10 @@ pub fn main(init: std.process.Init) !void {
                 cfg.iterations = std.fmt.parseInt(u64, value, 10) catch 1000;
             } else if (std.mem.eql(u8, arg, "--chunk")) {
                 cfg.chunk = std.fmt.parseInt(usize, value, 10) catch 500;
+            } else if (std.mem.eql(u8, arg, "--replay")) {
+                cfg.replay = std.fmt.parseInt(usize, value, 10) catch 0;
+            } else if (std.mem.eql(u8, arg, "--fields")) {
+                cfg.fields = value;
             } else if (std.mem.eql(u8, arg, "--timeout-ms")) {
                 cfg.timeout_ms = std.fmt.parseInt(u64, value, 10) catch 60_000;
             } else if (std.mem.eql(u8, arg, "--subject")) {

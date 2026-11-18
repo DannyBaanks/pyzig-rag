@@ -30,6 +30,12 @@ pub fn sha256File(io: std.Io, gpa: std.mem.Allocator, path: []const u8) !?[]u8 {
 }
 
 /// Minimal JSON string escaping (quotes, backslash, control chars).
+///
+/// Los valores que se escapan son bytes OBSERVADOS (datos fuzzeados), no
+/// texto: cualquier byte >= 0x7F dejaria results.jsonl sin UTF-8 valido y el
+/// registro con hash seria ilegible para cualquier JSON parser. Se escapea
+/// tambien todo lo no-ASCII como \u00XX (los bytes se tratan como latin-1,
+/// que es una bijeccion: no se pierde informacion).
 pub fn jsonEscape(gpa: std.mem.Allocator, s: []const u8) ![]u8 {
     var out: std.ArrayList(u8) = .empty;
     errdefer out.deinit(gpa);
@@ -40,12 +46,14 @@ pub fn jsonEscape(gpa: std.mem.Allocator, s: []const u8) ![]u8 {
             '\n' => try out.appendSlice(gpa, "\\n"),
             '\r' => try out.appendSlice(gpa, "\\r"),
             '\t' => try out.appendSlice(gpa, "\\t"),
-            0x00...0x08, 0x0b, 0x0c, 0x0e...0x1f => {
-                const esc = try std.fmt.allocPrint(gpa, "\\u{x:0>4}", .{c});
-                defer gpa.free(esc);
-                try out.appendSlice(gpa, esc);
+            else => {
+                const raw = c < 0x20 or c >= 0x7f;
+                if (raw) {
+                    const esc = try std.fmt.allocPrint(gpa, "\\u{x:0>4}", .{c});
+                    defer gpa.free(esc);
+                    try out.appendSlice(gpa, esc);
+                } else try out.append(gpa, c);
             },
-            else => try out.append(gpa, c),
         }
     }
     return out.toOwnedSlice(gpa);
