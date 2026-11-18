@@ -50,6 +50,7 @@ def _fixture(tmp: pathlib.Path, *, tamper: bool = False) -> tuple[pathlib.Path, 
         "counts": {"EQUIV": 10, "DIVERGENT": 0, "CRASH": 0, "TIMEOUT": 0,
                    "INCONCLUSIVE": 0, "NONDETERMINISTIC": 0, "INVALID_ACCEPTED": 0},
     }), encoding="utf-8")
+    (run / "meta.json").write_text(json.dumps({"sandbox": "bwrap"}), encoding="utf-8")
     return run, corpus_path
 
 

@@ -32,6 +32,7 @@ from pyzig import corpus as corpus_mod          # noqa: E402
 from pyzig.fuzz import assembler as assembler_mod  # noqa: E402
 from pyzig.fuzz import contracts                 # noqa: E402
 from pyzig.fuzz import triage as triage_mod      # noqa: E402
+from pyzig.fuzz import warden as warden_mod      # noqa: E402
 
 VAR = ROOT / "var" / "fuzz"
 DRIVERS = VAR / "drivers"
@@ -299,6 +300,11 @@ def main(argv: list[str] | None = None) -> int:
                    choices=("case_fixture", "pipeline_entry", "operation"))
     p.add_argument("--limit", type=int)
     p.add_argument("--dry-run", action="store_true")
+    p.add_argument("--refresh", action="store_true")
+
+    p = sub.add_parser("warden", help="admitir o regresar artefactos del corpus")
+    p.add_argument("mode", choices=("admit", "regress"))
+    p.add_argument("--force", action="store_true")
 
     sub.add_parser("doctor", help="estado del entorno")
 
@@ -315,7 +321,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.cmd == "assemble":
         try:
             ids = assembler_mod.assemble(pathlib.Path(args.run), args.op, args.kind,
-                                         args.limit, args.dry_run)
+                                         args.limit, args.dry_run, refresh=args.refresh)
         except (assembler_mod.HarvestError, ValueError, KeyError) as exc:
             print(f"assembler: {exc}", file=sys.stderr)
             return 2
@@ -323,6 +329,8 @@ def main(argv: list[str] | None = None) -> int:
         for oid in ids:
             print(f"  {oid}")
         return 0
+    if args.cmd == "warden":
+        return warden_mod.main([args.mode] + (["--force"] if args.force else []))
     if args.cmd == "doctor":
         return doctor()
     return 2

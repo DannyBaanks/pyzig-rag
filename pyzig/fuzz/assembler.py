@@ -73,6 +73,30 @@ def read_harvest(run: pathlib.Path) -> tuple[dict, list[dict]]:
     return meta, rows
 
 
+def run_snapshot(run: pathlib.Path, schema: str) -> dict:
+    """Datos minimos de la ejecucion para que el warden no dependa de var/."""
+    summary_path = run / "summary.json"
+    summary = json.loads(summary_path.read_text(encoding="utf-8")) if summary_path.exists() else {}
+    meta_path = run / "meta.json"
+    meta = json.loads(meta_path.read_text(encoding="utf-8")) if meta_path.exists() else {}
+    triage_path = run / "triage.json"
+    new_div = 0
+    if triage_path.exists():
+        new_div = len(json.loads(triage_path.read_text(encoding="utf-8")).get("new_divergences", []))
+    driver_sha = ""
+    manifest_path = ROOT / "var" / "fuzz" / "drivers" / "manifest.json"
+    if manifest_path.exists():
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        driver_sha = manifest.get("drivers", {}).get(schema, {}).get("binary_sha256", "")
+    return {
+        "sandbox": meta.get("sandbox", ""),
+        "counts": summary.get("counts", {}),
+        "new_divergences": new_div,
+        "driver_sha256": driver_sha,
+        "summary_sha256": _sha256(summary_path.read_bytes()) if summary_path.exists() else "",
+    }
+
+
 def check_run_health(run: pathlib.Path) -> dict:
     """Un ejemplo solo es admitible si la ejecucion no tuvo hallazgos nuevos."""
     summary_path = run / "summary.json"
@@ -119,6 +143,7 @@ def build_entry(parent: dict, meta: dict, row: dict, kind: str, run: pathlib.Pat
         "harvest_sha256": meta["equiv_sha256"],
         "case_sha256": row["case_sha256"],
         "obs_sha256": row["obs_sha256"],
+        "run_snapshot": run_snapshot(run, meta["schema"]),
     }
     e["evidence"] = {"status": "FUZZ_EQUIV", "runs": [harvest_evidence]}
 
@@ -145,7 +170,8 @@ def build_entry(parent: dict, meta: dict, row: dict, kind: str, run: pathlib.Pat
 
 
 def assemble(run: pathlib.Path, op: str | None, kind: str, limit: int | None,
-             dry_run: bool, corpus_path: pathlib.Path | None = None) -> list[str]:
+             dry_run: bool, corpus_path: pathlib.Path | None = None,
+             refresh: bool = False) -> list[str]:
     run = pathlib.Path(run)
     meta, rows = read_harvest(run)
     check_run_health(run)
@@ -168,7 +194,15 @@ def assemble(run: pathlib.Path, op: str | None, kind: str, limit: int | None,
     for e in planned:
         oid = e["operation_id"]
         if oid in existing:
-            print(f"YA PRESENTE {oid}", file=sys.stderr)
+            if not refresh:
+                print(f"YA PRESENTE {oid}", file=sys.stderr)
+                continue
+            if dry_run:
+                print(json.dumps(e, ensure_ascii=False, sort_keys=True))
+            else:
+                corpus_mod.update_entry(oid, lambda row, new=e: (row.clear(), row.update(new)),
+                                        path=corpus_path)
+            ids.append(oid)
             continue
         if dry_run:
             print(json.dumps(e, ensure_ascii=False, sort_keys=True))
@@ -186,10 +220,12 @@ def main(argv: list[str] | None = None) -> int:
                     choices=("case_fixture", "pipeline_entry", "operation"))
     ap.add_argument("--limit", type=int)
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--refresh", action="store_true",
+                    help="reescribe entradas ya presentes con la evidencia actual")
     args = ap.parse_args(argv)
     try:
         ids = assemble(pathlib.Path(args.run), args.op, args.kind,
-                       args.limit, args.dry_run)
+                       args.limit, args.dry_run, refresh=args.refresh)
     except (HarvestError, ValueError, KeyError) as exc:
         print(f"assembler: {exc}", file=sys.stderr)
         return 2
