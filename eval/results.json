@@ -1,7 +1,7 @@
 {
-  "embed_mode": "onnx",
+  "embed_mode": "unavailable: ModuleNotFoundError",
   "embed_model": "all-MiniLM-L6-v2",
-  "entries": 12,
+  "entries": 14,
   "modes": {
     "lexical": {
       "summary": {
@@ -10,7 +10,7 @@
         "recall_at_3": 1.0,
         "negativas_correctas": "4/4",
         "status_correcto": "1/1",
-        "latencia_ms_media": 0.8,
+        "latencia_ms_media": 0.9,
         "por_tipo": {
           "api": {
             "n": 11,
@@ -59,7 +59,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 2.0
         },
         {
           "qid": "q02",
@@ -73,7 +73,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.8
+          "ms": 0.9
         },
         {
           "qid": "q03",
@@ -87,7 +87,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.0
+          "ms": 1.1
         },
         {
           "qid": "q04",
@@ -101,7 +101,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.8
+          "ms": 0.9
         },
         {
           "qid": "q05",
@@ -116,7 +116,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.0
+          "ms": 1.1
         },
         {
           "qid": "q06",
@@ -175,7 +175,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.9
+          "ms": 1.1
         },
         {
           "qid": "q10",
@@ -190,7 +190,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.8
+          "ms": 1.0
         },
         {
           "qid": "q11",
@@ -204,7 +204,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.8
+          "ms": 0.9
         },
         {
           "qid": "q12",
@@ -213,12 +213,14 @@
           "expect": "POS",
           "expected": "zig0.16/parse-kv-config",
           "got_top3": [
-            "zig0.16/parse-kv-config"
+            "zig0.16/parse-kv-config",
+            "zig0.16/parse-kv-config/case_fixture-4b6abea1cc9d",
+            "zig0.16/parse-kv-config/pipeline_entry-4b6abea1cc9d"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.8
+          "ms": 1.1
         },
         {
           "qid": "q13",
@@ -228,12 +230,13 @@
           "expected": "zig0.16/parse-kv-config",
           "got_top3": [
             "zig0.16/parse-kv-config",
+            "zig0.16/string-split-strip-format",
             "zig0.16/detached-daemon-no-shell"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.8
+          "ms": 0.9
         },
         {
           "qid": "q14",
@@ -247,7 +250,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.7
+          "ms": 0.6
         },
         {
           "qid": "q15",
@@ -261,7 +264,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.8
+          "ms": 0.7
         },
         {
           "qid": "q16",
@@ -275,7 +278,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.9
+          "ms": 0.7
         },
         {
           "qid": "q17",
@@ -289,7 +292,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.7
+          "ms": 1.2
         },
         {
           "qid": "q18",
@@ -305,7 +308,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.1
+          "ms": 0.9
         },
         {
           "qid": "q19",
@@ -321,7 +324,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.3
+          "ms": 0.7
         },
         {
           "qid": "q20",
@@ -347,12 +350,12 @@
           "got_top3": [
             "zig0.16/env-var-read",
             "zig0.16/parse-kv-config",
-            "zig0.16/detached-daemon-no-shell"
+            "zig0.16/string-split-strip-format"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.5
+          "ms": 0.6
         },
         {
           "qid": "q22",
@@ -366,7 +369,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.5
+          "ms": 0.6
         },
         {
           "qid": "q23",
@@ -380,7 +383,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.4
+          "ms": 0.9
         },
         {
           "qid": "q24",
@@ -392,7 +395,7 @@
           "error": "NO_RESULTS",
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.5
+          "ms": 1.0
         },
         {
           "qid": "q25",
@@ -454,7 +457,7 @@
         "recall_at_3": 1.0,
         "negativas_correctas": "4/4",
         "status_correcto": "1/1",
-        "latencia_ms_media": 90.6,
+        "latencia_ms_media": 81.1,
         "por_tipo": {
           "api": {
             "n": 11,
@@ -503,7 +506,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 271.9
+          "ms": 86.7
         },
         {
           "qid": "q02",
@@ -512,14 +515,12 @@
           "expect": "POS",
           "expected": "zig0.16/subprocess-run-capture",
           "got_top3": [
-            "zig0.16/subprocess-run-capture",
-            "zig0.16/spawn-redirect-child",
-            "zig0.16/stdout-print-flush"
+            "zig0.16/subprocess-run-capture"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 87.8
+          "ms": 84.2
         },
         {
           "qid": "q03",
@@ -528,13 +529,12 @@
           "expect": "POS",
           "expected": "zig0.16/subprocess-run-capture",
           "got_top3": [
-            "zig0.16/subprocess-run-capture",
-            "zig0.16/spawn-redirect-child"
+            "zig0.16/subprocess-run-capture"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 87.7
+          "ms": 84.1
         },
         {
           "qid": "q04",
@@ -543,13 +543,12 @@
           "expect": "POS",
           "expected": "zig0.16/read-file-text-limited",
           "got_top3": [
-            "zig0.16/read-file-text-limited",
-            "zig0.16/write-file-bytes-atomic"
+            "zig0.16/read-file-text-limited"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 87.7
+          "ms": 82.6
         },
         {
           "qid": "q05",
@@ -559,13 +558,12 @@
           "expected": "zig0.16/read-file-text-limited",
           "got_top3": [
             "zig0.16/read-file-text-limited",
-            "zig0.16/write-file-bytes-atomic",
-            "zig0.16/sleep-ms"
+            "zig0.16/write-file-bytes-atomic"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 89.4
+          "ms": 82.0
         },
         {
           "qid": "q06",
@@ -579,7 +577,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 86.4
+          "ms": 82.7
         },
         {
           "qid": "q07",
@@ -589,13 +587,12 @@
           "expected": "zig0.16/write-file-bytes-atomic",
           "got_top3": [
             "zig0.16/write-file-bytes-atomic",
-            "zig0.16/read-file-text-limited",
-            "zig0.16/stdout-print-flush"
+            "zig0.16/read-file-text-limited"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 85.1
+          "ms": 82.5
         },
         {
           "qid": "q08",
@@ -609,7 +606,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 89.0
+          "ms": 84.1
         },
         {
           "qid": "q09",
@@ -620,12 +617,12 @@
           "got_top3": [
             "zig0.16/file-exists-vs-error",
             "zig0.16/write-file-bytes-atomic",
-            "zig0.16/env-var-read"
+            "zig0.16/read-file-text-limited"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 87.4
+          "ms": 83.3
         },
         {
           "qid": "q10",
@@ -640,7 +637,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 86.1
+          "ms": 84.4
         },
         {
           "qid": "q11",
@@ -654,7 +651,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 86.7
+          "ms": 88.8
         },
         {
           "qid": "q12",
@@ -663,12 +660,14 @@
           "expect": "POS",
           "expected": "zig0.16/parse-kv-config",
           "got_top3": [
-            "zig0.16/parse-kv-config"
+            "zig0.16/parse-kv-config",
+            "zig0.16/parse-kv-config/case_fixture-4b6abea1cc9d",
+            "zig0.16/parse-kv-config/pipeline_entry-4b6abea1cc9d"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 86.5
+          "ms": 89.7
         },
         {
           "qid": "q13",
@@ -678,13 +677,13 @@
           "expected": "zig0.16/parse-kv-config",
           "got_top3": [
             "zig0.16/parse-kv-config",
-            "zig0.16/env-var-read",
+            "zig0.16/string-split-strip-format",
             "zig0.16/detached-daemon-no-shell"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 86.5
+          "ms": 88.3
         },
         {
           "qid": "q14",
@@ -698,7 +697,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 85.9
+          "ms": 84.1
         },
         {
           "qid": "q15",
@@ -707,14 +706,12 @@
           "expect": "POS",
           "expected": "zig0.16/sleep-ms",
           "got_top3": [
-            "zig0.16/sleep-ms",
-            "zig0.16/spawn-redirect-child",
-            "zig0.16/detached-daemon-no-shell"
+            "zig0.16/sleep-ms"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 86.1
+          "ms": 80.4
         },
         {
           "qid": "q16",
@@ -728,7 +725,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 85.9
+          "ms": 86.2
         },
         {
           "qid": "q17",
@@ -737,13 +734,12 @@
           "expect": "POS",
           "expected": "zig0.16/string-split-strip-format",
           "got_top3": [
-            "zig0.16/string-split-strip-format",
-            "zig0.16/parse-kv-config"
+            "zig0.16/string-split-strip-format"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 85.6
+          "ms": 82.7
         },
         {
           "qid": "q18",
@@ -759,7 +755,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 87.1
+          "ms": 82.8
         },
         {
           "qid": "q19",
@@ -775,7 +771,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 86.0
+          "ms": 82.5
         },
         {
           "qid": "q20",
@@ -790,7 +786,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 85.9
+          "ms": 84.0
         },
         {
           "qid": "q21",
@@ -801,12 +797,12 @@
           "got_top3": [
             "zig0.16/env-var-read",
             "zig0.16/parse-kv-config",
-            "zig0.16/detached-daemon-no-shell"
+            "zig0.16/string-split-strip-format"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 85.7
+          "ms": 83.0
         },
         {
           "qid": "q22",
@@ -820,7 +816,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 86.5
+          "ms": 83.1
         },
         {
           "qid": "q23",
@@ -834,7 +830,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 85.6
+          "ms": 82.5
         },
         {
           "qid": "q24",
@@ -846,7 +842,7 @@
           "error": "NO_RESULTS",
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 87.7
+          "ms": 85.6
         },
         {
           "qid": "q25",
@@ -858,7 +854,7 @@
           "error": "NO_RESULTS",
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 88.5
+          "ms": 82.0
         },
         {
           "qid": "q26",
@@ -870,7 +866,7 @@
           "error": "NO_RESULTS",
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 92.1
+          "ms": 85.4
         },
         {
           "qid": "q27",
@@ -897,7 +893,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 90.1
+          "ms": 82.5
         }
       ]
     }

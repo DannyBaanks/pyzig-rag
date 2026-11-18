@@ -11,6 +11,7 @@ const rngmod = @import("rng.zig");
 const runner = @import("runner.zig");
 const compare = @import("compare.zig");
 const evidence = @import("evidence.zig");
+const pipeline = @import("pipeline.zig");
 
 pub const VERSION = "0.1.0";
 
@@ -21,6 +22,7 @@ const Config = struct {
     iterations: u64 = 1000,
     chunk: usize = 500,
     replay: usize = 16,
+    harvest_limit: usize = 200,
     timeout_ms: u64 = 60_000,
     subject: []const u8 = "",
     python: []const u8 = "/usr/bin/python3",
@@ -45,7 +47,7 @@ fn usage(io: std.Io) void {
         \\                  --seed <n> --iterations <n>
         \\                  --subject <bin> --repo <dir> [--python <bin>]
         \\                  --workdir <dir> --run-dir <dir>
-        \\                  [--chunk <n>] [--replay <n>] [--timeout-ms <n>]
+        \\                  [--chunk <n>] [--replay <n>] [--harvest-limit <n>] [--timeout-ms <n>]
         \\                  [--sandbox auto|bwrap|none] [--allow-unsandboxed] [--json]
         \\  pyzig-fuzz assemble --corpus <file> --ops <op1,op2,...> --out <file>
         \\  pyzig-fuzz harvest --run-dir <dir> --out <candidates.jsonl> [--schema <s>]
@@ -268,6 +270,8 @@ fn cmdDiff(gpa: std.mem.Allocator, io: std.Io, cfg: Config, path_env: ?[]const u
     var counts = [_]u64{0} ** @typeInfo(compare.Class).@"enum".fields.len;
     var results: std.ArrayList(u8) = .empty;
     defer results.deinit(gpa);
+    var harvest = pipeline.Harvester.init(gpa, cfg.harvest_limit);
+    defer harvest.deinit();
     var divergences: u64 = 0;
     var generated: u64 = 0;
 
@@ -328,6 +332,9 @@ fn cmdDiff(gpa: std.mem.Allocator, io: std.Io, cfg: Config, path_env: ?[]const u
             const d = try compare.classifyFields(gpa, fields, subject_obs, oracle_obs);
             defer d.deinit(gpa);
             counts[@intFromEnum(d.class)] += 1;
+            if (d.class == .EQUIV) {
+                if (subject_obs) |o| try harvest.add(i, chunk.payloads.items[i], o);
+            }
             if (d.class.isDivergence()) {
                 divergences += 1;
                 try appendResult(gpa, &results, i, d, chunk.payloads.items[i], subject_obs, oracle_obs);
@@ -388,6 +395,18 @@ fn cmdDiff(gpa: std.mem.Allocator, io: std.Io, cfg: Config, path_env: ?[]const u
 
     const results_sha = evidence.sha256Hex(results.items);
     try writeRunEvidence(gpa, io, cfg, run_dir, p, sandbox_label, counts, divergences, generated, elapsed_ms, ops_per_sec, results_sha, results.items);
+
+    const harvest_subject_sha = (try evidence.sha256File(io, gpa, cfg.subject)) orelse "";
+    defer gpa.free(harvest_subject_sha);
+    try harvest.write(io, run_dir, .{
+        .op = cfg.op,
+        .schema = cfg.schema.name(),
+        .seed = cfg.seed,
+        .iterations = generated,
+        .fields = cfg.fields,
+        .subject_sha256 = harvest_subject_sha,
+        .results_sha256 = &results_sha,
+    });
 
     if (cfg.json) {
         printOut(io, "{{\"op\":\"{s}\",\"schema\":\"{s}\",\"cases\":{d},\"divergences\":{d},\"sandbox\":\"{s}\",\"ops_per_sec\":{d:.1},\"results_sha256\":\"{s}\"}}\n", .{
@@ -652,6 +671,8 @@ pub fn main(init: std.process.Init) !void {
                 cfg.chunk = std.fmt.parseInt(usize, value, 10) catch 500;
             } else if (std.mem.eql(u8, arg, "--replay")) {
                 cfg.replay = std.fmt.parseInt(usize, value, 10) catch 0;
+            } else if (std.mem.eql(u8, arg, "--harvest-limit")) {
+                cfg.harvest_limit = std.fmt.parseInt(usize, value, 10) catch 200;
             } else if (std.mem.eql(u8, arg, "--fields")) {
                 cfg.fields = value;
             } else if (std.mem.eql(u8, arg, "--timeout-ms")) {

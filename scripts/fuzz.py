@@ -29,6 +29,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from pyzig import corpus as corpus_mod          # noqa: E402
+from pyzig.fuzz import assembler as assembler_mod  # noqa: E402
 from pyzig.fuzz import contracts                 # noqa: E402
 from pyzig.fuzz import triage as triage_mod      # noqa: E402
 
@@ -131,7 +132,7 @@ def _entry_for_op(op: str):
 
 def diff(op: str, seed: int, iterations: int, chunk: int, replay: int,
          timeout_ms: int, python_bin: str, run_dir: str | None,
-         allow_unsandboxed: bool, keep: bool) -> int:
+         allow_unsandboxed: bool, keep: bool, harvest_limit: int = 200) -> int:
     e = _entry_for_op(op)
     contract = e.fuzz
     if not contract.get("fuzzable"):
@@ -157,6 +158,7 @@ def diff(op: str, seed: int, iterations: int, chunk: int, replay: int,
         "--iterations", str(iterations),
         "--chunk", str(chunk),
         "--replay", str(replay),
+        "--harvest-limit", str(harvest_limit),
         "--timeout-ms", str(timeout_ms),
         "--subject", str(subject),
         "--repo", str(ROOT),
@@ -279,6 +281,8 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--iterations", type=int, default=1000)
     p.add_argument("--chunk", type=int, default=500)
     p.add_argument("--replay", type=int, default=16)
+    p.add_argument("--harvest-limit", type=int, default=200,
+                   help="maximo de ejemplos EQUIV sellados por ejecucion")
     p.add_argument("--timeout-ms", type=int, default=60000)
     p.add_argument("--python", default=sys.executable)
     p.add_argument("--run-dir")
@@ -288,6 +292,14 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--run", required=True)
     p.add_argument("--op")
 
+    p = sub.add_parser("assemble", help="admite ejemplos EQUIV en el corpus")
+    p.add_argument("--run", required=True)
+    p.add_argument("--op")
+    p.add_argument("--kind", default="case_fixture",
+                   choices=("case_fixture", "pipeline_entry", "operation"))
+    p.add_argument("--limit", type=int)
+    p.add_argument("--dry-run", action="store_true")
+
     sub.add_parser("doctor", help="estado del entorno")
 
     args = ap.parse_args(argv)
@@ -296,9 +308,21 @@ def main(argv: list[str] | None = None) -> int:
     if args.cmd == "diff":
         return diff(args.op, args.seed, args.iterations, args.chunk, args.replay,
                     args.timeout_ms, args.python, args.run_dir,
-                    args.allow_unsandboxed, keep=False)
+                    args.allow_unsandboxed, keep=False,
+                    harvest_limit=args.harvest_limit)
     if args.cmd == "triage":
         return triage(args.run, args.op)
+    if args.cmd == "assemble":
+        try:
+            ids = assembler_mod.assemble(pathlib.Path(args.run), args.op, args.kind,
+                                         args.limit, args.dry_run)
+        except (assembler_mod.HarvestError, ValueError, KeyError) as exc:
+            print(f"assembler: {exc}", file=sys.stderr)
+            return 2
+        print(f"assembler: {args.kind} {len(ids)} entrada(s)")
+        for oid in ids:
+            print(f"  {oid}")
+        return 0
     if args.cmd == "doctor":
         return doctor()
     return 2

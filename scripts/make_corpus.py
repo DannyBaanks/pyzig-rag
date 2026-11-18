@@ -780,7 +780,19 @@ for e in E:
         sys.exit(f"DUPLICADO {e['operation_id']}")
     seen.add(e["operation_id"])
 
-written = corpus_mod.write_all(E, path=out, preserve_evidence=True)
+# Los artefactos cosechados por el fuzzer son append-only: regenerar el corpus
+# desde la especificacion no los borra. El warden decide despues si se admiten.
+HARVESTED_TYPES = {"case_fixture", "pipeline_entry", "operation"}
+harvested = []
+for row in corpus_mod._read_raw(out):
+    if row.get("entry_type") not in HARVESTED_TYPES:
+        continue
+    if row.get("operation_id") in seen:
+        continue
+    harvested.append(row)
+    seen.add(row["operation_id"])
+
+written = corpus_mod.write_all(E + harvested, path=out, preserve_evidence=True)
 problems = corpus_mod.verify_chain(out)
 for p in problems:
     print(f"AVISO {p}", file=sys.stderr)
