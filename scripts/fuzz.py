@@ -30,6 +30,7 @@ sys.path.insert(0, str(ROOT))
 
 from pyzig import corpus as corpus_mod          # noqa: E402
 from pyzig.fuzz import assembler as assembler_mod  # noqa: E402
+from pyzig.fuzz import campaign as campaign_mod    # noqa: E402
 from pyzig.fuzz import contracts                 # noqa: E402
 from pyzig.fuzz import triage as triage_mod      # noqa: E402
 from pyzig.fuzz import warden as warden_mod      # noqa: E402
@@ -306,6 +307,25 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("mode", choices=("admit", "regress"))
     p.add_argument("--force", action="store_true")
 
+    def _campaign_args(p):
+        p.add_argument("--seed", type=int, default=1337)
+        p.add_argument("--iterations", type=int, default=200)
+        p.add_argument("--chunk", type=int, default=100)
+        p.add_argument("--replay", type=int, default=8)
+        p.add_argument("--harvest-limit", type=int, default=20)
+        p.add_argument("--timeout-ms", type=int, default=60000)
+        p.add_argument("--budget-seconds", type=float, default=600.0)
+        p.add_argument("--budget-iterations", type=int, default=5000)
+        p.add_argument("--rounds", type=int, default=1,
+                       help="0 = loop hasta agotar presupuesto")
+        p.add_argument("--ops", help="operation_id separados por coma")
+        p.add_argument("--no-merge", action="store_true")
+        p.add_argument("--dry-run", action="store_true")
+        return p
+
+    _campaign_args(sub.add_parser("campaign", help="campana acotada sobre la cola"))
+    _campaign_args(sub.add_parser("loop", help="campana continua hasta agotar presupuesto"))
+
     sub.add_parser("doctor", help="estado del entorno")
 
     args = ap.parse_args(argv)
@@ -331,6 +351,20 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if args.cmd == "warden":
         return warden_mod.main([args.mode] + (["--force"] if args.force else []))
+    if args.cmd in ("campaign", "loop"):
+        return campaign_mod.main([args.cmd,
+                                  "--seed", str(args.seed),
+                                  "--iterations", str(args.iterations),
+                                  "--chunk", str(args.chunk),
+                                  "--replay", str(args.replay),
+                                  "--harvest-limit", str(args.harvest_limit),
+                                  "--timeout-ms", str(args.timeout_ms),
+                                  "--budget-seconds", str(args.budget_seconds),
+                                  "--budget-iterations", str(args.budget_iterations),
+                                  "--rounds", str(args.rounds),
+                                  "--ops", args.ops or ""] +
+                                 (["--no-merge"] if args.no_merge else []) +
+                                 (["--dry-run"] if args.dry_run else []))
     if args.cmd == "doctor":
         return doctor()
     return 2

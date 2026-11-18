@@ -129,7 +129,7 @@ def search(query: str, zig_version: str | None = None, platform: str | None = No
             raise NoResults(
                 f"sin coincidencias admisibles ({len(ids)} entradas tras filtros; "
                 f"cobertura_max={max(per_doc_cov.values()) if per_doc_cov else 0:.2f}, "
-                f"cos_max=max(cos_map.values()) if cos_map else 0:.2f; "
+                f"cos_max={max(cos_map.values()) if cos_map else 0:.2f}; "
                 f"umbrales: cobertura>={COV_MIN}, cos>={COS_MIN})")
         out = []
         for oid, score in ranked:

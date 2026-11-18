@@ -1,7 +1,7 @@
 {
   "embed_mode": "unavailable: ModuleNotFoundError",
   "embed_model": "all-MiniLM-L6-v2",
-  "entries": 14,
+  "entries": 18,
   "modes": {
     "lexical": {
       "summary": {
@@ -10,7 +10,7 @@
         "recall_at_3": 1.0,
         "negativas_correctas": "4/4",
         "status_correcto": "1/1",
-        "latencia_ms_media": 0.9,
+        "latencia_ms_media": 0.8,
         "por_tipo": {
           "api": {
             "n": 11,
@@ -59,7 +59,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.0
+          "ms": 1.4
         },
         {
           "qid": "q02",
@@ -73,7 +73,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.9
+          "ms": 0.8
         },
         {
           "qid": "q03",
@@ -87,7 +87,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.1
+          "ms": 1.0
         },
         {
           "qid": "q04",
@@ -159,7 +159,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.1
+          "ms": 1.0
         },
         {
           "qid": "q09",
@@ -175,7 +175,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.1
+          "ms": 1.0
         },
         {
           "qid": "q10",
@@ -190,7 +190,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.0
+          "ms": 0.9
         },
         {
           "qid": "q11",
@@ -213,14 +213,12 @@
           "expect": "POS",
           "expected": "zig0.16/parse-kv-config",
           "got_top3": [
-            "zig0.16/parse-kv-config",
-            "zig0.16/parse-kv-config/case_fixture-4b6abea1cc9d",
-            "zig0.16/parse-kv-config/pipeline_entry-4b6abea1cc9d"
+            "zig0.16/parse-kv-config"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.1
+          "ms": 0.8
         },
         {
           "qid": "q13",
@@ -250,7 +248,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.6
+          "ms": 0.7
         },
         {
           "qid": "q15",
@@ -264,7 +262,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.7
+          "ms": 0.8
         },
         {
           "qid": "q16",
@@ -278,7 +276,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.7
+          "ms": 0.9
         },
         {
           "qid": "q17",
@@ -292,7 +290,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.2
+          "ms": 0.7
         },
         {
           "qid": "q18",
@@ -308,7 +306,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.9
+          "ms": 1.5
         },
         {
           "qid": "q19",
@@ -324,7 +322,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.7
+          "ms": 0.8
         },
         {
           "qid": "q20",
@@ -369,7 +367,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.6
+          "ms": 0.5
         },
         {
           "qid": "q23",
@@ -383,7 +381,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.9
+          "ms": 0.5
         },
         {
           "qid": "q24",
@@ -395,7 +393,7 @@
           "error": "NO_RESULTS",
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.0
+          "ms": 0.5
         },
         {
           "qid": "q25",
@@ -457,7 +455,7 @@
         "recall_at_3": 1.0,
         "negativas_correctas": "4/4",
         "status_correcto": "1/1",
-        "latencia_ms_media": 81.1,
+        "latencia_ms_media": 77.5,
         "por_tipo": {
           "api": {
             "n": 11,
@@ -506,7 +504,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 86.7
+          "ms": 81.8
         },
         {
           "qid": "q02",
@@ -520,7 +518,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 84.2
+          "ms": 81.3
         },
         {
           "qid": "q03",
@@ -534,7 +532,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 84.1
+          "ms": 82.0
         },
         {
           "qid": "q04",
@@ -548,7 +546,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 82.6
+          "ms": 79.7
         },
         {
           "qid": "q05",
@@ -563,7 +561,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 82.0
+          "ms": 79.8
         },
         {
           "qid": "q06",
@@ -577,7 +575,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 82.7
+          "ms": 79.2
         },
         {
           "qid": "q07",
@@ -592,7 +590,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 82.5
+          "ms": 79.1
         },
         {
           "qid": "q08",
@@ -606,7 +604,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 84.1
+          "ms": 80.2
         },
         {
           "qid": "q09",
@@ -622,7 +620,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 83.3
+          "ms": 81.2
         },
         {
           "qid": "q10",
@@ -637,7 +635,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 84.4
+          "ms": 79.3
         },
         {
           "qid": "q11",
@@ -651,7 +649,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 88.8
+          "ms": 79.2
         },
         {
           "qid": "q12",
@@ -660,14 +658,12 @@
           "expect": "POS",
           "expected": "zig0.16/parse-kv-config",
           "got_top3": [
-            "zig0.16/parse-kv-config",
-            "zig0.16/parse-kv-config/case_fixture-4b6abea1cc9d",
-            "zig0.16/parse-kv-config/pipeline_entry-4b6abea1cc9d"
+            "zig0.16/parse-kv-config"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 89.7
+          "ms": 80.9
         },
         {
           "qid": "q13",
@@ -683,7 +679,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 88.3
+          "ms": 79.3
         },
         {
           "qid": "q14",
@@ -697,7 +693,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 84.1
+          "ms": 81.0
         },
         {
           "qid": "q15",
@@ -711,7 +707,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 80.4
+          "ms": 81.4
         },
         {
           "qid": "q16",
@@ -725,7 +721,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 86.2
+          "ms": 83.6
         },
         {
           "qid": "q17",
@@ -739,7 +735,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 82.7
+          "ms": 83.3
         },
         {
           "qid": "q18",
@@ -755,7 +751,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 82.8
+          "ms": 80.1
         },
         {
           "qid": "q19",
@@ -771,7 +767,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 82.5
+          "ms": 79.5
         },
         {
           "qid": "q20",
@@ -786,7 +782,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 84.0
+          "ms": 80.3
         },
         {
           "qid": "q21",
@@ -802,7 +798,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 83.0
+          "ms": 79.6
         },
         {
           "qid": "q22",
@@ -816,7 +812,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 83.1
+          "ms": 79.7
         },
         {
           "qid": "q23",
@@ -830,7 +826,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 82.5
+          "ms": 80.1
         },
         {
           "qid": "q24",
@@ -842,7 +838,7 @@
           "error": "NO_RESULTS",
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 85.6
+          "ms": 79.5
         },
         {
           "qid": "q25",
@@ -854,7 +850,7 @@
           "error": "NO_RESULTS",
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 82.0
+          "ms": 79.9
         },
         {
           "qid": "q26",
@@ -866,7 +862,7 @@
           "error": "NO_RESULTS",
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 85.4
+          "ms": 80.2
         },
         {
           "qid": "q27",
@@ -878,7 +874,7 @@
           "error": "VERSION_MISMATCH",
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.2
+          "ms": 0.1
         },
         {
           "qid": "q28",
@@ -893,7 +889,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 82.5
+          "ms": 79.8
         }
       ]
     }

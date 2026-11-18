@@ -6,6 +6,12 @@ from .paths import DB, VAR
 from . import corpus as corpus_mod
 from .embed import Embedder, DIM
 
+#: Los artefactos derivados por fuzzing son evidencia, no recetas buscables.
+#: Siguen en `ops` (pyzig_get los ve) pero NO entran en FTS/vectores: si lo
+#: hicieran, duplicarian el texto de su padre y falsearian la frecuencia de
+#: documentos de la admision lexica.
+SEARCHABLE_TYPES = ("recipe", "gap")
+
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS meta(key TEXT PRIMARY KEY, value TEXT);
 CREATE TABLE IF NOT EXISTS ops(
@@ -39,6 +45,8 @@ def build(embed: Embedder | None = None, verbose: bool = False) -> pathlib.Path:
             (e.operation_id, e.name, e.intent, e.zig_version, e.platform, e.status,
              json.dumps(e.constraints, ensure_ascii=False), e.zig_impl.splitlines()[0], json.dumps(payload, ensure_ascii=False)),
         )
+        if e.entry_type not in SEARCHABLE_TYPES:
+            continue
         con.execute("INSERT INTO ops_fts(operation_id,name,intent,body) VALUES(?,?,?,?)",
                     (e.operation_id, e.name, e.intent, corpus_mod.search_text(e)))
         if vecs is not None:
@@ -48,6 +56,7 @@ def build(embed: Embedder | None = None, verbose: bool = False) -> pathlib.Path:
     meta = {
         "built_at": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
         "entries": str(len(entries)),
+        "searchable": str(sum(1 for e in entries if e.entry_type in SEARCHABLE_TYPES)),
         "fts": "fts5",
         "embed_mode": mode,
         **({"embed": embed.model_meta()} if embed is not None else {"embed": {"mode": "unavailable"}}),
@@ -115,7 +124,10 @@ def doc_freq(con: sqlite3.Connection, tok: str) -> int:
 def coverage(con: sqlite3.Connection, q: str, max_df_ratio: float = 0.6) -> tuple[float, list[str]]:
     """Cobertura lexica: fraccion de tokens discriminativos del query que
     aparecen en el mejor documento. Descarta tokens ubicuos (df alto)."""
-    n_docs = int(con.execute("SELECT count(*) AS n FROM ops").fetchone()["n"]) or 1
+    #: El denominator debe ser el numero de documentos INDEXADOS, no el de
+    #: `ops`: los artefactos derivados viven en `ops` para `pyzig_get` pero
+    #: estan fuera del FTS, y contarlos infla el umbral de tokens ubicuos.
+    n_docs = int(con.execute("SELECT count(*) AS n FROM ops_fts").fetchone()["n"]) or 1
     toks = tokens(q)
     if not toks:
         return 0.0, []

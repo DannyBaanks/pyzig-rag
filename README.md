@@ -12,10 +12,14 @@ servidor **MCP de solo lectura** para que un agente consulte recetas
 ## Arquitectura
 
 ```
-corpus/pyzig.corpus.jsonl      fuente de verdad (git): 12 entradas, esquema estable
+corpus/pyzig.corpus.jsonl      fuente de verdad (git): 18 entradas (11 recetas, 1 gap,
+                               3 case_fixture, 3 pipeline_entry)
 scripts/make_corpus.py         regenera el corpus (entradas + hash de contenido)
-pyzig/corpus.py                carga/valida/dedup por operation_id y content_sha256
+pyzig/corpus.py                UNICO escritor: hash canonico, append-only, atomico
 pyzig/gates.py                 gates: `zig test` por entrada → promueve evidencia
+fuzz/src/                      motor Zig: generacion, chunks, comparacion, evidencia
+pyzig/fuzz/                    control plane Python: contratos, oracle por lotes,
+                               triage, assembler, warden y campana
 pyzig/embed.py                 embeddings ONNX local (all-MiniLM-L6-v2, CPU)
 pyzig/index.py                 indice derivado SQLite (FTS5 + vectores) — var/pyzig.db
 pyzig/search.py                filtros exactos + fusion RRF + admision (cobertura/cosine)
@@ -36,7 +40,8 @@ Decisiones (y por que):
   "el menos malo". Las negativas devuelven `NO_RESULTS`.
 - **Estado de evidencia explicito**: `DEMONSTRATED` (compilo y paso sus tests
   con zig 0.16.0), `NOT_DEMONSTRATED` (entrada tipo `gap` que documenta una
-  limitacion), `REJECTED`. Las entradas sin `DEMONSTRATED` rankean por debajo
+  limitacion), `FUZZ_EQUIV`, `ADMITTED`, `REGRESSED`, `MANUAL_REVIEW`, `REJECTED`.
+  Las entradas sin `DEMONSTRATED` rankean por debajo
   salvo que la consulta las cuba mejor que cualquier receta — entonces la
   respuesta honesta es "aqui no hay equivalencia demostrada".
 - **Version como filtro exacto**: `zig_version="0.13"` ⇒ `VERSION_MISMATCH`.
@@ -47,8 +52,11 @@ Decisiones (y por que):
 `zig_version`, `python_version`, `platform`, `py_ref`, `zig_impl`, `zig_test`,
 `apis_used`, `constraints`, `preconditions`, `postconditions`, `side_effects`,
 `error_behavior`, `ownership_memory`, `differences`, `tests`, `provenance`,
-`entry_type` (`recipe`|`gap`), `evidence{status,runs[{cmd,exit,duration_s,
-stdout_sha256,zig_version,observed}]}`, `content_sha256`.
+`entry_type` (`recipe`|`gap`|`case_fixture`|`pipeline_entry`),
+`evidence{status,runs[{cmd,exit,duration_s,stdout_sha256,zig_version,observed}]}`,
+`content_sha256`. Los artefactos `case_fixture`/`pipeline_entry` llevan ademas
+`fuzz.case_fixture{case_hex,case_sha256,obs_hex,obs_sha256,status,compared_fields}`
+y evidencia `FUZZ_EQUIV`/`ADMITTED` con seed, hashes y snapshot del run.
 
 Dedup: por `operation_id` y por `content_sha256` (`corpus.dedupe_report`).
 
@@ -64,6 +72,42 @@ sh scripts/fetch_model.sh          # una vez; sin red el indice queda lexical de
 .venv/bin/python scripts/demo_client.py  # cliente MCP real (stdio) que consulta las 3 tools
 .venv/bin/python scripts/run_eval.py     # evaluacion fija → eval/results.json
 ```
+
+### Fuzzing diferencial (F0–F4)
+
+El camino caliente es Zig; Python solo es oracle por lotes y control plane.
+Un chunk son **dos procesos** (subject + oracle), nunca un proceso por caso.
+Sandbox fail-closed con bubblewrap + prlimit; sin `--allow-unsandboxed` no se
+ejecuta nada si bwrap falta.
+
+```sh
+.venv/bin/python scripts/fuzz.py prepare     # inyecta zig_impl y compila 11 drivers
+.venv/bin/python scripts/fuzz.py diff --op zig0.16/sha256-bytes \
+    --iterations 200 --chunk 100 --replay 8 --harvest-limit 50
+.venv/bin/python scripts/fuzz.py triage --run var/fuzz/runs/<run>
+.venv/bin/python scripts/fuzz.py assemble --run var/fuzz/runs/<run> --kind case_fixture --limit 5
+.venv/bin/python scripts/fuzz.py warden admit
+.venv/bin/python scripts/fuzz.py warden regress
+.venv/bin/python scripts/fuzz.py campaign --seed 1337 --budget-iterations 5000 \
+    --iterations 200 --harvest-limit 20
+.venv/bin/python scripts/fuzz.py loop --budget-seconds 60 --no-merge
+```
+
+- `diff` genera casos con seed determinista, compara **por campos nombrados**
+  (`fuzz.compared_fields`) y escribe `meta.json`/`results.jsonl`/`summary.json`
+  con hashes. `equiv.jsonl` + `harvest.json` sellan los ejemplos EQUIV.
+- Taxonomia: `EQUIV/DIVERGENT/UNSUPPORTED/INVALID_REFERENCE/INVALID_ACCEPTED/
+  CRASH/TIMEOUT/INCONCLUSIVE/NONDETERMINISTIC`. Las divergencias conocidas se
+  declaran en `pyzig/fuzz/contracts.py` (`fuzz.known_divergences`); `triage`
+  separa conocidas de nuevas.
+- `assemble` admite solo `case_fixture` y `pipeline_entry` (una receta nueva
+  nunca se auto-mergea) y siempre pasa por `pyzig.corpus.append_entry`.
+- `warden` aplica 7 invariantes (hash chain, tipo, procedencia, integridad del
+  fixture, contrato del padre, run limpio/driver vigente, caso duplicado) y
+  mueve el estado `FUZZ_EQUIV → ADMITTED → REGRESSED`.
+- `campaign`/`loop` priorizan los ops con menos artefactos admitidos, respetan
+  presupuesto de iteraciones/tiempo y solo auto-mergean si no hay hallazgos
+  nuevos; `loop` (`--rounds 0`) corre hasta agotar presupuesto.
 
 ### MCP (registro en cliente)
 

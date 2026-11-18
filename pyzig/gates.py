@@ -14,6 +14,12 @@ def _rel(p: pathlib.Path) -> str:
     except ValueError:
         return str(p)
 
+def _run_key(run: dict) -> tuple:
+    """Identidad de una ejecucion de gate, ignorando tiempo y texto variable."""
+    return (run.get("cmd"), run.get("cwd"), run.get("exit"),
+            run.get("stdout_sha256"), run.get("zig_version"))
+
+
 def run_gates(timeout_sec: int = 600) -> list[dict]:
     BUILD.mkdir(parents=True, exist_ok=True)
     entries = corpus_mod.load()
@@ -36,7 +42,12 @@ def run_gates(timeout_sec: int = 600) -> list[dict]:
         new_status = "DEMONSTRATED" if p.returncode == 0 else "REJECTED"
         ev = dict(e.evidence)
         ev["status"] = new_status
-        ev["runs"] = list(ev.get("runs", [])) + [run]
+        # Re-ejecutar los gates no debe inflar el corpus: el duration_s varia,
+        # pero cmd/cwd/exit/hash de salida/version identifican la misma prueba.
+        runs = list(ev.get("runs", []))
+        if not any(_run_key(r) == _run_key(run) for r in runs):
+            runs.append(run)
+        ev["runs"] = runs
         payload = dict(e.raw)
         payload["evidence"] = ev
         results.append({"operation_id": e.operation_id, "exit": p.returncode,
