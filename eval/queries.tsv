@@ -1,0 +1,28 @@
+q01	direct	ejecutar un proceso externo y capturar su salida	zig0.16/subprocess-run-capture	POS
+q02	api	subprocess.run con capture_output	zig0.16/subprocess-run-capture	POS
+q03	paraphrase	necesito lanzar un comando y saber si salio bien o mal	zig0.16/subprocess-run-capture	POS
+q04	api	pathlib read_text con limite de tamano	zig0.16/read-file-text-limited	POS
+q05	paraphrase	leer un archivo a memoria sin pasarme de bytes	zig0.16/read-file-text-limited	POS
+q06	direct	escritura atomica de archivo con temporal y rename	zig0.16/write-file-bytes-atomic	POS
+q07	api	Path.write_bytes truncar contenido previo	zig0.16/write-file-bytes-atomic	POS
+q08	direct	saber si una ruta existe sin confundir ausente de permiso denegado	zig0.16/file-exists-vs-error	POS
+q09	api	Path.exists en Zig	zig0.16/file-exists-vs-error	POS
+q10	api	print con flush=True en Zig	zig0.16/stdout-print-flush	POS
+q11	paraphrase	mostrar un mensaje por consola antes de continuar	zig0.16/stdout-print-flush	POS
+q12	direct	parsear configuracion clave=valor entrecomillada	zig0.16/parse-kv-config	POS
+q13	api	configparser equivalente en Zig	zig0.16/parse-kv-config	POS
+q14	api	time.sleep equivalente	zig0.16/sleep-ms	POS
+q15	paraphrase	esperar dos segundos sin gastar cpu	zig0.16/sleep-ms	POS
+q16	direct	partir una cadena por comas y quitar espacios	zig0.16/string-split-strip-format	POS
+q17	api	f-string formateo en Zig	zig0.16/string-split-strip-format	POS
+q18	direct	lanzar proceso con stdout y stderr a un archivo	zig0.16/spawn-redirect-child	POS
+q19	api	Popen start_new_session redirect stderr	zig0.16/spawn-redirect-child	POS
+q20	direct	leer variable de entorno PATH	zig0.16/env-var-read	POS
+q21	api	os.getenv equivalente	zig0.16/env-var-read	POS
+q22	direct	calcular sha256 de unos bytes	zig0.16/sha256-bytes	POS
+q23	api	hashlib.sha256 hexdigest	zig0.16/sha256-bytes	POS
+q24	negative	como se conecta a una base de datos postgres		NONE
+q25	negative	compilar un transpilador universal de python a zig		NONE
+q26	negative	entrenar una red neuronal desde cero		NONE
+q27	version	subprocess.run en zig 0.13	zig0.16/subprocess-run-capture	VERSION
+q28	status	demostrar setsid sin shell para un demonio desacoplado	zig0.16/detached-daemon-no-shell	STATUS
