@@ -1,0 +1,5 @@
+# Build artifacts
+.zig-cache/
+zig-out/
+subject
+subject_fixed
