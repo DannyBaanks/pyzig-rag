@@ -1,9 +1,18 @@
 #!/usr/bin/env python3
 """Genera corpus/pyzig.corpus.jsonl: recetas Python->Zig 0.16.0 verificadas contra
-la std local (zig 0.16.0, /usr/lib/std o ~/.local/.../lib/std)."""
+la std local (zig 0.16.0, /usr/lib/std o ~/.local/.../lib/std).
+
+Este script es la ESPECIFICACION del corpus; la escritura la hace el unico
+escritor (`pyzig.corpus.write_all`), que recalcula `content_sha256` de cada
+entrada y conserva la evidencia previa solo si el codigo probado no cambio.
+"""
 import json, pathlib, sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from pyzig import corpus as corpus_mod          # noqa: E402
+from pyzig.fuzz import contracts                 # noqa: E402
+
 ZIG = "0.16.0"
 PY = "3.12"
 PROV = "std local de zig 0.16.0 (repo en lib/std)"
@@ -341,11 +350,12 @@ c = configparser.ConfigParser()
 c.read_string("[s]\\nSSID=mi red\\n")''',
     zig_impl='''pub const Kv = struct { key: []const u8, val: []const u8 };
 
-pub fn parseLine(line: []const u8) ?Kv {
+pub fn parseLineAlloc(gpa: std.mem.Allocator, line: []const u8) !?Kv {
     const t = std.mem.trim(u8, line, " \\t");
     if (t.len == 0 or t[0] == '#') return null;
     const eq = std.mem.indexOfScalar(u8, t, '=') orelse return null;
-    return .{ .key = t[0..eq], .val = unquoteAlloc(alloc, t[eq + 1 ..]) };
+    const val = try unquoteAlloc(gpa, t[eq + 1 ..]);
+    return .{ .key = std.mem.trim(u8, t[0..eq], " \\t"), .val = val };
 }
 
 /// Quita el envoltorio de bash %q: 'valor' y '' literal.
@@ -358,23 +368,39 @@ pub fn unquoteAlloc(allocator: std.mem.Allocator, s: []const u8) ![]const u8 {
 
 pub const Kv = struct { key: []const u8, val: []const u8 };
 
-pub fn parseLine(line: []const u8) ?Kv {
+pub fn parseLineAlloc(gpa: std.mem.Allocator, line: []const u8) !?Kv {
     const t = std.mem.trim(u8, line, " \\t");
     if (t.len == 0 or t[0] == '#') return null;
     const eq = std.mem.indexOfScalar(u8, t, '=') orelse return null;
-    return .{ .key = t[0..eq], .val = t[eq + 1 ..] };
+    const val = try unquoteAlloc(gpa, t[eq + 1 ..]);
+    return .{ .key = std.mem.trim(u8, t[0..eq], " \\t"), .val = val };
+}
+
+pub fn unquoteAlloc(allocator: std.mem.Allocator, s: []const u8) ![]const u8 {
+    const t = std.mem.trim(u8, s, " \\t");
+    if (t.len >= 2 and t[0] == '\\'' and t[t.len - 1] == '\\'') return allocator.dupe(u8, t[1 .. t.len - 1]);
+    return allocator.dupe(u8, t);
 }
 
 test "lineas validas e invalidas" {
     const a = std.testing.allocator;
-    try std.testing.expect(parseLine("# comentario") == null);
-    try std.testing.expect(parseLine("no-eq") == null);
-    const kv = parseLine("  SSID = mi red  ") orelse return error.TestUnexpectedResult;
-    _ = kv;
-    const kv2 = parseLine("PSK=clave123") orelse return error.TestUnexpectedResult;
+    try std.testing.expect((try parseLineAlloc(a, "# comentario")) == null);
+    try std.testing.expect((try parseLineAlloc(a, "no-eq")) == null);
+    const kv = (try parseLineAlloc(a, "  SSID = mi red  ")).?;
+    defer a.free(kv.val);
+    try std.testing.expectEqualStrings("SSID", kv.key);
+    try std.testing.expectEqualStrings("mi red", kv.val);
+    const kv2 = (try parseLineAlloc(a, "PSK=clave123")).?;
+    defer a.free(kv2.val);
     try std.testing.expectEqualStrings("PSK", kv2.key);
     try std.testing.expectEqualStrings("clave123", kv2.val);
-    _ = a;
+}
+
+test "valor entrecomillado se desenvaina" {
+    const a = std.testing.allocator;
+    const kv = (try parseLineAlloc(a, "K='entre comillas'")).?;
+    defer a.free(kv.val);
+    try std.testing.expectEqualStrings("entre comillas", kv.val);
 }''',
     apis_used=["std.mem.trim","std.mem.indexOfScalar","std.mem.splitScalar","Allocator.dupe"],
     constraints=["sin root","gpa"],
@@ -447,6 +473,11 @@ fn collectNonEmpty(gpa: std.mem.Allocator, text: []const u8, sep: u8) ![][]const
 
 fn formatInto(buf: []u8, comptime fmt: []const u8, args: anytype) ![]const u8 {
     return std.fmt.bufPrint(buf, fmt, args);   // {s:<18} = pad izquierdo
+}
+
+/// Relleno a la izquierda con `width` (equivalente a f"{text:<width}") y cola.
+fn formatPadded(buf: []u8, text: []const u8, width: usize, tail: []const u8) ![]const u8 {
+    return std.fmt.bufPrint(buf, "{[text]s:<[width]}{[tail]s}", .{ .text = text, .width = width, .tail = tail });
 }''',
     zig_test='''const std = @import("std");
 
@@ -461,6 +492,10 @@ fn collectNonEmpty(gpa: std.mem.Allocator, text: []const u8, sep: u8) ![][]const
     return list.toOwnedSlice(gpa);
 }
 
+fn formatPadded(buf: []u8, text: []const u8, width: usize, tail: []const u8) ![]const u8 {
+    return std.fmt.bufPrint(buf, "{[text]s:<[width]}{[tail]s}", .{ .text = text, .width = width, .tail = tail });
+}
+
 test "split descarta vacios y recorta" {
     const a = std.testing.allocator;
     const toks = try collectNonEmpty(a, "a, b ,, c", ',');
@@ -473,6 +508,18 @@ test "bufPrint formatea con pad" {
     var buf: [32]u8 = undefined;
     const s = try std.fmt.bufPrint(&buf, "{s:<6}|{d:0>4}", .{ "ab", 7 });
     try std.testing.expectEqualStrings("ab    |0007", s);
+}
+
+test "formatPadded rellena a la derecha hasta width" {
+    var buf: [32]u8 = undefined;
+    const s = try formatPadded(&buf, "ab", 6, "|ip");
+    try std.testing.expectEqualStrings("ab    |ip", s);
+}
+
+test "formatPadded no trunca si ya es mas largo" {
+    var buf: [32]u8 = undefined;
+    const s = try formatPadded(&buf, "abcdefgh", 3, "|ip");
+    try std.testing.expectEqualStrings("abcdefgh|ip", s);
 }''',
     apis_used=["std.mem.splitScalar","std.mem.trim","std.fmt.bufPrint","ArrayList.append","ArrayList.toOwnedSlice"],
     constraints=["sin root","gpa"],
@@ -585,18 +632,41 @@ E.append(dict(
     source_lang="python", target_lang="zig", zig_version=ZIG, python_version=PY, platform="linux",
     py_ref='''import hashlib
 hashlib.sha256(b"abc").hexdigest()''',
-    zig_impl='''var out: [32]u8 = undefined;
-std.crypto.hash.sha2.Sha256.hash(data, &out, .{});
-var hex: [64]u8 = undefined;
-hex = std.fmt.bytesToHex(out, .lower);''',
+    zig_impl='''pub fn sha256Bytes(data: []const u8) [32]u8 {
+    var out: [32]u8 = undefined;
+    std.crypto.hash.sha2.Sha256.hash(data, &out, .{});
+    return out;
+}
+
+pub fn sha256Hex(data: []const u8) [64]u8 {
+    const digest = sha256Bytes(data);
+    return std.fmt.bytesToHex(digest, .lower);
+}''',
     zig_test='''const std = @import("std");
 
-test "sha256 de abc coincide con el valor conocido" {
+pub fn sha256Bytes(data: []const u8) [32]u8 {
     var out: [32]u8 = undefined;
-    std.crypto.hash.sha2.Sha256.hash("abc", &out, .{});
-    var hex: [64]u8 = undefined;
-    hex = std.fmt.bytesToHex(out, .lower);
-    try std.testing.expectEqualStrings("ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad", &hex);
+    std.crypto.hash.sha2.Sha256.hash(data, &out, .{});
+    return out;
+}
+
+pub fn sha256Hex(data: []const u8) [64]u8 {
+    const digest = sha256Bytes(data);
+    return std.fmt.bytesToHex(digest, .lower);
+}
+
+test "sha256 de abc coincide con el valor conocido" {
+    try std.testing.expectEqualStrings(
+        "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
+        &sha256Hex("abc"),
+    );
+}
+
+test "sha256 de la cadena vacia" {
+    try std.testing.expectEqualStrings(
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        &sha256Hex(""),
+    );
 }''',
     apis_used=["std.crypto.hash.sha2.Sha256.hash","std.fmt.fmtSliceHexLower","std.fmt.bufPrint"],
     constraints=["sin root"],
@@ -636,15 +706,11 @@ E.append(dict(
     entry_type="gap",
 ))
 
-# ---- escritura + validacion ------------------------------------------------
+# ---- validacion + escritura (unico escritor: pyzig.corpus) ----------------
 out = ROOT / "corpus" / "pyzig.corpus.jsonl"
 REQ = ["operation_id","name","intent","aliases","source_lang","target_lang","zig_version","python_version","platform","py_ref","zig_impl","apis_used","constraints","provenance"]
 
-def canon(e: dict) -> str:
-    return json.dumps({k: e.get(k) for k in sorted(e)}, ensure_ascii=False, sort_keys=True)
-
 seen = set()
-lines = []
 for e in E:
     for k in REQ:
         if k not in e:
@@ -659,12 +725,16 @@ for e in E:
     e.setdefault("ownership_memory", "")
     e.setdefault("evidence", {"status": e.get("status", "UNVERIFIED"), "runs": []})
     e.setdefault("entry_type", "recipe")
-    e["content_sha256"] = __import__("hashlib").sha256(canon(e).encode()).hexdigest()
+    # contrato de fuzzing (esquema, driver, modelo, campos comparados, tipo)
+    contract = contracts.contract_for(e["operation_id"])
+    e["fuzz"] = contract
+    e["type_signature"] = contract["type_signature"]
     if e["operation_id"] in seen:
         sys.exit(f"DUPLICADO {e['operation_id']}")
     seen.add(e["operation_id"])
-    lines.append(json.dumps(e, ensure_ascii=False))
 
-out.parent.mkdir(parents=True, exist_ok=True)
-out.write_text("\n".join(lines) + "\n", encoding="utf-8")
-print(f"corpus: {out} entradas={len(lines)}")
+written = corpus_mod.write_all(E, path=out, preserve_evidence=True)
+problems = corpus_mod.verify_chain(out)
+for p in problems:
+    print(f"AVISO {p}", file=sys.stderr)
+print(f"corpus: {out} entradas={len(written)}")

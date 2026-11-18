@@ -23,6 +23,12 @@ pub const Probe = struct {
     prlimit: ?[]const u8 = null,
     bwrap_usable: bool = false,
     note: []const u8 = "",
+
+    /// Free the paths resolved by `probe`. The probe owns them.
+    pub fn deinit(self: Probe, gpa: std.mem.Allocator) void {
+        if (self.bwrap) |b| gpa.free(b);
+        if (self.prlimit) |p| gpa.free(p);
+    }
 };
 
 /// Resolve a program name against PATH.
@@ -32,7 +38,11 @@ pub fn which(gpa: std.mem.Allocator, io: std.Io, path_env: ?[]const u8, name: []
     while (it.next()) |dir| {
         if (dir.len == 0) continue;
         const candidate = try std.fs.path.join(gpa, &.{ dir, name });
-        _ = std.Io.Dir.cwd().statFile(io, candidate, .{}) catch continue;
+        const found = std.Io.Dir.cwd().statFile(io, candidate, .{}) catch null;
+        if (found == null) {
+            gpa.free(candidate);
+            continue;
+        }
         return candidate;
     }
     return null;
@@ -119,14 +129,13 @@ pub fn runBatch(gpa: std.mem.Allocator, io: std.Io, p: Probe, opts: RunOpts, pay
     if (!use_bwrap and !opts.allow_unsandboxed) return error.SandboxUnavailable;
 
     if (p.prlimit) |pr| {
-        try argv.appendSlice(gpa, &.{
-            pr,
-            try std.fmt.allocPrint(gpa, "--cpu={d}", .{opts.cpu_seconds}),
-            try std.fmt.allocPrint(gpa, "--fsize={d}", .{opts.fsize_bytes}),
-            try std.fmt.allocPrint(gpa, "--nproc={d}", .{opts.nproc}),
-            "--nofile=256",
-            "--",
-        });
+        const cpu = try std.fmt.allocPrint(gpa, "--cpu={d}", .{opts.cpu_seconds});
+        defer gpa.free(cpu);
+        const fsize = try std.fmt.allocPrint(gpa, "--fsize={d}", .{opts.fsize_bytes});
+        defer gpa.free(fsize);
+        const nproc = try std.fmt.allocPrint(gpa, "--nproc={d}", .{opts.nproc});
+        defer gpa.free(nproc);
+        try argv.appendSlice(gpa, &.{ pr, cpu, fsize, nproc, "--nofile=256", "--" });
     }
 
     if (use_bwrap) {

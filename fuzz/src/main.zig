@@ -44,6 +44,8 @@ fn usage(io: std.Io) void {
         \\                  --workdir <dir> --run-dir <dir>
         \\                  [--chunk <n>] [--timeout-ms <n>]
         \\                  [--sandbox auto|bwrap|none] [--allow-unsandboxed] [--json]
+        \\  pyzig-fuzz assemble --corpus <file> --ops <op1,op2,...> --out <file>
+        \\  pyzig-fuzz harvest --run-dir <dir> --out <candidates.jsonl> [--schema <s>]
         \\
         \\Schemas: argv, kv, read, write, exists, splitfmt, sleep, env, spawn, stdout, pipe
         \\
@@ -51,85 +53,7 @@ fn usage(io: std.Io) void {
     std.Io.File.stdout().writeStreamingAll(io, msg) catch {};
 }
 
-pub fn main(init: std.process.Init) !void {
-    const gpa = init.gpa;
-    const io = init.io;
-    const args = init.minimal.args.vector;
-    if (args.len < 2) {
-        usage(io);
-        return;
-    }
 
-    var cfg = Config{};
-    const cmd: []const u8 = std.mem.span(args[1]);
-
-    var i: usize = 2;
-    while (i < args.len) : (i += 1) {
-        const arg = std.mem.span(args[i]);
-        if (std.mem.eql(u8, arg, "--json")) {
-            cfg.json = true;
-        } else if (std.mem.eql(u8, arg, "--allow-unsandboxed")) {
-            cfg.allow_unsandboxed = true;
-        } else if (std.mem.eql(u8, arg, "--help") or std.mem.eql(u8, arg, "-h")) {
-            usage(io);
-            return;
-        } else if (i + 1 < args.len) {
-            i += 1;
-            const value = std.mem.span(args[i]);
-            if (std.mem.eql(u8, arg, "--op")) {
-                cfg.op = value;
-            } else if (std.mem.eql(u8, arg, "--schema")) {
-                cfg.schema = gen.Schema.fromName(value) orelse {
-                    std.debug.print("schema desconocido: {s}\n", .{value});
-                    std.process.exit(2);
-                };
-            } else if (std.mem.eql(u8, arg, "--seed")) {
-                cfg.seed = std.fmt.parseInt(u64, value, 10) catch 1337;
-            } else if (std.mem.eql(u8, arg, "--iterations")) {
-                cfg.iterations = std.fmt.parseInt(u64, value, 10) catch 1000;
-            } else if (std.mem.eql(u8, arg, "--chunk")) {
-                cfg.chunk = std.fmt.parseInt(usize, value, 10) catch 500;
-            } else if (std.mem.eql(u8, arg, "--timeout-ms")) {
-                cfg.timeout_ms = std.fmt.parseInt(u64, value, 10) catch 60_000;
-            } else if (std.mem.eql(u8, arg, "--subject")) {
-                cfg.subject = value;
-            } else if (std.mem.eql(u8, arg, "--python")) {
-                cfg.python = value;
-            } else if (std.mem.eql(u8, arg, "--repo")) {
-                cfg.repo = value;
-            } else if (std.mem.eql(u8, arg, "--workdir")) {
-                cfg.workdir = value;
-            } else if (std.mem.eql(u8, arg, "--run-dir")) {
-                cfg.run_dir = value;
-            } else if (std.mem.eql(u8, arg, "--out")) {
-                cfg.out = value;
-            } else if (std.mem.eql(u8, arg, "--sandbox")) {
-                if (std.mem.eql(u8, value, "auto")) {
-                    cfg.sandbox = .auto;
-                } else if (std.mem.eql(u8, value, "bwrap")) {
-                    cfg.sandbox = .bwrap;
-                } else if (std.mem.eql(u8, value, "none")) {
-                    cfg.sandbox = .none;
-                } else {
-                    std.debug.print("sandbox desconocido: {s}\n", .{value});
-                    std.process.exit(2);
-                }
-            }
-        }
-    }
-
-    if (std.mem.eql(u8, cmd, "doctor")) {
-        std.process.exit(try cmdDoctor(gpa, io, cfg, init.environ_map.get("PATH")));
-    } else if (std.mem.eql(u8, cmd, "gen")) {
-        std.process.exit(try cmdGen(gpa, io, cfg));
-    } else if (std.mem.eql(u8, cmd, "diff")) {
-        std.process.exit(try cmdDiff(gpa, io, cfg, init.environ_map.get("PATH")));
-    } else {
-        std.debug.print("comando desconocido: {s}\n", .{cmd});
-        usage(io);
-        std.process.exit(2);
-    }
-}
 
 fn printOut(io: std.Io, comptime fmt: []const u8, args: anytype) void {
     var buf: [4096]u8 = undefined;
@@ -140,6 +64,7 @@ fn printOut(io: std.Io, comptime fmt: []const u8, args: anytype) void {
 
 fn cmdDoctor(gpa: std.mem.Allocator, io: std.Io, cfg: Config, path_env: ?[]const u8) !u8 {
     const p = try runner.probe(gpa, io, path_env);
+    defer p.deinit(gpa);
     if (cfg.json) {
         printOut(io, "{{\"bwrap\":\"{s}\",\"bwrap_usable\":{s},\"prlimit\":\"{s}\",\"note\":\"{s}\"}}\n", .{
             p.bwrap orelse "",
@@ -276,6 +201,7 @@ fn cmdDiff(gpa: std.mem.Allocator, io: std.Io, cfg: Config, path_env: ?[]const u
     }
 
     const p = try runner.probe(gpa, io, path_env);
+    defer p.deinit(gpa);
     const sandbox_label = if (p.bwrap_usable) "bwrap" else "none";
     if (!p.bwrap_usable and !cfg.allow_unsandboxed) {
         std.debug.print("sandbox no disponible ({s}); reintenta con --allow-unsandboxed\n", .{p.note});
@@ -577,3 +503,85 @@ fn writeRunEvidence(
     defer gpa.free(summary);
     try evidence.writeFile(io, summary_path, summary);
 }
+
+
+pub fn main(init: std.process.Init) !void {
+    const gpa = init.gpa;
+    const io = init.io;
+    const args = init.minimal.args.vector;
+    if (args.len < 2) {
+        usage(io);
+        return;
+    }
+
+    var cfg = Config{};
+    const cmd: []const u8 = std.mem.span(args[1]);
+
+    var i: usize = 2;
+    while (i < args.len) : (i += 1) {
+        const arg = std.mem.span(args[i]);
+        if (std.mem.eql(u8, arg, "--json")) {
+            cfg.json = true;
+        } else if (std.mem.eql(u8, arg, "--allow-unsandboxed")) {
+            cfg.allow_unsandboxed = true;
+        } else if (std.mem.eql(u8, arg, "--help") or std.mem.eql(u8, arg, "-h")) {
+            usage(io);
+            return;
+        } else if (i + 1 < args.len) {
+            i += 1;
+            const value = std.mem.span(args[i]);
+            if (std.mem.eql(u8, arg, "--op")) {
+                cfg.op = value;
+            } else if (std.mem.eql(u8, arg, "--schema")) {
+                cfg.schema = gen.Schema.fromName(value) orelse {
+                    std.debug.print("schema desconocido: {s}\n", .{value});
+                    std.process.exit(2);
+                };
+            } else if (std.mem.eql(u8, arg, "--seed")) {
+                cfg.seed = std.fmt.parseInt(u64, value, 10) catch 1337;
+            } else if (std.mem.eql(u8, arg, "--iterations")) {
+                cfg.iterations = std.fmt.parseInt(u64, value, 10) catch 1000;
+            } else if (std.mem.eql(u8, arg, "--chunk")) {
+                cfg.chunk = std.fmt.parseInt(usize, value, 10) catch 500;
+            } else if (std.mem.eql(u8, arg, "--timeout-ms")) {
+                cfg.timeout_ms = std.fmt.parseInt(u64, value, 10) catch 60_000;
+            } else if (std.mem.eql(u8, arg, "--subject")) {
+                cfg.subject = value;
+            } else if (std.mem.eql(u8, arg, "--python")) {
+                cfg.python = value;
+            } else if (std.mem.eql(u8, arg, "--repo")) {
+                cfg.repo = value;
+            } else if (std.mem.eql(u8, arg, "--workdir")) {
+                cfg.workdir = value;
+            } else if (std.mem.eql(u8, arg, "--run-dir")) {
+                cfg.run_dir = value;
+            } else if (std.mem.eql(u8, arg, "--out")) {
+                cfg.out = value;
+            } else if (std.mem.eql(u8, arg, "--sandbox")) {
+                if (std.mem.eql(u8, value, "auto")) {
+                    cfg.sandbox = .auto;
+                } else if (std.mem.eql(u8, value, "bwrap")) {
+                    cfg.sandbox = .bwrap;
+                } else if (std.mem.eql(u8, value, "none")) {
+                    cfg.sandbox = .none;
+                } else {
+                    std.debug.print("sandbox desconocido: {s}\n", .{value});
+                    std.process.exit(2);
+                }
+            }
+        }
+    }
+
+    if (std.mem.eql(u8, cmd, "doctor")) {
+        std.process.exit(try cmdDoctor(gpa, io, cfg, init.environ_map.get("PATH")));
+    } else if (std.mem.eql(u8, cmd, "gen")) {
+        std.process.exit(try cmdGen(gpa, io, cfg));
+    } else if (std.mem.eql(u8, cmd, "diff")) {
+        std.process.exit(try cmdDiff(gpa, io, cfg, init.environ_map.get("PATH")));
+    } else {
+        std.debug.print("comando desconocido: {s}\n", .{cmd});
+        usage(io);
+        std.process.exit(2);
+    }
+}
+

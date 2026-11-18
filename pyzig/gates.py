@@ -1,11 +1,18 @@
 """Gates: compila y ejecuta los zig_test del corpus; promueve evidencia."""
 from __future__ import annotations
 import hashlib, json, pathlib, subprocess, time, re
-from .paths import BUILD, CORPUS_FILE
+from .paths import BUILD, CORPUS_FILE, ROOT
 from . import corpus as corpus_mod
 
 def _safe(op_id: str) -> str:
     return re.sub(r"[^A-Za-z0-9_.-]+", "_", op_id)
+
+def _rel(p: pathlib.Path) -> str:
+    """Ruta relativa a la raiz del repo: el corpus es portable."""
+    try:
+        return str(pathlib.Path(p).resolve().relative_to(ROOT))
+    except ValueError:
+        return str(p)
 
 def run_gates(timeout_sec: int = 600) -> list[dict]:
     BUILD.mkdir(parents=True, exist_ok=True)
@@ -23,7 +30,7 @@ def run_gates(timeout_sec: int = 600) -> list[dict]:
         p = subprocess.run(cmd, cwd=BUILD, capture_output=True, text=True, timeout=timeout_sec)
         dt = round(time.time() - t0, 2)
         out = (p.stdout or "") + (p.stderr or "")
-        run = {"cmd": " ".join(cmd), "cwd": str(BUILD), "exit": p.returncode,
+        run = {"cmd": " ".join(cmd), "cwd": _rel(BUILD), "exit": p.returncode,
                "duration_s": dt, "stdout_sha256": hashlib.sha256(out.encode()).hexdigest(),
                "zig_version": _zig_version(), "observed": out.strip()[-4000:]}
         new_status = "DEMONSTRATED" if p.returncode == 0 else "REJECTED"
@@ -44,10 +51,7 @@ def _zig_version() -> str:
         return "unknown"
 
 def _rewrite(payload: dict) -> None:
-    lines = [json.dumps(json.loads(l), ensure_ascii=False) for l in CORPUS_FILE.read_text(encoding="utf-8").splitlines() if l.strip()]
-    for i, l in enumerate(lines):
-        d = json.loads(l)
-        if d["operation_id"] == payload["operation_id"]:
-            lines[i] = json.dumps(payload, ensure_ascii=False)
-            break
-    CORPUS_FILE.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    """Actualiza la entrada via el unico escritor (recalcula content_sha256)."""
+    def mutate(d: dict) -> None:
+        d["evidence"] = payload["evidence"]
+    corpus_mod.update_entry(payload["operation_id"], mutate)

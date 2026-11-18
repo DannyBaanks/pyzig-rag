@@ -1,6 +1,7 @@
 .venv/
-var/build/
-var/*.db
-var/models/
+var/
 __pycache__/
 *.pyc
+.tgrep/
+fuzz/.zig-cache/
+fuzz/zig-out/
