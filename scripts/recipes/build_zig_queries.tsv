@@ -1,0 +1,16 @@
+build-01	error	error: no field named 'root_source_file' in struct 'Build.ExecutableOptions'  .root_source_file = b.path("src/main.zig"),	zig0.16/build-exe-root-module	POS
+build-02	error	error: dependency on libc must be explicitly specified in the build command	zig0.16/build-link-libc	POS
+build-03	error	error: no module named 'util' available within module 'root'	zig0.16/build-add-import	POS
+build-04	error	error: import of file outside module path	zig0.16/build-import-outside-module	POS
+build-05	error	error: unable to create module 'root': dynamic linking requires enabling Position Independent Code	zig0.16/build-dynamic-library-pic	POS
+build-06	error	error: no field or member function named 'addSharedLibrary' in 'Build'	zig0.16/build-shared-library	POS
+build-07	error	error: no field named 'root_source_file' in struct 'Build.TestOptions'  .root_source_file = b.path("src/main.zig"),	zig0.16/build-test-step	POS
+build-08	error	error: no field or member function named 'addCSourceFile' in 'Build.Step.Compile'  tests.addCSourceFile(.{ .file = b.path("src/c/add.c") });	zig0.16/build-c-source-files	POS
+build-09	direct	zig build test falla: dependency on libc must be explicitly specified, como enlazo libc en zig 0.16 sin @cImport	zig0.16/build-link-libc	POS
+build-10	direct	zig 0.16 build.zig: @import("util") da no module named, como registro un modulo importado por nombre con addImport	zig0.16/build-add-import	POS
+build-11	direct	zig 0.16 build.zig: como importo un archivo que esta fuera de src con @import("../lib/x.zig") sin error import of file outside module path	zig0.16/build-import-outside-module	POS
+build-12	direct	zig 0.16 libreria dinamica: addSharedLibrary no existe, como compilo un .so con b.addLibrary linkage dynamic	zig0.16/build-shared-library	POS
+build-13	direct	zig 0.16 build.zig con pic = false falla al crear el modulo de la libreria dinamica por Position Independent Code	zig0.16/build-dynamic-library-pic	POS
+build-14	direct	zig build test en zig 0.16: como conecto addTest con addRunArtifact y el paso test de build.zig	zig0.16/build-test-step	POS
+build-15	direct	zig 0.16 build.zig: compilar un archivo C con addCSourceFiles y llamarlo desde Zig con extern fn	zig0.16/build-c-source-files	POS
+build-16	direct	zig 0.16 ejecutable: addExecutable ya no acepta root_source_file, usar b.createModule y root_module	zig0.16/build-exe-root-module	POS
