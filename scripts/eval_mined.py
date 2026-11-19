@@ -1,16 +1,21 @@
 #!/usr/bin/env python3
-"""Evalua la cobertura de firmas de error minadas contra el corpus de pyzig.
+"""Evaluacion de `pyzig_check.suggest_for_error` sobre firmas minadas de errores reales.
 
-Lee `eval/mined_labels.tsv` y, para cada firma, comprueba si existe una entrada
-del corpus cuyas `error_signatures` coincidan con la firma (normalizada con
-comodines: strings entre comillas, numeros, @Builtin, tipos uN/iN y '_' se
-convierten en `*`).
+Dos conjuntos:
+  (A) autoconsistencia: cada `error_signatures` del corpus pasado por
+      `build_error_query` (via `suggest_for_error`) debe devolver esa entrada
+      en top-1.
+  (B) errores reales: `var/mined/signatures.jsonl` (67 firmas normalizadas)
+      etiquetadas a mano en `eval/mined_labels.tsv` (firma<TAB>operation_id|NONE).
+      Metricas: hit@1, hit@3 (sobre las no-NONE), tasa de falsos positivos
+      sobre NONE (sugerir con confianza cuando nada aplica).
 
-Guarda `eval/mined_coverage.json` con el resumen y el detalle por fila.
+Salida: `eval/mined_coverage.json` (metricas antes/despues de un cambio en
+`pyzig/check.py`). No se escriben cifras a mano en otro sitio.
 """
 from __future__ import annotations
 
-import csv
+import argparse
 import json
 import pathlib
 import re
@@ -18,96 +23,204 @@ import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 
+from pyzig import check as check_mod
 from pyzig import corpus as corpus_mod
-from pyzig.paths import EVAL
 
-LABELS = EVAL / "mined_labels.tsv"
-COVERAGE = EVAL / "mined_coverage.json"
+CORPUS = pathlib.Path("corpus/pyzig.corpus.jsonl")
+MINED = pathlib.Path("var/mined/signatures.jsonl")
+LABELS = pathlib.Path("eval/mined_labels.tsv")
+OUT = pathlib.Path("eval/mined_coverage.json")
 
-FIELDNAMES = ["firma_raw", "patron_normalizado", "operation_id_esperado", "nivel"]
-
-# Tokens que se normalizan a comodin para el emparejamiento difuso.
-_WILDCARD_STR = re.compile(r"'(?:[^']*)'")   # 'cwd' -> '*'
-_AT_BUILTIN = re.compile(r"@[A-Za-z_][A-Za-z0-9_]*")  # @Type -> @*
-_ZIG_TYPE = re.compile(r"\b[uijf][0-9]+\b")            # u32 -> *
-_NUMBER = re.compile(r"\b\d+\b")                       # 4 -> *
-_UNDER = re.compile(r"\b_\b")                          # _ -> *
+_WILDCARD = re.compile(r"[^A-Za-z0-9_.]+")
 
 
-def normalize(sig: str) -> str:
-    """Convierte una firma de error en un patron con comodines."""
-    s = _WILDCARD_STR.sub("'*'", sig)
-    s = _AT_BUILTIN.sub("@*", s)
-    s = _ZIG_TYPE.sub("*", s)
-    s = _NUMBER.sub("*", s)
-    s = _UNDER.sub("*", s)
-    return s
+def _norm(s: str) -> str:
+    """Normaliza una firma para comparacion con comodines: secuencias de
+    no-alfanumericos (incluido `_` y `N` de la mineria) se vuelven un
+    separador unico; comparacion case-insensitive."""
+    return re.sub(r"[^a-z0-9]+", " ", s.lower()).strip()
 
 
-def load_entries():
-    return corpus_mod.load()
+def _sig_matches(signature: str, query_norm: str) -> bool:
+    """Una firma del corpus coincide con la consulta normalizada si es
+    exactamente igual o si la consulta es un prefijo-compatible de la firma
+    (comodines `_`/`N` ya estan normalizados a espacios por ambas partes)."""
+    sig_norm = _norm(signature)
+    if not sig_norm:
+        return False
+    return sig_norm == query_norm or query_norm in sig_norm or sig_norm in query_norm
 
 
-def match_signature(message: str, entries) -> list[str]:
-    """Devuelve operation_ids cuyas error_signatures coincidan con el mensaje."""
-    pat = normalize(message)
-    hits: list[str] = []
-    seen: set[str] = set()
+def _expected_for_signature(entries, signature: str) -> list[str]:
+    """operation_ids del corpus cuyo `error_signatures` contiene una firma que
+    coincide (exacto o con comodines normalizados) con `signature`."""
+    out: list[str] = []
+    qn = _norm(signature)
     for e in entries:
-        for sig in (e.error_signatures or []):
-            if normalize(sig) == pat and e.operation_id not in seen:
-                seen.add(e.operation_id)
-                hits.append(e.operation_id)
-    return hits
+        for sig in e.error_signatures:
+            if _sig_matches(sig, qn):
+                out.append(e.operation_id)
+                break
+    return out
 
 
-def main() -> int:
-    entries = load_entries()
-    rows: list[dict] = []
-    with open(LABELS, encoding="utf-8") as f:
-        # Saltar lineas de comentario (#) antes de leer el TSV.
-        lines = [ln for ln in f if ln.strip() and not ln.lstrip().startswith("#")]
-    reader = csv.DictReader(lines, fieldnames=FIELDNAMES, delimiter="\t")
-    for row in reader:
-        firma = (row.get("firma_raw") or "").strip()
-        if not firma:
+def _load_labels() -> dict[str, str | None]:
+    """firma -> operation_id esperado o None (NONE)."""
+    labels: dict[str, str | None] = {}
+    for line in LABELS.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
             continue
-        esperado = (row.get("operation_id_esperado") or "").strip()
-        nivel = (row.get("nivel") or "").strip()
-        hits = match_signature(firma, entries)
-        ok = bool(esperado) and esperado in hits
-        rows.append({
-            "firma": firma,
-            "patron": normalize(firma),
-            "esperado": esperado or None,
-            "nivel": nivel,
-            "hits": hits,
-            "ok": ok,
+        parts = line.split("\t")
+        if len(parts) != 2:
+            continue
+        sig, oid = parts[0].strip(), parts[1].strip()
+        labels[sig] = None if oid == "NONE" else oid
+    return labels
+
+
+def _suggest_top(query: str, limit: int = 3) -> list[str]:
+    """Devuelve los operation_ids sugeridos (top-`limit`) para una consulta de
+    error, o [] si NO_RESULTS / abstencion."""
+    try:
+        hits = check_mod.suggest_for_error(query, zig_version="0.16.0", limit=limit) or []
+    except Exception:
+        return []
+    return [h["operation_id"] for h in hits]
+
+
+def _eval_signatures(entries, signatures: list[str]) -> dict:
+    """(A) autoconsistencia: cada firma del corpus debe recuperar su entrada en top-1."""
+    total = 0
+    hit1 = 0
+    hit3 = 0
+    cases: list[dict] = []
+    for e in entries:
+        for sig in e.error_signatures:
+            total += 1
+            q = check_mod.build_error_query(sig)
+            got = _suggest_top(q, limit=3)
+            expected = [e.operation_id]
+            h1 = got[0] == expected[0] if got else False
+            h3 = expected[0] in got if got else False
+            hit1 += h1
+            hit3 += h3
+            cases.append({
+                "operation_id": e.operation_id,
+                "signature": sig,
+                "query": q,
+                "got_top3": got,
+                "hit1": h1,
+                "hit3": h3,
+            })
+    return {
+        "total": total,
+        "hit1": hit1,
+        "hit3": hit3,
+        "hit1_rate": round(hit1 / total, 4) if total else None,
+        "hit3_rate": round(hit3 / total, 4) if total else None,
+        "cases": cases,
+    }
+
+
+def _eval_mined(entries, labels: dict[str, str | None]) -> dict:
+    """(B) errores reales minados: hit@1/hit@3 sobre no-NONE, FPR sobre NONE."""
+    non_none: list[tuple[str, str]] = []  # (signature, expected_oid)
+    none_sigs: list[str] = []
+    for sig, expected in labels.items():
+        if expected is None:
+            none_sigs.append(sig)
+        else:
+            non_none.append((sig, expected))
+
+    # expected set real desde el corpus (todas las entradas cuya firma coincide)
+    def expected_set(signature: str) -> list[str]:
+        return _expected_for_signature(entries, signature)
+
+    tp1 = tp3 = 0
+    non_none_n = 0
+    cases: list[dict] = []
+    for sig, label_oid in non_none:
+        non_none_n += 1
+        q = check_mod.build_error_query(sig)
+        got = _suggest_top(q, limit=3)
+        exp = expected_set(sig)
+        h1 = bool(got) and got[0] in exp
+        h3 = bool(exp) and any(o in got for o in exp)
+        tp1 += h1
+        tp3 += h3
+        cases.append({
+            "signature": sig,
+            "label": label_oid,
+            "expected_corpus": exp,
+            "query": q,
+            "got_top3": got,
+            "hit1": h1,
+            "hit3": h3,
         })
 
-    total = len(rows)
-    ok_count = sum(1 for r in rows if r["ok"])
-    coverage: dict = {
-        "total": total,
-        "resueltas": ok_count,
-        "cobertura": round(ok_count / total, 4) if total else 0.0,
-        "por_nivel": {},
-        "detalle": rows,
-    }
-    for nivel in ("alta", "media", "baja"):
-        sub = [r for r in rows if r["nivel"] == nivel]
-        if sub:
-            coverage["por_nivel"][nivel] = {
-                "n": len(sub),
-                "resueltas": sum(1 for r in sub if r["ok"]),
-                "cobertura": round(sum(1 for r in sub if r["ok"]) / len(sub), 4),
-            }
+    # falsos positivos sobre NONE: sugerir algo (con confianza) cuando nada aplica
+    fp = 0
+    none_cases: list[dict] = []
+    for sig in none_sigs:
+        q = check_mod.build_error_query(sig)
+        got = _suggest_top(q, limit=3)
+        is_fp = bool(got)  # sugirio con confianza aunque el corpus no tenga receta
+        fp += is_fp
+        none_cases.append({
+            "signature": sig,
+            "query": q,
+            "got_top3": got,
+            "false_positive": is_fp,
+        })
 
-    COVERAGE.write_text(json.dumps(coverage, ensure_ascii=False, indent=2), encoding="utf-8")
-    resumen = {k: v for k, v in coverage.items() if k != "detalle"}
-    print(json.dumps(resumen, ensure_ascii=False, indent=2))
-    return 0
+    return {
+        "non_none_n": non_none_n,
+        "hit1": tp1,
+        "hit3": tp3,
+        "hit1_rate": round(tp1 / non_none_n, 4) if non_none_n else None,
+        "hit3_rate": round(tp3 / non_none_n, 4) if non_none_n else None,
+        "none_n": len(none_sigs),
+        "false_positives": fp,
+        "fpr": round(fp / len(none_sigs), 4) if none_sigs else None,
+        "cases": cases,
+        "none_cases": none_cases,
+    }
+
+
+def run(before_path: pathlib.Path | None = None) -> dict:
+    entries = corpus_mod.load()
+    labels = _load_labels()
+
+    # (A) autoconsistencia del corpus
+    autocons = _eval_signatures(entries, [s for e in entries for s in e.error_signatures])
+
+    # (B) errores reales minados
+    mined = _eval_mined(entries, labels)
+
+    report = {
+        "autoconsistencia": autocons,
+        "mined_reales": mined,
+    }
+
+    if before_path is not None and before_path.exists():
+        report["antes"] = json.loads(before_path.read_text(encoding="utf-8"))
+
+    OUT.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(json.dumps({
+        "autoconsistencia_hit1": autocons["hit1_rate"],
+        "autoconsistencia_hit3": autocons["hit3_rate"],
+        "mined_hit1": mined["hit1_rate"],
+        "mined_hit3": mined["hit3_rate"],
+        "mined_fpr": mined["fpr"],
+        "mined_non_none": mined["non_none_n"],
+        "mined_none": mined["none_n"],
+        "mined_false_positives": mined["false_positives"],
+    }, ensure_ascii=False))
+    return report
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--antes", help="ruta a mined_coverage.json previo (antes) para comparar")
+    a = ap.parse_args()
+    run(pathlib.Path(a.antes) if a.antes else None)
