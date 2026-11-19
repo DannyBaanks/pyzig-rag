@@ -1,0 +1,803 @@
+{
+  "autoconsistencia": {
+    "total": 13,
+    "hit1": 9,
+    "hit3": 12,
+    "hit1_rate": 0.6923,
+    "hit3_rate": 0.9231,
+    "cases": [
+      {
+        "operation_id": "zig0.16/migrate-readfilealloc",
+        "signature": "error: root source file struct 'fs' has no member named 'cwd'",
+        "query": "error: root source file struct 'fs' has no member named 'cwd'",
+        "got_top3": [
+          "zig0.16/migrate-writefile",
+          "zig0.16/migrate-readfilealloc",
+          "zig0.16/migrate-stdout-writer"
+        ],
+        "hit1": false,
+        "hit3": true
+      },
+      {
+        "operation_id": "zig0.16/migrate-readfilealloc",
+        "signature": "error: member function expected 4 argument(s), found 3",
+        "query": "error: member function expected 4 argument(s), found 3",
+        "got_top3": [
+          "zig0.16/migrate-arraylist-unmanaged",
+          "zig0.16/migrate-readfilealloc"
+        ],
+        "hit1": false,
+        "hit3": true
+      },
+      {
+        "operation_id": "zig0.16/migrate-writefile",
+        "signature": "error: root source file struct 'fs' has no member named 'cwd'",
+        "query": "error: root source file struct 'fs' has no member named 'cwd'",
+        "got_top3": [
+          "zig0.16/migrate-writefile",
+          "zig0.16/migrate-readfilealloc",
+          "zig0.16/migrate-stdout-writer"
+        ],
+        "hit1": true,
+        "hit3": true
+      },
+      {
+        "operation_id": "zig0.16/migrate-stdout-writer",
+        "signature": "error: root source file struct 'std' has no member named 'io'",
+        "query": "error: root source file struct 'std' has no member named 'io'",
+        "got_top3": [
+          "zig0.16/migrate-readfilealloc",
+          "zig0.16/migrate-writefile",
+          "zig0.16/migrate-stdout-writer"
+        ],
+        "hit1": false,
+        "hit3": true
+      },
+      {
+        "operation_id": "zig0.16/migrate-stdout-writer",
+        "signature": "error: root source file struct 'fs' has no member named 'File'",
+        "query": "error: root source file struct 'fs' has no member named 'File'",
+        "got_top3": [
+          "zig0.16/migrate-writefile",
+          "zig0.16/migrate-readfilealloc",
+          "zig0.16/walk-tree-files"
+        ],
+        "hit1": false,
+        "hit3": false
+      },
+      {
+        "operation_id": "zig0.16/migrate-arraylist-unmanaged",
+        "signature": "error: struct 'array_list.Aligned(u32,null)' has no member named 'init'",
+        "query": "error: struct 'array_list.Aligned(u32,null)' has no member named 'init'",
+        "got_top3": [
+          "zig0.16/migrate-arraylist-unmanaged",
+          "zig0.16/list-append-pop-insert",
+          "zig0.16/migrate-thread-mutex"
+        ],
+        "hit1": true,
+        "hit3": true
+      },
+      {
+        "operation_id": "zig0.16/migrate-arraylist-unmanaged",
+        "signature": "error: struct 'array_list.Aligned(u8,null)' has no member named 'init'",
+        "query": "error: struct 'array_list.Aligned(u8,null)' has no member named 'init'",
+        "got_top3": [
+          "zig0.16/migrate-arraylist-unmanaged",
+          "zig0.16/list-append-pop-insert",
+          "zig0.16/migrate-stdout-writer"
+        ],
+        "hit1": true,
+        "hit3": true
+      },
+      {
+        "operation_id": "zig0.16/migrate-arraylist-unmanaged",
+        "signature": "error: member function expected 2 argument(s), found 1",
+        "query": "error: member function expected 2 argument(s), found 1",
+        "got_top3": [
+          "zig0.16/migrate-arraylist-unmanaged",
+          "zig0.16/migrate-readfilealloc"
+        ],
+        "hit1": true,
+        "hit3": true
+      },
+      {
+        "operation_id": "zig0.16/migrate-type-builtin",
+        "signature": "error: invalid builtin function: '@Type'",
+        "query": "error: invalid builtin function: '@Type'",
+        "got_top3": [
+          "zig0.16/migrate-type-builtin",
+          "zig0.16/ffi-extern-c-function",
+          "zig0.16/random-prng-ops"
+        ],
+        "hit1": true,
+        "hit3": true
+      },
+      {
+        "operation_id": "zig0.16/migrate-child-run",
+        "signature": "error: root source file struct 'process.Child' has no member named 'run'",
+        "query": "error: root source file struct 'process.Child' has no member named 'run'",
+        "got_top3": [
+          "zig0.16/migrate-child-run",
+          "zig0.16/migrate-writefile",
+          "zig0.16/spawn-redirect-child"
+        ],
+        "hit1": true,
+        "hit3": true
+      },
+      {
+        "operation_id": "zig0.16/migrate-time-sleep",
+        "signature": "error: root source file struct 'time' has no member named 'sleep'",
+        "query": "error: root source file struct 'time' has no member named 'sleep'",
+        "got_top3": [
+          "zig0.16/migrate-time-sleep",
+          "zig0.16/migrate-writefile",
+          "zig0.16/sleep-ms"
+        ],
+        "hit1": true,
+        "hit3": true
+      },
+      {
+        "operation_id": "zig0.16/migrate-time-sleep",
+        "signature": "error: root source file struct 'Thread' has no member named 'sleep'",
+        "query": "error: root source file struct 'Thread' has no member named 'sleep'",
+        "got_top3": [
+          "zig0.16/migrate-time-sleep",
+          "zig0.16/migrate-thread-mutex",
+          "zig0.16/migrate-writefile"
+        ],
+        "hit1": true,
+        "hit3": true
+      },
+      {
+        "operation_id": "zig0.16/migrate-thread-mutex",
+        "signature": "error: root source file struct 'Thread' has no member named 'Mutex'",
+        "query": "error: root source file struct 'Thread' has no member named 'Mutex'",
+        "got_top3": [
+          "zig0.16/migrate-thread-mutex",
+          "zig0.16/migrate-writefile",
+          "zig0.16/migrate-readfilealloc"
+        ],
+        "hit1": true,
+        "hit3": true
+      }
+    ]
+  },
+  "mined_reales": {
+    "non_none_n": 11,
+    "hit1": 2,
+    "hit3": 6,
+    "hit1_rate": 0.1818,
+    "hit3_rate": 0.5455,
+    "none_n": 56,
+    "false_positives": 38,
+    "fpr": 0.6786,
+    "cases": [
+      {
+        "signature": "root source file struct '_' has no member named '_'",
+        "label": "zig0.16/migrate-readfilealloc",
+        "expected_corpus": [],
+        "query": "root source file struct '_' has no member named '_'",
+        "got_top3": [
+          "zig0.16/walk-tree-files",
+          "zig0.16/path-join-basename-ext",
+          "zig0.16/migrate-writefile"
+        ],
+        "hit1": false,
+        "hit3": false
+      },
+      {
+        "signature": "invalid builtin function: '_'",
+        "label": "zig0.16/migrate-type-builtin",
+        "expected_corpus": [
+          "zig0.16/migrate-type-builtin"
+        ],
+        "query": "invalid builtin function: '_'",
+        "got_top3": [
+          "zig0.16/migrate-type-builtin"
+        ],
+        "hit1": true,
+        "hit3": true
+      },
+      {
+        "signature": "root source file struct 'Thread' has no member named 'sleep'",
+        "label": "zig0.16/migrate-time-sleep",
+        "expected_corpus": [
+          "zig0.16/migrate-time-sleep"
+        ],
+        "query": "root source file struct 'Thread' has no member named 'sleep'",
+        "got_top3": [
+          "zig0.16/sleep-ms",
+          "zig0.16/thread-shared-counter",
+          "zig0.16/migrate-time-sleep"
+        ],
+        "hit1": false,
+        "hit3": true
+      },
+      {
+        "signature": "root source file struct 'fs' has no member named 'cwd'",
+        "label": "zig0.16/migrate-readfilealloc",
+        "expected_corpus": [
+          "zig0.16/migrate-readfilealloc",
+          "zig0.16/migrate-writefile"
+        ],
+        "query": "root source file struct 'fs' has no member named 'cwd'",
+        "got_top3": [
+          "zig0.16/migrate-writefile",
+          "zig0.16/migrate-readfilealloc",
+          "zig0.16/migrate-stdout-writer"
+        ],
+        "hit1": true,
+        "hit3": true
+      },
+      {
+        "signature": "struct 'array_list._(uN,null)' has no member named '_'",
+        "label": "zig0.16/migrate-arraylist-unmanaged",
+        "expected_corpus": [],
+        "query": "struct 'array_list._(uN,null)' has no member named '_'",
+        "got_top3": [
+          "zig0.16/list-append-pop-insert",
+          "zig0.16/migrate-arraylist-unmanaged",
+          "zig0.16/migrate-time-sleep"
+        ],
+        "hit1": false,
+        "hit3": false
+      },
+      {
+        "signature": "member function expected N argument(s), found N",
+        "label": "zig0.16/migrate-readfilealloc",
+        "expected_corpus": [],
+        "query": "member function expected N argument(s), found N",
+        "got_top3": [
+          "zig0.16/migrate-readfilealloc",
+          "zig0.16/migrate-arraylist-unmanaged"
+        ],
+        "hit1": false,
+        "hit3": false
+      },
+      {
+        "signature": "root source file struct 'Thread' has no member named 'Mutex'",
+        "label": "zig0.16/migrate-thread-mutex",
+        "expected_corpus": [
+          "zig0.16/migrate-thread-mutex"
+        ],
+        "query": "root source file struct 'Thread' has no member named 'Mutex'",
+        "got_top3": [
+          "zig0.16/thread-shared-counter",
+          "zig0.16/migrate-thread-mutex",
+          "zig0.16/migrate-time-sleep"
+        ],
+        "hit1": false,
+        "hit3": true
+      },
+      {
+        "signature": "root source file struct 'process.Child' has no member named 'run'",
+        "label": "zig0.16/migrate-child-run",
+        "expected_corpus": [
+          "zig0.16/migrate-child-run"
+        ],
+        "query": "root source file struct 'process.Child' has no member named 'run'",
+        "got_top3": [
+          "zig0.16/makedirs-exist-ok",
+          "zig0.16/migrate-child-run",
+          "zig0.16/migrate-writefile"
+        ],
+        "hit1": false,
+        "hit3": true
+      },
+      {
+        "signature": "root source file struct 'std' has no member named 'io'",
+        "label": "zig0.16/migrate-stdout-writer",
+        "expected_corpus": [
+          "zig0.16/migrate-stdout-writer"
+        ],
+        "query": "root source file struct 'std' has no member named 'io'",
+        "got_top3": [
+          "zig0.16/read-file-text-limited",
+          "zig0.16/file-exists-vs-error",
+          "zig0.16/migrate-readfilealloc"
+        ],
+        "hit1": false,
+        "hit3": false
+      },
+      {
+        "signature": "root source file struct 'time' has no member named 'sleep'",
+        "label": "zig0.16/migrate-time-sleep",
+        "expected_corpus": [
+          "zig0.16/migrate-time-sleep"
+        ],
+        "query": "root source file struct 'time' has no member named 'sleep'",
+        "got_top3": [
+          "zig0.16/sleep-ms",
+          "zig0.16/monotonic-duration-measure",
+          "zig0.16/migrate-time-sleep"
+        ],
+        "hit1": false,
+        "hit3": true
+      },
+      {
+        "signature": "root source file struct 'fs' has no member named 'File'",
+        "label": "zig0.16/migrate-stdout-writer",
+        "expected_corpus": [
+          "zig0.16/migrate-stdout-writer"
+        ],
+        "query": "root source file struct 'fs' has no member named 'File'",
+        "got_top3": [
+          "zig0.16/walk-tree-files",
+          "zig0.16/file-exists-vs-error",
+          "zig0.16/read-file-text-limited"
+        ],
+        "hit1": false,
+        "hit3": false
+      }
+    ],
+    "none_cases": [
+      {
+        "signature": "dependency on libc must be explicitly specified in the build command",
+        "query": "dependency on libc must be explicitly specified in the build command",
+        "got_top3": [
+          "zig0.16/ffi-extern-c-function"
+        ],
+        "false_positive": true
+      },
+      {
+        "signature": "evaluation exceeded N backwards branches",
+        "query": "evaluation exceeded N backwards branches",
+        "got_top3": [],
+        "false_positive": false
+      },
+      {
+        "signature": "local variable is never mutated",
+        "query": "local variable is never mutated",
+        "got_top3": [
+          "zig0.16/thread-spawn-join"
+        ],
+        "false_positive": true
+      },
+      {
+        "signature": "use of undeclared identifier '_'",
+        "query": "use of undeclared identifier '_'",
+        "got_top3": [],
+        "false_positive": false
+      },
+      {
+        "signature": "local constant shadows declaration of '_'",
+        "query": "local constant shadows declaration of '_'",
+        "got_top3": [],
+        "false_positive": false
+      },
+      {
+        "signature": "local variable shadows declaration of '_'",
+        "query": "local variable shadows declaration of '_'",
+        "got_top3": [
+          "zig0.16/thread-spawn-join"
+        ],
+        "false_positive": true
+      },
+      {
+        "signature": "expected type '_', found '_'",
+        "query": "expected type '_', found '_'",
+        "got_top3": [
+          "zig0.16/http-client-get-local",
+          "zig0.16/migrate-arraylist-unmanaged",
+          "zig0.16/migrate-readfilealloc"
+        ],
+        "false_positive": true
+      },
+      {
+        "signature": "unable to resolve comptime value",
+        "query": "unable to resolve comptime value",
+        "got_top3": [
+          "zig0.16/epoch-now-seconds",
+          "zig0.16/monotonic-duration-measure",
+          "zig0.16/sleep-ms"
+        ],
+        "false_positive": true
+      },
+      {
+        "signature": "name shadows primitive '_'",
+        "query": "name shadows primitive '_'",
+        "got_top3": [],
+        "false_positive": false
+      },
+      {
+        "signature": "unable to evaluate comptime expression",
+        "query": "unable to evaluate comptime expression",
+        "got_top3": [
+          "zig0.16/sleep-ms"
+        ],
+        "false_positive": true
+      },
+      {
+        "signature": "redundant comptime keyword in already comptime scope",
+        "query": "redundant comptime keyword in already comptime scope",
+        "got_top3": [],
+        "false_positive": false
+      },
+      {
+        "signature": "dependency on dynamic library '_' requires enabling Position Independent Code; fixed by '_' or '_'",
+        "query": "dependency on dynamic library '_' requires enabling Position Independent Code; fixed by '_' or '_'",
+        "got_top3": [],
+        "false_positive": false
+      },
+      {
+        "signature": "invalid constraint: '_'",
+        "query": "invalid constraint: '_'",
+        "got_top3": [
+          "zig0.16/utf8-codepoints-validate",
+          "zig0.16/parse-int-base-overflow",
+          "zig0.16/migrate-type-builtin"
+        ],
+        "false_positive": true
+      },
+      {
+        "signature": "@ptrCast discards const qualifier",
+        "query": "@ptrCast discards const qualifier",
+        "got_top3": [],
+        "false_positive": false
+      },
+      {
+        "signature": "no field or member function named '_' in '_'",
+        "query": "no field or member function named '_' in '_'",
+        "got_top3": [
+          "zig0.16/migrate-readfilealloc",
+          "zig0.16/migrate-arraylist-unmanaged",
+          "zig0.16/migrate-time-sleep"
+        ],
+        "false_positive": true
+      },
+      {
+        "signature": "redundant inline keyword in comptime scope",
+        "query": "redundant inline keyword in comptime scope",
+        "got_top3": [],
+        "false_positive": false
+      },
+      {
+        "signature": "use of undeclared identifier 'builtin'",
+        "query": "use of undeclared identifier 'builtin'",
+        "got_top3": [],
+        "false_positive": false
+      },
+      {
+        "signature": "C import failed",
+        "query": "C import failed",
+        "got_top3": [
+          "zig0.16/ffi-extern-c-function"
+        ],
+        "false_positive": true
+      },
+      {
+        "signature": "capture shadows declaration of '_'",
+        "query": "capture shadows declaration of '_'",
+        "got_top3": [],
+        "false_positive": false
+      },
+      {
+        "signature": "expected integer or vector, found '[N]uN'",
+        "query": "expected integer or vector, found '[N]uN'",
+        "got_top3": [
+          "zig0.16/random-prng-ops",
+          "zig0.16/migrate-readfilealloc",
+          "zig0.16/migrate-arraylist-unmanaged"
+        ],
+        "false_positive": true
+      },
+      {
+        "signature": "expected type 'uN', found 'uN'",
+        "query": "expected type 'uN', found 'uN'",
+        "got_top3": [
+          "zig0.16/http-client-get-local",
+          "zig0.16/migrate-arraylist-unmanaged",
+          "zig0.16/migrate-readfilealloc"
+        ],
+        "false_positive": true
+      },
+      {
+        "signature": "function parameter shadows declaration of 'fmt'",
+        "query": "function parameter shadows declaration of 'fmt'",
+        "got_top3": [],
+        "false_positive": false
+      },
+      {
+        "signature": "import of file outside module path",
+        "query": "import of file outside module path",
+        "got_top3": [
+          "zig0.16/file-exists-vs-error",
+          "zig0.16/path-join-basename-ext",
+          "zig0.16/read-file-text-limited"
+        ],
+        "false_positive": true
+      },
+      {
+        "signature": "no module named '_' available within module '_'",
+        "query": "no module named '_' available within module '_'",
+        "got_top3": [],
+        "false_positive": false
+      },
+      {
+        "signature": "redeclaration of local constant '_'",
+        "query": "redeclaration of local constant '_'",
+        "got_top3": [],
+        "false_positive": false
+      },
+      {
+        "signature": "value with comptime-only type 'comptime_int' depends on runtime control flow",
+        "query": "value with comptime-only type 'comptime_int' depends on runtime control flow",
+        "got_top3": [],
+        "false_positive": false
+      },
+      {
+        "signature": "vector index not comptime known",
+        "query": "vector index not comptime known",
+        "got_top3": [
+          "zig0.16/list-append-pop-insert",
+          "zig0.16/migrate-type-builtin"
+        ],
+        "false_positive": true
+      },
+      {
+        "signature": "@bitCast size mismatch: destination type 'uN' has N bits but source type 'iN' has N bits",
+        "query": "@bitCast size mismatch: destination type 'uN' has N bits but source type 'iN' has N bits",
+        "got_top3": [
+          "zig0.16/migrate-type-builtin"
+        ],
+        "false_positive": true
+      },
+      {
+        "signature": "@bitCast size mismatch: destination type 'uN' has N bits but source type 'uN' has N bits",
+        "query": "@bitCast size mismatch: destination type 'uN' has N bits but source type 'uN' has N bits",
+        "got_top3": [
+          "zig0.16/migrate-type-builtin"
+        ],
+        "false_positive": true
+      },
+      {
+        "signature": "COM object _._ must keep vtbl at offset N",
+        "query": "COM object _._ must keep vtbl at offset N",
+        "got_top3": [],
+        "false_positive": false
+      },
+      {
+        "signature": "cannot implicitly convert many pointer to single pointer",
+        "query": "cannot implicitly convert many pointer to single pointer",
+        "got_top3": [],
+        "false_positive": false
+      },
+      {
+        "signature": "coercion from enum '@_(builtin._).@\\\"union\\\"._.?' to union 'builtin._' must initialize 'builtin._._' field '_'",
+        "query": "coercion from enum '@_(builtin._).@\\\"union\\\"._.?' to union 'builtin._' must initialize 'builtin._._' field '_'",
+        "got_top3": [
+          "zig0.16/ffi-extern-c-function",
+          "zig0.16/migrate-type-builtin"
+        ],
+        "false_positive": true
+      },
+      {
+        "signature": "duplicate struct member name '_'",
+        "query": "duplicate struct member name '_'",
+        "got_top3": [
+          "zig0.16/json-loads-typed-struct",
+          "zig0.16/ffi-extern-c-function",
+          "zig0.16/migrate-readfilealloc"
+        ],
+        "false_positive": true
+      },
+      {
+        "signature": "duplicate struct member name 'std'",
+        "query": "duplicate struct member name 'std'",
+        "got_top3": [
+          "zig0.16/migrate-readfilealloc",
+          "zig0.16/migrate-arraylist-unmanaged",
+          "zig0.16/migrate-thread-mutex"
+        ],
+        "false_positive": true
+      },
+      {
+        "signature": "enum '_' has no member named '_'",
+        "query": "enum '_' has no member named '_'",
+        "got_top3": [
+          "zig0.16/migrate-arraylist-unmanaged",
+          "zig0.16/migrate-writefile",
+          "zig0.16/migrate-type-builtin"
+        ],
+        "false_positive": true
+      },
+      {
+        "signature": "error union is ignored",
+        "query": "error union is ignored",
+        "got_top3": [
+          "zig0.16/migrate-type-builtin",
+          "zig0.16/json-loads-dynamic"
+        ],
+        "false_positive": true
+      },
+      {
+        "signature": "expected '_', found 'resume'",
+        "query": "expected '_', found 'resume'",
+        "got_top3": [
+          "zig0.16/migrate-arraylist-unmanaged",
+          "zig0.16/migrate-readfilealloc"
+        ],
+        "false_positive": true
+      },
+      {
+        "signature": "expected signed integer type, found 'uN'",
+        "query": "expected signed integer type, found 'uN'",
+        "got_top3": [
+          "zig0.16/random-prng-ops",
+          "zig0.16/migrate-type-builtin",
+          "zig0.16/http-client-get-local"
+        ],
+        "false_positive": true
+      },
+      {
+        "signature": "expected type '*const fn (_, _, _, _, _, _, _, _, _) callconv(.{ ._ = .{ ._ = null } }) _', found '*const fn (_, ?*uN) callconv(.{ ._ = .{ ._ = null } }) _'",
+        "query": "expected type '*const fn (_, _, _, _, _, _, _, _, _) callconv(.{ ._ = .{ ._ = null } }) _', found '*const fn (_, ?*uN) callconv(.{ ._ = .{ ._ = null } }) _'",
+        "got_top3": [
+          "zig0.16/http-client-get-local",
+          "zig0.16/migrate-type-builtin",
+          "zig0.16/random-prng-ops"
+        ],
+        "false_positive": true
+      },
+      {
+        "signature": "expected type '?[*:N]const uN', found '*const [:N]const uN'",
+        "query": "expected type '?[*:N]const uN', found '*const [:N]const uN'",
+        "got_top3": [
+          "zig0.16/http-client-get-local",
+          "zig0.16/migrate-arraylist-unmanaged",
+          "zig0.16/migrate-readfilealloc"
+        ],
+        "false_positive": true
+      },
+      {
+        "signature": "expected type '?uN', found '?uN'",
+        "query": "expected type '?uN', found '?uN'",
+        "got_top3": [
+          "zig0.16/file-exists-vs-error",
+          "zig0.16/http-client-get-local",
+          "zig0.16/migrate-arraylist-unmanaged"
+        ],
+        "false_positive": true
+      },
+      {
+        "signature": "expected type '[*]os._._', found '*os._._'",
+        "query": "expected type '[*]os._._', found '*os._._'",
+        "got_top3": [
+          "zig0.16/path-join-basename-ext",
+          "zig0.16/http-client-get-local",
+          "zig0.16/migrate-arraylist-unmanaged"
+        ],
+        "false_positive": true
+      },
+      {
+        "signature": "expected type 'error{_,_,_}!iN', found 'error{_,_,_,_,_,_,_,_,_,_,_,_}'",
+        "query": "expected type 'error{_,_,_}!iN', found 'error{_,_,_,_,_,_,_,_,_,_,_,_}'",
+        "got_top3": [
+          "zig0.16/json-loads-typed-struct",
+          "zig0.16/file-exists-vs-error",
+          "zig0.16/json-invalid-input-error"
+        ],
+        "false_positive": true
+      },
+      {
+        "signature": "expected type 'error{_,_,_}!usize', found 'error{_,_,_,_,_,_,_,_,_,_,_,_}'",
+        "query": "expected type 'error{_,_,_}!usize', found 'error{_,_,_,_,_,_,_,_,_,_,_,_}'",
+        "got_top3": [
+          "zig0.16/utf8-codepoints-validate",
+          "zig0.16/read-file-text-limited",
+          "zig0.16/argparse-flags-parse"
+        ],
+        "false_positive": true
+      },
+      {
+        "signature": "expected type 'isize', found 'uN'",
+        "query": "expected type 'isize', found 'uN'",
+        "got_top3": [
+          "zig0.16/migrate-readfilealloc",
+          "zig0.16/migrate-type-builtin",
+          "zig0.16/http-client-get-local"
+        ],
+        "false_positive": true
+      },
+      {
+        "signature": "expected type 'os._._(c_int)', found 'iN'",
+        "query": "expected type 'os._._(c_int)', found 'iN'",
+        "got_top3": [
+          "zig0.16/http-client-get-local",
+          "zig0.16/migrate-arraylist-unmanaged",
+          "zig0.16/migrate-readfilealloc"
+        ],
+        "false_positive": true
+      },
+      {
+        "signature": "function parameter shadows declaration of '_'",
+        "query": "function parameter shadows declaration of '_'",
+        "got_top3": [],
+        "false_positive": false
+      },
+      {
+        "signature": "missing struct field: _",
+        "query": "missing struct field: _",
+        "got_top3": [
+          "zig0.16/json-loads-typed-struct",
+          "zig0.16/migrate-type-builtin"
+        ],
+        "false_positive": true
+      },
+      {
+        "signature": "no field or member function named 'format' in '[]const uN'",
+        "query": "no field or member function named 'format' in '[]const uN'",
+        "got_top3": [
+          "zig0.16/migrate-readfilealloc",
+          "zig0.16/migrate-arraylist-unmanaged",
+          "zig0.16/migrate-time-sleep"
+        ],
+        "false_positive": true
+      },
+      {
+        "signature": "root source file struct 'fs' has no member named 'openDirAbsolute'",
+        "query": "root source file struct 'fs' has no member named 'openDirAbsolute'",
+        "got_top3": [
+          "zig0.16/temp-dir-scoped",
+          "zig0.16/read-file-text-limited",
+          "zig0.16/file-exists-vs-error"
+        ],
+        "false_positive": true
+      },
+      {
+        "signature": "root source file struct 'fs' has no member named 'openFileAbsolute'",
+        "query": "root source file struct 'fs' has no member named 'openFileAbsolute'",
+        "got_top3": [
+          "zig0.16/read-file-text-limited",
+          "zig0.16/migrate-writefile",
+          "zig0.16/migrate-readfilealloc"
+        ],
+        "false_positive": true
+      },
+      {
+        "signature": "root source file struct 'os' has no member named 'argv'",
+        "query": "root source file struct 'os' has no member named 'argv'",
+        "got_top3": [
+          "zig0.16/migrate-writefile",
+          "zig0.16/migrate-child-run",
+          "zig0.16/migrate-time-sleep"
+        ],
+        "false_positive": true
+      },
+      {
+        "signature": "type 'usize' cannot represent integer value 'N'",
+        "query": "type 'usize' cannot represent integer value 'N'",
+        "got_top3": [
+          "zig0.16/parse-int-base-overflow",
+          "zig0.16/random-prng-ops",
+          "zig0.16/migrate-type-builtin"
+        ],
+        "false_positive": true
+      },
+      {
+        "signature": "unable to load '_': FileNotFound",
+        "query": "unable to load '_': FileNotFound",
+        "got_top3": [
+          "zig0.16/json-read-file-limited",
+          "zig0.16/read-file-text-limited",
+          "zig0.16/file-exists-vs-error"
+        ],
+        "false_positive": true
+      },
+      {
+        "signature": "unused local constant",
+        "query": "unused local constant",
+        "got_top3": [],
+        "false_positive": false
+      },
+      {
+        "signature": "value with comptime-only type 'comptime_float' depends on runtime control flow",
+        "query": "value with comptime-only type 'comptime_float' depends on runtime control flow",
+        "got_top3": [
+          "zig0.16/monotonic-duration-measure"
+        ],
+        "false_positive": true
+      }
+    ]
+  }
+}

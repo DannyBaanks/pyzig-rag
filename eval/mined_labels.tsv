@@ -1,0 +1,67 @@
+dependency on libc must be explicitly specified in the build command	NONE
+root source file struct '_' has no member named '_'	zig0.16/migrate-readfilealloc
+evaluation exceeded N backwards branches	NONE
+local variable is never mutated	NONE
+use of undeclared identifier '_'	NONE
+local constant shadows declaration of '_'	NONE
+invalid builtin function: '_'	zig0.16/migrate-type-builtin
+local variable shadows declaration of '_'	NONE
+expected type '_', found '_'	NONE
+unable to resolve comptime value	NONE
+name shadows primitive '_'	NONE
+root source file struct 'Thread' has no member named 'sleep'	zig0.16/migrate-time-sleep
+unable to evaluate comptime expression	NONE
+redundant comptime keyword in already comptime scope	NONE
+dependency on dynamic library '_' requires enabling Position Independent Code; fixed by '_' or '_'	NONE
+invalid constraint: '_'	NONE
+@ptrCast discards const qualifier	NONE
+no field or member function named '_' in '_'	NONE
+redundant inline keyword in comptime scope	NONE
+root source file struct 'fs' has no member named 'cwd'	zig0.16/migrate-readfilealloc
+struct 'array_list._(uN,null)' has no member named '_'	zig0.16/migrate-arraylist-unmanaged
+use of undeclared identifier 'builtin'	NONE
+C import failed	NONE
+capture shadows declaration of '_'	NONE
+expected integer or vector, found '[N]uN'	NONE
+expected type 'uN', found 'uN'	NONE
+function parameter shadows declaration of 'fmt'	NONE
+import of file outside module path	NONE
+member function expected N argument(s), found N	zig0.16/migrate-readfilealloc
+no module named '_' available within module '_'	NONE
+redeclaration of local constant '_'	NONE
+root source file struct 'Thread' has no member named 'Mutex'	zig0.16/migrate-thread-mutex
+root source file struct 'process.Child' has no member named 'run'	zig0.16/migrate-child-run
+root source file struct 'std' has no member named 'io'	zig0.16/migrate-stdout-writer
+root source file struct 'time' has no member named 'sleep'	zig0.16/migrate-time-sleep
+value with comptime-only type 'comptime_int' depends on runtime control flow	NONE
+vector index not comptime known	NONE
+@bitCast size mismatch: destination type 'uN' has N bits but source type 'iN' has N bits	NONE
+@bitCast size mismatch: destination type 'uN' has N bits but source type 'uN' has N bits	NONE
+COM object _._ must keep vtbl at offset N	NONE
+cannot implicitly convert many pointer to single pointer	NONE
+coercion from enum '@_(builtin._).@\"union\"._.?' to union 'builtin._' must initialize 'builtin._._' field '_'	NONE
+duplicate struct member name '_'	NONE
+duplicate struct member name 'std'	NONE
+enum '_' has no member named '_'	NONE
+error union is ignored	NONE
+expected '_', found 'resume'	NONE
+expected signed integer type, found 'uN'	NONE
+expected type '*const fn (_, _, _, _, _, _, _, _, _) callconv(.{ ._ = .{ ._ = null } }) _', found '*const fn (_, ?*uN) callconv(.{ ._ = .{ ._ = null } }) _'	NONE
+expected type '?[*:N]const uN', found '*const [:N]const uN'	NONE
+expected type '?uN', found '?uN'	NONE
+expected type '[*]os._._', found '*os._._'	NONE
+expected type 'error{_,_,_}!iN', found 'error{_,_,_,_,_,_,_,_,_,_,_,_}'	NONE
+expected type 'error{_,_,_}!usize', found 'error{_,_,_,_,_,_,_,_,_,_,_,_}'	NONE
+expected type 'isize', found 'uN'	NONE
+expected type 'os._._(c_int)', found 'iN'	NONE
+function parameter shadows declaration of '_'	NONE
+missing struct field: _	NONE
+no field or member function named 'format' in '[]const uN'	NONE
+root source file struct 'fs' has no member named 'File'	zig0.16/migrate-stdout-writer
+root source file struct 'fs' has no member named 'openDirAbsolute'	NONE
+root source file struct 'fs' has no member named 'openFileAbsolute'	NONE
+root source file struct 'os' has no member named 'argv'	NONE
+type 'usize' cannot represent integer value 'N'	NONE
+unable to load '_': FileNotFound	NONE
+unused local constant	NONE
+value with comptime-only type 'comptime_float' depends on runtime control flow	NONE
