@@ -697,17 +697,30 @@ def covered(api: str, corpus_apis, mined_sigs=()) -> bool:
 
 
 def annotate_coverage(records: list[dict], cov: CorpusCoverage) -> None:
-    """Anade `covered_by` (operation_ids) a cada firma, sin tocar su texto normalizado."""
+    """Anade `covered_by` (operation_ids) a cada firma, sin tocar su texto normalizado.
+
+    Una firma solo queda cubierta por (a) emparejamiento de su texto normalizado con
+    una `error_signatures` del corpus, o (b) APIs fuertes: las que el mensaje del
+    compilador nombra (`apis_msg`) o las que anadio la edicion que arreglo el error
+    (`fix_added_apis`). Las APIs de `apis` (linea de codigo bajo el error) solo
+    comparten contexto: se guardan en `context_ops`, pero no cuentan como cobertura.
+    """
     for r in records:
         ops = set()
         op = cov.locate("", [r["signature"]])
         if op:
             ops.add(op)
-        for a in list(r["apis"]) + list(r["apis_msg"]) + list(r["fix_added_apis"]):
+        for a in list(r["apis_msg"]) + list(r["fix_added_apis"]):
             op = cov.locate(a)
             if op:
                 ops.add(op)
         r["covered_by"] = sorted(ops)
+        context_ops = set()
+        for a in r["apis"]:
+            op = cov.locate(a)
+            if op:
+                context_ops.add(op)
+        r["context_ops"] = sorted(context_ops - ops)
 
 
 def candidates(records: list[dict], cov: CorpusCoverage, limit: int = 15) -> list[dict]:
@@ -740,8 +753,8 @@ def write_report(out_dir: Path, records: list[dict], cands: list[dict], meta: di
     for k, v in meta.items():
         lines.append(f"- {k}: {v}")
     lines += ["", "## Top 30 firmas", "",
-              "| # | firma | n | sesiones | APIs | ediciones siguientes (antes -> despues) | operation_id que la cubre |",
-              "|---|---|---|---|---|---|---|"]
+              "| # | firma | n | sesiones | APIs | ediciones siguientes (antes -> despues) | operation_id que la cubre | solo comparte API de contexto (no cubre) |",
+              "|---|---|---|---|---|---|---|---|"]
     for i, r in enumerate(records[:30], 1):
         apis = ", ".join(f"`{a}`" for a in r["apis"][:3]) or "-"
         rem = ", ".join(r["fix_removed_apis"][:2])
@@ -749,12 +762,14 @@ def write_report(out_dir: Path, records: list[dict], cands: list[dict], meta: di
         fix = f"{rem or '-'} -> {add or '-'} ({r['fix_edits']} ed., {r['fix_then_compiled']} compilan)" if r["fix_edits"] else "-"
         sig = r["signature"].replace("|", "\\|")
         ops = ", ".join(f"`{o}`" for o in r.get("covered_by", [])) or "-"
-        lines.append(f"| {i} | `{sig}` | {r['count']} | {r['sessions']} | {apis} | {fix} | {ops} |")
+        ctx = ", ".join(f"`{o}`" for o in r.get("context_ops", [])) or "-"
+        lines.append(f"| {i} | `{sig}` | {r['count']} | {r['sessions']} | {apis} | {fix} | {ops} | {ctx} |")
     lines += ["", "## 15 recetas candidatas", "",
-              "Ordenadas: primero las NO cubiertas por el corpus, luego las que el propio mensaje del compilador o el arreglo nombran (`mensaje/fix`; `contexto` = solo aparecen en la linea de codigo del error), luego por sesiones distintas. La cobertura incluye `apis_used`, `aliases`, el texto de `error_signatures` y el emparejamiento de firmas normalizadas.", "",
+              "Ordenadas: primero las NO cubiertas por el corpus, luego las que el propio mensaje del compilador o el arreglo nombran (`arregla el error`; `usa la API` = solo aparece en la linea de codigo del error), luego por sesiones distintas. En esta tabla la cobertura es POR API (`apis_used`, `aliases`, texto de `error_signatures`); en la tabla de firmas, en cambio, solo cuenta el emparejamiento de la firma o una API fuerte del mensaje/fix.", "",
               "| # | API | sesiones (suma) | firmas | evidencia | cubierta por el corpus | operation_id |", "|---|---|---|---|---|---|---|"]
     for i, c in enumerate(cands, 1):
-        lines.append(f"| {i} | `{c['api']}` | {c['sessions']} | {c['sigs']} | {'mensaje/fix' if c['strong'] else 'contexto'} | {'si' if c['covered'] else 'NO'} | {c.get('covered_by') or '-'} |")
+        evidencia = "arregla el error" if c["strong"] else "usa la API"
+        lines.append(f"| {i} | `{c['api']}` | {c['sessions']} | {c['sigs']} | {evidencia} | {'si' if c['covered'] else 'NO'} | {c.get('covered_by') or '-'} |")
     lines.append("")
     (out_dir / "report.md").write_text("\n".join(lines), encoding="utf-8")
 

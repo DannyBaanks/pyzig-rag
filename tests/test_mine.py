@@ -237,6 +237,47 @@ class MineTest(unittest.TestCase):
             self.assertTrue(cands)
             self.assertIn("migrate-readfilealloc", cands[0])
 
+    def test_context_api_does_not_cover_signature(self):
+        """Una API solo de la linea de codigo no arregla el error: context_ops, no covered_by."""
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            claude = tmp / "claude"
+            claude.mkdir()
+            err = (
+                "/work/x.zig:9:1: error: use of undeclared identifier 'cosaPrivada'\n"
+                "    try std.mem.eql(u8, a, b);\n"
+                "/work/x.zig:10:1: error: expected type 'std.mem.Allocator', found Foo.Bar\n"
+                "    const y = 1;\n"
+            )
+            write_jsonl(claude / "s1.jsonl", [
+                {"type": "assistant", "message": {"content": [
+                    {"type": "tool_use", "id": "t1", "name": "Bash",
+                     "input": {"command": "zig test x.zig"}}]}},
+                {"type": "user", "message": {"content": [
+                    {"type": "tool_result", "tool_use_id": "t1", "content": err}]}},
+            ])
+            corpus = tmp / "corpus.jsonl"
+            write_jsonl(corpus, [
+                {"operation_id": "zig0.16/solo-contexto", "apis_used": ["std.mem.eql"],
+                 "aliases": [], "error_signatures": ["error: otro error distinto"]},
+                {"operation_id": "zig0.16/api-fuerte", "apis_used": ["std.mem.Allocator"],
+                 "aliases": [], "error_signatures": ["error: otro error distinto"]},
+            ])
+            rc, out, _blob, meta = run_mine(tmp, claude=claude, corpus=corpus)
+            self.assertEqual(rc, 0)
+            sigs = {s["signature"]: s for s in
+                    (json.loads(l) for l in (out / "signatures.jsonl").read_text().splitlines())}
+            debil = sigs["use of undeclared identifier '_'"]
+            self.assertEqual(debil["apis"], ["std.mem.eql"])
+            self.assertEqual(debil["apis_msg"], [])
+            self.assertEqual(debil["covered_by"], [])
+            self.assertEqual(debil["context_ops"], ["zig0.16/solo-contexto"])
+            fuerte = sigs["expected type 'std.mem.Allocator', found _._"]
+            self.assertEqual(fuerte["covered_by"], ["zig0.16/api-fuerte"])
+            self.assertEqual(meta["firmas con operation_id"], 1)
+            for forbidden in FORBIDDEN:
+                self.assertNotIn(forbidden, (out / "signatures.jsonl").read_text(encoding="utf-8"))
+
     @unittest.skipUnless(Path("/usr/bin/zstd").exists(), "zstd requerido para leer .zst")
     def test_codex_zst_streaming_and_unreadable(self):
         with tempfile.TemporaryDirectory() as tmp:
