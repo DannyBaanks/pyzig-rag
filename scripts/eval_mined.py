@@ -28,7 +28,6 @@ from pyzig import check as check_mod
 from pyzig import corpus as corpus_mod
 
 CORPUS = pathlib.Path("corpus/pyzig.corpus.jsonl")
-MINED = pathlib.Path("var/mined/signatures.jsonl")
 LABELS = pathlib.Path("eval/mined_labels.tsv")
 OUT = pathlib.Path("eval/mined_coverage.json")
 
@@ -48,7 +47,7 @@ def _load_labels() -> dict[str, set[str] | None]:
             continue
         parts = line.split("\t")
         if len(parts) != 2:
-            continue
+            raise ValueError(f"{LABELS}: linea mal formada (se esperan 2 campos): {line!r}")
         sig, oid = parts[0].strip(), parts[1].strip()
         labels[sig] = None if oid == "NONE" else {o.strip() for o in oid.split(",") if o.strip()}
     return labels
@@ -61,7 +60,7 @@ def _suggest_top(message: str, limit: int = 3) -> list[str]:
     return [h["operation_id"] for h in hits]
 
 
-def _eval_signatures(entries, signatures: list[str]) -> dict:
+def _eval_signatures(entries) -> dict:
     """(A) autoconsistencia: cada firma del corpus debe recuperar su entrada en top-1."""
     total = 0
     hit1 = 0
@@ -137,7 +136,7 @@ def run(before_path: pathlib.Path | None = None) -> dict:
     labels = _load_labels()
 
     # (A) autoconsistencia del corpus
-    autocons = _eval_signatures(entries, [])
+    autocons = _eval_signatures(entries)
 
     # (B) errores reales minados
     mined = _eval_mined(entries, labels)

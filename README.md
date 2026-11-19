@@ -251,13 +251,16 @@ regenera `scripts/run_eval.py`; no se copian aqui.
   `scripts/run_eval.py --build --models a,b`): ninguno supero al lexical ni a MiniLM
   en P@1 y ambos rechazan peor las negativas, con ~5x latencia y ~2x RAM. MiniLM se queda.
 - **Sugerencias de `pyzig_check`** (`scripts/eval_mined.py` → `eval/mined_coverage.json`):
-  (A) cada `error_signatures` del corpus debe devolver su receta; (B) firmas reales de
+  (A) autoconsistencia/regresion: cada `error_signatures` del corpus debe devolver su
+  receta (tautologico si el emparejador funciona; vigila que no se rompa); (B) firmas reales de
   `var/mined/signatures.jsonl` etiquetadas a mano en `eval/mined_labels.tsv`: hit@1/hit@3
   contra la etiqueta y falsos positivos sobre las `NONE`. El camino es el de `check_zig`
   (`check.suggest_for_message`): primero la firma (plantilla + huecos entre comillas; numeros
   y `uN` normalizados; si la plantilla la comparten varias recetas los huecos deben
   coincidir), si no hay firma y tampoco una API `std.*` anclada se abstiene, y solo entonces
-  busca. Las etiquetas las pone quien escribe el emparejador: conjunto de desarrollo.
+  busca. (B) es *in-sample*: las etiquetas las pone quien escribe el emparejador y varias
+  recetas nacieron de esas mismas firmas; no son cifras de generalizacion. El indice de firmas
+  se carga una vez por proceso: tras cambiar el corpus, reiniciar el servidor MCP.
 - Un `gap` solo sube a top-1 si su cobertura lexica supera a la de toda receta;
   si la receta ASCII documenta la misma diferencia (p. ej. `casefold`), empatan
   y gana la receta. El proximo experimento util es

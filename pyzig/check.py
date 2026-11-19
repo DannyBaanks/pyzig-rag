@@ -439,8 +439,7 @@ _IDENTITY_SLOTS = frozenset({"builtin"})
 
 
 def _norm_text(s: str) -> str:
-    s = re.sub(r"\d+", "N", s)
-    return re.sub(r"\b([uif])N\b", r"\1N", s)
+    return re.sub(r"\d+", "N", s)  # 'u32' -> 'uN', '[4]' -> '[N]'  (como la mineria)
 
 
 def _split_signature(sig: str) -> tuple[str, list[str]]:
@@ -463,7 +462,7 @@ def _slot_matches(msg_slot: str, corpus_slot: str) -> bool | None:
     hueco del mensaje es comodin puro (`_`) y no aporta evidencia."""
     if msg_slot.strip("_") == "":
         return None
-    if "_" not in msg_slot or re.fullmatch(r"[A-Za-z0-9.]+", msg_slot):
+    if "_" not in msg_slot:
         return msg_slot == corpus_slot
     # comodin parcial de la mineria: 'array_list._(uN,null)', 'Build._._'
     parts = re.split(r"(?<![A-Za-z0-9])_(?![A-Za-z0-9])", msg_slot)

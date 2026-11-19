@@ -119,10 +119,16 @@ def validate_build_files(files) -> str | None:
         return "build_files debe ser un dict que incluya build.zig"
     for path, content in files.items():
         p = pathlib.PurePosixPath(path)
-        if not path or p.is_absolute() or ".." in p.parts or not isinstance(content, str):
+        if (not path or p.is_absolute() or ".." in p.parts or "." in path.split("/")
+                or path.endswith("/") or "" in path.split("/") or not isinstance(content, str)):
             return f"ruta o contenido invalido en build_files: {path!r}"
         if _URL_RE.search(content):
             return f"build_files con URL en {path}: el gate no tiene red"
+    for path in files:  # un archivo no puede ser a la vez directorio de otro
+        parents = {str(q) for q in pathlib.PurePosixPath(path).parents}
+        clash = parents & set(files)
+        if clash:
+            return f"build_files: {sorted(clash)[0]!r} es archivo y directorio de {path!r}"
     if _DEP_RE.search(files["build.zig"]):
         return "build.zig declara dependencias (b.dependency): el gate solo admite proyectos sin dependencias"
     return None
@@ -153,10 +159,17 @@ def run_build_project(files: dict, timeout_sec: int = 600) -> dict:
         return {**run, "status": "REJECTED"}
     with tempfile.TemporaryDirectory(prefix="pyzig-build-") as tmp:
         root = pathlib.Path(tmp)
-        for rel, content in files.items():
-            dst = root / rel
-            dst.parent.mkdir(parents=True, exist_ok=True)
-            dst.write_text(content, encoding="utf-8")
+        try:
+            for rel, content in files.items():
+                dst = root / rel
+                dst.parent.mkdir(parents=True, exist_ok=True)
+                dst.write_text(content, encoding="utf-8")
+        except OSError as exc:  # nunca abortar run_gates por una entrada
+            out = f"no se pudo escribir build_files: {exc.__class__.__name__}"
+            run = {"cmd": " ".join(BUILD_CMD), "cwd": BUILD_CWD_LABEL, "exit": None,
+                   "duration_s": 0.0, "stdout_sha256": hashlib.sha256(out.encode()).hexdigest(),
+                   "zig_version": _zig_version(), "observed": out, "skipped_tests": 0}
+            return {**run, "status": "REJECTED"}
         t0 = time.time()
         try:
             p = subprocess.run(BUILD_CMD, cwd=root, capture_output=True, text=True,
