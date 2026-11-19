@@ -16,6 +16,10 @@ REQUIRED = ["operation_id","name","intent","aliases","source_lang","target_lang"
 #: Claves que no entran en el canonico (el hash se calcula sobre el resto).
 CANON_SKIP = ("content_sha256",)
 
+#: Campos opcionales que solo entran en el canonico si estan presentes y no vacios:
+#: una entrada que no los usa tiene exactamente el mismo hash que antes de existir.
+OPTIONAL_HASH_IF_NONEMPTY = ("error_signatures", "gate_mode", "build_files")
+
 @dataclass
 class Entry:
     operation_id: str
@@ -67,7 +71,7 @@ class Entry:
 def canonical(e: dict) -> str:
     """Canonico de una entrada: JSON ordenado, sin `content_sha256`."""
     return json.dumps({k: e.get(k) for k in sorted(e) if k not in CANON_SKIP
-                       and not (k == "error_signatures" and not e.get(k))},
+                       and not (k in OPTIONAL_HASH_IF_NONEMPTY and not e.get(k))},
                       ensure_ascii=False, sort_keys=True)
 
 def content_hash(e: dict) -> str:
@@ -200,7 +204,9 @@ def write_all(entries: list[dict], path: pathlib.Path | None = None,
         prev = old.get(oid)
         if prev is not None:
             same_code = (prev.get("zig_test") == e.get("zig_test")
-                         and prev.get("zig_impl") == e.get("zig_impl"))
+                         and prev.get("zig_impl") == e.get("zig_impl")
+                         and prev.get("build_files") == e.get("build_files")
+                         and prev.get("gate_mode") == e.get("gate_mode"))
             if preserve_evidence and same_code:
                 e["evidence"] = prev.get("evidence", e["evidence"])
             else:
