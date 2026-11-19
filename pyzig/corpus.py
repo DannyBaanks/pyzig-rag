@@ -43,6 +43,9 @@ class Entry:
     evidence: dict
     entry_type: str
     content_sha256: str
+    #: Mensajes `error: ...` reales del compilador que esta receta resuelve
+    #: (recetas de migracion). Opcional; vacio = no entra en el hash canonico.
+    error_signatures: list[str] = field(default_factory=list)
     raw: dict = field(default_factory=dict)
 
     @property
@@ -63,7 +66,8 @@ class Entry:
 
 def canonical(e: dict) -> str:
     """Canonico de una entrada: JSON ordenado, sin `content_sha256`."""
-    return json.dumps({k: e.get(k) for k in sorted(e) if k not in CANON_SKIP},
+    return json.dumps({k: e.get(k) for k in sorted(e) if k not in CANON_SKIP
+                       and not (k == "error_signatures" and not e.get(k))},
                       ensure_ascii=False, sort_keys=True)
 
 def content_hash(e: dict) -> str:
@@ -120,13 +124,15 @@ def load(path: pathlib.Path | None = None) -> list[Entry]:
             ownership_memory=d.get("ownership_memory", ""), differences=d.get("differences", []),
             tests=d.get("tests", []), provenance=d["provenance"], evidence=d.get("evidence", {"status":"UNVERIFIED","runs":[]}),
             entry_type=d.get("entry_type", "recipe"),
-            content_sha256=d.get("content_sha256",""), raw=d,
+            content_sha256=d.get("content_sha256",""),
+            error_signatures=d.get("error_signatures", []), raw=d,
         ))
     return out
 
 def search_text(e: Entry) -> str:
-    """Texto indexado (FTS): intencion + alias + APIs + diferencias."""
-    parts = [e.name, e.intent, *e.aliases, *e.apis_used, *e.differences, e.zig_impl]
+    """Texto indexado (FTS): intencion + alias + APIs + diferencias (+ firmas de error)."""
+    parts = [e.name, e.intent, *e.aliases, *e.apis_used, *e.differences, e.zig_impl,
+             *e.error_signatures]
     return " ".join(parts)
 
 def dedupe_report(entries: list[Entry]) -> list[str]:
