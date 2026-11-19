@@ -19,6 +19,9 @@
 //   spawn/v1    [pre, prog, arg...]
 //   stdout/v1   [stream, msg]                       stream: out | err
 //   sha256/v1   [data]
+//   base64/v1   [op, data]                          op: enc | dec
+//   hex/v1      [op, data]                          op: enc | dec
+//   parseint/v1 [text, base]                        base: 0 o 2..36 (otra: invalid)
 //   pipe/v1     [data]                              (reservado para pipelines, F2)
 const std = @import("std");
 const proto = @import("proto.zig");
@@ -38,6 +41,9 @@ pub const Schema = enum {
     spawn,
     stdout,
     sha256,
+    base64,
+    hex,
+    parseint,
     pipe,
 
     pub fn fromName(s: []const u8) ?Schema {
@@ -330,6 +336,108 @@ fn genSha256(r: *Rng, gpa: std.mem.Allocator) ![]u8 {
     return payload;
 }
 
+const B64_NOISE = "\n =!-_*";
+const HEX_NOISE = " \n\tgxz0";
+const INT_TEXTS = [_][]const u8{
+    "0",     "7",    "42",   "-42",          "+5",     "ff",     "FF",
+    "0xff",  "0b101", "0o17", "010",          "1_0",    "1__0",   "_1",
+    " 7 ",   "7\n",  "",     "2147483647",   "2147483648", "-2147483648",
+    "-2147483649", "zz", "12a", "101", "99999999999999999999", "-", "0",
+};
+const INT_BASES = [_][]const u8{ "0", "2", "8", "10", "16", "36", "1", "37", "x" };
+
+/// Copia `src` a `out` aplicando una mutacion elegida por el stream: intacto,
+/// truncado, insercion, sustitucion o ruido de longitud acotada.
+fn mutate(r: *Rng, src: []const u8, out: []u8, noise: []const u8) []u8 {
+    @memcpy(out[0..src.len], src);
+    var n = src.len;
+    switch (r.below(5)) {
+        0 => {},
+        1 => {
+            if (n > 0) n -= 1;
+        },
+        2 => {
+            const pos = r.below(n + 1);
+            std.mem.copyBackwards(u8, out[pos + 1 .. n + 1], out[pos..n]);
+            out[pos] = r.pick(u8, noise);
+            n += 1;
+        },
+        3 => {
+            if (n > 0) out[r.below(n)] = r.pick(u8, noise);
+        },
+        else => {
+            n = r.boundaryLen(out.len);
+            r.ascii(out[0..n], noise);
+        },
+    }
+    return out[0..n];
+}
+
+/// base64/v1: codificar bytes aleatorios, o decodificar texto valido mutado
+/// (relleno, caracteres fuera del alfabeto, saltos de linea, longitud).
+fn genBase64(r: *Rng, gpa: std.mem.Allocator) ![]u8 {
+    var data: [192]u8 = undefined;
+    const len = r.boundaryLen(data.len);
+    r.fill(data[0..len]);
+    const enc_op: []const u8 = "enc";
+    const dec_op: []const u8 = "dec";
+    if (r.chance(1, 2)) return proto.packFields(gpa, &.{ enc_op, data[0..len] });
+    var valid: [256]u8 = undefined;
+    const n = std.base64.standard.Encoder.calcSize(len);
+    _ = std.base64.standard.Encoder.encode(valid[0..n], data[0..len]);
+    var out: [320]u8 = undefined;
+    const text = mutate(r, valid[0..n], &out, B64_NOISE);
+    return proto.packFields(gpa, &.{ dec_op, text });
+}
+
+/// hex/v1: bytes -> hex (minusculas o mayusculas) y hex -> bytes, con pares
+/// separados por espacios (Python los ignora, hexToBytes no) y mutaciones.
+fn genHex(r: *Rng, gpa: std.mem.Allocator) ![]u8 {
+    var data: [128]u8 = undefined;
+    const len = r.boundaryLen(data.len);
+    r.fill(data[0..len]);
+    const enc_op: []const u8 = "enc";
+    const dec_op: []const u8 = "dec";
+    if (r.chance(1, 2)) return proto.packFields(gpa, &.{ enc_op, data[0..len] });
+    const digits: []const u8 = if (r.chance(1, 2)) "0123456789abcdef" else "0123456789ABCDEF";
+    var pairs: [256]u8 = undefined;
+    for (data[0..len], 0..) |b, i| {
+        pairs[2 * i] = digits[b >> 4];
+        pairs[2 * i + 1] = digits[b & 0x0f];
+    }
+    var spaced: [384]u8 = undefined;
+    var src: []const u8 = pairs[0 .. 2 * len];
+    if (r.chance(1, 4)) {
+        var k: usize = 0;
+        var i: usize = 0;
+        while (i < len) : (i += 1) {
+            spaced[k] = pairs[2 * i];
+            spaced[k + 1] = pairs[2 * i + 1];
+            k += 2;
+            if (i + 1 < len) {
+                spaced[k] = ' ';
+                k += 1;
+            }
+        }
+        src = spaced[0..k];
+    }
+    var out: [400]u8 = undefined;
+    const text = mutate(r, src, &out, HEX_NOISE);
+    return proto.packFields(gpa, &.{ dec_op, text });
+}
+
+/// parseint/v1: texto (literales conocidos o ruido) y base (0, 2..36, o invalida).
+fn genParseInt(r: *Rng, gpa: std.mem.Allocator) ![]u8 {
+    var buf: [24]u8 = undefined;
+    const text: []const u8 = if (r.chance(1, 3)) blk: {
+        const n = r.boundaryLen(buf.len);
+        r.ascii(buf[0..n], "0123456789abcdefxyzXYZ+-_ ");
+        break :blk buf[0..n];
+    } else r.pick([]const u8, &INT_TEXTS);
+    const base = r.pick([]const u8, &INT_BASES);
+    return proto.packFields(gpa, &.{ text, base });
+}
+
 fn genPipe(r: *Rng, gpa: std.mem.Allocator) ![]u8 {
     var data: [4096]u8 = undefined;
     const len = switch (r.below(6)) {
@@ -357,6 +465,9 @@ pub fn generate(gpa: std.mem.Allocator, schema: Schema, r: *Rng) ![]u8 {
         .spawn => genSpawn(r, gpa),
         .stdout => genStdout(r, gpa),
         .sha256 => genSha256(r, gpa),
+        .base64 => genBase64(r, gpa),
+        .hex => genHex(r, gpa),
+        .parseint => genParseInt(r, gpa),
         .pipe => genPipe(r, gpa),
     };
 }

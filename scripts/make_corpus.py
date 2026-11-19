@@ -810,10 +810,12 @@ for _path in sorted((ROOT / "scripts" / "recipes").glob("*.py")):
     if sorted(_ids) != sorted(_mod.CONTRACTS):
         sys.exit(f"{_path.name}: ENTRIES y CONTRACTS no cubren los mismos operation_id")
     for _oid, _c in _mod.CONTRACTS.items():
-        if _oid in contracts.CONTRACTS:
-            sys.exit(f"{_path.name}: contrato duplicado {_oid}")
-        if _c.get("fuzzable"):
+        # un contrato fuzzable vive solo en pyzig/fuzz/contracts.py: la receta
+        # puede apuntar a ese mismo objeto, nunca a una copia ni a otro
+        if _c.get("fuzzable") and contracts.CONTRACTS.get(_oid) is not _c:
             sys.exit(f"{_path.name}: {_oid} es fuzzable; su contrato va en pyzig/fuzz/contracts.py")
+        if _oid in contracts.CONTRACTS and contracts.CONTRACTS[_oid] is not _c:
+            sys.exit(f"{_path.name}: contrato duplicado {_oid}")
         contracts.CONTRACTS[_oid] = _c
     E.extend(_mod.ENTRIES)
 
