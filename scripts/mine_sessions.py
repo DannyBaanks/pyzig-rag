@@ -131,6 +131,12 @@ def normalize_msg(msg: str) -> tuple[str, list[str]]:
         return f"'{q}'"
 
     sig = QUOTED.sub(qsub, msg)
+    # Fuera de comillas (p.ej. textos de @compileError): cadenas con punto cuyo primer
+    # segmento no es de la std son nombres de modulos/tipos propios -> se enmascaran.
+    sig = re.sub(r"(?<!['\w.])([A-Za-z_]\w*)((?:\.[A-Za-z_]\w*)+)",
+                 lambda mm: mm.group(0) if _keep_word(mm.group(1))
+                 else "_" + "._" * mm.group(2).count("."), sig)
+    sig = re.sub(r"(missing struct field|no field named|struct field): \w+", r"\1: _", sig)
     sig = re.sub(r"\S*/\S*", "<path>", sig)
     sig = re.sub(r"\b\d+\b", "N", sig)
     sig = re.sub(r"\s+", " ", sig).strip()

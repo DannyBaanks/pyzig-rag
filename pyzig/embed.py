@@ -43,6 +43,7 @@ def verify_sums(model_dir: pathlib.Path) -> None:
     sums = model_dir / "SHA256SUMS.txt"
     if not sums.is_file():
         raise Unavailable(f"SHA256SUMS.txt ausente en {model_dir}")
+    checked: set[str] = set()
     for line in sums.read_text().splitlines():
         if not line.strip():
             continue
@@ -50,6 +51,10 @@ def verify_sums(model_dir: pathlib.Path) -> None:
         rel = rel.strip().lstrip("*")
         if _sha(model_dir / rel) != want:
             raise Unavailable(f"SHA-256 no coincide: {rel}")
+        checked.add(rel)
+    missing = {"onnx/model.onnx", "tokenizer.json"} - checked
+    if missing:
+        raise Unavailable(f"SHA256SUMS.txt no cubre: {', '.join(sorted(missing))}")
 
 class Embedder:
     def __init__(self, models_dir: pathlib.Path | None = None, max_tokens: int = MAX_TOKENS,

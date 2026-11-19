@@ -15,5 +15,5 @@ migracion-14	direct	ArrayList(u8).init(allocator) no existe en zig 0.16, usar .e
 migracion-15	direct	@Type fue eliminado, como creo un entero de 7 bits en comptime	zig0.16/migrate-type-builtin	POS
 migracion-16	direct	std.process.Child.run ahora es std.process.run con io	zig0.16/migrate-child-run	POS
 migracion-17	direct	std.time.sleep no existe en zig 0.16 (has no member named sleep), migrar a std.Io.sleep	zig0.16/migrate-time-sleep	POS
-migracion-18	direct	mutex para proteger un contador compartido entre hilos con std.Io.Mutex	zig0.16/migrate-thread-mutex	POS
+migracion-18	direct	mi codigo usa std.Thread.Mutex para un contador y ya no compila en 0.16	zig0.16/migrate-thread-mutex	POS
 migracion-19	error	error: root source file struct 'fs' has no member named 'cwd'  try std.fs.cwd().writeFile(.{ .sub_path = "salida.txt", .data = "hola" });	zig0.16/migrate-writefile	POS

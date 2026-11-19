@@ -321,7 +321,7 @@ test "conectar a un puerto sin servidor falla con ConnectionRefused" {
     dict(operation_id='zig0.16/udp-loopback-datagram',
          name='datagramas UDP en loopback (socket SOCK_DGRAM sendto/recvfrom)',
          intent='Enviar y recibir un datagrama UDP entre dos sockets de 127.0.0.1 con puerto efimero en un mismo test, con timeout de recepcion.',
-         aliases=['socket.SOCK_DGRAM', 'sock.sendto', 'sock.recvfrom', 'socket.settimeout', 'UDP', 'datagramas', 'udp socket', 'enviar un paquete UDP', 'recibir datagrama', 'loopback udp', 'asyncio.DatagramProtocol'],
+         aliases=['socket.SOCK_DGRAM', 'sock.sendto', 'sock.recvfrom', 'socket.settimeout', 'UDP', 'datagramas', 'udp socket', 'enviar un paquete UDP', 'recibir datagrama', 'mandar un datagrama', 'plazo maximo de espera', 'loopback udp', 'asyncio.DatagramProtocol'],
          source_lang="python", target_lang="zig", zig_version=ZIG, python_version=PY, platform="linux",
          py_ref=r'''import socket
 rx = socket.socket(socket.AF_INET, socket.SOCK_DGRAM); rx.bind(("127.0.0.1", 0)); rx.settimeout(2)
@@ -533,6 +533,7 @@ test "un 404 NO es un error de Zig (a diferencia de raise_for_status)" {
          differences=['Un 404/500 NO lanza excepcion: fetch devuelve el status y hay que comprobarlo a mano (equivalente a no llamar nunca a raise_for_status)', 'fetch NO devuelve el cuerpo: lo escribe en un Writer que el llamador aporta (response_writer); si es null, se descarta. Hay que dar un Writer.Allocating y leer .written() ANTES de liberarlo', 'std.http.Client exige .allocator y .io en su inicializacion y NO soporta TLS en este test (http plano); con https y DNS se requiere red/certificados, fuera de lo hermetico', 'Servidor y cliente en el mismo proceso: el servidor DEBE correr en otra tarea (io.concurrent); con io.async podria ejecutarse inline y bloquear en accept antes de que el cliente conecte', 'Con keep_alive=true el cliente deja la conexion abierta y client.deinit la cierra: si el servidor solo atiende una peticion, usar keep_alive=false en ambos lados o el cierre espera', 'std.http.Server atiende UNA conexion por Server.init con tus reader/writer; no hay bucle serve_forever ni hilo por conexion: los haces tu', 'Orden de cierre: await del servidor antes de comprobar resultados, y deinit del Client antes de deinit del Io.Threaded'],
          provenance=PROV),
     dict(operation_id='zig0.16/ffi-extern-c-function',
+         zig_flags=['-lc'],
          name='llamar a una funcion C (ctypes.CDLL / FFI) con extern fn, sin @cImport',
          intent='Declarar una funcion de libc o de otra biblioteca C con extern y llamarla; en un test hermetico, un simbolo C-ABI propio exportado con @export.',
          aliases=['ctypes.CDLL', 'ctypes.cdll.LoadLibrary', 'ctypes.c_int', 'libc.abs', 'libc.strlen', 'cffi', 'FFI', 'llamar a una funcion de C', 'extern fn', 'enlazar libc', 'callconv(.c)', 'ctypes.CFUNCTYPE', '@cImport alternativa'],

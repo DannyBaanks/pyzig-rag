@@ -1,6 +1,6 @@
 """Recuperacion hibrida: filtros exactos + lexical/vectorial + admision + fusion RRF."""
 from __future__ import annotations
-import json, sqlite3
+import json, re, sqlite3
 import numpy as np
 from . import index as idx
 from .embed import Embedder, Unavailable
@@ -9,8 +9,22 @@ RRF_K = 60
 COV_MIN = 0.40   # cobertura lexica minima (tokens discriminativos)
 COS_MIN = 0.35   # cosine minimo (all-MiniLM-L6-v2)
 UNVERIFIED_PENALTY = 0.6  # entradas sin evidencia demostrada rankean por debajo
+# Recetas de migracion Zig->Zig (source_lang "zig-...") ceden ante las Python->Zig cuando la
+# consulta no trae marcas de Zig: "time.sleep equivalente" es una pregunta de Python.
+MIGRATION_PENALTY = 0.5
+_ZIG_MARKERS = re.compile(r"\bstd\.|error:|@[A-Za-z]|\.zig\b|\bzig\s*0\.1|\bmigra")
 
 _EMB: Embedder | None = None
+
+def _index_embed_model(con) -> str | None:
+    """Modelo de embeddings con el que se construyo el indice (meta.embed.model)."""
+    r = con.execute("SELECT value FROM meta WHERE key = 'embed'").fetchone()
+    if r is None:
+        return None
+    try:
+        return json.loads(r[0]).get("model")
+    except (ValueError, AttributeError):
+        return None
 
 def _embedder() -> Embedder:
     global _EMB
@@ -63,6 +77,10 @@ def _status_of(con, oid: str) -> str:
     r = con.execute("SELECT status FROM ops WHERE operation_id = ?", (oid,)).fetchone()
     return r["status"] if r else "UNVERIFIED"
 
+def _source_lang_of(con, oid: str) -> str:
+    d = json.loads(con.execute("SELECT payload FROM ops WHERE operation_id = ?", (oid,)).fetchone()["payload"])
+    return d.get("source_lang", "python")
+
 def _type_of(con, oid: str) -> str:
     d = json.loads(con.execute("SELECT payload FROM ops WHERE operation_id = ?", (oid,)).fetchone()["payload"])
     return d.get("entry_type", "recipe")
@@ -93,8 +111,13 @@ def search(query: str, zig_version: str | None = None, platform: str | None = No
             try:
                 emb = _embedder()
                 embed_meta = emb.model_meta()
-                if not emb.degraded:
-                    qv = emb.encode([query])[0]
+                built_with = _index_embed_model(con)
+                if not emb.degraded and built_with and built_with != emb.model_name:
+                    # vectores de otro modelo (misma dim) darian cosenos basura en silencio
+                    embed_meta = {**embed_meta, "mode": f"unavailable: indice construido con "
+                                  f"{built_with}, modelo activo {emb.model_name}; reconstruye el indice"}
+                elif not emb.degraded:
+                    qv = emb.encode_query([query])[0]
                     vec_res = [(o, s) for o, s in idx.vector(con, qv) if o in ids]
             except Unavailable as e:
                 embed_meta = {"mode": f"unavailable: {e}"}
@@ -109,6 +132,8 @@ def search(query: str, zig_version: str | None = None, platform: str | None = No
             [per_doc_cov.get(o, 0.0) for o in admitted
              if _type_of(con, o) == "recipe"], default=0.0)
 
+        zig_query = bool(_ZIG_MARKERS.search(query))
+
         def boost(o: str, base: float) -> float:
             st = _status_of(con, o)
             cov = per_doc_cov.get(o, 0.0)
@@ -121,6 +146,8 @@ def search(query: str, zig_version: str | None = None, platform: str | None = No
                 is_gap = _type_of(con, o) == "gap"
                 if not (is_gap and cov > best_recipe_cov):
                     penalty = UNVERIFIED_PENALTY
+            if not zig_query and _source_lang_of(con, o).startswith("zig"):
+                penalty *= MIGRATION_PENALTY
             return base * factor * penalty
 
         ranked = sorted(((o, boost(o, s)) for o, s in fused.items() if o in admitted),

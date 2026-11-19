@@ -30,7 +30,7 @@ _STD_CHAIN_RE = re.compile(r"\bstd(?:\.[A-Za-z_][A-Za-z0-9_]*)+\b")
 _MEMBER_RE = re.compile(r"\.([A-Za-z_][A-Za-z0-9_]*)\b")
 _QUOTED_ID_RE = re.compile(r"'([A-Za-z_][A-Za-z0-9_.]*)'")
 _TEST_FAILED_RE = re.compile(
-    r"(?m)(?:^\d+ passed; \d+ skipped; \d+ failed\.|^FAIL \(|error: the following test command failed)"
+    r"(?m)(?:^\d+ passed; \d+ skipped; \d+ failed\.|^FAIL \(|error: the following test command (?:failed|terminated))"
 )
 
 _STOP_IDENTIFIERS = frozenset({
@@ -284,53 +284,59 @@ def check_zig(zig_code: str, mode: str = "test",
         src_file = tmp_path / "check.zig"
         src_file.write_text(zig_code, encoding="utf-8")
 
-        if mode == "ast":
+        def sandboxed(argv: list[str], with_cache: bool) -> subprocess.CompletedProcess:
+            # Fase de compilacion: cache global RW (solo corre el compilador; el codigo del
+            # check no se ejecuta). Fase de ejecucion: SIN cache montada, para que el binario
+            # de test (codigo no confiable) no pueda envenenar artefactos de checks posteriores.
             cache_bind: list[str] = []
-            sandbox_global_cache = "/work/global-cache"
-            zig_cmd = [zig_in_sandbox, "ast-check", "--color", "off", src_file.name]
-        else:
-            global_cache = _resolve_global_cache(tmp_path, cache_dir)
-            cache_bind = ["--bind", str(global_cache), "/cache"]
-            sandbox_global_cache = "/cache"
-            zig_cmd = [
-                zig_in_sandbox, "test", "--color", "off",
-                "--cache-dir", "/work/local-cache",
-                "--global-cache-dir", sandbox_global_cache,
-                src_file.name,
+            cache_env = "/work/global-cache"
+            if with_cache:
+                cache_bind = ["--bind", str(_resolve_global_cache(tmp_path, cache_dir)), "/cache"]
+                cache_env = "/cache"
+            cmd = [
+                bwrap_bin,
+                "--unshare-all",
+                "--die-with-parent",
+                "--new-session",
+                "--clearenv",
+                *_base_bwrap_binds(),
+                "--proc", "/proc",
+                "--dev", "/dev",
+                "--tmpfs", "/tmp",
+                *zig_ro_bind,
+                "--bind", tmp_dir, "/work",
+                *cache_bind,
+                "--chdir", "/work",
+                "--setenv", "HOME", "/work",
+                "--setenv", "TMPDIR", "/tmp",
+                "--setenv", "PATH", sandbox_path,
+                "--setenv", "ZIG_GLOBAL_CACHE_DIR", cache_env,
+                "--setenv", "ZIG_LOCAL_CACHE_DIR", "/work/local-cache",
+                "--",
+                *argv,
             ]
+            return subprocess.run(cmd, cwd=tmp_dir, capture_output=True, text=True,
+                                  stdin=subprocess.DEVNULL, timeout=timeout_s)
 
-        cmd = [
-            bwrap_bin,
-            "--unshare-all",
-            "--die-with-parent",
-            "--new-session",
-            "--clearenv",
-            *_base_bwrap_binds(),
-            "--proc", "/proc",
-            "--dev", "/dev",
-            "--tmpfs", "/tmp",
-            *zig_ro_bind,
-            "--bind", tmp_dir, "/work",
-            *cache_bind,
-            "--chdir", "/work",
-            "--setenv", "HOME", "/work",
-            "--setenv", "TMPDIR", "/tmp",
-            "--setenv", "PATH", sandbox_path,
-            "--setenv", "ZIG_GLOBAL_CACHE_DIR", sandbox_global_cache,
-            "--setenv", "ZIG_LOCAL_CACHE_DIR", "/work/local-cache",
-            "--",
-            *zig_cmd,
-        ]
-
+        compiled_phase: bool | None = None
         try:
-            proc = subprocess.run(
-                cmd,
-                cwd=tmp_dir,
-                capture_output=True,
-                text=True,
-                stdin=subprocess.DEVNULL,
-                timeout=timeout_s,
-            )
+            if mode == "ast":
+                proc = sandboxed([zig_in_sandbox, "ast-check", "--color", "off", src_file.name],
+                                 with_cache=False)
+            else:
+                proc = sandboxed([
+                    zig_in_sandbox, "test", "--color", "off", "--test-no-exec",
+                    "-femit-bin=/work/check-test",
+                    "--cache-dir", "/work/local-cache",
+                    "--global-cache-dir", "/cache",
+                    src_file.name,
+                ], with_cache=True)
+                compiled_phase = proc.returncode == 0
+                if compiled_phase:
+                    run = sandboxed(["/work/check-test"], with_cache=False)
+                    proc = subprocess.CompletedProcess(
+                        run.args, run.returncode, run.stdout,
+                        (proc.stderr or "") + (run.stderr or ""))
         except subprocess.TimeoutExpired as exc:
             raw_err = exc.stderr or ""
             if isinstance(raw_err, bytes):
@@ -371,6 +377,11 @@ def check_zig(zig_code: str, mode: str = "test",
         compiled = proc.returncode == 0
         tests_passed = None
         ok = compiled
+    elif compiled_phase:
+        # compilo en la fase 1; el resultado del binario decide (incluye muerte por senal)
+        compiled = True
+        tests_passed = proc.returncode == 0
+        ok = tests_passed
     else:
         if proc.returncode == 0:
             compiled = True

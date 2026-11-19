@@ -62,13 +62,6 @@ def _per_kind(rows: list[dict]) -> dict:
                      "aciertos_top3": sum(r["ok_top3"] for r in sub)}
     return out
 
-def _patch_query_prefix() -> None:
-    """search.py llama emb.encode([query]) sin 'kind'; los modelos con prefijo
-    (e5) necesitan 'query: '. Aqui se redirige a encode_query solo en la eval."""
-    emb = s._embedder()
-    orig = emb.encode
-    emb.encode = lambda texts, kind="query": orig(texts, kind=kind)
-
 def _eval_one(build: bool) -> dict:
     from pyzig import index as idx, embed
     name = embed.selected_model()
@@ -85,8 +78,8 @@ def _eval_one(build: bool) -> dict:
         idx.build(emb)
         info["build_s"] = round(time.perf_counter() - t0, 2)
         s._EMB = emb
-    _patch_query_prefix()
-    s._embedder().encode(["warmup"])
+    if not s._embedder().degraded:  # sin modelo: la eval hibrida degrada a lexical declarada
+        s._embedder().encode_query(["warmup"])
     report = {}
     for mode in ("lexical", "hybrid"):
         rows = run_queries(mode)

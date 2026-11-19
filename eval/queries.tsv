@@ -96,3 +96,36 @@ tiempo_args-11	api	zlib.crc32 equivalente en Zig std.hash.Crc32	zig0.16/crc32-ch
 tiempo_args-12	paraphrase	calcular suma de verificacion crc32 de un buffer de bytes	zig0.16/crc32-checksum	POS
 tiempo_args-13	api	hashlib.md5 hexdigest en Zig	zig0.16/md5-hexdigest	POS
 tiempo_args-14	paraphrase	obtener el hash md5 en cadena hexadecimal de un texto	zig0.16/md5-hexdigest	POS
+migracion-01	error	error: root source file struct 'fs' has no member named 'cwd'  const data = try std.fs.cwd().readFileAlloc(gpa, "datos.txt", 1024 * 1024);	zig0.16/migrate-readfilealloc	POS
+migracion-02	error	error: member function expected 4 argument(s), found 3 readFileAlloc	zig0.16/migrate-readfilealloc	POS
+migracion-03	error	error: root source file struct 'std' has no member named 'io'  const stdout = std.io.getStdOut().writer();	zig0.16/migrate-stdout-writer	POS
+migracion-04	error	error: root source file struct 'fs' has no member named 'File'  var w = std.fs.File.stdout().writer(&buf);	zig0.16/migrate-stdout-writer	POS
+migracion-05	error	error: struct 'array_list.Aligned(u32,null)' has no member named 'init'	zig0.16/migrate-arraylist-unmanaged	POS
+migracion-06	error	error: member function expected 2 argument(s), found 1 list.deinit() ArrayList	zig0.16/migrate-arraylist-unmanaged	POS
+migracion-07	error	error: invalid builtin function: '@Type'	zig0.16/migrate-type-builtin	POS
+migracion-08	error	error: root source file struct 'process.Child' has no member named 'run'	zig0.16/migrate-child-run	POS
+migracion-09	error	error: root source file struct 'time' has no member named 'sleep'	zig0.16/migrate-time-sleep	POS
+migracion-10	error	error: root source file struct 'Thread' has no member named 'sleep'	zig0.16/migrate-time-sleep	POS
+migracion-11	error	error: root source file struct 'Thread' has no member named 'Mutex'	zig0.16/migrate-thread-mutex	POS
+migracion-12	direct	como migro std.fs.cwd().readFileAlloc de zig 0.14 a 0.16	zig0.16/migrate-readfilealloc	POS
+migracion-13	direct	reemplazo de std.io.getStdOut().writer() con buffer y flush en zig 0.16	zig0.16/migrate-stdout-writer	POS
+migracion-14	direct	ArrayList(u8).init(allocator) no existe en zig 0.16, usar .empty	zig0.16/migrate-arraylist-unmanaged	POS
+migracion-15	direct	@Type fue eliminado, como creo un entero de 7 bits en comptime	zig0.16/migrate-type-builtin	POS
+migracion-16	direct	std.process.Child.run ahora es std.process.run con io	zig0.16/migrate-child-run	POS
+migracion-17	direct	std.time.sleep no existe en zig 0.16 (has no member named sleep), migrar a std.Io.sleep	zig0.16/migrate-time-sleep	POS
+migracion-18	direct	mi codigo usa std.Thread.Mutex para un contador y ya no compila en 0.16	zig0.16/migrate-thread-mutex	POS
+migracion-19	error	error: root source file struct 'fs' has no member named 'cwd'  try std.fs.cwd().writeFile(.{ .sub_path = "salida.txt", .data = "hola" });	zig0.16/migrate-writefile	POS
+io_red-01	api	threading.Thread con target y args, start y join para esperar al hilo	zig0.16/thread-spawn-join	POS
+io_red-02	paraphrase	lanzar varios hilos del sistema operativo y esperar a que todos terminen guardando su resultado	zig0.16/thread-spawn-join	POS
+io_red-03	api	threading.Lock con with lock para proteger un contador compartido	zig0.16/thread-shared-counter	POS
+io_red-04	paraphrase	incrementar una variable desde varios hilos sin perder actualizaciones, con atomics o mutex	zig0.16/thread-shared-counter	POS
+io_red-05	api	asyncio.gather de varias corutinas y esperar los resultados	zig0.16/io-async-group-future	POS
+io_red-06	paraphrase	tareas concurrentes con std.Io: async, await y un grupo de tareas	zig0.16/io-async-group-future	POS
+io_red-07	api	socket.bind listen accept connect en 127.0.0.1 con puerto 0 y getsockname	zig0.16/tcp-loopback-echo	POS
+io_red-08	paraphrase	levantar un servidor TCP de eco y conectarle un cliente en el mismo programa	zig0.16/tcp-loopback-echo	POS
+io_red-09	api	socket SOCK_DGRAM sendto recvfrom en loopback con settimeout	zig0.16/udp-loopback-datagram	POS
+io_red-10	paraphrase	mandar un datagrama UDP a mi propia maquina y recibirlo con un plazo maximo de espera	zig0.16/udp-loopback-datagram	POS
+io_red-11	api	requests.get contra un http.server local y leer status y cuerpo	zig0.16/http-client-get-local	POS
+io_red-12	paraphrase	hacer una peticion HTTP GET con el cliente de la libreria estandar sin salir a internet	zig0.16/http-client-get-local	POS
+io_red-13	api	ctypes.CDLL(None).abs y strlen llamando a libc	zig0.16/ffi-extern-c-function	POS
+io_red-14	paraphrase	declarar una funcion de C con extern fn y llamarla sin usar cImport	zig0.16/ffi-extern-c-function	POS

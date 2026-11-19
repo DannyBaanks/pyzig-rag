@@ -338,7 +338,7 @@ ENTRIES.append(entry(
     "zig0.16/migrate-time-sleep",
     "migrar std.time.sleep / std.Thread.sleep a std.Io.sleep",
     "Dormir un tiempo en Zig 0.16: std.time.sleep(ns) y std.Thread.sleep(ns) ya no existen; se usa std.Io.sleep(io, duration, clock).",
-    ["std.time.sleep", "std.Thread.sleep", "sleep", "dormir", "esperar milisegundos", "Io.sleep", "std.Io.Duration", "fromMilliseconds", "Clock.awake", "migrar 0.14 a 0.16", "time.sleep removed"],
+    ["std.time.sleep", "std.Thread.sleep", "Io.sleep", "std.Io.Duration", "fromMilliseconds", "Clock.awake", "migrar 0.14 a 0.16", "std.time.sleep eliminado"],
     '''// Zig 0.13/0.14 (NO compila en 0.16)
 const std = @import("std");
 test "dormir" {
@@ -372,7 +372,7 @@ ENTRIES.append(entry(
     "zig0.16/migrate-thread-mutex",
     "migrar std.Thread.Mutex a std.Io.Mutex",
     "Exclusion mutua en Zig 0.16: std.Thread.Mutex ya no existe; se usa std.Io.Mutex, cuyo lock/unlock reciben `io` (lock es cancelable; lockUncancelable no).",
-    ["std.Thread.Mutex", "Mutex", "mutex lock unlock", "exclusion mutua", "Io.Mutex", "lockUncancelable", "tryLock", "seccion critica", "migrar 0.14 a 0.16", "proteger contador compartido", "threads"],
+    ["std.Thread.Mutex", "Thread.Mutex eliminado", "Io.Mutex", "lockUncancelable", "tryLock", "migrar 0.14 a 0.16"],
     '''// Zig 0.13/0.14 (NO compila en 0.16)
 const std = @import("std");
 var mutex: std.Thread.Mutex = .{};

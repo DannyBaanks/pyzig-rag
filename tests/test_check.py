@@ -220,6 +220,30 @@ class CheckRealZigTest(unittest.TestCase):
         self.assertFalse(res["ok"])
         self.assertIn("FileNotFound", res["stderr_tail"])
 
+    @unittest.skipUnless(HAS_ZIG and HAS_BWRAP, "zig o bwrap no disponibles")
+    def test_test_binary_cannot_poison_global_cache(self) -> None:
+        # El binario de test corre sin /cache montada: escribir ahi falla y la cache
+        # persistente del host queda intacta.
+        code = (
+            'const std = @import("std");\n'
+            'test "poison" {\n'
+            '    const f = try std.Io.Dir.createFileAbsolute(std.testing.io, "/cache/POISONED.txt", .{});\n'
+            '    f.close(std.testing.io);\n'
+            '}\n'
+        )
+        res = check_mod.check_zig(code, mode="test")
+        self.assertTrue(res["compiled"])
+        self.assertFalse(res["tests_passed"])
+        self.assertFalse((self.cache / "POISONED.txt").exists())
+
+    @unittest.skipUnless(HAS_ZIG and HAS_BWRAP, "zig o bwrap no disponibles")
+    def test_panic_counts_as_compiled_and_failed(self) -> None:
+        code = 'test "boom" {\n    @panic("boom");\n}\n'
+        res = check_mod.check_zig(code, mode="test")
+        self.assertTrue(res["compiled"])
+        self.assertFalse(res["tests_passed"])
+        self.assertFalse(res["ok"])
+
 
 class NoresAndMcpTest(unittest.TestCase):
     def setUp(self) -> None:

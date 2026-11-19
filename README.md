@@ -22,10 +22,12 @@ pyzig/gates.py                 gates: `zig test` por entrada → promueve eviden
 fuzz/src/                      motor Zig: generacion, chunks, comparacion, evidencia
 pyzig/fuzz/                    control plane Python: contratos, oracle por lotes,
                                triage, assembler, warden y campana
-pyzig/embed.py                 embeddings ONNX local (all-MiniLM-L6-v2, CPU)
+pyzig/embed.py                 embeddings ONNX local (all-MiniLM-L6-v2 por defecto; PYZIG_EMBED_MODEL)
 pyzig/index.py                 indice derivado SQLite (FTS5 + vectores) — var/pyzig.db
 pyzig/search.py                filtros exactos + fusion RRF + admision (cobertura/cosine)
-pyzig/mcp_server.py            FastMCP stdio, 3 herramientas de solo lectura
+pyzig/mcp_server.py            FastMCP stdio: 3 consultas de solo lectura + pyzig_check (bwrap)
+pyzig/check.py                 pyzig_check: compila/ejecuta Zig en bwrap y mapea errores a recetas
+scripts/mine_sessions.py       mina transcripts locales: firmas de error zig frecuentes → var/mined/
 eval/queries.tsv, eval/results.json   evaluacion fija (lexical vs hibrida)
 ```
 
@@ -47,6 +49,14 @@ Decisiones (y por que):
   salvo que la consulta las cuba mejor que cualquier receta — entonces la
   respuesta honesta es "aqui no hay equivalencia demostrada".
 - **Version como filtro exacto**: `zig_version="0.13"` ⇒ `VERSION_MISMATCH`.
+- **Recetas de migracion Zig→Zig** (`source_lang="zig-0.13/0.14"`, `scripts/recipes/migracion.py`):
+  llevan `error_signatures` (lineas `error:` reales de zig 0.16 al compilar la API vieja) que
+  entran en la busqueda, asi que pegar el error encuentra la receta. Ceden ante las recetas
+  Python→Zig (`MIGRATION_PENALTY`) cuando la consulta no trae marcas de Zig (`std.`, `error:`, `@`).
+- **Gate honesto**: `zig_flags` opcional por receta (p. ej. `["-lc"]` para FFI con libc); una
+  receta que pasa con tests saltados queda en `MANUAL_REVIEW`, no en `DEMONSTRATED`.
+- **Indice ligado al modelo**: si el indice se construyo con otro modelo de embeddings que el
+  activo, el modo hibrido se declara `unavailable` (misma dimension ⇒ cosenos basura en silencio).
 
 ## Esquema del corpus (campos minimos)
 
@@ -55,7 +65,8 @@ Decisiones (y por que):
 `apis_used`, `constraints`, `preconditions`, `postconditions`, `side_effects`,
 `error_behavior`, `ownership_memory`, `differences`, `tests`, `provenance`,
 `entry_type` (`recipe`|`gap`|`case_fixture`|`pipeline_entry`),
-`evidence{status,runs[{cmd,exit,duration_s,stdout_sha256,zig_version,observed}]}`,
+`evidence{status,runs[{cmd,exit,duration_s,stdout_sha256,zig_version,observed,skipped_tests}]}`,
+opcionales `error_signatures` y `zig_flags` (solo entran en el hash si no estan vacios),
 `content_sha256`. Los artefactos `case_fixture`/`pipeline_entry` llevan ademas
 `fuzz.case_fixture{case_hex,case_sha256,obs_hex,obs_sha256,status,compared_fields}`
 y evidencia `FUZZ_EQUIV`/`ADMITTED` con seed, hashes y snapshot del run.
@@ -139,22 +150,30 @@ todas las TUIs lo ven via `hub_execute(server="pyzig-rag", tool="pyzig_search", 
 servidor publica `instructions` (cuando consultarlo, como leer `status`/`differences`) y la
 skill `zig-0-16` remite a el antes de escribir Zig 0.16.
 
-Herramientas (todas read-only, sin ejecucion de codigo recuperado):
+Herramientas (las tres de consulta son read-only; `pyzig_check` compila y ejecuta el codigo
+que le pasan, siempre dentro de `bwrap` sin red):
 
 | tool | entrada | salida |
 |---|---|---|
 | `pyzig_search` | `intent`, `py_code?`, `zig_version="0.16.0"`, `platform="linux"`, `max_results`, `mode`, `code="top"` | candidatos (el primero con `zig_impl` completo; `code="all"`/`"none"`) con `operation_id`, `reason` (rank lexical/vectorial), `signals{coverage,cosine}`, `status`, `constraints`, `apis_used`, `tests`, `provenance`, `warnings`; errores `NO_RESULTS`/`VERSION_MISMATCH`/`INDEX_UNAVAILABLE` |
 | `pyzig_get` | `operation_id` | entrada completa (contrato, codigo, tests, evidencia) |
-| `pyzig_catalog` | — | salud del indice, `embed_mode`, versiones, operaciones y estados |
+| `pyzig_catalog` | — | salud del indice, `embed_mode`, versiones, operaciones y estados, `nores_count` |
+| `pyzig_check` | `zig_code`, `mode="test"`/`"ast"` | `compiled`, `tests_passed`, `errors[{line,col,message,notes,suggestions}]`, `stderr_tail`, `sandbox`; `SANDBOX_UNAVAILABLE` si no hay bwrap (fail-closed), `TIMEOUT` |
+
+`pyzig_check` compila con la cache global de zig montada (solo corre el compilador) y ejecuta el
+binario de test en un segundo `bwrap` **sin** esa cache, para que codigo no confiable no pueda
+envenenar checks posteriores. Las consultas de `pyzig_search` sin resultado (`NO_RESULTS`) se
+anotan en `var/nores.jsonl` (`ts`, intencion truncada, version; nada mas): es la lista de recetas
+que faltan.
 
 Invocacion real (extracto de `scripts/demo_client.py`, salida observada):
 
 ```
-herramientas: ['pyzig_catalog', 'pyzig_get', 'pyzig_search']
+herramientas: ['pyzig_catalog', 'pyzig_check', 'pyzig_get', 'pyzig_search']
 pyzig_search ok= True count= 3
- - zig0.16/subprocess-run-capture 0.012938 DEMONSTRATED lexical(rank 1), vectorial(rank 1)
- - zig0.16/spawn-redirect-child 0.010705 DEMONSTRATED lexical(rank 9), vectorial(rank 2)
- - zig0.16/detached-daemon-no-shell 0.010655 NOT_DEMONSTRATED lexical(rank 4), vectorial(rank 4)
+ - zig0.16/subprocess-run-capture 0.01273 DEMONSTRATED lexical(rank 1), vectorial(rank 1)
+ - zig0.16/crc32-checksum 0.010752 DEMONSTRATED lexical(rank 12), vectorial(rank 3)
+ - zig0.16/json-read-file-limited 0.010704 DEMONSTRATED lexical(rank 4), vectorial(rank 7)
 pyzig_get: ejecutar proceso externo y capturar streams
   status: DEMONSTRATED | runs: 1
 ```
@@ -186,6 +205,8 @@ Recetas por area en `scripts/recipes/` (no fuzzables todavia: contrato con
 | `json_codec` | `json.loads` dinamico y a struct, `json.dumps(indent)`, `JSONDecodeError`, escapes/`ensure_ascii`, leer JSON con limite |
 | `texto_num` | base64, hex, `int(s, base)`, `float`/`{:.2f}`, find/replace/affix, UTF-8, `lower`/`upper` ASCII; gap: mayusculas/minusculas Unicode |
 | `tiempo_args` | `time.time`, `time.monotonic`, PRNG con semilla, `sys.argv`, flags `--k v`, `zlib.crc32`, `hashlib.md5` |
+| `io_red` | `threading.Thread`/`Lock` (`std.Thread`, `std.Io.Mutex`, atomics), `io.async`/`Group`, TCP y UDP en loopback, `std.http.Client` contra servidor local, FFI con `extern fn` (gate con `-lc`) |
+| `migracion` | Zig 0.13/0.14 → 0.16: `readFileAlloc`, `writeFile`, stdout writer, `ArrayList` unmanaged, `@Type`→`@Int`/`@Struct`, `Child.run`, `time.sleep`, `Thread.Mutex` |
 
 Anadir un area: crear `scripts/recipes/<area>.py` con `ENTRIES` (mismo formato
 que `make_corpus.py`) y `CONTRACTS` (`_c(..., skip_reason=...)`), y
@@ -212,8 +233,10 @@ regenera `scripts/run_eval.py`; no se copian aqui.
 - El embedding (`all-MiniLM-L6-v2`, ingles) da cosenos ~0.33-0.36 a entradas
   sin relacion con consultas en espanol: con mas entradas, el modo hibrido
   empieza a perder top-1 que el lexical acierta (el esperado sigue en top-3).
-  El semantico sigue siendo mejora *no demostrada*; el candidato obvio es un
-  modelo multilingue, sin medir todavia.
+  El semantico sigue siendo mejora *no demostrada*. Se midieron dos modelos
+  multilingues (`multilingual-e5-small`, `paraphrase-multilingual-MiniLM-L12-v2`;
+  `scripts/run_eval.py --build --models a,b`): ninguno supero al lexical ni a MiniLM
+  en P@1 y ambos rechazan peor las negativas, con ~5x latencia y ~2x RAM. MiniLM se queda.
 - Un `gap` solo sube a top-1 si su cobertura lexica supera a la de toda receta;
   si la receta ASCII documenta la misma diferencia (p. ej. `casefold`), empatan
   y gana la receta. El proximo experimento util es
@@ -222,7 +245,9 @@ compilacion, tokens), fuera del alcance de este prototipo.
 
 ## Seguridad e integridad
 
-- Las herramientas no ejecutan nada: solo leen el indice.
+- `pyzig_search`/`pyzig_get`/`pyzig_catalog` no ejecutan nada: solo leen el indice.
+  `pyzig_check` si ejecuta el codigo recibido, solo dentro de `bwrap` (`--unshare-all`,
+  `--clearenv`, sistema de archivos de solo lectura salvo su temporal); sin bwrap se niega.
 - Los `zig_impl`/`zig_test` son **datos**, no instrucciones; ningun test hace
   operaciones privilegiadas reales (usan `std.testing.tmpDir`, aislado).
 - Un modelo puede proponer entradas; solo `run_gates.py` (evidencia
@@ -233,8 +258,11 @@ compilacion, tokens), fuera del alcance de este prototipo.
 
 ## Limitaciones / pospuestas
 
-- Sin re-ranker, sin web UI, sin escritura por MCP, sin agentes validadores.
-- Corpus pequeno (12): umbrales calibrados con 28 consultas, no con 1000.
+- Sin re-ranker, sin web UI, sin escritura de corpus por MCP.
+- Corpus pequeno: umbrales calibrados con las consultas de `eval/queries.tsv`, no con 1000.
+- `scripts/mine_sessions.py` lee transcripts de Claude Code y Codex (`.jsonl`); no parsea los
+  `.zst` de Codex, la base sqlite de opencode ni los formatos de Gemini/Qwen. Su informe solo
+  guarda firmas de error del compilador, nombres de API de la std y conteos.
 - Embeddings requieren modelo local descargado (o degradacion declarada).
 - No hay equivalente para `setsid`/demonio: esa es la frontera real hoy.
 

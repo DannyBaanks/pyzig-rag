@@ -106,6 +106,16 @@ class MineTest(unittest.TestCase):
         self.assertTrue(mine.covered("std.Io.File", {"std.Io.File.Writer"}))
         self.assertFalse(mine.covered("std.Thread.sleep", {"std.Io.Dir.cwd"}))
 
+    def test_unquoted_project_names_are_masked(self):
+        sig, apis = mine.normalize_msg("COM object MiProyecto.MiTipo must keep vtbl at offset 8")
+        self.assertNotIn("MiProyecto", sig)
+        self.assertNotIn("MiTipo", sig)
+        sig, _ = mine.normalize_msg("missing struct field: secreto_interno")
+        self.assertNotIn("secreto_interno", sig)
+        sig, _ = mine.normalize_msg("expected type std.mem.Allocator, found Foo.Bar")
+        self.assertIn("std.mem.Allocator", sig)
+        self.assertNotIn("Foo", sig)
+
 
 if __name__ == "__main__":
     unittest.main()
