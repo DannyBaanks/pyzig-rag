@@ -52,7 +52,7 @@ fn usage(io: std.Io) void {
         \\  pyzig-fuzz assemble --corpus <file> --ops <op1,op2,...> --out <file>
         \\  pyzig-fuzz harvest --run-dir <dir> --out <candidates.jsonl> [--schema <s>]
         \\
-        \\Schemas: argv, kv, read, write, exists, splitfmt, sleep, env, spawn, stdout, pipe
+        \\Schemas: argv, kv, read, write, exists, splitfmt, sleep, env, spawn, stdout, sha256, base64, hex, parseint, pipe
         \\
     ;
     std.Io.File.stdout().writeStreamingAll(io, msg) catch {};

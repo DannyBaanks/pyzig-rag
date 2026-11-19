@@ -25,6 +25,7 @@ import copy
 ERROR_NAMES = (
     "FileNotFound", "IsDir", "NotDir", "StreamTooLong", "PermissionDenied",
     "Timeout", "InvalidArgument", "OutOfMemory", "NoSpaceLeft", "Unknown",
+    "BadEncoding", "InvalidLiteral", "Overflow",
 )
 
 #: Estados de observacion del protocolo.
@@ -140,6 +141,52 @@ CONTRACTS: dict[str, dict] = {
         ["status", "error", "digest"],
         type_sig={"input": "bytes", "output": "digest"},
         pipeline={"input": "bytes", "output": "digest", "adapter": "step_bytes_to_digest"},
+    ),
+    "zig0.16/base64-encode-decode": _c(
+        "base64", "drivers/base64.zig", "base64",
+        ["status", "error", "out"],
+        type_sig={"input": "op/bytes", "output": "bytes"},
+    ),
+    "zig0.16/hex-encode-decode": _c(
+        "hex", "drivers/hex.zig", "hex",
+        ["status", "error", "out"],
+        type_sig={"input": "op/bytes", "output": "bytes"},
+        known=[{
+            "id": "hex-espacios-entre-pares",
+            "fields": ["status", "error", "out"],
+            "expect": {"status": "err", "error": "BadEncoding"},
+            "oracle": {"status": "ok"},
+            "why": "bytes.fromhex ignora cualquier espacio ASCII (espacio, tab, salto) entre pares de digitos; hexToBytes lo rechaza (InvalidCharacter).",
+        }],
+    ),
+    "zig0.16/parse-int-base-overflow": _c(
+        "parseint", "drivers/parseint.zig", "parseint",
+        ["status", "error", "value"],
+        type_sig={"input": "texto/base", "output": "i32"},
+        # el orden importa: triage toma la primera declaracion que encaja
+        known=[
+            {
+                "id": "int-recorta-espacios-y-prefijo-de-base",
+                "fields": ["status", "error", "value"],
+                "expect": {"status": "err", "error": "InvalidLiteral"},
+                "oracle": {"status": "ok"},
+                "why": "int() recorta espacios y saltos de linea (' 7 ', '7\\n') y acepta el prefijo 0x/0o/0b que coincide con la base ('0x10' base 16, '0o17' base 8); parseInt los rechaza (InvalidCharacter)",
+            },
+            {
+                "id": "precedencia-overflow-sobre-caracter-invalido",
+                "fields": ["error"],
+                "expect": {"error": "Overflow"},
+                "oracle": {"error": "InvalidLiteral"},
+                "why": "con una cadena a la vez desbordada y con caracter invalido, parseInt informa Overflow antes de ver el caracter; int() informa ValueError. Mismo estado (err), distinto nombre de error",
+            },
+            {
+                "id": "zig-acepta-lo-que-int-rechaza",
+                "fields": ["status", "error", "value"],
+                "expect": {"status": "ok"},
+                "oracle": {"status": "err", "error": "InvalidLiteral"},
+                "why": "parseInt acepta guiones bajos consecutivos ('1__0') y, con base 0, ceros a la izquierda ('010' -> 10); int() rechaza ambos. La receta dice que parseInt acepta '_' como Python: no es cierto para '__'. Hallazgo, no corregido en la receta",
+            },
+        ],
     ),
     "zig0.16/detached-daemon-no-shell": _c(
         None, None, None, [],

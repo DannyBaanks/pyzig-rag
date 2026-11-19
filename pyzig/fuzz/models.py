@@ -15,6 +15,8 @@ Reglas comunes:
 
 from __future__ import annotations
 
+import base64
+import binascii
 import hashlib
 import os
 import shutil
@@ -362,6 +364,80 @@ def model_sha256(fields: list[bytes]) -> tuple[str, list[str]]:
     return "ok", ["ok", "", hashlib.sha256(fields[0]).hexdigest()]
 
 
+#: Error canonico de codificacion (binascii.Error / ValueError de hex): ambos
+#: lados lo usan para cualquier entrada que no decodifica.
+BAD_ENCODING = "BadEncoding"
+
+
+def model_base64(fields: list[bytes]) -> tuple[str, list[str]]:
+    """base64.b64encode / b64decode(validate=True): estricto como el Decoder Zig.
+
+    Sin validate=True Python descartaria los caracteres fuera del alfabeto
+    (saltos de linea incluidos); ese caso es una divergencia de semantica y se
+    deja fuera del modelo a proposito: el contrato compara el decodificador
+    estricto de ambos lados.
+    """
+    n = 3
+    if len(fields) < 2:
+        return _invalid(n)
+    op = _text(fields[0])
+    data = fields[1]
+    if op == "enc":
+        return "ok", ["ok", "", base64.b64encode(data)]
+    if op == "dec":
+        try:
+            out = base64.b64decode(data, validate=True)
+        except binascii.Error:
+            return "err", ["err", BAD_ENCODING, ""]
+        return "ok", ["ok", "", out]
+    return _invalid(n)
+
+
+def model_hex(fields: list[bytes]) -> tuple[str, list[str]]:
+    """bytes.hex() / bytes.fromhex(str): ValueError -> BadEncoding."""
+    n = 3
+    if len(fields) < 2:
+        return _invalid(n)
+    op = _text(fields[0])
+    data = fields[1]
+    if op == "enc":
+        return "ok", ["ok", "", data.hex()]
+    if op == "dec":
+        try:
+            out = bytes.fromhex(data.decode("ascii"))
+        except (UnicodeDecodeError, ValueError):
+            return "err", ["err", BAD_ENCODING, ""]
+        return "ok", ["ok", "", out]
+    return _invalid(n)
+
+
+_I32_MIN, _I32_MAX = -(2 ** 31), 2 ** 31 - 1
+
+
+def model_parseint(fields: list[bytes]) -> tuple[str, list[str]]:
+    """int(text, base) con el resultado restringido al tipo destino i32.
+
+    Python no desborda; el contrato fija el tipo de Zig (i32) y reporta fuera
+    de rango como Overflow. La base 0 y 2..36 son validas; otra base es invalid.
+    """
+    n = 3
+    if len(fields) < 2:
+        return _invalid(n)
+    try:
+        base = int(_text(fields[1]))
+    except ValueError:
+        return _invalid(n)
+    if base != 0 and not 2 <= base <= 36:
+        return _invalid(n)
+    try:
+        value = int(fields[0].decode("utf-8"), base)
+    except (UnicodeDecodeError, ValueError):
+        return "err", ["err", "InvalidLiteral", ""]
+    if not _I32_MIN <= value <= _I32_MAX:
+        return "err", ["err", "Overflow", ""]
+    return "ok", ["ok", "", str(value)]
+
+
 #: nombre de modelo -> funcion
 MODELS: dict[str, Callable[[list[bytes]], tuple[str, list[str]]]] = {
     "argv": model_argv,
@@ -375,4 +451,7 @@ MODELS: dict[str, Callable[[list[bytes]], tuple[str, list[str]]]] = {
     "spawn": model_spawn,
     "stdout": model_stdout,
     "sha256": model_sha256,
+    "base64": model_base64,
+    "hex": model_hex,
+    "parseint": model_parseint,
 }

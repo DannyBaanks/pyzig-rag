@@ -1,5 +1,5 @@
 """Recetas texto y numeros (area texto_num). Generado y verificado con zig test."""
-from pyzig.fuzz.contracts import _c
+from pyzig.fuzz.contracts import CONTRACTS as _FUZZ, _c
 
 ZIG = "0.16.0"; PY = "3.12"; PROV = "std local de zig 0.16.0 (repo en lib/std)"
 
@@ -605,15 +605,10 @@ dict(
 ]
 
 CONTRACTS = {
-    "zig0.16/base64-encode-decode": _c(None, None, None, [],
-        type_sig={"input": "bytes/str", "output": "bytes/str/numero o error"},
-        skip_reason="sin driver diferencial todavia"),
-    "zig0.16/hex-encode-decode": _c(None, None, None, [],
-        type_sig={"input": "bytes/str", "output": "bytes/str/numero o error"},
-        skip_reason="sin driver diferencial todavia"),
-    "zig0.16/parse-int-base-overflow": _c(None, None, None, [],
-        type_sig={"input": "bytes/str", "output": "bytes/str/numero o error"},
-        skip_reason="sin driver diferencial todavia"),
+    # fuzzables: el contrato vive en pyzig/fuzz/contracts.py (driver + modelo)
+    "zig0.16/base64-encode-decode": _FUZZ["zig0.16/base64-encode-decode"],
+    "zig0.16/hex-encode-decode": _FUZZ["zig0.16/hex-encode-decode"],
+    "zig0.16/parse-int-base-overflow": _FUZZ["zig0.16/parse-int-base-overflow"],
     "zig0.16/parse-float-format-decimals": _c(None, None, None, [],
         type_sig={"input": "bytes/str", "output": "bytes/str/numero o error"},
         skip_reason="sin driver diferencial todavia"),
