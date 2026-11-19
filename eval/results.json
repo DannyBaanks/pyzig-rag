@@ -1,45 +1,45 @@
 {
   "model": "all-MiniLM-L6-v2",
-  "peak_rss_mb": 200.1,
+  "peak_rss_mb": 200.4,
   "modes": {
     "lexical": {
       "summary": {
-        "n": 196,
-        "precision_at_1": 0.984,
+        "n": 216,
+        "precision_at_1": 0.976,
         "recall_at_3": 0.995,
-        "negativas_correctas": "4/4",
-        "status_correcto": "1/1",
-        "latencia_ms_media": 1.6,
+        "negativas_correctas": "3/4",
+        "status_correcto": "3/3",
+        "latencia_ms_media": 1.7,
         "por_tipo": {
           "api": {
-            "n": 53,
-            "aciertos_top1": 52,
-            "aciertos_top3": 52
+            "n": 57,
+            "aciertos_top1": 56,
+            "aciertos_top3": 56
           },
           "direct": {
-            "n": 54,
-            "aciertos_top1": 52,
-            "aciertos_top3": 54
+            "n": 60,
+            "aciertos_top1": 57,
+            "aciertos_top3": 60
           },
           "error": {
-            "n": 33,
-            "aciertos_top1": 33,
-            "aciertos_top3": 33
+            "n": 36,
+            "aciertos_top1": 35,
+            "aciertos_top3": 36
           },
           "negative": {
             "n": 3,
-            "aciertos_top1": 3,
-            "aciertos_top3": 3
+            "aciertos_top1": 2,
+            "aciertos_top3": 2
           },
           "paraphrase": {
-            "n": 51,
-            "aciertos_top1": 51,
-            "aciertos_top3": 51
+            "n": 56,
+            "aciertos_top1": 56,
+            "aciertos_top3": 56
           },
           "status": {
-            "n": 1,
-            "aciertos_top1": 1,
-            "aciertos_top3": 1
+            "n": 3,
+            "aciertos_top1": 3,
+            "aciertos_top3": 3
           },
           "version": {
             "n": 1,
@@ -47,7 +47,7 @@
             "aciertos_top3": 1
           }
         },
-        "mrr_at_3": 0.99
+        "mrr_at_3": 0.986
       },
       "rows": [
         {
@@ -64,7 +64,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 3.6
+          "ms": 2.4
         },
         {
           "qid": "q02",
@@ -93,7 +93,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.9
+          "ms": 1.6
         },
         {
           "qid": "q04",
@@ -108,7 +108,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.9
+          "ms": 1.7
         },
         {
           "qid": "q05",
@@ -124,7 +124,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.7
+          "ms": 2.6
         },
         {
           "qid": "q06",
@@ -139,7 +139,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.0
+          "ms": 1.8
         },
         {
           "qid": "q07",
@@ -155,7 +155,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.8
+          "ms": 1.6
         },
         {
           "qid": "q08",
@@ -169,7 +169,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.9
+          "ms": 1.7
         },
         {
           "qid": "q09",
@@ -215,7 +215,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.1
+          "ms": 1.5
         },
         {
           "qid": "q12",
@@ -231,7 +231,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.3
+          "ms": 1.6
         },
         {
           "qid": "q13",
@@ -247,7 +247,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.1
+          "ms": 3.0
         },
         {
           "qid": "q14",
@@ -263,7 +263,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.0
+          "ms": 1.3
         },
         {
           "qid": "q15",
@@ -278,7 +278,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.0
+          "ms": 1.3
         },
         {
           "qid": "q16",
@@ -288,12 +288,13 @@
           "expected": "zig0.16/string-split-strip-format",
           "got_top3": [
             "zig0.16/string-split-strip-format",
+            "zig0.16/csv-reader-line-quoted",
             "zig0.16/hex-encode-decode"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.2
+          "ms": 1.7
         },
         {
           "qid": "q17",
@@ -309,7 +310,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.9
+          "ms": 2.3
         },
         {
           "qid": "q18",
@@ -325,7 +326,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.7
+          "ms": 1.9
         },
         {
           "qid": "q19",
@@ -341,7 +342,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.9
+          "ms": 1.0
         },
         {
           "qid": "q20",
@@ -357,7 +358,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.3
+          "ms": 1.4
         },
         {
           "qid": "q21",
@@ -373,7 +374,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.3
+          "ms": 2.5
         },
         {
           "qid": "q22",
@@ -389,7 +390,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.1
+          "ms": 1.2
         },
         {
           "qid": "q23",
@@ -404,7 +405,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.7
+          "ms": 0.8
         },
         {
           "qid": "q24",
@@ -424,11 +425,13 @@
           "query": "compilar un transpilador universal de python a zig",
           "expect": "NONE",
           "expected": null,
-          "got_top3": [],
-          "error": "NO_RESULTS",
-          "ok_top1": true,
-          "ok_top3": true,
-          "ms": 1.2
+          "got_top3": [
+            "zig0.16/format-string-alloc-print"
+          ],
+          "error": null,
+          "ok_top1": false,
+          "ok_top3": false,
+          "ms": 1.5
         },
         {
           "qid": "q26",
@@ -440,7 +443,7 @@
           "error": "NO_RESULTS",
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.7
+          "ms": 0.8
         },
         {
           "qid": "q27",
@@ -482,7 +485,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 1.7
         },
         {
           "qid": "colecciones-02",
@@ -498,7 +501,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.3
+          "ms": 1.9
         },
         {
           "qid": "colecciones-03",
@@ -513,7 +516,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.8
+          "ms": 1.9
         },
         {
           "qid": "colecciones-04",
@@ -527,7 +530,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.2
+          "ms": 1.3
         },
         {
           "qid": "colecciones-05",
@@ -541,7 +544,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.4
+          "ms": 1.5
         },
         {
           "qid": "colecciones-06",
@@ -550,12 +553,13 @@
           "expect": "POS",
           "expected": "zig0.16/sorted-key-stable",
           "got_top3": [
-            "zig0.16/sorted-key-stable"
+            "zig0.16/sorted-key-stable",
+            "zig0.16/migrate-arraylist-writer"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.3
+          "ms": 1.5
         },
         {
           "qid": "colecciones-07",
@@ -569,7 +573,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 1.7
         },
         {
           "qid": "colecciones-08",
@@ -583,7 +587,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.1
+          "ms": 1.7
         },
         {
           "qid": "colecciones-09",
@@ -597,7 +601,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 1.2
         },
         {
           "qid": "colecciones-10",
@@ -611,7 +615,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.1
+          "ms": 1.2
         },
         {
           "qid": "colecciones-11",
@@ -684,7 +688,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.3
+          "ms": 2.5
         },
         {
           "qid": "fs_rutas-02",
@@ -699,7 +703,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.8
+          "ms": 1.9
         },
         {
           "qid": "fs_rutas-03",
@@ -713,7 +717,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.0
+          "ms": 1.1
         },
         {
           "qid": "fs_rutas-04",
@@ -728,7 +732,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.4
+          "ms": 1.5
         },
         {
           "qid": "fs_rutas-05",
@@ -757,7 +761,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.4
+          "ms": 1.5
         },
         {
           "qid": "fs_rutas-07",
@@ -771,7 +775,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.9
+          "ms": 1.4
         },
         {
           "qid": "fs_rutas-08",
@@ -800,7 +804,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.2
+          "ms": 0.6
         },
         {
           "qid": "fs_rutas-10",
@@ -814,7 +818,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.5
+          "ms": 1.6
         },
         {
           "qid": "fs_rutas-11",
@@ -859,7 +863,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.8
+          "ms": 0.9
         },
         {
           "qid": "fs_rutas-14",
@@ -873,7 +877,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.0
+          "ms": 1.1
         },
         {
           "qid": "json-01",
@@ -921,7 +925,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.8
+          "ms": 1.9
         },
         {
           "qid": "json-04",
@@ -936,7 +940,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.3
+          "ms": 1.4
         },
         {
           "qid": "json-05",
@@ -967,7 +971,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.2
+          "ms": 1.7
         },
         {
           "qid": "json-07",
@@ -997,7 +1001,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.7
+          "ms": 1.4
         },
         {
           "qid": "json-09",
@@ -1012,7 +1016,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 1.7
         },
         {
           "qid": "json-10",
@@ -1028,7 +1032,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 1.7
         },
         {
           "qid": "json-11",
@@ -1042,7 +1046,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.5
+          "ms": 1.6
         },
         {
           "qid": "json-12",
@@ -1056,7 +1060,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.5
+          "ms": 1.6
         },
         {
           "qid": "texto_num-01",
@@ -1072,7 +1076,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.4
+          "ms": 1.5
         },
         {
           "qid": "texto_num-02",
@@ -1087,7 +1091,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.1
+          "ms": 1.2
         },
         {
           "qid": "texto_num-03",
@@ -1103,7 +1107,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.2
+          "ms": 2.4
         },
         {
           "qid": "texto_num-04",
@@ -1135,7 +1139,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.8
+          "ms": 1.9
         },
         {
           "qid": "texto_num-06",
@@ -1151,7 +1155,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.4
+          "ms": 3.0
         },
         {
           "qid": "texto_num-07",
@@ -1167,7 +1171,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.1
+          "ms": 1.7
         },
         {
           "qid": "texto_num-08",
@@ -1182,7 +1186,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.8
+          "ms": 1.3
         },
         {
           "qid": "texto_num-09",
@@ -1212,7 +1216,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.0
+          "ms": 1.1
         },
         {
           "qid": "texto_num-11",
@@ -1228,7 +1232,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.1
+          "ms": 2.2
         },
         {
           "qid": "texto_num-12",
@@ -1275,7 +1279,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.9
+          "ms": 1.0
         },
         {
           "qid": "texto_num-15",
@@ -1290,7 +1294,7 @@
           "error": null,
           "ok_top1": false,
           "ok_top3": true,
-          "ms": 1.7
+          "ms": 1.9
         },
         {
           "qid": "texto_num-16",
@@ -1306,7 +1310,7 @@
           "error": null,
           "ok_top1": false,
           "ok_top3": false,
-          "ms": 1.7
+          "ms": 1.9
         },
         {
           "qid": "tiempo_args-01",
@@ -1317,12 +1321,12 @@
           "got_top3": [
             "zig0.16/epoch-now-seconds",
             "zig0.16/monotonic-duration-measure",
-            "zig0.16/sleep-ms"
+            "zig0.16/epoch-to-utc-ymd-hms"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.1
+          "ms": 1.2
         },
         {
           "qid": "tiempo_args-02",
@@ -1336,7 +1340,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.1
+          "ms": 1.2
         },
         {
           "qid": "tiempo_args-03",
@@ -1351,7 +1355,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.0
+          "ms": 2.4
         },
         {
           "qid": "tiempo_args-04",
@@ -1379,7 +1383,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.5
+          "ms": 1.0
         },
         {
           "qid": "tiempo_args-06",
@@ -1393,7 +1397,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.1
+          "ms": 1.2
         },
         {
           "qid": "tiempo_args-07",
@@ -1409,7 +1413,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.5
+          "ms": 1.6
         },
         {
           "qid": "tiempo_args-08",
@@ -1419,12 +1423,13 @@
           "expected": "zig0.16/process-args-iterate",
           "got_top3": [
             "zig0.16/process-args-iterate",
+            "zig0.16/argparse-subcommands",
             "zig0.16/migrate-readfilealloc"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.1
+          "ms": 1.2
         },
         {
           "qid": "tiempo_args-09",
@@ -1440,7 +1445,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.2
+          "ms": 1.4
         },
         {
           "qid": "tiempo_args-10",
@@ -1469,7 +1474,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.1
+          "ms": 1.2
         },
         {
           "qid": "tiempo_args-12",
@@ -1485,7 +1490,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 1.7
         },
         {
           "qid": "tiempo_args-13",
@@ -1514,7 +1519,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.3
+          "ms": 1.4
         },
         {
           "qid": "migracion-01",
@@ -1530,7 +1535,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.3
+          "ms": 2.5
         },
         {
           "qid": "migracion-02",
@@ -1546,7 +1551,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.7
+          "ms": 2.6
         },
         {
           "qid": "migracion-03",
@@ -1562,7 +1567,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 3.3
+          "ms": 2.5
         },
         {
           "qid": "migracion-04",
@@ -1572,13 +1577,13 @@
           "expected": "zig0.16/migrate-stdout-writer",
           "got_top3": [
             "zig0.16/migrate-stdout-writer",
-            "zig0.16/migrate-child-run",
-            "zig0.16/migrate-writefile"
+            "zig0.16/migrate-writefile",
+            "zig0.16/migrate-child-run"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.7
+          "ms": 2.9
         },
         {
           "qid": "migracion-05",
@@ -1588,13 +1593,13 @@
           "expected": "zig0.16/migrate-arraylist-unmanaged",
           "got_top3": [
             "zig0.16/migrate-arraylist-unmanaged",
-            "zig0.16/migrate-thread-mutex",
-            "zig0.16/migrate-stdout-writer"
+            "zig0.16/migrate-arraylist-writer",
+            "zig0.16/migrate-thread-mutex"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.8
+          "ms": 1.9
         },
         {
           "qid": "migracion-06",
@@ -1604,12 +1609,13 @@
           "expected": "zig0.16/migrate-arraylist-unmanaged",
           "got_top3": [
             "zig0.16/migrate-arraylist-unmanaged",
+            "zig0.16/migrate-arraylist-writer",
             "zig0.16/migrate-readfilealloc"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 1.8
         },
         {
           "qid": "migracion-07",
@@ -1625,7 +1631,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.1
+          "ms": 1.2
         },
         {
           "qid": "migracion-08",
@@ -1641,7 +1647,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.3
+          "ms": 2.4
         },
         {
           "qid": "migracion-09",
@@ -1657,7 +1663,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.0
+          "ms": 2.2
         },
         {
           "qid": "migracion-10",
@@ -1673,7 +1679,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.0
+          "ms": 2.5
         },
         {
           "qid": "migracion-11",
@@ -1689,7 +1695,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.3
+          "ms": 2.2
         },
         {
           "qid": "migracion-12",
@@ -1705,7 +1711,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.5
+          "ms": 1.6
         },
         {
           "qid": "migracion-13",
@@ -1721,7 +1727,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 1.8
         },
         {
           "qid": "migracion-14",
@@ -1732,12 +1738,12 @@
           "got_top3": [
             "zig0.16/migrate-arraylist-unmanaged",
             "zig0.16/list-append-pop-insert",
-            "zig0.16/listdir-names-sorted"
+            "zig0.16/migrate-arraylist-writer"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.0
+          "ms": 2.3
         },
         {
           "qid": "migracion-15",
@@ -1753,7 +1759,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 1.7
         },
         {
           "qid": "migracion-16",
@@ -1769,7 +1775,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.4
+          "ms": 1.6
         },
         {
           "qid": "migracion-17",
@@ -1785,7 +1791,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.2
+          "ms": 2.5
         },
         {
           "qid": "migracion-18",
@@ -1801,7 +1807,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 1.7
         },
         {
           "qid": "migracion-19",
@@ -1817,7 +1823,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.2
+          "ms": 2.8
         },
         {
           "qid": "io_red-01",
@@ -1832,7 +1838,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.4
+          "ms": 1.5
         },
         {
           "qid": "io_red-02",
@@ -1846,7 +1852,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.4
+          "ms": 1.8
         },
         {
           "qid": "io_red-03",
@@ -1861,7 +1867,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.5
+          "ms": 1.7
         },
         {
           "qid": "io_red-04",
@@ -1876,7 +1882,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.4
+          "ms": 1.6
         },
         {
           "qid": "io_red-05",
@@ -1890,7 +1896,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.1
+          "ms": 2.2
         },
         {
           "qid": "io_red-06",
@@ -1904,7 +1910,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.3
+          "ms": 1.6
         },
         {
           "qid": "io_red-07",
@@ -1919,7 +1925,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.4
+          "ms": 1.6
         },
         {
           "qid": "io_red-08",
@@ -1933,7 +1939,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.4
+          "ms": 1.6
         },
         {
           "qid": "io_red-09",
@@ -1947,7 +1953,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.1
+          "ms": 1.2
         },
         {
           "qid": "io_red-10",
@@ -1961,7 +1967,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.7
+          "ms": 1.9
         },
         {
           "qid": "io_red-11",
@@ -1975,7 +1981,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.2
+          "ms": 1.4
         },
         {
           "qid": "io_red-12",
@@ -1989,7 +1995,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 1.8
         },
         {
           "qid": "io_red-13",
@@ -2003,7 +2009,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.2
+          "ms": 1.3
         },
         {
           "qid": "io_red-14",
@@ -2018,7 +2024,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.7
+          "ms": 2.5
         },
         {
           "qid": "diag-01",
@@ -2033,7 +2039,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.0
+          "ms": 1.1
         },
         {
           "qid": "diag-02",
@@ -2047,7 +2053,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.5
+          "ms": 1.6
         },
         {
           "qid": "diag-03",
@@ -2062,7 +2068,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 1.3
         },
         {
           "qid": "diag-04",
@@ -2078,7 +2084,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.0
+          "ms": 1.1
         },
         {
           "qid": "diag-05",
@@ -2094,7 +2100,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.3
+          "ms": 3.3
         },
         {
           "qid": "diag-06",
@@ -2110,7 +2116,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.3
+          "ms": 1.4
         },
         {
           "qid": "diag-07",
@@ -2124,7 +2130,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.9
+          "ms": 1.0
         },
         {
           "qid": "diag-08",
@@ -2138,7 +2144,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.8
+          "ms": 1.1
         },
         {
           "qid": "diag-09",
@@ -2152,7 +2158,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.2
+          "ms": 1.6
         },
         {
           "qid": "diag-10",
@@ -2166,7 +2172,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.8
+          "ms": 0.9
         },
         {
           "qid": "diag-11",
@@ -2182,7 +2188,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.5
+          "ms": 1.6
         },
         {
           "qid": "diag-12",
@@ -2198,7 +2204,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.5
+          "ms": 1.7
         },
         {
           "qid": "diag-13",
@@ -2214,7 +2220,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.2
+          "ms": 1.8
         },
         {
           "qid": "diag-14",
@@ -2262,7 +2268,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.7
+          "ms": 1.2
         },
         {
           "qid": "diag-17",
@@ -2278,7 +2284,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.5
+          "ms": 1.6
         },
         {
           "qid": "diag-18",
@@ -2294,7 +2300,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.9
+          "ms": 1.4
         },
         {
           "qid": "diag-19",
@@ -2340,7 +2346,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.2
+          "ms": 1.3
         },
         {
           "qid": "diag-22",
@@ -2356,7 +2362,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.0
+          "ms": 1.1
         },
         {
           "qid": "diag-23",
@@ -2387,7 +2393,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.2
+          "ms": 1.3
         },
         {
           "qid": "diag-25",
@@ -2401,7 +2407,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.9
+          "ms": 1.3
         },
         {
           "qid": "diag-26",
@@ -2426,12 +2432,12 @@
           "got_top3": [
             "zig0.16/diag-ptrcast-const",
             "zig0.16/cstring-span-slice-to",
-            "zig0.16/thread-spawn-join"
+            "zig0.16/cstring-sentinel-slice-ptr"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 1.7
         },
         {
           "qid": "diag-28",
@@ -2447,7 +2453,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 1.7
         },
         {
           "qid": "diag-29",
@@ -2463,7 +2469,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.3
+          "ms": 1.9
         },
         {
           "qid": "diag-30",
@@ -2474,12 +2480,12 @@
           "got_top3": [
             "zig0.16/diag-narrowing-intcast",
             "zig0.16/thread-spawn-join",
-            "zig0.16/diag-shadow-primitive"
+            "zig0.16/cstring-sentinel-slice-ptr"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.3
+          "ms": 2.4
         },
         {
           "qid": "diag-31",
@@ -2493,7 +2499,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.8
+          "ms": 0.9
         },
         {
           "qid": "diag-32",
@@ -2541,7 +2547,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.5
+          "ms": 2.6
         },
         {
           "qid": "build-02",
@@ -2556,7 +2562,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.2
+          "ms": 1.3
         },
         {
           "qid": "build-03",
@@ -2572,7 +2578,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.5
+          "ms": 1.9
         },
         {
           "qid": "build-04",
@@ -2588,7 +2594,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.1
+          "ms": 2.2
         },
         {
           "qid": "build-05",
@@ -2613,12 +2619,12 @@
           "got_top3": [
             "zig0.16/build-shared-library",
             "zig0.16/build-c-source-files",
-            "zig0.16/build-exe-root-module"
+            "zig0.16/migrate-arraylist-writer"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.9
+          "ms": 1.7
         },
         {
           "qid": "build-07",
@@ -2634,7 +2640,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.5
+          "ms": 2.6
         },
         {
           "qid": "build-08",
@@ -2645,12 +2651,12 @@
           "got_top3": [
             "zig0.16/build-c-source-files",
             "zig0.16/build-shared-library",
-            "zig0.16/build-exe-root-module"
+            "zig0.16/build-test-step"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.8
+          "ms": 2.9
         },
         {
           "qid": "build-09",
@@ -2665,7 +2671,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 1.7
         },
         {
           "qid": "build-10",
@@ -2681,7 +2687,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.0
+          "ms": 2.1
         },
         {
           "qid": "build-11",
@@ -2697,7 +2703,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.5
+          "ms": 2.9
         },
         {
           "qid": "build-12",
@@ -2712,7 +2718,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.9
+          "ms": 1.8
         },
         {
           "qid": "build-13",
@@ -2758,7 +2764,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.4
+          "ms": 2.1
         },
         {
           "qid": "build-16",
@@ -2774,7 +2780,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.9
+          "ms": 2.0
         },
         {
           "qid": "mate_bytes-01",
@@ -2790,7 +2796,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 1.7
         },
         {
           "qid": "mate_bytes-02",
@@ -2800,13 +2806,13 @@
           "expected": "zig0.16/format-string-alloc-print",
           "got_top3": [
             "zig0.16/format-string-alloc-print",
-            "zig0.16/parse-float-format-decimals",
-            "zig0.16/string-split-strip-format"
+            "zig0.16/epoch-to-utc-ymd-hms",
+            "zig0.16/parse-float-format-decimals"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.4
+          "ms": 1.6
         },
         {
           "qid": "mate_bytes-03",
@@ -2822,7 +2828,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.5
+          "ms": 1.6
         },
         {
           "qid": "mate_bytes-04",
@@ -2838,7 +2844,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.5
+          "ms": 1.6
         },
         {
           "qid": "mate_bytes-05",
@@ -2854,7 +2860,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.8
+          "ms": 2.3
         },
         {
           "qid": "mate_bytes-06",
@@ -2869,7 +2875,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 1.7
         },
         {
           "qid": "mate_bytes-07",
@@ -2900,7 +2906,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.0
+          "ms": 2.1
         },
         {
           "qid": "mate_bytes-09",
@@ -2915,7 +2921,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.3
+          "ms": 1.5
         },
         {
           "qid": "mate_bytes-10",
@@ -2925,12 +2931,13 @@
           "expected": "zig0.16/div-floor-mod-negative",
           "got_top3": [
             "zig0.16/div-floor-mod-negative",
-            "zig0.16/round-floor-ceil-bankers"
+            "zig0.16/round-floor-ceil-bankers",
+            "zig0.16/re-regex-gap"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.4
+          "ms": 1.5
         },
         {
           "qid": "mate_bytes-11",
@@ -2946,7 +2953,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.2
+          "ms": 2.0
         },
         {
           "qid": "mate_bytes-12",
@@ -2962,7 +2969,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.4
+          "ms": 1.5
         },
         {
           "qid": "mate_bytes-13",
@@ -2988,12 +2995,13 @@
           "expected": "zig0.16/round-floor-ceil-bankers",
           "got_top3": [
             "zig0.16/round-floor-ceil-bankers",
-            "zig0.16/format-string-alloc-print"
+            "zig0.16/format-string-alloc-print",
+            "zig0.16/div-floor-mod-negative"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.4
+          "ms": 3.5
         },
         {
           "qid": "mate_bytes-15",
@@ -3002,12 +3010,13 @@
           "expect": "POS",
           "expected": "zig0.16/cstring-span-slice-to",
           "got_top3": [
-            "zig0.16/cstring-span-slice-to"
+            "zig0.16/cstring-span-slice-to",
+            "zig0.16/cstring-sentinel-slice-ptr"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.5
+          "ms": 2.0
         },
         {
           "qid": "mate_bytes-16",
@@ -3017,54 +3026,357 @@
           "expected": "zig0.16/cstring-span-slice-to",
           "got_top3": [
             "zig0.16/cstring-span-slice-to",
-            "zig0.16/process-args-iterate",
-            "zig0.16/set-str-membership"
+            "zig0.16/cstring-sentinel-slice-ptr",
+            "zig0.16/process-args-iterate"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 2.3
+        },
+        {
+          "qid": "stdlib_extra-01",
+          "kind": "error",
+          "query": "error: root source file struct 'fs' has no member named 'openDirAbsolute'  var d = try std.fs.openDirAbsolute(\"/tmp\", .{ .iterate = true });",
+          "expect": "POS",
+          "expected": "zig0.16/migrate-open-dir-absolute",
+          "got_top3": [
+            "zig0.16/migrate-open-dir-absolute",
+            "zig0.16/migrate-stdout-writer",
+            "zig0.16/migrate-writefile"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 3.1
+        },
+        {
+          "qid": "stdlib_extra-02",
+          "kind": "direct",
+          "query": "como abro un directorio por ruta absoluta en zig 0.16 si std.fs.openDirAbsolute ya no existe",
+          "expect": "POS",
+          "expected": "zig0.16/migrate-open-dir-absolute",
+          "got_top3": [
+            "zig0.16/migrate-open-dir-absolute",
+            "zig0.16/migrate-readfilealloc",
+            "zig0.16/makedirs-exist-ok"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.8
+        },
+        {
+          "qid": "stdlib_extra-03",
+          "kind": "api",
+          "query": "std.Io.Dir.openDirAbsolute con io y opciones iterate",
+          "expect": "POS",
+          "expected": "zig0.16/migrate-open-dir-absolute",
+          "got_top3": [
+            "zig0.16/migrate-open-dir-absolute",
+            "zig0.16/temp-dir-scoped",
+            "zig0.16/listdir-names-sorted"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.4
+        },
+        {
+          "qid": "stdlib_extra-04",
+          "kind": "error",
+          "query": "error: no field or member function named 'writer' in 'array_list.Aligned(u8,null)'  const w = list.writer();",
+          "expect": "POS",
+          "expected": "zig0.16/migrate-arraylist-writer",
+          "got_top3": [
+            "zig0.16/migrate-arraylist-writer",
+            "zig0.16/migrate-arraylist-unmanaged",
+            "zig0.16/migrate-stdout-writer"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.9
+        },
+        {
+          "qid": "stdlib_extra-05",
+          "kind": "direct",
+          "query": "list.writer() no existe en el ArrayList de zig 0.16, como imprimir con formato en el buffer",
+          "expect": "POS",
+          "expected": "zig0.16/migrate-arraylist-writer",
+          "got_top3": [
+            "zig0.16/migrate-stdout-writer",
+            "zig0.16/migrate-arraylist-writer",
+            "zig0.16/stdout-print-flush"
+          ],
+          "error": null,
+          "ok_top1": false,
+          "ok_top3": true,
+          "ms": 2.3
+        },
+        {
+          "qid": "stdlib_extra-06",
+          "kind": "paraphrase",
+          "query": "quiero escribir un print con formato dentro de una lista de bytes sin usar writer",
+          "expect": "POS",
+          "expected": "zig0.16/migrate-arraylist-writer",
+          "got_top3": [
+            "zig0.16/migrate-arraylist-writer",
+            "zig0.16/stdout-print-flush"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.9
+        },
+        {
+          "qid": "stdlib_extra-07",
+          "kind": "error",
+          "query": "error: expected type '?[*:0]const u8', found '*const [:0]const u8'  takes(&name);",
+          "expect": "POS",
+          "expected": "zig0.16/cstring-sentinel-slice-ptr",
+          "got_top3": [
+            "zig0.16/diag-narrowing-intcast",
+            "zig0.16/cstring-sentinel-slice-ptr",
+            "zig0.16/float-special-values-isinf-isnan"
+          ],
+          "error": null,
+          "ok_top1": false,
+          "ok_top3": true,
+          "ms": 1.9
+        },
+        {
+          "qid": "stdlib_extra-08",
+          "kind": "direct",
+          "query": "pasar un slice terminado en cero a una funcion C, usar .ptr en vez de &slice",
+          "expect": "POS",
+          "expected": "zig0.16/cstring-sentinel-slice-ptr",
+          "got_top3": [
+            "zig0.16/cstring-sentinel-slice-ptr",
+            "zig0.16/cstring-span-slice-to",
+            "zig0.16/thread-spawn-join"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 2.8
+        },
+        {
+          "qid": "stdlib_extra-09",
+          "kind": "paraphrase",
+          "query": "el puntero a slice centinela no coincide con el many pointer que espera la funcion de C",
+          "expect": "POS",
+          "expected": "zig0.16/cstring-sentinel-slice-ptr",
+          "got_top3": [
+            "zig0.16/cstring-sentinel-slice-ptr",
+            "zig0.16/ffi-extern-c-function"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
           "ms": 2.2
+        },
+        {
+          "qid": "stdlib_extra-10",
+          "kind": "direct",
+          "query": "partir una linea csv en campos respetando comillas y comas dentro de comillas",
+          "expect": "POS",
+          "expected": "zig0.16/csv-reader-line-quoted",
+          "got_top3": [
+            "zig0.16/csv-reader-line-quoted"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.4
+        },
+        {
+          "qid": "stdlib_extra-11",
+          "kind": "api",
+          "query": "csv.reader con comillas dobles escapadas dentro de un campo",
+          "expect": "POS",
+          "expected": "zig0.16/csv-reader-line-quoted",
+          "got_top3": [
+            "zig0.16/csv-reader-line-quoted"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.3
+        },
+        {
+          "qid": "stdlib_extra-12",
+          "kind": "paraphrase",
+          "query": "separar una linea por comas pero no cortar lo que va entre comillas",
+          "expect": "POS",
+          "expected": "zig0.16/csv-reader-line-quoted",
+          "got_top3": [
+            "zig0.16/csv-reader-line-quoted"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.2
+        },
+        {
+          "qid": "stdlib_extra-13",
+          "kind": "direct",
+          "query": "convertir segundos desde epoch a fecha y hora UTC en zig",
+          "expect": "POS",
+          "expected": "zig0.16/epoch-to-utc-ymd-hms",
+          "got_top3": [
+            "zig0.16/epoch-to-utc-ymd-hms",
+            "zig0.16/epoch-now-seconds"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.5
+        },
+        {
+          "qid": "stdlib_extra-14",
+          "kind": "api",
+          "query": "datetime.fromtimestamp con tz utc y strftime en zig",
+          "expect": "POS",
+          "expected": "zig0.16/epoch-to-utc-ymd-hms",
+          "got_top3": [
+            "zig0.16/epoch-to-utc-ymd-hms"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.1
+        },
+        {
+          "qid": "stdlib_extra-15",
+          "kind": "paraphrase",
+          "query": "de un timestamp unix sacar anio mes y dia sin libreria externa",
+          "expect": "POS",
+          "expected": "zig0.16/epoch-to-utc-ymd-hms",
+          "got_top3": [
+            "zig0.16/epoch-to-utc-ymd-hms"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.3
+        },
+        {
+          "qid": "stdlib_extra-16",
+          "kind": "direct",
+          "query": "argumentos de linea de comandos con subcomandos add y list en zig",
+          "expect": "POS",
+          "expected": "zig0.16/argparse-subcommands",
+          "got_top3": [
+            "zig0.16/argparse-subcommands",
+            "zig0.16/argparse-flags-parse",
+            "zig0.16/process-args-iterate"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.8
+        },
+        {
+          "qid": "stdlib_extra-17",
+          "kind": "api",
+          "query": "add_subparsers con subcomando obligatorio equivalente en zig",
+          "expect": "POS",
+          "expected": "zig0.16/argparse-subcommands",
+          "got_top3": [
+            "zig0.16/argparse-subcommands",
+            "zig0.16/json-loads-typed-struct"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.3
+        },
+        {
+          "qid": "stdlib_extra-18",
+          "kind": "paraphrase",
+          "query": "parsear argv con un comando obligatorio y error si el subcomando no existe",
+          "expect": "POS",
+          "expected": "zig0.16/argparse-subcommands",
+          "got_top3": [
+            "zig0.16/argparse-subcommands",
+            "zig0.16/json-read-file-limited"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.6
+        },
+        {
+          "qid": "stdlib_extra-19",
+          "kind": "status",
+          "query": "buscar con expresion regular grupos y cuantificadores como re.findall en zig",
+          "expect": "STATUS",
+          "expected": "zig0.16/re-regex-gap",
+          "got_top3": [
+            "zig0.16/re-regex-gap"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.4
+        },
+        {
+          "qid": "stdlib_extra-20",
+          "kind": "status",
+          "query": "re.sub con patron regex sobre un texto en zig 0.16",
+          "expect": "STATUS",
+          "expected": "zig0.16/re-regex-gap",
+          "got_top3": [
+            "zig0.16/re-regex-gap",
+            "zig0.16/migrate-writefile",
+            "zig0.16/read-file-text-limited"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.6
         }
       ]
     },
     "hybrid": {
       "summary": {
-        "n": 196,
-        "precision_at_1": 0.958,
-        "recall_at_3": 0.979,
-        "negativas_correctas": "4/4",
-        "status_correcto": "1/1",
-        "latencia_ms_media": 55.3,
+        "n": 216,
+        "precision_at_1": 0.952,
+        "recall_at_3": 0.976,
+        "negativas_correctas": "3/4",
+        "status_correcto": "3/3",
+        "latencia_ms_media": 59.6,
         "por_tipo": {
           "api": {
-            "n": 53,
-            "aciertos_top1": 52,
-            "aciertos_top3": 52
+            "n": 57,
+            "aciertos_top1": 56,
+            "aciertos_top3": 56
           },
           "direct": {
-            "n": 54,
-            "aciertos_top1": 51,
-            "aciertos_top3": 53
+            "n": 60,
+            "aciertos_top1": 57,
+            "aciertos_top3": 57
           },
           "error": {
-            "n": 33,
-            "aciertos_top1": 33,
-            "aciertos_top3": 33
+            "n": 36,
+            "aciertos_top1": 35,
+            "aciertos_top3": 36
           },
           "negative": {
             "n": 3,
-            "aciertos_top1": 3,
-            "aciertos_top3": 3
+            "aciertos_top1": 2,
+            "aciertos_top3": 2
           },
           "paraphrase": {
-            "n": 51,
-            "aciertos_top1": 47,
-            "aciertos_top3": 49
+            "n": 56,
+            "aciertos_top1": 51,
+            "aciertos_top3": 55
           },
           "status": {
-            "n": 1,
-            "aciertos_top1": 1,
-            "aciertos_top3": 1
+            "n": 3,
+            "aciertos_top1": 3,
+            "aciertos_top3": 3
           },
           "version": {
             "n": 1,
@@ -3072,7 +3384,7 @@
             "aciertos_top3": 1
           }
         },
-        "mrr_at_3": 0.965
+        "mrr_at_3": 0.962
       },
       "rows": [
         {
@@ -3089,7 +3401,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.4
+          "ms": 55.8
         },
         {
           "qid": "q02",
@@ -3121,7 +3433,7 @@
           "error": null,
           "ok_top1": false,
           "ok_top3": true,
-          "ms": 55.7
+          "ms": 56.3
         },
         {
           "qid": "q04",
@@ -3132,12 +3444,12 @@
           "got_top3": [
             "zig0.16/read-file-text-limited",
             "zig0.16/json-read-file-limited",
-            "zig0.16/migrate-readfilealloc"
+            "zig0.16/csv-reader-line-quoted"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.4
+          "ms": 56.1
         },
         {
           "qid": "q05",
@@ -3153,7 +3465,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.5
+          "ms": 57.1
         },
         {
           "qid": "q06",
@@ -3168,7 +3480,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.9
+          "ms": 58.6
         },
         {
           "qid": "q07",
@@ -3184,7 +3496,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.0
+          "ms": 56.5
         },
         {
           "qid": "q08",
@@ -3199,7 +3511,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.2
+          "ms": 56.9
         },
         {
           "qid": "q09",
@@ -3215,7 +3527,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.7
+          "ms": 57.7
         },
         {
           "qid": "q10",
@@ -3231,7 +3543,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.4
+          "ms": 59.4
         },
         {
           "qid": "q11",
@@ -3245,7 +3557,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.4
+          "ms": 61.8
         },
         {
           "qid": "q12",
@@ -3261,7 +3573,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.0
+          "ms": 59.3
         },
         {
           "qid": "q13",
@@ -3277,7 +3589,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.8
+          "ms": 61.4
         },
         {
           "qid": "q14",
@@ -3293,7 +3605,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.8
+          "ms": 57.6
         },
         {
           "qid": "q15",
@@ -3309,7 +3621,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.4
+          "ms": 57.5
         },
         {
           "qid": "q16",
@@ -3318,14 +3630,14 @@
           "expect": "POS",
           "expected": "zig0.16/string-split-strip-format",
           "got_top3": [
+            "zig0.16/csv-reader-line-quoted",
             "zig0.16/makedirs-exist-ok",
-            "zig0.16/thread-spawn-join",
-            "zig0.16/string-split-strip-format"
+            "zig0.16/thread-spawn-join"
           ],
           "error": null,
           "ok_top1": false,
-          "ok_top3": true,
-          "ms": 53.7
+          "ok_top3": false,
+          "ms": 56.9
         },
         {
           "qid": "q17",
@@ -3341,7 +3653,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.5
+          "ms": 57.7
         },
         {
           "qid": "q18",
@@ -3357,7 +3669,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.4
+          "ms": 59.3
         },
         {
           "qid": "q19",
@@ -3373,7 +3685,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.6
+          "ms": 57.5
         },
         {
           "qid": "q20",
@@ -3389,7 +3701,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 52.7
+          "ms": 57.7
         },
         {
           "qid": "q21",
@@ -3405,7 +3717,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.8
+          "ms": 59.2
         },
         {
           "qid": "q22",
@@ -3421,7 +3733,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.3
+          "ms": 58.9
         },
         {
           "qid": "q23",
@@ -3437,7 +3749,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.2
+          "ms": 57.5
         },
         {
           "qid": "q24",
@@ -3449,7 +3761,7 @@
           "error": "NO_RESULTS",
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.4
+          "ms": 57.8
         },
         {
           "qid": "q25",
@@ -3457,11 +3769,13 @@
           "query": "compilar un transpilador universal de python a zig",
           "expect": "NONE",
           "expected": null,
-          "got_top3": [],
-          "error": "NO_RESULTS",
-          "ok_top1": true,
-          "ok_top3": true,
-          "ms": 55.5
+          "got_top3": [
+            "zig0.16/format-string-alloc-print"
+          ],
+          "error": null,
+          "ok_top1": false,
+          "ok_top3": false,
+          "ms": 58.5
         },
         {
           "qid": "q26",
@@ -3473,7 +3787,7 @@
           "error": "NO_RESULTS",
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.8
+          "ms": 57.5
         },
         {
           "qid": "q27",
@@ -3501,7 +3815,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.7
+          "ms": 58.4
         },
         {
           "qid": "colecciones-01",
@@ -3517,7 +3831,7 @@
           "error": null,
           "ok_top1": false,
           "ok_top3": false,
-          "ms": 56.6
+          "ms": 60.4
         },
         {
           "qid": "colecciones-02",
@@ -3533,7 +3847,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.9
+          "ms": 60.9
         },
         {
           "qid": "colecciones-03",
@@ -3543,13 +3857,13 @@
           "expected": "zig0.16/list-append-pop-insert",
           "got_top3": [
             "zig0.16/list-append-pop-insert",
-            "zig0.16/dict-str-int-basic",
-            "zig0.16/sorted-key-stable"
+            "zig0.16/migrate-arraylist-writer",
+            "zig0.16/dict-str-int-basic"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.6
+          "ms": 60.4
         },
         {
           "qid": "colecciones-04",
@@ -3559,13 +3873,13 @@
           "expected": "zig0.16/list-append-pop-insert",
           "got_top3": [
             "zig0.16/list-append-pop-insert",
-            "zig0.16/argparse-flags-parse",
-            "zig0.16/diag-shadow-local"
+            "zig0.16/cstring-sentinel-slice-ptr",
+            "zig0.16/csv-reader-line-quoted"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.9
+          "ms": 59.4
         },
         {
           "qid": "colecciones-05",
@@ -3579,7 +3893,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.7
+          "ms": 59.6
         },
         {
           "qid": "colecciones-06",
@@ -3590,12 +3904,12 @@
           "got_top3": [
             "zig0.16/sorted-key-stable",
             "zig0.16/list-append-pop-insert",
-            "zig0.16/listdir-names-sorted"
+            "zig0.16/migrate-arraylist-writer"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.9
+          "ms": 60.0
         },
         {
           "qid": "colecciones-07",
@@ -3611,7 +3925,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.7
+          "ms": 59.3
         },
         {
           "qid": "colecciones-08",
@@ -3627,7 +3941,7 @@
           "error": null,
           "ok_top1": false,
           "ok_top3": true,
-          "ms": 56.7
+          "ms": 57.9
         },
         {
           "qid": "colecciones-09",
@@ -3637,13 +3951,13 @@
           "expected": "zig0.16/heapq-priority-queue",
           "got_top3": [
             "zig0.16/heapq-priority-queue",
-            "zig0.16/listdir-names-sorted",
-            "zig0.16/dict-str-int-basic"
+            "zig0.16/dict-str-int-basic",
+            "zig0.16/listdir-names-sorted"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.4
+          "ms": 57.5
         },
         {
           "qid": "colecciones-10",
@@ -3657,7 +3971,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.5
+          "ms": 57.8
         },
         {
           "qid": "colecciones-11",
@@ -3672,7 +3986,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.5
+          "ms": 58.2
         },
         {
           "qid": "colecciones-12",
@@ -3686,7 +4000,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.0
+          "ms": 57.4
         },
         {
           "qid": "colecciones-13",
@@ -3701,7 +4015,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.1
+          "ms": 56.8
         },
         {
           "qid": "colecciones-14",
@@ -3710,12 +4024,13 @@
           "expect": "POS",
           "expected": "zig0.16/counter-most-common",
           "got_top3": [
-            "zig0.16/counter-most-common"
+            "zig0.16/counter-most-common",
+            "zig0.16/csv-reader-line-quoted"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.5
+          "ms": 59.0
         },
         {
           "qid": "fs_rutas-01",
@@ -3731,7 +4046,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.0
+          "ms": 59.6
         },
         {
           "qid": "fs_rutas-02",
@@ -3746,7 +4061,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.2
+          "ms": 58.2
         },
         {
           "qid": "fs_rutas-03",
@@ -3762,7 +4077,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.8
+          "ms": 58.7
         },
         {
           "qid": "fs_rutas-04",
@@ -3778,7 +4093,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.5
+          "ms": 60.5
         },
         {
           "qid": "fs_rutas-05",
@@ -3794,7 +4109,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.1
+          "ms": 59.3
         },
         {
           "qid": "fs_rutas-06",
@@ -3808,7 +4123,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.2
+          "ms": 59.7
         },
         {
           "qid": "fs_rutas-07",
@@ -3824,7 +4139,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.2
+          "ms": 59.3
         },
         {
           "qid": "fs_rutas-08",
@@ -3839,7 +4154,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.0
+          "ms": 59.2
         },
         {
           "qid": "fs_rutas-09",
@@ -3855,7 +4170,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.9
+          "ms": 57.1
         },
         {
           "qid": "fs_rutas-10",
@@ -3871,7 +4186,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.2
+          "ms": 59.9
         },
         {
           "qid": "fs_rutas-11",
@@ -3887,7 +4202,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.1
+          "ms": 58.6
         },
         {
           "qid": "fs_rutas-12",
@@ -3903,7 +4218,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.7
+          "ms": 58.5
         },
         {
           "qid": "fs_rutas-13",
@@ -3919,7 +4234,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.4
+          "ms": 57.2
         },
         {
           "qid": "fs_rutas-14",
@@ -3934,7 +4249,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.0
+          "ms": 58.5
         },
         {
           "qid": "json-01",
@@ -3950,7 +4265,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.4
+          "ms": 58.1
         },
         {
           "qid": "json-02",
@@ -3966,7 +4281,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.4
+          "ms": 59.2
         },
         {
           "qid": "json-03",
@@ -3982,7 +4297,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.6
+          "ms": 59.7
         },
         {
           "qid": "json-04",
@@ -3998,7 +4313,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.0
+          "ms": 59.8
         },
         {
           "qid": "json-05",
@@ -4014,7 +4329,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.7
+          "ms": 59.2
         },
         {
           "qid": "json-06",
@@ -4030,7 +4345,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.2
+          "ms": 57.8
         },
         {
           "qid": "json-07",
@@ -4046,7 +4361,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.4
+          "ms": 61.1
         },
         {
           "qid": "json-08",
@@ -4062,7 +4377,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.6
+          "ms": 59.6
         },
         {
           "qid": "json-09",
@@ -4078,7 +4393,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.4
+          "ms": 61.3
         },
         {
           "qid": "json-10",
@@ -4094,7 +4409,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.6
+          "ms": 60.8
         },
         {
           "qid": "json-11",
@@ -4110,7 +4425,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.7
+          "ms": 61.8
         },
         {
           "qid": "json-12",
@@ -4126,7 +4441,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.6
+          "ms": 59.5
         },
         {
           "qid": "texto_num-01",
@@ -4142,7 +4457,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.7
+          "ms": 61.2
         },
         {
           "qid": "texto_num-02",
@@ -4158,7 +4473,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.7
+          "ms": 60.1
         },
         {
           "qid": "texto_num-03",
@@ -4174,7 +4489,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.6
+          "ms": 61.9
         },
         {
           "qid": "texto_num-04",
@@ -4190,7 +4505,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.1
+          "ms": 58.5
         },
         {
           "qid": "texto_num-05",
@@ -4206,7 +4521,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.0
+          "ms": 59.3
         },
         {
           "qid": "texto_num-06",
@@ -4222,7 +4537,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.9
+          "ms": 61.7
         },
         {
           "qid": "texto_num-07",
@@ -4238,7 +4553,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.1
+          "ms": 58.6
         },
         {
           "qid": "texto_num-08",
@@ -4253,7 +4568,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.4
+          "ms": 58.0
         },
         {
           "qid": "texto_num-09",
@@ -4269,7 +4584,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.2
+          "ms": 58.9
         },
         {
           "qid": "texto_num-10",
@@ -4283,7 +4598,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.2
+          "ms": 59.1
         },
         {
           "qid": "texto_num-11",
@@ -4299,7 +4614,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.3
+          "ms": 59.4
         },
         {
           "qid": "texto_num-12",
@@ -4315,7 +4630,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.9
+          "ms": 61.8
         },
         {
           "qid": "texto_num-13",
@@ -4331,7 +4646,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.4
+          "ms": 60.1
         },
         {
           "qid": "texto_num-14",
@@ -4347,7 +4662,7 @@
           "error": null,
           "ok_top1": false,
           "ok_top3": false,
-          "ms": 53.2
+          "ms": 59.7
         },
         {
           "qid": "texto_num-15",
@@ -4358,12 +4673,12 @@
           "got_top3": [
             "zig0.16/argparse-flags-parse",
             "zig0.16/ascii-case-lower-upper",
-            "zig0.16/unicode-case-mapping"
+            "zig0.16/csv-reader-line-quoted"
           ],
           "error": null,
           "ok_top1": false,
-          "ok_top3": true,
-          "ms": 55.5
+          "ok_top3": false,
+          "ms": 60.0
         },
         {
           "qid": "texto_num-16",
@@ -4379,7 +4694,7 @@
           "error": null,
           "ok_top1": false,
           "ok_top3": false,
-          "ms": 53.7
+          "ms": 60.4
         },
         {
           "qid": "tiempo_args-01",
@@ -4395,7 +4710,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 52.7
+          "ms": 59.7
         },
         {
           "qid": "tiempo_args-02",
@@ -4409,7 +4724,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 60.3
+          "ms": 59.1
         },
         {
           "qid": "tiempo_args-03",
@@ -4424,7 +4739,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.4
+          "ms": 59.3
         },
         {
           "qid": "tiempo_args-04",
@@ -4438,7 +4753,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.8
+          "ms": 58.0
         },
         {
           "qid": "tiempo_args-05",
@@ -4452,7 +4767,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.8
+          "ms": 57.9
         },
         {
           "qid": "tiempo_args-06",
@@ -4466,7 +4781,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.6
+          "ms": 57.2
         },
         {
           "qid": "tiempo_args-07",
@@ -4482,7 +4797,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.3
+          "ms": 60.8
         },
         {
           "qid": "tiempo_args-08",
@@ -4493,12 +4808,12 @@
           "got_top3": [
             "zig0.16/process-args-iterate",
             "zig0.16/argparse-flags-parse",
-            "zig0.16/ffi-extern-c-function"
+            "zig0.16/argparse-subcommands"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.1
+          "ms": 60.2
         },
         {
           "qid": "tiempo_args-09",
@@ -4508,13 +4823,13 @@
           "expected": "zig0.16/argparse-flags-parse",
           "got_top3": [
             "zig0.16/argparse-flags-parse",
-            "zig0.16/parse-kv-config",
-            "zig0.16/json-loads-dynamic"
+            "zig0.16/argparse-subcommands",
+            "zig0.16/parse-kv-config"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.0
+          "ms": 58.7
         },
         {
           "qid": "tiempo_args-10",
@@ -4524,13 +4839,13 @@
           "expected": "zig0.16/argparse-flags-parse",
           "got_top3": [
             "zig0.16/argparse-flags-parse",
-            "zig0.16/spawn-redirect-child",
-            "zig0.16/detached-daemon-no-shell"
+            "zig0.16/csv-reader-line-quoted",
+            "zig0.16/spawn-redirect-child"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.6
+          "ms": 58.4
         },
         {
           "qid": "tiempo_args-11",
@@ -4546,7 +4861,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.2
+          "ms": 57.6
         },
         {
           "qid": "tiempo_args-12",
@@ -4562,7 +4877,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.0
+          "ms": 58.7
         },
         {
           "qid": "tiempo_args-13",
@@ -4578,7 +4893,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.8
+          "ms": 60.1
         },
         {
           "qid": "tiempo_args-14",
@@ -4594,7 +4909,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.9
+          "ms": 60.9
         },
         {
           "qid": "migracion-01",
@@ -4610,7 +4925,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 61.1
+          "ms": 65.1
         },
         {
           "qid": "migracion-02",
@@ -4626,7 +4941,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.3
+          "ms": 59.7
         },
         {
           "qid": "migracion-03",
@@ -4642,7 +4957,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.7
+          "ms": 61.3
         },
         {
           "qid": "migracion-04",
@@ -4658,7 +4973,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.2
+          "ms": 62.2
         },
         {
           "qid": "migracion-05",
@@ -4668,13 +4983,13 @@
           "expected": "zig0.16/migrate-arraylist-unmanaged",
           "got_top3": [
             "zig0.16/migrate-arraylist-unmanaged",
-            "zig0.16/list-append-pop-insert",
-            "zig0.16/migrate-thread-mutex"
+            "zig0.16/migrate-arraylist-writer",
+            "zig0.16/list-append-pop-insert"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.2
+          "ms": 61.5
         },
         {
           "qid": "migracion-06",
@@ -4684,13 +4999,13 @@
           "expected": "zig0.16/migrate-arraylist-unmanaged",
           "got_top3": [
             "zig0.16/migrate-arraylist-unmanaged",
-            "zig0.16/list-append-pop-insert",
-            "zig0.16/migrate-readfilealloc"
+            "zig0.16/migrate-arraylist-writer",
+            "zig0.16/list-append-pop-insert"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.1
+          "ms": 60.8
         },
         {
           "qid": "migracion-07",
@@ -4706,7 +5021,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 52.7
+          "ms": 59.9
         },
         {
           "qid": "migracion-08",
@@ -4716,13 +5031,13 @@
           "expected": "zig0.16/migrate-child-run",
           "got_top3": [
             "zig0.16/migrate-child-run",
-            "zig0.16/build-exe-root-module",
-            "zig0.16/build-test-step"
+            "zig0.16/migrate-open-dir-absolute",
+            "zig0.16/build-exe-root-module"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.1
+          "ms": 61.0
         },
         {
           "qid": "migracion-09",
@@ -4738,7 +5053,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.8
+          "ms": 59.9
         },
         {
           "qid": "migracion-10",
@@ -4754,7 +5069,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.5
+          "ms": 58.9
         },
         {
           "qid": "migracion-11",
@@ -4765,12 +5080,12 @@
           "got_top3": [
             "zig0.16/migrate-thread-mutex",
             "zig0.16/thread-shared-counter",
-            "zig0.16/build-exe-root-module"
+            "zig0.16/build-test-step"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.6
+          "ms": 63.8
         },
         {
           "qid": "migracion-12",
@@ -4786,7 +5101,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.3
+          "ms": 62.8
         },
         {
           "qid": "migracion-13",
@@ -4802,7 +5117,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.4
+          "ms": 63.5
         },
         {
           "qid": "migracion-14",
@@ -4813,12 +5128,12 @@
           "got_top3": [
             "zig0.16/migrate-arraylist-unmanaged",
             "zig0.16/list-append-pop-insert",
-            "zig0.16/listdir-names-sorted"
+            "zig0.16/migrate-arraylist-writer"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.3
+          "ms": 63.5
         },
         {
           "qid": "migracion-15",
@@ -4834,7 +5149,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.6
+          "ms": 62.1
         },
         {
           "qid": "migracion-16",
@@ -4850,7 +5165,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.1
+          "ms": 61.2
         },
         {
           "qid": "migracion-17",
@@ -4866,7 +5181,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.8
+          "ms": 63.5
         },
         {
           "qid": "migracion-18",
@@ -4882,7 +5197,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.7
+          "ms": 62.3
         },
         {
           "qid": "migracion-19",
@@ -4898,7 +5213,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.5
+          "ms": 65.4
         },
         {
           "qid": "io_red-01",
@@ -4914,7 +5229,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.9
+          "ms": 61.0
         },
         {
           "qid": "io_red-02",
@@ -4929,7 +5244,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.6
+          "ms": 60.7
         },
         {
           "qid": "io_red-03",
@@ -4945,7 +5260,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.6
+          "ms": 59.0
         },
         {
           "qid": "io_red-04",
@@ -4961,7 +5276,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.8
+          "ms": 60.5
         },
         {
           "qid": "io_red-05",
@@ -4975,7 +5290,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 52.9
+          "ms": 59.8
         },
         {
           "qid": "io_red-06",
@@ -4991,7 +5306,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.8
+          "ms": 61.9
         },
         {
           "qid": "io_red-07",
@@ -5006,7 +5321,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.9
+          "ms": 59.6
         },
         {
           "qid": "io_red-08",
@@ -5022,7 +5337,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.3
+          "ms": 60.7
         },
         {
           "qid": "io_red-09",
@@ -5037,7 +5352,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.5
+          "ms": 58.6
         },
         {
           "qid": "io_red-10",
@@ -5046,12 +5361,13 @@
           "expect": "POS",
           "expected": "zig0.16/udp-loopback-datagram",
           "got_top3": [
-            "zig0.16/udp-loopback-datagram"
+            "zig0.16/udp-loopback-datagram",
+            "zig0.16/csv-reader-line-quoted"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.9
+          "ms": 60.3
         },
         {
           "qid": "io_red-11",
@@ -5067,7 +5383,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.7
+          "ms": 59.8
         },
         {
           "qid": "io_red-12",
@@ -5081,7 +5397,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.2
+          "ms": 61.4
         },
         {
           "qid": "io_red-13",
@@ -5096,7 +5412,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.9
+          "ms": 60.2
         },
         {
           "qid": "io_red-14",
@@ -5112,7 +5428,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.3
+          "ms": 59.8
         },
         {
           "qid": "diag-01",
@@ -5127,7 +5443,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 52.4
+          "ms": 57.5
         },
         {
           "qid": "diag-02",
@@ -5143,7 +5459,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.0
+          "ms": 60.4
         },
         {
           "qid": "diag-03",
@@ -5152,14 +5468,14 @@
           "expect": "POS",
           "expected": "zig0.16/diag-eval-branch-quota",
           "got_top3": [
-            "zig0.16/diag-inline-redundant",
             "zig0.16/diag-shadow-local",
-            "zig0.16/sleep-ms"
+            "zig0.16/sleep-ms",
+            "zig0.16/diag-eval-branch-quota"
           ],
           "error": null,
           "ok_top1": false,
-          "ok_top3": false,
-          "ms": 53.9
+          "ok_top3": true,
+          "ms": 60.4
         },
         {
           "qid": "diag-04",
@@ -5175,7 +5491,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.9
+          "ms": 58.7
         },
         {
           "qid": "diag-05",
@@ -5191,7 +5507,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.7
+          "ms": 59.8
         },
         {
           "qid": "diag-06",
@@ -5207,7 +5523,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.9
+          "ms": 58.7
         },
         {
           "qid": "diag-07",
@@ -5223,7 +5539,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.4
+          "ms": 56.6
         },
         {
           "qid": "diag-08",
@@ -5238,7 +5554,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.0
+          "ms": 57.3
         },
         {
           "qid": "diag-09",
@@ -5254,7 +5570,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.6
+          "ms": 60.5
         },
         {
           "qid": "diag-10",
@@ -5269,7 +5585,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.3
+          "ms": 59.3
         },
         {
           "qid": "diag-11",
@@ -5285,7 +5601,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.4
+          "ms": 60.5
         },
         {
           "qid": "diag-12",
@@ -5301,7 +5617,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.1
+          "ms": 60.3
         },
         {
           "qid": "diag-13",
@@ -5317,7 +5633,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.8
+          "ms": 58.3
         },
         {
           "qid": "diag-14",
@@ -5333,7 +5649,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.1
+          "ms": 60.9
         },
         {
           "qid": "diag-15",
@@ -5349,7 +5665,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.9
+          "ms": 60.6
         },
         {
           "qid": "diag-16",
@@ -5365,7 +5681,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 52.9
+          "ms": 59.3
         },
         {
           "qid": "diag-17",
@@ -5381,7 +5697,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.6
+          "ms": 59.5
         },
         {
           "qid": "diag-18",
@@ -5392,12 +5708,12 @@
           "got_top3": [
             "zig0.16/diag-inline-redundant",
             "zig0.16/diag-comptime-redundant",
-            "zig0.16/int-bit-count-bit-length"
+            "zig0.16/diag-eval-branch-quota"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.3
+          "ms": 58.9
         },
         {
           "qid": "diag-19",
@@ -5413,7 +5729,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.3
+          "ms": 58.2
         },
         {
           "qid": "diag-20",
@@ -5429,7 +5745,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.0
+          "ms": 59.9
         },
         {
           "qid": "diag-21",
@@ -5444,7 +5760,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.2
+          "ms": 60.7
         },
         {
           "qid": "diag-22",
@@ -5460,7 +5776,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.1
+          "ms": 59.8
         },
         {
           "qid": "diag-23",
@@ -5476,7 +5792,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.6
+          "ms": 60.5
         },
         {
           "qid": "diag-24",
@@ -5492,7 +5808,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 60.1
+          "ms": 58.4
         },
         {
           "qid": "diag-25",
@@ -5501,12 +5817,13 @@
           "expect": "POS",
           "expected": "zig0.16/diag-ptrcast-const",
           "got_top3": [
-            "zig0.16/diag-ptrcast-const"
+            "zig0.16/diag-ptrcast-const",
+            "zig0.16/cstring-sentinel-slice-ptr"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.4
+          "ms": 57.9
         },
         {
           "qid": "diag-26",
@@ -5516,12 +5833,13 @@
           "expected": "zig0.16/diag-ptrcast-const",
           "got_top3": [
             "zig0.16/diag-ptrcast-const",
-            "zig0.16/diag-never-mutated"
+            "zig0.16/re-regex-gap",
+            "zig0.16/cstring-sentinel-slice-ptr"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.5
+          "ms": 58.4
         },
         {
           "qid": "diag-27",
@@ -5531,13 +5849,13 @@
           "expected": "zig0.16/diag-ptrcast-const",
           "got_top3": [
             "zig0.16/diag-ptrcast-const",
-            "zig0.16/diag-never-mutated",
-            "zig0.16/base64-encode-decode"
+            "zig0.16/cstring-sentinel-slice-ptr",
+            "zig0.16/diag-never-mutated"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.5
+          "ms": 61.5
         },
         {
           "qid": "diag-28",
@@ -5553,7 +5871,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.7
+          "ms": 60.9
         },
         {
           "qid": "diag-29",
@@ -5569,7 +5887,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.7
+          "ms": 61.4
         },
         {
           "qid": "diag-30",
@@ -5585,7 +5903,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.2
+          "ms": 62.1
         },
         {
           "qid": "diag-31",
@@ -5601,7 +5919,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.0
+          "ms": 59.0
         },
         {
           "qid": "diag-32",
@@ -5617,7 +5935,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.0
+          "ms": 58.6
         },
         {
           "qid": "diag-33",
@@ -5633,7 +5951,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.7
+          "ms": 58.7
         },
         {
           "qid": "build-01",
@@ -5649,7 +5967,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.2
+          "ms": 63.2
         },
         {
           "qid": "build-02",
@@ -5665,7 +5983,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.0
+          "ms": 60.6
         },
         {
           "qid": "build-03",
@@ -5681,7 +5999,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.5
+          "ms": 61.2
         },
         {
           "qid": "build-04",
@@ -5697,7 +6015,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.1
+          "ms": 58.8
         },
         {
           "qid": "build-05",
@@ -5713,7 +6031,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.8
+          "ms": 58.7
         },
         {
           "qid": "build-06",
@@ -5729,7 +6047,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.9
+          "ms": 60.1
         },
         {
           "qid": "build-07",
@@ -5745,7 +6063,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.2
+          "ms": 63.2
         },
         {
           "qid": "build-08",
@@ -5761,7 +6079,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.0
+          "ms": 65.8
         },
         {
           "qid": "build-09",
@@ -5777,7 +6095,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.0
+          "ms": 61.7
         },
         {
           "qid": "build-10",
@@ -5793,7 +6111,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.0
+          "ms": 61.0
         },
         {
           "qid": "build-11",
@@ -5809,7 +6127,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 61.8
+          "ms": 62.7
         },
         {
           "qid": "build-12",
@@ -5825,7 +6143,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.0
+          "ms": 63.8
         },
         {
           "qid": "build-13",
@@ -5841,7 +6159,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.1
+          "ms": 63.0
         },
         {
           "qid": "build-14",
@@ -5857,7 +6175,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.8
+          "ms": 62.9
         },
         {
           "qid": "build-15",
@@ -5873,7 +6191,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.9
+          "ms": 63.4
         },
         {
           "qid": "build-16",
@@ -5889,7 +6207,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.1
+          "ms": 60.4
         },
         {
           "qid": "mate_bytes-01",
@@ -5905,7 +6223,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.2
+          "ms": 58.5
         },
         {
           "qid": "mate_bytes-02",
@@ -5921,7 +6239,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.9
+          "ms": 61.4
         },
         {
           "qid": "mate_bytes-03",
@@ -5937,7 +6255,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.0
+          "ms": 59.2
         },
         {
           "qid": "mate_bytes-04",
@@ -5953,7 +6271,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.6
+          "ms": 60.1
         },
         {
           "qid": "mate_bytes-05",
@@ -5969,7 +6287,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.5
+          "ms": 61.6
         },
         {
           "qid": "mate_bytes-06",
@@ -5985,7 +6303,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.6
+          "ms": 61.0
         },
         {
           "qid": "mate_bytes-07",
@@ -6001,7 +6319,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.9
+          "ms": 58.4
         },
         {
           "qid": "mate_bytes-08",
@@ -6017,7 +6335,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.3
+          "ms": 63.0
         },
         {
           "qid": "mate_bytes-09",
@@ -6033,7 +6351,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.1
+          "ms": 60.2
         },
         {
           "qid": "mate_bytes-10",
@@ -6043,12 +6361,13 @@
           "expected": "zig0.16/div-floor-mod-negative",
           "got_top3": [
             "zig0.16/div-floor-mod-negative",
-            "zig0.16/round-floor-ceil-bankers"
+            "zig0.16/round-floor-ceil-bankers",
+            "zig0.16/re-regex-gap"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.2
+          "ms": 62.0
         },
         {
           "qid": "mate_bytes-11",
@@ -6064,7 +6383,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.1
+          "ms": 58.2
         },
         {
           "qid": "mate_bytes-12",
@@ -6080,7 +6399,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.8
+          "ms": 57.8
         },
         {
           "qid": "mate_bytes-13",
@@ -6096,7 +6415,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.6
+          "ms": 58.1
         },
         {
           "qid": "mate_bytes-14",
@@ -6112,7 +6431,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.7
+          "ms": 62.5
         },
         {
           "qid": "mate_bytes-15",
@@ -6122,13 +6441,13 @@
           "expected": "zig0.16/cstring-span-slice-to",
           "got_top3": [
             "zig0.16/cstring-span-slice-to",
-            "zig0.16/hex-encode-decode",
-            "zig0.16/int-from-bytes-to-bytes-endian"
+            "zig0.16/cstring-sentinel-slice-ptr",
+            "zig0.16/hex-encode-decode"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.0
+          "ms": 62.2
         },
         {
           "qid": "mate_bytes-16",
@@ -6138,18 +6457,333 @@
           "expected": "zig0.16/cstring-span-slice-to",
           "got_top3": [
             "zig0.16/cstring-span-slice-to",
-            "zig0.16/string-split-strip-format",
-            "zig0.16/diag-shadow-local"
+            "zig0.16/cstring-sentinel-slice-ptr",
+            "zig0.16/string-split-strip-format"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.8
+          "ms": 62.8
+        },
+        {
+          "qid": "stdlib_extra-01",
+          "kind": "error",
+          "query": "error: root source file struct 'fs' has no member named 'openDirAbsolute'  var d = try std.fs.openDirAbsolute(\"/tmp\", .{ .iterate = true });",
+          "expect": "POS",
+          "expected": "zig0.16/migrate-open-dir-absolute",
+          "got_top3": [
+            "zig0.16/migrate-open-dir-absolute",
+            "zig0.16/migrate-writefile",
+            "zig0.16/temp-dir-scoped"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 65.8
+        },
+        {
+          "qid": "stdlib_extra-02",
+          "kind": "direct",
+          "query": "como abro un directorio por ruta absoluta en zig 0.16 si std.fs.openDirAbsolute ya no existe",
+          "expect": "POS",
+          "expected": "zig0.16/migrate-open-dir-absolute",
+          "got_top3": [
+            "zig0.16/migrate-open-dir-absolute",
+            "zig0.16/makedirs-exist-ok",
+            "zig0.16/temp-dir-scoped"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 60.6
+        },
+        {
+          "qid": "stdlib_extra-03",
+          "kind": "api",
+          "query": "std.Io.Dir.openDirAbsolute con io y opciones iterate",
+          "expect": "POS",
+          "expected": "zig0.16/migrate-open-dir-absolute",
+          "got_top3": [
+            "zig0.16/migrate-open-dir-absolute",
+            "zig0.16/temp-dir-scoped",
+            "zig0.16/listdir-names-sorted"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 59.6
+        },
+        {
+          "qid": "stdlib_extra-04",
+          "kind": "error",
+          "query": "error: no field or member function named 'writer' in 'array_list.Aligned(u8,null)'  const w = list.writer();",
+          "expect": "POS",
+          "expected": "zig0.16/migrate-arraylist-writer",
+          "got_top3": [
+            "zig0.16/migrate-arraylist-writer",
+            "zig0.16/migrate-arraylist-unmanaged",
+            "zig0.16/migrate-stdout-writer"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 60.9
+        },
+        {
+          "qid": "stdlib_extra-05",
+          "kind": "direct",
+          "query": "list.writer() no existe en el ArrayList de zig 0.16, como imprimir con formato en el buffer",
+          "expect": "POS",
+          "expected": "zig0.16/migrate-arraylist-writer",
+          "got_top3": [
+            "zig0.16/migrate-arraylist-writer",
+            "zig0.16/migrate-stdout-writer",
+            "zig0.16/list-append-pop-insert"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 62.9
+        },
+        {
+          "qid": "stdlib_extra-06",
+          "kind": "paraphrase",
+          "query": "quiero escribir un print con formato dentro de una lista de bytes sin usar writer",
+          "expect": "POS",
+          "expected": "zig0.16/migrate-arraylist-writer",
+          "got_top3": [
+            "zig0.16/format-string-alloc-print",
+            "zig0.16/migrate-arraylist-writer",
+            "zig0.16/write-file-bytes-atomic"
+          ],
+          "error": null,
+          "ok_top1": false,
+          "ok_top3": true,
+          "ms": 62.8
+        },
+        {
+          "qid": "stdlib_extra-07",
+          "kind": "error",
+          "query": "error: expected type '?[*:0]const u8', found '*const [:0]const u8'  takes(&name);",
+          "expect": "POS",
+          "expected": "zig0.16/cstring-sentinel-slice-ptr",
+          "got_top3": [
+            "zig0.16/diag-narrowing-intcast",
+            "zig0.16/cstring-sentinel-slice-ptr",
+            "zig0.16/struct-pack-endian-readint"
+          ],
+          "error": null,
+          "ok_top1": false,
+          "ok_top3": true,
+          "ms": 61.8
+        },
+        {
+          "qid": "stdlib_extra-08",
+          "kind": "direct",
+          "query": "pasar un slice terminado en cero a una funcion C, usar .ptr en vez de &slice",
+          "expect": "POS",
+          "expected": "zig0.16/cstring-sentinel-slice-ptr",
+          "got_top3": [
+            "zig0.16/cstring-sentinel-slice-ptr",
+            "zig0.16/cstring-span-slice-to",
+            "zig0.16/diag-ptrcast-const"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 60.5
+        },
+        {
+          "qid": "stdlib_extra-09",
+          "kind": "paraphrase",
+          "query": "el puntero a slice centinela no coincide con el many pointer que espera la funcion de C",
+          "expect": "POS",
+          "expected": "zig0.16/cstring-sentinel-slice-ptr",
+          "got_top3": [
+            "zig0.16/cstring-sentinel-slice-ptr",
+            "zig0.16/ffi-extern-c-function",
+            "zig0.16/cstring-span-slice-to"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 59.6
+        },
+        {
+          "qid": "stdlib_extra-10",
+          "kind": "direct",
+          "query": "partir una linea csv en campos respetando comillas y comas dentro de comillas",
+          "expect": "POS",
+          "expected": "zig0.16/csv-reader-line-quoted",
+          "got_top3": [
+            "zig0.16/csv-reader-line-quoted",
+            "zig0.16/json-loads-typed-struct"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 60.9
+        },
+        {
+          "qid": "stdlib_extra-11",
+          "kind": "api",
+          "query": "csv.reader con comillas dobles escapadas dentro de un campo",
+          "expect": "POS",
+          "expected": "zig0.16/csv-reader-line-quoted",
+          "got_top3": [
+            "zig0.16/csv-reader-line-quoted"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 59.2
+        },
+        {
+          "qid": "stdlib_extra-12",
+          "kind": "paraphrase",
+          "query": "separar una linea por comas pero no cortar lo que va entre comillas",
+          "expect": "POS",
+          "expected": "zig0.16/csv-reader-line-quoted",
+          "got_top3": [
+            "zig0.16/csv-reader-line-quoted",
+            "zig0.16/argparse-flags-parse",
+            "zig0.16/io-async-group-future"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 61.5
+        },
+        {
+          "qid": "stdlib_extra-13",
+          "kind": "direct",
+          "query": "convertir segundos desde epoch a fecha y hora UTC en zig",
+          "expect": "POS",
+          "expected": "zig0.16/epoch-to-utc-ymd-hms",
+          "got_top3": [
+            "zig0.16/epoch-to-utc-ymd-hms",
+            "zig0.16/epoch-now-seconds",
+            "zig0.16/monotonic-duration-measure"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 60.2
+        },
+        {
+          "qid": "stdlib_extra-14",
+          "kind": "api",
+          "query": "datetime.fromtimestamp con tz utc y strftime en zig",
+          "expect": "POS",
+          "expected": "zig0.16/epoch-to-utc-ymd-hms",
+          "got_top3": [
+            "zig0.16/epoch-to-utc-ymd-hms",
+            "zig0.16/epoch-now-seconds",
+            "zig0.16/monotonic-duration-measure"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 58.0
+        },
+        {
+          "qid": "stdlib_extra-15",
+          "kind": "paraphrase",
+          "query": "de un timestamp unix sacar anio mes y dia sin libreria externa",
+          "expect": "POS",
+          "expected": "zig0.16/epoch-to-utc-ymd-hms",
+          "got_top3": [
+            "zig0.16/epoch-to-utc-ymd-hms",
+            "zig0.16/epoch-now-seconds",
+            "zig0.16/csv-reader-line-quoted"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 58.8
+        },
+        {
+          "qid": "stdlib_extra-16",
+          "kind": "direct",
+          "query": "argumentos de linea de comandos con subcomandos add y list en zig",
+          "expect": "POS",
+          "expected": "zig0.16/argparse-subcommands",
+          "got_top3": [
+            "zig0.16/argparse-subcommands",
+            "zig0.16/argparse-flags-parse",
+            "zig0.16/process-args-iterate"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 59.7
+        },
+        {
+          "qid": "stdlib_extra-17",
+          "kind": "api",
+          "query": "add_subparsers con subcomando obligatorio equivalente en zig",
+          "expect": "POS",
+          "expected": "zig0.16/argparse-subcommands",
+          "got_top3": [
+            "zig0.16/argparse-subcommands",
+            "zig0.16/build-add-import",
+            "zig0.16/json-loads-typed-struct"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 59.0
+        },
+        {
+          "qid": "stdlib_extra-18",
+          "kind": "paraphrase",
+          "query": "parsear argv con un comando obligatorio y error si el subcomando no existe",
+          "expect": "POS",
+          "expected": "zig0.16/argparse-subcommands",
+          "got_top3": [
+            "zig0.16/argparse-subcommands",
+            "zig0.16/argparse-flags-parse",
+            "zig0.16/json-invalid-input-error"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 62.0
+        },
+        {
+          "qid": "stdlib_extra-19",
+          "kind": "status",
+          "query": "buscar con expresion regular grupos y cuantificadores como re.findall en zig",
+          "expect": "STATUS",
+          "expected": "zig0.16/re-regex-gap",
+          "got_top3": [
+            "zig0.16/re-regex-gap"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 59.2
+        },
+        {
+          "qid": "stdlib_extra-20",
+          "kind": "status",
+          "query": "re.sub con patron regex sobre un texto en zig 0.16",
+          "expect": "STATUS",
+          "expected": "zig0.16/re-regex-gap",
+          "got_top3": [
+            "zig0.16/re-regex-gap",
+            "zig0.16/read-file-text-limited",
+            "zig0.16/migrate-writefile"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 59.8
         }
       ]
     }
   },
   "embed_mode": "onnx",
   "embed_model": "all-MiniLM-L6-v2",
-  "entries": 95
+  "entries": 102
 }
