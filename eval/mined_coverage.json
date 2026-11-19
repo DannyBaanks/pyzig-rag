@@ -1,8 +1,8 @@
 {
   "autoconsistencia": {
-    "total": 50,
-    "hit1": 50,
-    "hit3": 50,
+    "total": 53,
+    "hit1": 53,
+    "hit3": 53,
     "hit1_rate": 1.0,
     "hit3_rate": 1.0,
     "cases": [
@@ -461,15 +461,42 @@
         ],
         "hit1": true,
         "hit3": true
+      },
+      {
+        "operation_id": "zig0.16/migrate-open-dir-absolute",
+        "signature": "error: root source file struct 'fs' has no member named 'openDirAbsolute'",
+        "got_top3": [
+          "zig0.16/migrate-open-dir-absolute"
+        ],
+        "hit1": true,
+        "hit3": true
+      },
+      {
+        "operation_id": "zig0.16/migrate-arraylist-writer",
+        "signature": "error: no field or member function named 'writer' in 'array_list.Aligned(u8,null)'",
+        "got_top3": [
+          "zig0.16/migrate-arraylist-writer"
+        ],
+        "hit1": true,
+        "hit3": true
+      },
+      {
+        "operation_id": "zig0.16/cstring-sentinel-slice-ptr",
+        "signature": "error: expected type '?[*:0]const u8', found '*const [:0]const u8'",
+        "got_top3": [
+          "zig0.16/cstring-sentinel-slice-ptr"
+        ],
+        "hit1": true,
+        "hit3": true
       }
     ]
   },
   "mined_reales": {
     "non_none_n": 44,
-    "hit1": 38,
-    "hit3": 40,
-    "hit1_rate": 0.8636,
-    "hit3_rate": 0.9091,
+    "hit1": 42,
+    "hit3": 43,
+    "hit1_rate": 0.9545,
+    "hit3_rate": 0.9773,
     "none_n": 46,
     "false_positives": 1,
     "fpr": 0.0217,
@@ -730,11 +757,11 @@
           "zig0.16/process-args-iterate"
         ],
         "got_top3": [
-          "zig0.16/migrate-child-run",
           "zig0.16/process-args-iterate",
-          "zig0.16/spawn-redirect-child"
+          "zig0.16/migrate-child-run",
+          "zig0.16/argparse-subcommands"
         ],
-        "hit1": false,
+        "hit1": true,
         "hit3": true
       },
       {
@@ -804,11 +831,14 @@
       {
         "signature": "no field or member function named '_' in 'array_list._(uN,null)'",
         "label": [
-          "zig0.16/migrate-arraylist-unmanaged"
+          "zig0.16/migrate-arraylist-unmanaged",
+          "zig0.16/migrate-arraylist-writer"
         ],
-        "got_top3": [],
-        "hit1": false,
-        "hit3": false
+        "got_top3": [
+          "zig0.16/migrate-arraylist-writer"
+        ],
+        "hit1": true,
+        "hit3": true
       },
       {
         "signature": "root source file struct 'Thread' has no member named 'Mutex'",
@@ -870,11 +900,14 @@
       {
         "signature": "expected type '?[*:N]const uN', found '*const [:N]const uN'",
         "label": [
+          "zig0.16/cstring-sentinel-slice-ptr",
           "zig0.16/cstring-span-slice-to"
         ],
-        "got_top3": [],
-        "hit1": false,
-        "hit3": false
+        "got_top3": [
+          "zig0.16/cstring-sentinel-slice-ptr"
+        ],
+        "hit1": true,
+        "hit3": true
       },
       {
         "signature": "name shadows primitive 'uN'",
@@ -939,15 +972,14 @@
         "signature": "root source file struct 'fs' has no member named 'openDirAbsolute'",
         "label": [
           "zig0.16/listdir-names-sorted",
+          "zig0.16/migrate-open-dir-absolute",
           "zig0.16/walk-tree-files"
         ],
         "got_top3": [
-          "zig0.16/temp-dir-scoped",
-          "zig0.16/migrate-readfilealloc",
-          "zig0.16/migrate-writefile"
+          "zig0.16/migrate-open-dir-absolute"
         ],
-        "hit1": false,
-        "hit3": false
+        "hit1": true,
+        "hit3": true
       },
       {
         "signature": "root source file struct 'fs' has no member named 'openFileAbsolute'",
@@ -956,9 +988,9 @@
           "zig0.16/read-file-text-limited"
         ],
         "got_top3": [
+          "zig0.16/migrate-open-dir-absolute",
           "zig0.16/migrate-writefile",
-          "zig0.16/migrate-readfilealloc",
-          "zig0.16/read-file-text-limited"
+          "zig0.16/migrate-readfilealloc"
         ],
         "hit1": false,
         "hit3": true
@@ -971,8 +1003,8 @@
         ],
         "got_top3": [
           "zig0.16/epoch-now-seconds",
-          "zig0.16/migrate-time-sleep",
-          "zig0.16/monotonic-duration-measure"
+          "zig0.16/epoch-to-utc-ymd-hms",
+          "zig0.16/migrate-time-sleep"
         ],
         "hit1": true,
         "hit3": true
