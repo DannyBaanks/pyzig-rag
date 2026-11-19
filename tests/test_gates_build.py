@@ -68,6 +68,13 @@ class ValidateBuildFilesTest(unittest.TestCase):
         self.assertIsNotNone(gates.validate_build_files({**_project(MAIN_OK), "/etc/x.zig": "x"}))
         self.assertIsNotNone(gates.validate_build_files({**_project(MAIN_OK), "../x.zig": "x"}))
 
+    def test_rechaza_rutas_raras_y_archivo_que_es_directorio(self) -> None:
+        for bad in (".", "src/./a.zig", "src//a.zig", "src/"):
+            self.assertIsNotNone(gates.validate_build_files({**_project(MAIN_OK), bad: "x"}), bad)
+        self.assertIsNotNone(gates.validate_build_files({**_project(MAIN_OK), "build.zig/x": "x"}))
+        res = gates.run_build_project({**_project(MAIN_OK), "build.zig/x": "x"})
+        self.assertEqual(res["status"], "REJECTED")
+
     def test_rechaza_urls_y_dependencias(self) -> None:
         zon = '.{ .dependencies = .{ .x = .{ .url = "https://example.invalid/x.tar.gz" } } }'
         self.assertIsNotNone(gates.validate_build_files({**_project(MAIN_OK), "build.zig.zon": zon}))
