@@ -1,0 +1,32 @@
+# Firma de error de Zig 0.16 -> operation_id esperada del corpus.
+# Columnas: firma_raw (tal cual aparece en el compilador) | patron_normalizado (con * como comodin) | operation_id_esperado | nivel (alta/media/baja)
+# Nivel alta: firma exacta del corpus con error_signatures. Media: firma minada con API en el mensaje. Baja: firma generica sin API clara.
+error: root source file struct 'fs' has no member named 'cwd'	error: root source file struct 'fs' has no member named 'cwd'	zig0.16/migrate-readfilealloc	alta
+error: member function expected 4 argument(s), found 3	error: member function expected * argument(s), found *	zig0.16/migrate-readfilealloc	alta
+error: root source file struct 'std' has no member named 'io'	error: root source file struct 'std' has no member named 'io'	zig0.16/migrate-stdout-writer	alta
+error: root source file struct 'fs' has no member named 'File'	error: root source file struct 'fs' has no member named 'File'	zig0.16/migrate-stdout-writer	alta
+error: struct 'array_list.Aligned(u32,null)' has no member named 'init'	error: struct 'array_list.Aligned(*,null)' has no member named 'init'	zig0.16/migrate-arraylist-unmanaged	alta
+error: struct 'array_list.Aligned(u8,null)' has no member named 'init'	error: struct 'array_list.Aligned(*,null)' has no member named 'init'	zig0.16/migrate-arraylist-unmanaged	alta
+error: member function expected 2 argument(s), found 1	error: member function expected * argument(s), found *	zig0.16/migrate-arraylist-unmanaged	alta
+error: invalid builtin function: '@Type'	error: invalid builtin function: '@*'	zig0.16/migrate-type-builtin	alta
+error: root source file struct 'process.Child' has no member named 'run'	error: root source file struct 'process.Child' has no member named 'run'	zig0.16/migrate-child-run	alta
+error: root source file struct 'time' has no member named 'sleep'	error: root source file struct 'time' has no member named 'sleep'	zig0.16/migrate-time-sleep	alta
+error: root source file struct 'Thread' has no member named 'sleep'	error: root source file struct 'Thread' has no member named 'sleep'	zig0.16/migrate-time-sleep	alta
+error: root source file struct 'Thread' has no member named 'Mutex'	error: root source file struct 'Thread' has no member named 'Mutex'	zig0.16/migrate-thread-mutex	alta
+root source file struct 'fs' has no member named 'cwd'	root source file struct 'fs' has no member named 'cwd'	zig0.16/migrate-readfilealloc	media
+root source file struct 'Thread' has no member named 'sleep'	root source file struct 'Thread' has no member named 'sleep'	zig0.16/migrate-time-sleep	media
+root source file struct 'Thread' has no member named 'Mutex'	root source file struct 'Thread' has no member named 'Mutex'	zig0.16/migrate-thread-mutex	media
+root source file struct 'process.Child' has no member named 'run'	root source file struct 'process.Child' has no member named 'run'	zig0.16/migrate-child-run	media
+root source file struct 'std' has no member named 'io'	root source file struct 'std' has no member named 'io'	zig0.16/migrate-stdout-writer	media
+root source file struct 'fs' has no member named 'File'	root source file struct 'fs' has no member named 'File'	zig0.16/migrate-stdout-writer	media
+struct 'array_list.Aligned(u32,null)' has no member named 'init'	struct 'array_list.Aligned(*,null)' has no member named 'init'	zig0.16/migrate-arraylist-unmanaged	media
+struct 'array_list.Aligned(u8,null)' has no member named 'init'	struct 'array_list.Aligned(*,null)' has no member named 'init'	zig0.16/migrate-arraylist-unmanaged	media
+invalid builtin function: '@Type'	invalid builtin function: '@*'	zig0.16/migrate-type-builtin	media
+member function expected 4 argument(s), found 3	member function expected * argument(s), found *	zig0.16/migrate-readfilealloc	media
+member function expected 2 argument(s), found 1	member function expected * argument(s), found *	zig0.16/migrate-arraylist-unmanaged	media
+root source file struct '_' has no member named '_'	root source file struct '*' has no member named '*'		media
+use of undeclared identifier '_'	use of undeclared identifier '*'		media
+invalid builtin function: '_'	invalid builtin function: '*'		media
+local variable is never mutated	local variable is never mutated		baja
+evaluation exceeded N backwards branches	evaluation exceeded * backwards branches		baja
+dependency on libc must be explicitly specified in the build command	dependency on libc must be explicitly specified in the build command		baja

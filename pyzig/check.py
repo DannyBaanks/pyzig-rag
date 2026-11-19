@@ -9,6 +9,7 @@ import subprocess
 import tempfile
 from typing import Any
 
+from . import corpus as corpus_mod
 from . import search as search_mod
 from .paths import BUILD
 
@@ -38,6 +39,116 @@ _STOP_IDENTIFIERS = frozenset({
     "void", "error", "true", "false", "null", "self", "Self", "comptime",
     "struct", "enum", "union", "type", "anytype", "usize", "u8", "i32",
 })
+
+#: Umbral minimo de confianza para aceptar una sugerencia de migration.
+#: Por debajo se abstiene (no se devuelven sugerencias).
+_SUGGEST_CONF_MIN = 0.55
+
+#: Tokens que se normalizan a comodin al emparejar una firma de error contra
+#: `error_signatures` del corpus.
+_WILDCARD_STR = re.compile(r"'(?:[^']*)'")   # 'cwd' -> '*'
+_AT_BUILTIN = re.compile(r"@[A-Za-z_][A-Za-z0-9_]*")  # @Type -> @*
+_ZIG_TYPE = re.compile(r"\b[uijf][0-9]+\b")            # u32 -> *
+_NUMBER = re.compile(r"\b\d+\b")                       # 4 -> *
+_UNDER = re.compile(r"\b_\b")                          # _ -> *
+
+
+def _normalize_signature(sig: str) -> str:
+    """Convierte una firma de error en un patron con comodines para emparejamiento difuso."""
+    s = _WILDCARD_STR.sub("'*'", sig)
+    s = _AT_BUILTIN.sub("@*", s)
+    s = _ZIG_TYPE.sub("*", s)
+    s = _NUMBER.sub("*", s)
+    s = _UNDER.sub("*", s)
+    return s
+
+
+def _load_corpus_entries() -> list[dict]:
+    """Carga las entradas del corpus (con cache simple en modulo)."""
+    if not hasattr(_load_corpus_entries, "_cache"):
+        _load_corpus_entries._cache = corpus_mod.load()
+    return _load_corpus_entries._cache
+
+
+def _match_error_signatures(message: str) -> list[dict]:
+    """Devuelve entradas del corpus cuyas `error_signatures` coincidan con `message`.
+
+    Cada resultado: {operation_id, name, apis_used, confidence}.
+    """
+    pat = _normalize_signature(message)
+    hits: list[dict] = []
+    seen: set[str] = set()
+    for e in _load_corpus_entries():
+        for sig in (e.error_signatures or []):
+            if _normalize_signature(sig) == pat and e.operation_id not in seen:
+                seen.add(e.operation_id)
+                hits.append({
+                    "operation_id": e.operation_id,
+                    "name": e.name,
+                    "apis_used": list(e.apis_used or []),
+                    "confidence": 1.0,
+                })
+    return hits
+
+
+def _message_api_hits(message: str) -> list[dict]:
+    """Empareja por API nombrada en el mensaje del error (apis_msg).
+
+    Se usa como fallback de abstencion: si el mensaje nombra una API que aparece
+    en `error_signatures` de alguna entrada (aunque la firma no coincida
+    exactamente), se sugiere esa entrada con confianza media.
+    """
+    hits: list[dict] = []
+    seen: set[str] = set()
+    for e in _load_corpus_entries():
+        for sig in (e.error_signatures or []):
+            # La firma puede contener la API entre comillas o como identificador.
+            for api in (e.apis_used or []):
+                if api and api in message and e.operation_id not in seen:
+                    seen.add(e.operation_id)
+                    hits.append({
+                        "operation_id": e.operation_id,
+                        "name": e.name,
+                        "apis_used": list(e.apis_used or []),
+                        "confidence": 0.6,
+                    })
+                    break
+    return hits
+
+
+def _suggest_from_signatures(message: str, notes: list[str] | None,
+                             source_line: str = "") -> list[dict[str, Any]] | None:
+    """Sugiere recetas de migration emparejando la firma normalizada contra
+    `error_signatures` del corpus, con abstencion si no hay confianza suficiente.
+
+    Orden de preferencia:
+      1. Coincidencia exacta de firma normalizada (confianza 1.0).
+      2. API nombrada en el mensaje que aparece en error_signatures (confianza 0.6).
+    Se abstiene (devuelve None) si el mejor candidato queda por debajo de
+    _SUGGEST_CONF_MIN.
+    """
+    text = " ".join([message, *(notes or ()), source_line])
+    exact = _match_error_signatures(message)
+    if exact:
+        best = exact[0]
+        if best["confidence"] >= _SUGGEST_CONF_MIN:
+            return [_project_suggestion(best)]
+    fb = _message_api_hits(text)
+    if fb:
+        best = fb[0]
+        if best["confidence"] >= _SUGGEST_CONF_MIN:
+            return [_project_suggestion(best)]
+    return None
+
+
+def _project_suggestion(hit: dict) -> dict[str, Any]:
+    """Proyecta un hit de corpus al formato de sugerencia de check_zig."""
+    return {
+        "operation_id": hit["operation_id"],
+        "name": hit["name"],
+        "status": "DEMONSTRATED",
+        "apis_used": hit["apis_used"],
+    }
 
 
 def _parse_raw_errors(stderr: str) -> list[dict[str, Any]]:
@@ -365,6 +476,12 @@ def check_zig(zig_code: str, mode: str = "test",
         if suggest:
             q = build_error_query(err["message"], notes=err["notes"], source_line=snippet)
             suggestions = suggest_for_error(q, zig_version=zig_version)
+            if suggestions is None:
+                # Abstencion controlada: emparejar la firma normalizada contra
+                # error_signatures del corpus (migraciones conocidas) antes de
+                # rendirse. Nunca toca el sandbox.
+                suggestions = _suggest_from_signatures(
+                    err["message"], notes=err["notes"], source_line=snippet)
         errors.append({
             "line": err["line"],
             "col": err["col"],

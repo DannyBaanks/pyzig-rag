@@ -1,0 +1,317 @@
+{
+  "total": 29,
+  "resueltas": 12,
+  "cobertura": 0.4138,
+  "por_nivel": {
+    "alta": {
+      "n": 12,
+      "resueltas": 12,
+      "cobertura": 1.0
+    },
+    "media": {
+      "n": 14,
+      "resueltas": 0,
+      "cobertura": 0.0
+    },
+    "baja": {
+      "n": 3,
+      "resueltas": 0,
+      "cobertura": 0.0
+    }
+  },
+  "detalle": [
+    {
+      "firma": "error: root source file struct 'fs' has no member named 'cwd'",
+      "patron": "error: root source file struct '*' has no member named '*'",
+      "esperado": "zig0.16/migrate-readfilealloc",
+      "nivel": "alta",
+      "hits": [
+        "zig0.16/migrate-readfilealloc",
+        "zig0.16/migrate-writefile",
+        "zig0.16/migrate-stdout-writer",
+        "zig0.16/migrate-child-run",
+        "zig0.16/migrate-time-sleep",
+        "zig0.16/migrate-thread-mutex"
+      ],
+      "ok": true
+    },
+    {
+      "firma": "error: member function expected 4 argument(s), found 3",
+      "patron": "error: member function expected * argument(s), found *",
+      "esperado": "zig0.16/migrate-readfilealloc",
+      "nivel": "alta",
+      "hits": [
+        "zig0.16/migrate-readfilealloc",
+        "zig0.16/migrate-arraylist-unmanaged"
+      ],
+      "ok": true
+    },
+    {
+      "firma": "error: root source file struct 'std' has no member named 'io'",
+      "patron": "error: root source file struct '*' has no member named '*'",
+      "esperado": "zig0.16/migrate-stdout-writer",
+      "nivel": "alta",
+      "hits": [
+        "zig0.16/migrate-readfilealloc",
+        "zig0.16/migrate-writefile",
+        "zig0.16/migrate-stdout-writer",
+        "zig0.16/migrate-child-run",
+        "zig0.16/migrate-time-sleep",
+        "zig0.16/migrate-thread-mutex"
+      ],
+      "ok": true
+    },
+    {
+      "firma": "error: root source file struct 'fs' has no member named 'File'",
+      "patron": "error: root source file struct '*' has no member named '*'",
+      "esperado": "zig0.16/migrate-stdout-writer",
+      "nivel": "alta",
+      "hits": [
+        "zig0.16/migrate-readfilealloc",
+        "zig0.16/migrate-writefile",
+        "zig0.16/migrate-stdout-writer",
+        "zig0.16/migrate-child-run",
+        "zig0.16/migrate-time-sleep",
+        "zig0.16/migrate-thread-mutex"
+      ],
+      "ok": true
+    },
+    {
+      "firma": "error: struct 'array_list.Aligned(u32,null)' has no member named 'init'",
+      "patron": "error: struct '*' has no member named '*'",
+      "esperado": "zig0.16/migrate-arraylist-unmanaged",
+      "nivel": "alta",
+      "hits": [
+        "zig0.16/migrate-arraylist-unmanaged"
+      ],
+      "ok": true
+    },
+    {
+      "firma": "error: struct 'array_list.Aligned(u8,null)' has no member named 'init'",
+      "patron": "error: struct '*' has no member named '*'",
+      "esperado": "zig0.16/migrate-arraylist-unmanaged",
+      "nivel": "alta",
+      "hits": [
+        "zig0.16/migrate-arraylist-unmanaged"
+      ],
+      "ok": true
+    },
+    {
+      "firma": "error: member function expected 2 argument(s), found 1",
+      "patron": "error: member function expected * argument(s), found *",
+      "esperado": "zig0.16/migrate-arraylist-unmanaged",
+      "nivel": "alta",
+      "hits": [
+        "zig0.16/migrate-readfilealloc",
+        "zig0.16/migrate-arraylist-unmanaged"
+      ],
+      "ok": true
+    },
+    {
+      "firma": "error: invalid builtin function: '@Type'",
+      "patron": "error: invalid builtin function: '*'",
+      "esperado": "zig0.16/migrate-type-builtin",
+      "nivel": "alta",
+      "hits": [
+        "zig0.16/migrate-type-builtin"
+      ],
+      "ok": true
+    },
+    {
+      "firma": "error: root source file struct 'process.Child' has no member named 'run'",
+      "patron": "error: root source file struct '*' has no member named '*'",
+      "esperado": "zig0.16/migrate-child-run",
+      "nivel": "alta",
+      "hits": [
+        "zig0.16/migrate-readfilealloc",
+        "zig0.16/migrate-writefile",
+        "zig0.16/migrate-stdout-writer",
+        "zig0.16/migrate-child-run",
+        "zig0.16/migrate-time-sleep",
+        "zig0.16/migrate-thread-mutex"
+      ],
+      "ok": true
+    },
+    {
+      "firma": "error: root source file struct 'time' has no member named 'sleep'",
+      "patron": "error: root source file struct '*' has no member named '*'",
+      "esperado": "zig0.16/migrate-time-sleep",
+      "nivel": "alta",
+      "hits": [
+        "zig0.16/migrate-readfilealloc",
+        "zig0.16/migrate-writefile",
+        "zig0.16/migrate-stdout-writer",
+        "zig0.16/migrate-child-run",
+        "zig0.16/migrate-time-sleep",
+        "zig0.16/migrate-thread-mutex"
+      ],
+      "ok": true
+    },
+    {
+      "firma": "error: root source file struct 'Thread' has no member named 'sleep'",
+      "patron": "error: root source file struct '*' has no member named '*'",
+      "esperado": "zig0.16/migrate-time-sleep",
+      "nivel": "alta",
+      "hits": [
+        "zig0.16/migrate-readfilealloc",
+        "zig0.16/migrate-writefile",
+        "zig0.16/migrate-stdout-writer",
+        "zig0.16/migrate-child-run",
+        "zig0.16/migrate-time-sleep",
+        "zig0.16/migrate-thread-mutex"
+      ],
+      "ok": true
+    },
+    {
+      "firma": "error: root source file struct 'Thread' has no member named 'Mutex'",
+      "patron": "error: root source file struct '*' has no member named '*'",
+      "esperado": "zig0.16/migrate-thread-mutex",
+      "nivel": "alta",
+      "hits": [
+        "zig0.16/migrate-readfilealloc",
+        "zig0.16/migrate-writefile",
+        "zig0.16/migrate-stdout-writer",
+        "zig0.16/migrate-child-run",
+        "zig0.16/migrate-time-sleep",
+        "zig0.16/migrate-thread-mutex"
+      ],
+      "ok": true
+    },
+    {
+      "firma": "root source file struct 'fs' has no member named 'cwd'",
+      "patron": "root source file struct '*' has no member named '*'",
+      "esperado": "zig0.16/migrate-readfilealloc",
+      "nivel": "media",
+      "hits": [],
+      "ok": false
+    },
+    {
+      "firma": "root source file struct 'Thread' has no member named 'sleep'",
+      "patron": "root source file struct '*' has no member named '*'",
+      "esperado": "zig0.16/migrate-time-sleep",
+      "nivel": "media",
+      "hits": [],
+      "ok": false
+    },
+    {
+      "firma": "root source file struct 'Thread' has no member named 'Mutex'",
+      "patron": "root source file struct '*' has no member named '*'",
+      "esperado": "zig0.16/migrate-thread-mutex",
+      "nivel": "media",
+      "hits": [],
+      "ok": false
+    },
+    {
+      "firma": "root source file struct 'process.Child' has no member named 'run'",
+      "patron": "root source file struct '*' has no member named '*'",
+      "esperado": "zig0.16/migrate-child-run",
+      "nivel": "media",
+      "hits": [],
+      "ok": false
+    },
+    {
+      "firma": "root source file struct 'std' has no member named 'io'",
+      "patron": "root source file struct '*' has no member named '*'",
+      "esperado": "zig0.16/migrate-stdout-writer",
+      "nivel": "media",
+      "hits": [],
+      "ok": false
+    },
+    {
+      "firma": "root source file struct 'fs' has no member named 'File'",
+      "patron": "root source file struct '*' has no member named '*'",
+      "esperado": "zig0.16/migrate-stdout-writer",
+      "nivel": "media",
+      "hits": [],
+      "ok": false
+    },
+    {
+      "firma": "struct 'array_list.Aligned(u32,null)' has no member named 'init'",
+      "patron": "struct '*' has no member named '*'",
+      "esperado": "zig0.16/migrate-arraylist-unmanaged",
+      "nivel": "media",
+      "hits": [],
+      "ok": false
+    },
+    {
+      "firma": "struct 'array_list.Aligned(u8,null)' has no member named 'init'",
+      "patron": "struct '*' has no member named '*'",
+      "esperado": "zig0.16/migrate-arraylist-unmanaged",
+      "nivel": "media",
+      "hits": [],
+      "ok": false
+    },
+    {
+      "firma": "invalid builtin function: '@Type'",
+      "patron": "invalid builtin function: '*'",
+      "esperado": "zig0.16/migrate-type-builtin",
+      "nivel": "media",
+      "hits": [],
+      "ok": false
+    },
+    {
+      "firma": "member function expected 4 argument(s), found 3",
+      "patron": "member function expected * argument(s), found *",
+      "esperado": "zig0.16/migrate-readfilealloc",
+      "nivel": "media",
+      "hits": [],
+      "ok": false
+    },
+    {
+      "firma": "member function expected 2 argument(s), found 1",
+      "patron": "member function expected * argument(s), found *",
+      "esperado": "zig0.16/migrate-arraylist-unmanaged",
+      "nivel": "media",
+      "hits": [],
+      "ok": false
+    },
+    {
+      "firma": "root source file struct '_' has no member named '_'",
+      "patron": "root source file struct '*' has no member named '*'",
+      "esperado": null,
+      "nivel": "media",
+      "hits": [],
+      "ok": false
+    },
+    {
+      "firma": "use of undeclared identifier '_'",
+      "patron": "use of undeclared identifier '*'",
+      "esperado": null,
+      "nivel": "media",
+      "hits": [],
+      "ok": false
+    },
+    {
+      "firma": "invalid builtin function: '_'",
+      "patron": "invalid builtin function: '*'",
+      "esperado": null,
+      "nivel": "media",
+      "hits": [],
+      "ok": false
+    },
+    {
+      "firma": "local variable is never mutated",
+      "patron": "local variable is never mutated",
+      "esperado": null,
+      "nivel": "baja",
+      "hits": [],
+      "ok": false
+    },
+    {
+      "firma": "evaluation exceeded N backwards branches",
+      "patron": "evaluation exceeded N backwards branches",
+      "esperado": null,
+      "nivel": "baja",
+      "hits": [],
+      "ok": false
+    },
+    {
+      "firma": "dependency on libc must be explicitly specified in the build command",
+      "patron": "dependency on libc must be explicitly specified in the build command",
+      "esperado": null,
+      "nivel": "baja",
+      "hits": [],
+      "ok": false
+    }
+  ]
+}
