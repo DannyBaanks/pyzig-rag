@@ -264,9 +264,20 @@ regenera `scripts/run_eval.py`; no se copian aqui.
   se carga una vez por proceso: tras cambiar el corpus, reiniciar el servidor MCP.
 - Un `gap` solo sube a top-1 si su cobertura lexica supera a la de toda receta;
   si la receta ASCII documenta la misma diferencia (p. ej. `casefold`), empatan
-  y gana la receta. El proximo experimento util es
-el ensayo controlado agente-sin-MCP vs agente-con-MCP (iteraciones, errores de
-compilacion, tokens), fuera del alcance de este prototipo.
+  y gana la receta.
+- **Validacion held-out** (`eval/heldout_queries.tsv`, reglas en `eval/HELDOUT.md`;
+  `scripts/run_eval.py --queries eval/heldout_queries.tsv --out ...`): 61 consultas
+  escritas sin ver aliases ni consultas de desarrollo, **congeladas** (no se ajusta nada
+  mirando sus fallos). Resultado principal: las positivas salen bien en ambos modos,
+  pero el modo `hybrid` casi nunca se abstiene ante negativas (el desarrollo solo tenia
+  4 negativas y no lo veia). Cifras en `eval/heldout_results.json`. Mejorar la
+  abstencion exige un conjunto de negativas *nuevo* para calibrar y otro para validar.
+- Las 3 etiquetas de `eval/mined_labels.tsv` anadidas en la ola 4 apuntan a recetas
+  escritas desde esas mismas firmas: el salto de hit@1 en (B) que traen es circular.
+- **Ensayo A/B** agente-sin-MCP vs agente-con-MCP: arnes y protocolo pre-registrado en
+  `ab/PROTOCOL.md` (`scripts/ab_run.py`, `scripts/ab_score.py`). Sin ejecucion real
+  todavia: `NOT_DEMONSTRATED`. El arnes no impide que el agente lea `corpus/` o
+  `ab/examples/`; en el ensayo real hay que aislarlo.
 
 ## Seguridad e integridad
 
@@ -292,6 +303,12 @@ compilacion, tokens), fuera del alcance de este prototipo.
   la siguiente lista de recetas candidatas.
 - Embeddings requieren modelo local descargado (o degradacion declarada).
 - No hay equivalente para `setsid`/demonio: esa es la frontera real hoy.
+- Fuzz diferencial de `base64`, `hex` y `parse-int` (ola 4): `triage` clasifica las
+  divergencias conocidas solo por campos del resultado, no por la entrada. Dos clases de
+  `parse-int` (`int-recorta-espacios-y-prefijo-de-base`, `zig-acepta-lo-que-int-rechaza`)
+  absorberian tambien un fallo nuevo con el mismo patron de campos (p. ej. digitos
+  Unicode, o un valor erroneo). Hoy el generador solo emite ASCII; acotarlas exige
+  predicados de entrada en `triage`.
 
 ## Reinicio
 

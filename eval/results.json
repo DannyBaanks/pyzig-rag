@@ -1,15 +1,15 @@
 {
   "model": "all-MiniLM-L6-v2",
-  "peak_rss_mb": 200.4,
+  "peak_rss_mb": 200.2,
   "modes": {
     "lexical": {
       "summary": {
         "n": 216,
         "precision_at_1": 0.976,
         "recall_at_3": 0.995,
-        "negativas_correctas": "3/4",
+        "negativas_correctas": "4/4",
         "status_correcto": "3/3",
-        "latencia_ms_media": 1.7,
+        "latencia_ms_media": 1.8,
         "por_tipo": {
           "api": {
             "n": 57,
@@ -28,8 +28,8 @@
           },
           "negative": {
             "n": 3,
-            "aciertos_top1": 2,
-            "aciertos_top3": 2
+            "aciertos_top1": 3,
+            "aciertos_top3": 3
           },
           "paraphrase": {
             "n": 56,
@@ -64,7 +64,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.4
+          "ms": 2.3
         },
         {
           "qid": "q02",
@@ -185,7 +185,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 3.0
+          "ms": 2.9
         },
         {
           "qid": "q10",
@@ -201,7 +201,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.1
+          "ms": 2.2
         },
         {
           "qid": "q11",
@@ -247,7 +247,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 3.0
+          "ms": 2.9
         },
         {
           "qid": "q14",
@@ -263,7 +263,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.3
+          "ms": 1.4
         },
         {
           "qid": "q15",
@@ -310,7 +310,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.3
+          "ms": 2.2
         },
         {
           "qid": "q18",
@@ -342,7 +342,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.0
+          "ms": 1.1
         },
         {
           "qid": "q20",
@@ -374,7 +374,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.5
+          "ms": 2.6
         },
         {
           "qid": "q22",
@@ -425,13 +425,11 @@
           "query": "compilar un transpilador universal de python a zig",
           "expect": "NONE",
           "expected": null,
-          "got_top3": [
-            "zig0.16/format-string-alloc-print"
-          ],
-          "error": null,
-          "ok_top1": false,
-          "ok_top3": false,
-          "ms": 1.5
+          "got_top3": [],
+          "error": "NO_RESULTS",
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.2
         },
         {
           "qid": "q26",
@@ -485,7 +483,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.7
+          "ms": 1.8
         },
         {
           "qid": "colecciones-02",
@@ -501,7 +499,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.9
+          "ms": 2.0
         },
         {
           "qid": "colecciones-03",
@@ -516,7 +514,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.9
+          "ms": 2.0
         },
         {
           "qid": "colecciones-04",
@@ -544,7 +542,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.5
+          "ms": 1.6
         },
         {
           "qid": "colecciones-06",
@@ -559,7 +557,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.5
+          "ms": 1.6
         },
         {
           "qid": "colecciones-07",
@@ -573,7 +571,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.7
+          "ms": 1.8
         },
         {
           "qid": "colecciones-08",
@@ -587,7 +585,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.7
+          "ms": 2.7
         },
         {
           "qid": "colecciones-09",
@@ -601,7 +599,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.2
+          "ms": 2.3
         },
         {
           "qid": "colecciones-10",
@@ -615,7 +613,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.2
+          "ms": 1.3
         },
         {
           "qid": "colecciones-11",
@@ -643,7 +641,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.3
+          "ms": 1.4
         },
         {
           "qid": "colecciones-13",
@@ -658,7 +656,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.0
+          "ms": 1.1
         },
         {
           "qid": "colecciones-14",
@@ -672,7 +670,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.1
+          "ms": 1.2
         },
         {
           "qid": "fs_rutas-01",
@@ -688,7 +686,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.5
+          "ms": 2.6
         },
         {
           "qid": "fs_rutas-02",
@@ -703,7 +701,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.9
+          "ms": 2.0
         },
         {
           "qid": "fs_rutas-03",
@@ -717,7 +715,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.1
+          "ms": 1.2
         },
         {
           "qid": "fs_rutas-04",
@@ -732,7 +730,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.5
+          "ms": 1.6
         },
         {
           "qid": "fs_rutas-05",
@@ -747,7 +745,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.0
+          "ms": 1.1
         },
         {
           "qid": "fs_rutas-06",
@@ -761,7 +759,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.5
+          "ms": 1.6
         },
         {
           "qid": "fs_rutas-07",
@@ -775,7 +773,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.4
+          "ms": 1.2
         },
         {
           "qid": "fs_rutas-08",
@@ -790,7 +788,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.2
+          "ms": 1.4
         },
         {
           "qid": "fs_rutas-09",
@@ -804,7 +802,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.6
+          "ms": 1.6
         },
         {
           "qid": "fs_rutas-10",
@@ -818,7 +816,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 1.8
         },
         {
           "qid": "fs_rutas-11",
@@ -833,7 +831,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.3
+          "ms": 1.5
         },
         {
           "qid": "fs_rutas-12",
@@ -849,7 +847,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 1.8
         },
         {
           "qid": "fs_rutas-13",
@@ -863,7 +861,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.9
+          "ms": 1.0
         },
         {
           "qid": "fs_rutas-14",
@@ -877,7 +875,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.1
+          "ms": 1.2
         },
         {
           "qid": "json-01",
@@ -893,7 +891,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 1.7
         },
         {
           "qid": "json-02",
@@ -909,7 +907,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.9
+          "ms": 2.0
         },
         {
           "qid": "json-03",
@@ -925,7 +923,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.9
+          "ms": 2.1
         },
         {
           "qid": "json-04",
@@ -940,7 +938,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.4
+          "ms": 1.5
         },
         {
           "qid": "json-05",
@@ -956,7 +954,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.1
+          "ms": 2.2
         },
         {
           "qid": "json-06",
@@ -971,7 +969,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.7
+          "ms": 1.3
         },
         {
           "qid": "json-07",
@@ -985,7 +983,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.3
+          "ms": 2.2
         },
         {
           "qid": "json-08",
@@ -1001,7 +999,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.4
+          "ms": 1.5
         },
         {
           "qid": "json-09",
@@ -1016,7 +1014,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.7
+          "ms": 1.9
         },
         {
           "qid": "json-10",
@@ -1032,7 +1030,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.7
+          "ms": 1.8
         },
         {
           "qid": "json-11",
@@ -1046,7 +1044,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 1.8
         },
         {
           "qid": "json-12",
@@ -1060,7 +1058,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 1.7
         },
         {
           "qid": "texto_num-01",
@@ -1076,7 +1074,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.5
+          "ms": 1.6
         },
         {
           "qid": "texto_num-02",
@@ -1139,7 +1137,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.9
+          "ms": 2.0
         },
         {
           "qid": "texto_num-06",
@@ -1155,7 +1153,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 3.0
+          "ms": 3.2
         },
         {
           "qid": "texto_num-07",
@@ -1171,7 +1169,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.7
+          "ms": 1.8
         },
         {
           "qid": "texto_num-08",
@@ -1202,7 +1200,7 @@
           "error": null,
           "ok_top1": false,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 1.7
         },
         {
           "qid": "texto_num-10",
@@ -1216,7 +1214,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.1
+          "ms": 1.3
         },
         {
           "qid": "texto_num-11",
@@ -1264,7 +1262,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.2
+          "ms": 1.3
         },
         {
           "qid": "texto_num-14",
@@ -1279,7 +1277,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.0
+          "ms": 1.1
         },
         {
           "qid": "texto_num-15",
@@ -1310,7 +1308,7 @@
           "error": null,
           "ok_top1": false,
           "ok_top3": false,
-          "ms": 1.9
+          "ms": 1.8
         },
         {
           "qid": "tiempo_args-01",
@@ -1355,7 +1353,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.4
+          "ms": 2.6
         },
         {
           "qid": "tiempo_args-04",
@@ -1369,7 +1367,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.3
+          "ms": 1.4
         },
         {
           "qid": "tiempo_args-05",
@@ -1383,7 +1381,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.0
+          "ms": 1.1
         },
         {
           "qid": "tiempo_args-06",
@@ -1397,7 +1395,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.2
+          "ms": 1.8
         },
         {
           "qid": "tiempo_args-07",
@@ -1413,7 +1411,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 1.8
         },
         {
           "qid": "tiempo_args-08",
@@ -1429,7 +1427,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.2
+          "ms": 1.3
         },
         {
           "qid": "tiempo_args-09",
@@ -1459,7 +1457,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.3
+          "ms": 1.4
         },
         {
           "qid": "tiempo_args-11",
@@ -1490,7 +1488,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.7
+          "ms": 1.8
         },
         {
           "qid": "tiempo_args-13",
@@ -1551,7 +1549,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.6
+          "ms": 2.7
         },
         {
           "qid": "migracion-03",
@@ -1567,7 +1565,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.5
+          "ms": 2.4
         },
         {
           "qid": "migracion-04",
@@ -1583,7 +1581,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.9
+          "ms": 3.0
         },
         {
           "qid": "migracion-05",
@@ -1599,7 +1597,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.9
+          "ms": 2.1
         },
         {
           "qid": "migracion-06",
@@ -1615,7 +1613,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.8
+          "ms": 1.9
         },
         {
           "qid": "migracion-07",
@@ -1647,7 +1645,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.4
+          "ms": 3.3
         },
         {
           "qid": "migracion-09",
@@ -1663,7 +1661,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.2
+          "ms": 2.3
         },
         {
           "qid": "migracion-10",
@@ -1679,7 +1677,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.5
+          "ms": 3.5
         },
         {
           "qid": "migracion-11",
@@ -1695,7 +1693,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.2
+          "ms": 2.3
         },
         {
           "qid": "migracion-12",
@@ -1711,7 +1709,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 1.7
         },
         {
           "qid": "migracion-13",
@@ -1727,7 +1725,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.8
+          "ms": 1.9
         },
         {
           "qid": "migracion-14",
@@ -1743,7 +1741,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.3
+          "ms": 2.4
         },
         {
           "qid": "migracion-15",
@@ -1759,7 +1757,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.7
+          "ms": 1.8
         },
         {
           "qid": "migracion-16",
@@ -1791,7 +1789,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.5
+          "ms": 2.6
         },
         {
           "qid": "migracion-18",
@@ -1807,7 +1805,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.7
+          "ms": 1.9
         },
         {
           "qid": "migracion-19",
@@ -1823,7 +1821,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.8
+          "ms": 3.0
         },
         {
           "qid": "io_red-01",
@@ -1838,7 +1836,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.5
+          "ms": 1.6
         },
         {
           "qid": "io_red-02",
@@ -1852,7 +1850,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.8
+          "ms": 1.6
         },
         {
           "qid": "io_red-03",
@@ -1867,7 +1865,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.7
+          "ms": 1.3
         },
         {
           "qid": "io_red-04",
@@ -1882,7 +1880,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 1.4
         },
         {
           "qid": "io_red-05",
@@ -1896,7 +1894,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.2
+          "ms": 1.2
         },
         {
           "qid": "io_red-06",
@@ -1910,7 +1908,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 1.4
         },
         {
           "qid": "io_red-07",
@@ -1967,7 +1965,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.9
+          "ms": 1.8
         },
         {
           "qid": "io_red-11",
@@ -2068,7 +2066,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.3
+          "ms": 1.2
         },
         {
           "qid": "diag-04",
@@ -2100,7 +2098,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 3.3
+          "ms": 1.4
         },
         {
           "qid": "diag-06",
@@ -2116,7 +2114,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.4
+          "ms": 1.3
         },
         {
           "qid": "diag-07",
@@ -2144,7 +2142,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.1
+          "ms": 0.9
         },
         {
           "qid": "diag-09",
@@ -2158,7 +2156,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 1.9
         },
         {
           "qid": "diag-10",
@@ -2172,7 +2170,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.9
+          "ms": 1.2
         },
         {
           "qid": "diag-11",
@@ -2188,7 +2186,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 1.7
         },
         {
           "qid": "diag-12",
@@ -2204,7 +2202,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.7
+          "ms": 1.8
         },
         {
           "qid": "diag-13",
@@ -2220,7 +2218,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.8
+          "ms": 2.1
         },
         {
           "qid": "diag-14",
@@ -2236,7 +2234,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.0
+          "ms": 2.1
         },
         {
           "qid": "diag-15",
@@ -2252,7 +2250,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 1.7
         },
         {
           "qid": "diag-16",
@@ -2268,7 +2266,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.2
+          "ms": 1.3
         },
         {
           "qid": "diag-17",
@@ -2300,7 +2298,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.4
+          "ms": 1.5
         },
         {
           "qid": "diag-19",
@@ -2316,7 +2314,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.1
+          "ms": 1.2
         },
         {
           "qid": "diag-20",
@@ -2332,7 +2330,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.8
+          "ms": 1.9
         },
         {
           "qid": "diag-21",
@@ -2407,7 +2405,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.3
+          "ms": 1.7
         },
         {
           "qid": "diag-26",
@@ -2421,7 +2419,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.1
+          "ms": 1.2
         },
         {
           "qid": "diag-27",
@@ -2437,7 +2435,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.7
+          "ms": 1.8
         },
         {
           "qid": "diag-28",
@@ -2469,7 +2467,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.9
+          "ms": 2.1
         },
         {
           "qid": "diag-30",
@@ -2485,7 +2483,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.4
+          "ms": 2.5
         },
         {
           "qid": "diag-31",
@@ -2515,7 +2513,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.4
+          "ms": 1.5
         },
         {
           "qid": "diag-33",
@@ -2531,7 +2529,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.2
+          "ms": 1.3
         },
         {
           "qid": "build-01",
@@ -2547,7 +2545,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.6
+          "ms": 2.8
         },
         {
           "qid": "build-02",
@@ -2562,7 +2560,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.3
+          "ms": 1.4
         },
         {
           "qid": "build-03",
@@ -2578,7 +2576,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.9
+          "ms": 2.2
         },
         {
           "qid": "build-04",
@@ -2594,7 +2592,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.2
+          "ms": 2.3
         },
         {
           "qid": "build-05",
@@ -2624,7 +2622,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.7
+          "ms": 1.6
         },
         {
           "qid": "build-07",
@@ -2640,7 +2638,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.6
+          "ms": 2.7
         },
         {
           "qid": "build-08",
@@ -2656,7 +2654,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.9
+          "ms": 3.0
         },
         {
           "qid": "build-09",
@@ -2687,7 +2685,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.1
+          "ms": 2.2
         },
         {
           "qid": "build-11",
@@ -2703,7 +2701,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.9
+          "ms": 3.0
         },
         {
           "qid": "build-12",
@@ -2732,7 +2730,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.9
+          "ms": 2.0
         },
         {
           "qid": "build-14",
@@ -2748,7 +2746,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.3
+          "ms": 2.6
         },
         {
           "qid": "build-15",
@@ -2764,7 +2762,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.1
+          "ms": 2.5
         },
         {
           "qid": "build-16",
@@ -2780,7 +2778,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.0
+          "ms": 3.4
         },
         {
           "qid": "mate_bytes-01",
@@ -2796,7 +2794,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.7
+          "ms": 1.9
         },
         {
           "qid": "mate_bytes-02",
@@ -2812,7 +2810,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 1.8
         },
         {
           "qid": "mate_bytes-03",
@@ -2828,7 +2826,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 1.7
         },
         {
           "qid": "mate_bytes-04",
@@ -2844,7 +2842,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 1.8
         },
         {
           "qid": "mate_bytes-05",
@@ -2860,7 +2858,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.3
+          "ms": 2.0
         },
         {
           "qid": "mate_bytes-06",
@@ -2875,7 +2873,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.7
+          "ms": 2.5
         },
         {
           "qid": "mate_bytes-07",
@@ -2890,7 +2888,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.4
+          "ms": 1.6
         },
         {
           "qid": "mate_bytes-08",
@@ -2906,7 +2904,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.1
+          "ms": 2.8
         },
         {
           "qid": "mate_bytes-09",
@@ -2921,7 +2919,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.5
+          "ms": 1.4
         },
         {
           "qid": "mate_bytes-10",
@@ -2937,7 +2935,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.5
+          "ms": 1.7
         },
         {
           "qid": "mate_bytes-11",
@@ -2953,7 +2951,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.0
+          "ms": 2.1
         },
         {
           "qid": "mate_bytes-12",
@@ -2969,7 +2967,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.5
+          "ms": 1.6
         },
         {
           "qid": "mate_bytes-13",
@@ -2985,7 +2983,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.3
+          "ms": 1.5
         },
         {
           "qid": "mate_bytes-14",
@@ -2995,13 +2993,12 @@
           "expected": "zig0.16/round-floor-ceil-bankers",
           "got_top3": [
             "zig0.16/round-floor-ceil-bankers",
-            "zig0.16/format-string-alloc-print",
-            "zig0.16/div-floor-mod-negative"
+            "zig0.16/format-string-alloc-print"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 3.5
+          "ms": 1.6
         },
         {
           "qid": "mate_bytes-15",
@@ -3016,7 +3013,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.0
+          "ms": 1.7
         },
         {
           "qid": "mate_bytes-16",
@@ -3032,7 +3029,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.3
+          "ms": 2.6
         },
         {
           "qid": "stdlib_extra-01",
@@ -3048,7 +3045,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 3.1
+          "ms": 4.9
         },
         {
           "qid": "stdlib_extra-02",
@@ -3064,7 +3061,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.8
+          "ms": 2.1
         },
         {
           "qid": "stdlib_extra-03",
@@ -3080,7 +3077,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.4
+          "ms": 1.5
         },
         {
           "qid": "stdlib_extra-04",
@@ -3096,7 +3093,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.9
+          "ms": 2.0
         },
         {
           "qid": "stdlib_extra-05",
@@ -3112,7 +3109,7 @@
           "error": null,
           "ok_top1": false,
           "ok_top3": true,
-          "ms": 2.3
+          "ms": 2.4
         },
         {
           "qid": "stdlib_extra-06",
@@ -3143,7 +3140,7 @@
           "error": null,
           "ok_top1": false,
           "ok_top3": true,
-          "ms": 1.9
+          "ms": 2.1
         },
         {
           "qid": "stdlib_extra-08",
@@ -3159,7 +3156,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.8
+          "ms": 2.6
         },
         {
           "qid": "stdlib_extra-09",
@@ -3174,7 +3171,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.2
+          "ms": 2.4
         },
         {
           "qid": "stdlib_extra-10",
@@ -3188,7 +3185,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.4
+          "ms": 1.5
         },
         {
           "qid": "stdlib_extra-11",
@@ -3202,7 +3199,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.3
+          "ms": 1.5
         },
         {
           "qid": "stdlib_extra-12",
@@ -3216,7 +3213,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.2
+          "ms": 1.8
         },
         {
           "qid": "stdlib_extra-13",
@@ -3259,7 +3256,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.3
+          "ms": 1.4
         },
         {
           "qid": "stdlib_extra-16",
@@ -3335,7 +3332,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 1.8
         }
       ]
     },
@@ -3344,9 +3341,9 @@
         "n": 216,
         "precision_at_1": 0.952,
         "recall_at_3": 0.976,
-        "negativas_correctas": "3/4",
+        "negativas_correctas": "4/4",
         "status_correcto": "3/3",
-        "latencia_ms_media": 59.6,
+        "latencia_ms_media": 54.3,
         "por_tipo": {
           "api": {
             "n": 57,
@@ -3365,8 +3362,8 @@
           },
           "negative": {
             "n": 3,
-            "aciertos_top1": 2,
-            "aciertos_top3": 2
+            "aciertos_top1": 3,
+            "aciertos_top3": 3
           },
           "paraphrase": {
             "n": 56,
@@ -3401,7 +3398,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.8
+          "ms": 52.9
         },
         {
           "qid": "q02",
@@ -3417,7 +3414,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.9
+          "ms": 62.7
         },
         {
           "qid": "q03",
@@ -3433,7 +3430,7 @@
           "error": null,
           "ok_top1": false,
           "ok_top3": true,
-          "ms": 56.3
+          "ms": 53.4
         },
         {
           "qid": "q04",
@@ -3449,7 +3446,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.1
+          "ms": 53.6
         },
         {
           "qid": "q05",
@@ -3465,7 +3462,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.1
+          "ms": 55.3
         },
         {
           "qid": "q06",
@@ -3480,7 +3477,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.6
+          "ms": 53.1
         },
         {
           "qid": "q07",
@@ -3496,7 +3493,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.5
+          "ms": 53.9
         },
         {
           "qid": "q08",
@@ -3511,7 +3508,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.9
+          "ms": 53.4
         },
         {
           "qid": "q09",
@@ -3527,7 +3524,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.7
+          "ms": 54.1
         },
         {
           "qid": "q10",
@@ -3543,7 +3540,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.4
+          "ms": 52.9
         },
         {
           "qid": "q11",
@@ -3557,7 +3554,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 61.8
+          "ms": 53.2
         },
         {
           "qid": "q12",
@@ -3573,7 +3570,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.3
+          "ms": 53.3
         },
         {
           "qid": "q13",
@@ -3589,7 +3586,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 61.4
+          "ms": 54.8
         },
         {
           "qid": "q14",
@@ -3605,7 +3602,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.6
+          "ms": 52.6
         },
         {
           "qid": "q15",
@@ -3621,7 +3618,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.5
+          "ms": 56.8
         },
         {
           "qid": "q16",
@@ -3637,7 +3634,7 @@
           "error": null,
           "ok_top1": false,
           "ok_top3": false,
-          "ms": 56.9
+          "ms": 53.1
         },
         {
           "qid": "q17",
@@ -3653,7 +3650,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.7
+          "ms": 54.0
         },
         {
           "qid": "q18",
@@ -3669,7 +3666,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.3
+          "ms": 57.1
         },
         {
           "qid": "q19",
@@ -3685,7 +3682,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.5
+          "ms": 52.4
         },
         {
           "qid": "q20",
@@ -3701,7 +3698,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.7
+          "ms": 53.4
         },
         {
           "qid": "q21",
@@ -3717,7 +3714,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.2
+          "ms": 59.4
         },
         {
           "qid": "q22",
@@ -3733,7 +3730,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.9
+          "ms": 52.9
         },
         {
           "qid": "q23",
@@ -3749,7 +3746,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.5
+          "ms": 52.1
         },
         {
           "qid": "q24",
@@ -3761,7 +3758,7 @@
           "error": "NO_RESULTS",
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.8
+          "ms": 52.8
         },
         {
           "qid": "q25",
@@ -3769,13 +3766,11 @@
           "query": "compilar un transpilador universal de python a zig",
           "expect": "NONE",
           "expected": null,
-          "got_top3": [
-            "zig0.16/format-string-alloc-print"
-          ],
-          "error": null,
-          "ok_top1": false,
-          "ok_top3": false,
-          "ms": 58.5
+          "got_top3": [],
+          "error": "NO_RESULTS",
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 53.2
         },
         {
           "qid": "q26",
@@ -3787,7 +3782,7 @@
           "error": "NO_RESULTS",
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.5
+          "ms": 52.4
         },
         {
           "qid": "q27",
@@ -3815,7 +3810,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.4
+          "ms": 53.0
         },
         {
           "qid": "colecciones-01",
@@ -3831,7 +3826,7 @@
           "error": null,
           "ok_top1": false,
           "ok_top3": false,
-          "ms": 60.4
+          "ms": 58.7
         },
         {
           "qid": "colecciones-02",
@@ -3847,7 +3842,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 60.9
+          "ms": 55.4
         },
         {
           "qid": "colecciones-03",
@@ -3863,7 +3858,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 60.4
+          "ms": 55.2
         },
         {
           "qid": "colecciones-04",
@@ -3879,7 +3874,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.4
+          "ms": 54.1
         },
         {
           "qid": "colecciones-05",
@@ -3893,7 +3888,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.6
+          "ms": 54.6
         },
         {
           "qid": "colecciones-06",
@@ -3909,7 +3904,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 60.0
+          "ms": 54.4
         },
         {
           "qid": "colecciones-07",
@@ -3925,7 +3920,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.3
+          "ms": 54.1
         },
         {
           "qid": "colecciones-08",
@@ -3941,7 +3936,7 @@
           "error": null,
           "ok_top1": false,
           "ok_top3": true,
-          "ms": 57.9
+          "ms": 54.3
         },
         {
           "qid": "colecciones-09",
@@ -3957,7 +3952,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.5
+          "ms": 53.9
         },
         {
           "qid": "colecciones-10",
@@ -3971,7 +3966,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.8
+          "ms": 53.3
         },
         {
           "qid": "colecciones-11",
@@ -3986,7 +3981,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.2
+          "ms": 53.4
         },
         {
           "qid": "colecciones-12",
@@ -4000,7 +3995,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.4
+          "ms": 53.2
         },
         {
           "qid": "colecciones-13",
@@ -4015,7 +4010,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.8
+          "ms": 52.6
         },
         {
           "qid": "colecciones-14",
@@ -4030,7 +4025,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.0
+          "ms": 53.8
         },
         {
           "qid": "fs_rutas-01",
@@ -4046,7 +4041,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.6
+          "ms": 54.6
         },
         {
           "qid": "fs_rutas-02",
@@ -4061,7 +4056,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.2
+          "ms": 53.9
         },
         {
           "qid": "fs_rutas-03",
@@ -4077,7 +4072,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.7
+          "ms": 53.5
         },
         {
           "qid": "fs_rutas-04",
@@ -4093,7 +4088,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 60.5
+          "ms": 58.6
         },
         {
           "qid": "fs_rutas-05",
@@ -4109,7 +4104,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.3
+          "ms": 53.2
         },
         {
           "qid": "fs_rutas-06",
@@ -4123,7 +4118,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.7
+          "ms": 58.4
         },
         {
           "qid": "fs_rutas-07",
@@ -4139,7 +4134,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.3
+          "ms": 53.3
         },
         {
           "qid": "fs_rutas-08",
@@ -4154,7 +4149,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.2
+          "ms": 54.6
         },
         {
           "qid": "fs_rutas-09",
@@ -4170,7 +4165,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.1
+          "ms": 58.0
         },
         {
           "qid": "fs_rutas-10",
@@ -4186,7 +4181,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.9
+          "ms": 54.6
         },
         {
           "qid": "fs_rutas-11",
@@ -4202,7 +4197,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.6
+          "ms": 53.7
         },
         {
           "qid": "fs_rutas-12",
@@ -4218,7 +4213,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.5
+          "ms": 56.1
         },
         {
           "qid": "fs_rutas-13",
@@ -4234,7 +4229,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.2
+          "ms": 53.2
         },
         {
           "qid": "fs_rutas-14",
@@ -4249,7 +4244,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.5
+          "ms": 52.9
         },
         {
           "qid": "json-01",
@@ -4265,7 +4260,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.1
+          "ms": 54.3
         },
         {
           "qid": "json-02",
@@ -4281,7 +4276,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.2
+          "ms": 56.8
         },
         {
           "qid": "json-03",
@@ -4297,7 +4292,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.7
+          "ms": 57.5
         },
         {
           "qid": "json-04",
@@ -4313,7 +4308,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.8
+          "ms": 55.1
         },
         {
           "qid": "json-05",
@@ -4329,7 +4324,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.2
+          "ms": 54.6
         },
         {
           "qid": "json-06",
@@ -4345,7 +4340,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.8
+          "ms": 53.5
         },
         {
           "qid": "json-07",
@@ -4361,7 +4356,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 61.1
+          "ms": 54.1
         },
         {
           "qid": "json-08",
@@ -4377,7 +4372,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.6
+          "ms": 53.4
         },
         {
           "qid": "json-09",
@@ -4393,7 +4388,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 61.3
+          "ms": 54.9
         },
         {
           "qid": "json-10",
@@ -4409,7 +4404,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 60.8
+          "ms": 54.5
         },
         {
           "qid": "json-11",
@@ -4425,7 +4420,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 61.8
+          "ms": 54.4
         },
         {
           "qid": "json-12",
@@ -4441,7 +4436,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.5
+          "ms": 54.8
         },
         {
           "qid": "texto_num-01",
@@ -4457,7 +4452,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 61.2
+          "ms": 54.0
         },
         {
           "qid": "texto_num-02",
@@ -4473,7 +4468,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 60.1
+          "ms": 53.5
         },
         {
           "qid": "texto_num-03",
@@ -4489,7 +4484,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 61.9
+          "ms": 55.8
         },
         {
           "qid": "texto_num-04",
@@ -4505,7 +4500,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.5
+          "ms": 53.5
         },
         {
           "qid": "texto_num-05",
@@ -4521,7 +4516,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.3
+          "ms": 55.1
         },
         {
           "qid": "texto_num-06",
@@ -4537,7 +4532,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 61.7
+          "ms": 54.9
         },
         {
           "qid": "texto_num-07",
@@ -4553,7 +4548,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.6
+          "ms": 54.1
         },
         {
           "qid": "texto_num-08",
@@ -4568,7 +4563,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.0
+          "ms": 52.7
         },
         {
           "qid": "texto_num-09",
@@ -4584,7 +4579,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.9
+          "ms": 53.5
         },
         {
           "qid": "texto_num-10",
@@ -4598,7 +4593,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.1
+          "ms": 53.2
         },
         {
           "qid": "texto_num-11",
@@ -4614,7 +4609,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.4
+          "ms": 54.7
         },
         {
           "qid": "texto_num-12",
@@ -4630,7 +4625,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 61.8
+          "ms": 54.8
         },
         {
           "qid": "texto_num-13",
@@ -4646,7 +4641,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 60.1
+          "ms": 53.1
         },
         {
           "qid": "texto_num-14",
@@ -4662,7 +4657,7 @@
           "error": null,
           "ok_top1": false,
           "ok_top3": false,
-          "ms": 59.7
+          "ms": 52.9
         },
         {
           "qid": "texto_num-15",
@@ -4678,7 +4673,7 @@
           "error": null,
           "ok_top1": false,
           "ok_top3": false,
-          "ms": 60.0
+          "ms": 53.9
         },
         {
           "qid": "texto_num-16",
@@ -4694,7 +4689,7 @@
           "error": null,
           "ok_top1": false,
           "ok_top3": false,
-          "ms": 60.4
+          "ms": 53.4
         },
         {
           "qid": "tiempo_args-01",
@@ -4710,7 +4705,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.7
+          "ms": 52.7
         },
         {
           "qid": "tiempo_args-02",
@@ -4724,7 +4719,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.1
+          "ms": 53.3
         },
         {
           "qid": "tiempo_args-03",
@@ -4739,7 +4734,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.3
+          "ms": 53.8
         },
         {
           "qid": "tiempo_args-04",
@@ -4753,7 +4748,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.0
+          "ms": 54.8
         },
         {
           "qid": "tiempo_args-05",
@@ -4767,7 +4762,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.9
+          "ms": 56.2
         },
         {
           "qid": "tiempo_args-06",
@@ -4781,7 +4776,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.2
+          "ms": 56.5
         },
         {
           "qid": "tiempo_args-07",
@@ -4797,7 +4792,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 60.8
+          "ms": 54.7
         },
         {
           "qid": "tiempo_args-08",
@@ -4813,7 +4808,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 60.2
+          "ms": 53.6
         },
         {
           "qid": "tiempo_args-09",
@@ -4829,7 +4824,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.7
+          "ms": 53.2
         },
         {
           "qid": "tiempo_args-10",
@@ -4845,7 +4840,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.4
+          "ms": 53.7
         },
         {
           "qid": "tiempo_args-11",
@@ -4861,7 +4856,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.6
+          "ms": 53.3
         },
         {
           "qid": "tiempo_args-12",
@@ -4877,7 +4872,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.7
+          "ms": 54.2
         },
         {
           "qid": "tiempo_args-13",
@@ -4893,7 +4888,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 60.1
+          "ms": 54.1
         },
         {
           "qid": "tiempo_args-14",
@@ -4909,7 +4904,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 60.9
+          "ms": 53.4
         },
         {
           "qid": "migracion-01",
@@ -4925,7 +4920,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 65.1
+          "ms": 57.9
         },
         {
           "qid": "migracion-02",
@@ -4941,7 +4936,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.7
+          "ms": 53.6
         },
         {
           "qid": "migracion-03",
@@ -4957,7 +4952,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 61.3
+          "ms": 56.8
         },
         {
           "qid": "migracion-04",
@@ -4973,7 +4968,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 62.2
+          "ms": 57.0
         },
         {
           "qid": "migracion-05",
@@ -4989,7 +4984,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 61.5
+          "ms": 54.7
         },
         {
           "qid": "migracion-06",
@@ -5005,7 +5000,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 60.8
+          "ms": 53.9
         },
         {
           "qid": "migracion-07",
@@ -5021,7 +5016,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.9
+          "ms": 52.8
         },
         {
           "qid": "migracion-08",
@@ -5037,7 +5032,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 61.0
+          "ms": 54.1
         },
         {
           "qid": "migracion-09",
@@ -5053,7 +5048,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.9
+          "ms": 54.1
         },
         {
           "qid": "migracion-10",
@@ -5069,7 +5064,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.9
+          "ms": 55.6
         },
         {
           "qid": "migracion-11",
@@ -5085,7 +5080,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 63.8
+          "ms": 54.8
         },
         {
           "qid": "migracion-12",
@@ -5101,7 +5096,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 62.8
+          "ms": 55.3
         },
         {
           "qid": "migracion-13",
@@ -5117,7 +5112,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 63.5
+          "ms": 54.7
         },
         {
           "qid": "migracion-14",
@@ -5133,7 +5128,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 63.5
+          "ms": 55.2
         },
         {
           "qid": "migracion-15",
@@ -5149,7 +5144,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 62.1
+          "ms": 57.1
         },
         {
           "qid": "migracion-16",
@@ -5165,7 +5160,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 61.2
+          "ms": 58.7
         },
         {
           "qid": "migracion-17",
@@ -5181,7 +5176,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 63.5
+          "ms": 54.7
         },
         {
           "qid": "migracion-18",
@@ -5197,7 +5192,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 62.3
+          "ms": 53.4
         },
         {
           "qid": "migracion-19",
@@ -5213,7 +5208,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 65.4
+          "ms": 55.8
         },
         {
           "qid": "io_red-01",
@@ -5229,7 +5224,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 61.0
+          "ms": 53.5
         },
         {
           "qid": "io_red-02",
@@ -5244,7 +5239,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 60.7
+          "ms": 53.9
         },
         {
           "qid": "io_red-03",
@@ -5260,7 +5255,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.0
+          "ms": 54.0
         },
         {
           "qid": "io_red-04",
@@ -5276,7 +5271,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 60.5
+          "ms": 55.6
         },
         {
           "qid": "io_red-05",
@@ -5290,7 +5285,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.8
+          "ms": 53.2
         },
         {
           "qid": "io_red-06",
@@ -5306,7 +5301,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 61.9
+          "ms": 55.8
         },
         {
           "qid": "io_red-07",
@@ -5321,7 +5316,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.6
+          "ms": 53.6
         },
         {
           "qid": "io_red-08",
@@ -5337,7 +5332,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 60.7
+          "ms": 55.1
         },
         {
           "qid": "io_red-09",
@@ -5352,7 +5347,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.6
+          "ms": 53.1
         },
         {
           "qid": "io_red-10",
@@ -5367,7 +5362,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 60.3
+          "ms": 55.1
         },
         {
           "qid": "io_red-11",
@@ -5383,7 +5378,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.8
+          "ms": 53.4
         },
         {
           "qid": "io_red-12",
@@ -5397,7 +5392,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 61.4
+          "ms": 54.9
         },
         {
           "qid": "io_red-13",
@@ -5412,7 +5407,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 60.2
+          "ms": 53.7
         },
         {
           "qid": "io_red-14",
@@ -5428,7 +5423,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.8
+          "ms": 54.9
         },
         {
           "qid": "diag-01",
@@ -5443,7 +5438,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.5
+          "ms": 52.8
         },
         {
           "qid": "diag-02",
@@ -5459,7 +5454,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 60.4
+          "ms": 55.3
         },
         {
           "qid": "diag-03",
@@ -5475,7 +5470,7 @@
           "error": null,
           "ok_top1": false,
           "ok_top3": true,
-          "ms": 60.4
+          "ms": 52.8
         },
         {
           "qid": "diag-04",
@@ -5491,7 +5486,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.7
+          "ms": 52.3
         },
         {
           "qid": "diag-05",
@@ -5507,7 +5502,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.8
+          "ms": 54.8
         },
         {
           "qid": "diag-06",
@@ -5523,7 +5518,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.7
+          "ms": 52.2
         },
         {
           "qid": "diag-07",
@@ -5539,7 +5534,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.6
+          "ms": 51.8
         },
         {
           "qid": "diag-08",
@@ -5554,7 +5549,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.3
+          "ms": 52.5
         },
         {
           "qid": "diag-09",
@@ -5570,7 +5565,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 60.5
+          "ms": 54.3
         },
         {
           "qid": "diag-10",
@@ -5585,7 +5580,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.3
+          "ms": 53.1
         },
         {
           "qid": "diag-11",
@@ -5601,7 +5596,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 60.5
+          "ms": 55.8
         },
         {
           "qid": "diag-12",
@@ -5617,7 +5612,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 60.3
+          "ms": 55.9
         },
         {
           "qid": "diag-13",
@@ -5633,7 +5628,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.3
+          "ms": 52.8
         },
         {
           "qid": "diag-14",
@@ -5649,7 +5644,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 60.9
+          "ms": 56.6
         },
         {
           "qid": "diag-15",
@@ -5665,7 +5660,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 60.6
+          "ms": 53.7
         },
         {
           "qid": "diag-16",
@@ -5681,7 +5676,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.3
+          "ms": 54.0
         },
         {
           "qid": "diag-17",
@@ -5697,7 +5692,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.5
+          "ms": 54.1
         },
         {
           "qid": "diag-18",
@@ -5713,7 +5708,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.9
+          "ms": 54.5
         },
         {
           "qid": "diag-19",
@@ -5729,7 +5724,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.2
+          "ms": 52.2
         },
         {
           "qid": "diag-20",
@@ -5745,7 +5740,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.9
+          "ms": 55.4
         },
         {
           "qid": "diag-21",
@@ -5760,7 +5755,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 60.7
+          "ms": 53.2
         },
         {
           "qid": "diag-22",
@@ -5776,7 +5771,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.8
+          "ms": 53.0
         },
         {
           "qid": "diag-23",
@@ -5792,7 +5787,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 60.5
+          "ms": 54.0
         },
         {
           "qid": "diag-24",
@@ -5808,7 +5803,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.4
+          "ms": 52.9
         },
         {
           "qid": "diag-25",
@@ -5823,7 +5818,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.9
+          "ms": 52.3
         },
         {
           "qid": "diag-26",
@@ -5839,7 +5834,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.4
+          "ms": 54.3
         },
         {
           "qid": "diag-27",
@@ -5855,7 +5850,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 61.5
+          "ms": 54.5
         },
         {
           "qid": "diag-28",
@@ -5871,7 +5866,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 60.9
+          "ms": 53.2
         },
         {
           "qid": "diag-29",
@@ -5887,7 +5882,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 61.4
+          "ms": 56.2
         },
         {
           "qid": "diag-30",
@@ -5903,7 +5898,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 62.1
+          "ms": 55.2
         },
         {
           "qid": "diag-31",
@@ -5919,7 +5914,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.0
+          "ms": 52.8
         },
         {
           "qid": "diag-32",
@@ -5935,7 +5930,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.6
+          "ms": 53.9
         },
         {
           "qid": "diag-33",
@@ -5951,7 +5946,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.7
+          "ms": 52.7
         },
         {
           "qid": "build-01",
@@ -5967,7 +5962,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 63.2
+          "ms": 57.3
         },
         {
           "qid": "build-02",
@@ -5983,7 +5978,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 60.6
+          "ms": 53.9
         },
         {
           "qid": "build-03",
@@ -5999,7 +5994,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 61.2
+          "ms": 53.4
         },
         {
           "qid": "build-04",
@@ -6015,7 +6010,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.8
+          "ms": 55.7
         },
         {
           "qid": "build-05",
@@ -6031,7 +6026,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.7
+          "ms": 54.4
         },
         {
           "qid": "build-06",
@@ -6047,7 +6042,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 60.1
+          "ms": 54.8
         },
         {
           "qid": "build-07",
@@ -6063,7 +6058,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 63.2
+          "ms": 57.8
         },
         {
           "qid": "build-08",
@@ -6079,7 +6074,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 65.8
+          "ms": 58.8
         },
         {
           "qid": "build-09",
@@ -6095,7 +6090,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 61.7
+          "ms": 55.6
         },
         {
           "qid": "build-10",
@@ -6111,7 +6106,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 61.0
+          "ms": 55.5
         },
         {
           "qid": "build-11",
@@ -6127,7 +6122,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 62.7
+          "ms": 57.8
         },
         {
           "qid": "build-12",
@@ -6143,7 +6138,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 63.8
+          "ms": 56.3
         },
         {
           "qid": "build-13",
@@ -6159,7 +6154,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 63.0
+          "ms": 56.2
         },
         {
           "qid": "build-14",
@@ -6175,7 +6170,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 62.9
+          "ms": 55.5
         },
         {
           "qid": "build-15",
@@ -6191,7 +6186,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 63.4
+          "ms": 57.5
         },
         {
           "qid": "build-16",
@@ -6207,7 +6202,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 60.4
+          "ms": 56.3
         },
         {
           "qid": "mate_bytes-01",
@@ -6223,7 +6218,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.5
+          "ms": 55.0
         },
         {
           "qid": "mate_bytes-02",
@@ -6239,7 +6234,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 61.4
+          "ms": 53.1
         },
         {
           "qid": "mate_bytes-03",
@@ -6255,7 +6250,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.2
+          "ms": 53.0
         },
         {
           "qid": "mate_bytes-04",
@@ -6271,7 +6266,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 60.1
+          "ms": 52.8
         },
         {
           "qid": "mate_bytes-05",
@@ -6287,7 +6282,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 61.6
+          "ms": 57.3
         },
         {
           "qid": "mate_bytes-06",
@@ -6303,7 +6298,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 61.0
+          "ms": 56.7
         },
         {
           "qid": "mate_bytes-07",
@@ -6319,7 +6314,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.4
+          "ms": 52.5
         },
         {
           "qid": "mate_bytes-08",
@@ -6335,7 +6330,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 63.0
+          "ms": 55.7
         },
         {
           "qid": "mate_bytes-09",
@@ -6351,7 +6346,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 60.2
+          "ms": 52.7
         },
         {
           "qid": "mate_bytes-10",
@@ -6367,7 +6362,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 62.0
+          "ms": 57.1
         },
         {
           "qid": "mate_bytes-11",
@@ -6383,7 +6378,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.2
+          "ms": 55.5
         },
         {
           "qid": "mate_bytes-12",
@@ -6399,7 +6394,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.8
+          "ms": 54.0
         },
         {
           "qid": "mate_bytes-13",
@@ -6415,7 +6410,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.1
+          "ms": 54.9
         },
         {
           "qid": "mate_bytes-14",
@@ -6431,7 +6426,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 62.5
+          "ms": 54.8
         },
         {
           "qid": "mate_bytes-15",
@@ -6447,7 +6442,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 62.2
+          "ms": 55.3
         },
         {
           "qid": "mate_bytes-16",
@@ -6463,7 +6458,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 62.8
+          "ms": 54.6
         },
         {
           "qid": "stdlib_extra-01",
@@ -6479,7 +6474,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 65.8
+          "ms": 58.6
         },
         {
           "qid": "stdlib_extra-02",
@@ -6495,7 +6490,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 60.6
+          "ms": 56.0
         },
         {
           "qid": "stdlib_extra-03",
@@ -6511,7 +6506,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.6
+          "ms": 54.4
         },
         {
           "qid": "stdlib_extra-04",
@@ -6527,7 +6522,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 60.9
+          "ms": 54.6
         },
         {
           "qid": "stdlib_extra-05",
@@ -6543,7 +6538,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 62.9
+          "ms": 56.9
         },
         {
           "qid": "stdlib_extra-06",
@@ -6559,7 +6554,7 @@
           "error": null,
           "ok_top1": false,
           "ok_top3": true,
-          "ms": 62.8
+          "ms": 57.2
         },
         {
           "qid": "stdlib_extra-07",
@@ -6575,7 +6570,7 @@
           "error": null,
           "ok_top1": false,
           "ok_top3": true,
-          "ms": 61.8
+          "ms": 57.0
         },
         {
           "qid": "stdlib_extra-08",
@@ -6591,7 +6586,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 60.5
+          "ms": 57.4
         },
         {
           "qid": "stdlib_extra-09",
@@ -6607,7 +6602,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.6
+          "ms": 60.8
         },
         {
           "qid": "stdlib_extra-10",
@@ -6622,7 +6617,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 60.9
+          "ms": 52.3
         },
         {
           "qid": "stdlib_extra-11",
@@ -6636,7 +6631,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.2
+          "ms": 52.7
         },
         {
           "qid": "stdlib_extra-12",
@@ -6652,7 +6647,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 61.5
+          "ms": 53.9
         },
         {
           "qid": "stdlib_extra-13",
@@ -6668,7 +6663,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 60.2
+          "ms": 55.5
         },
         {
           "qid": "stdlib_extra-14",
@@ -6684,7 +6679,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.0
+          "ms": 54.2
         },
         {
           "qid": "stdlib_extra-15",
@@ -6700,7 +6695,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.8
+          "ms": 54.1
         },
         {
           "qid": "stdlib_extra-16",
@@ -6716,7 +6711,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.7
+          "ms": 54.9
         },
         {
           "qid": "stdlib_extra-17",
@@ -6732,7 +6727,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.0
+          "ms": 53.1
         },
         {
           "qid": "stdlib_extra-18",
@@ -6748,7 +6743,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 62.0
+          "ms": 55.3
         },
         {
           "qid": "stdlib_extra-19",
@@ -6762,7 +6757,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.2
+          "ms": 53.6
         },
         {
           "qid": "stdlib_extra-20",
@@ -6778,7 +6773,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.8
+          "ms": 55.4
         }
       ]
     }
