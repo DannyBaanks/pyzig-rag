@@ -129,3 +129,68 @@ io_red-11	api	requests.get contra un http.server local y leer status y cuerpo	zi
 io_red-12	paraphrase	hacer una peticion HTTP GET con el cliente de la libreria estandar sin salir a internet	zig0.16/http-client-get-local	POS
 io_red-13	api	ctypes.CDLL(None).abs y strlen llamando a libc	zig0.16/ffi-extern-c-function	POS
 io_red-14	paraphrase	declarar una funcion de C con extern fn y llamarla sin usar cImport	zig0.16/ffi-extern-c-function	POS
+diag-01	error	error: evaluation exceeded 1000 backwards branches	zig0.16/diag-eval-branch-quota	POS
+diag-02	direct	el compilador aborta al calcular una suma larga en comptime, como subo el limite de saltos	zig0.16/diag-eval-branch-quota	POS
+diag-03	paraphrase	mi bucle en comptime es demasiado largo para zig, que hago	zig0.16/diag-eval-branch-quota	POS
+diag-04	error	error: local variable is never mutated	zig0.16/diag-never-mutated	POS
+diag-05	direct	variable local nunca mutada en zig, cambiar var por const	zig0.16/diag-never-mutated	POS
+diag-06	paraphrase	zig me pide const porque nunca reasigno la variable	zig0.16/diag-never-mutated	POS
+diag-07	error	error: local constant shadows declaration of 'limite'	zig0.16/diag-shadow-local	POS
+diag-08	error	error: capture shadows declaration of 'x'	zig0.16/diag-shadow-local	POS
+diag-09	direct	variable local que sombrea una declaracion de nivel superior en zig, renombrar	zig0.16/diag-shadow-local	POS
+diag-10	error	error: name shadows primitive 'u8'	zig0.16/diag-shadow-primitive	POS
+diag-11	direct	nombre de constante que sombrea un tipo primitivo como u8 en zig	zig0.16/diag-shadow-primitive	POS
+diag-12	paraphrase	no puedo llamar a mi variable u8 o i32 en zig	zig0.16/diag-shadow-primitive	POS
+diag-13	error	error: redundant comptime keyword in already comptime scope	zig0.16/diag-comptime-redundant	POS
+diag-14	error	error: 'comptime var' is redundant in comptime scope	zig0.16/diag-comptime-redundant	POS
+diag-15	direct	keyword comptime redundante dentro de un bloque comptime en zig	zig0.16/diag-comptime-redundant	POS
+diag-16	error	error: redundant inline keyword in comptime scope	zig0.16/diag-inline-redundant	POS
+diag-17	direct	inline for dentro de comptime redundante en zig	zig0.16/diag-inline-redundant	POS
+diag-18	paraphrase	zig dice que inline sobra dentro de un bloque comptime	zig0.16/diag-inline-redundant	POS
+diag-19	error	error: unable to resolve comptime value	zig0.16/diag-comptime-runtime-value	POS
+diag-20	direct	usar una variable de runtime como tamano de array en comptime zig	zig0.16/diag-comptime-runtime-value	POS
+diag-21	paraphrase	necesito una longitud conocida en compilacion pero mi valor cambia en ejecucion	zig0.16/diag-comptime-runtime-value	POS
+diag-22	error	error: unable to evaluate comptime expression	zig0.16/diag-comptime-runtime-call	POS
+diag-23	direct	llamar una funcion que hace una syscall dentro de comptime en zig	zig0.16/diag-comptime-runtime-call	POS
+diag-24	paraphrase	zig no puede evaluar en compilacion una llamada que depende del sistema operativo	zig0.16/diag-comptime-runtime-call	POS
+diag-25	error	error: @ptrCast discards const qualifier	zig0.16/diag-ptrcast-const	POS
+diag-26	direct	ptrCast descarta el qualifier const, como quito const en zig	zig0.16/diag-ptrcast-const	POS
+diag-27	paraphrase	convertir un puntero const a puntero mutable en zig da error	zig0.16/diag-ptrcast-const	POS
+diag-28	error	error: expected type 'u8', found 'u32'	zig0.16/diag-narrowing-intcast	POS
+diag-29	direct	estrechar un entero u32 a u8 en zig, intCast o truncate	zig0.16/diag-narrowing-intcast	POS
+diag-30	paraphrase	pasar un u32 a una variable u8 en zig da error de tipo	zig0.16/diag-narrowing-intcast	POS
+diag-31	error	error: use of undeclared identifier 'builtin'	zig0.16/diag-builtin-undeclared	POS
+diag-32	direct	falta const builtin = @import builtin en zig	zig0.16/diag-builtin-undeclared	POS
+diag-33	paraphrase	zig no conoce builtin, como miro el sistema operativo	zig0.16/diag-builtin-undeclared	POS
+build-01	error	error: no field named 'root_source_file' in struct 'Build.ExecutableOptions'  .root_source_file = b.path("src/main.zig"),	zig0.16/build-exe-root-module	POS
+build-02	error	error: dependency on libc must be explicitly specified in the build command	zig0.16/build-link-libc	POS
+build-03	error	error: no module named 'util' available within module 'root'	zig0.16/build-add-import	POS
+build-04	error	error: import of file outside module path	zig0.16/build-import-outside-module	POS
+build-05	error	error: unable to create module 'root': dynamic linking requires enabling Position Independent Code	zig0.16/build-dynamic-library-pic	POS
+build-06	error	error: no field or member function named 'addSharedLibrary' in 'Build'	zig0.16/build-shared-library	POS
+build-07	error	error: no field named 'root_source_file' in struct 'Build.TestOptions'  .root_source_file = b.path("src/main.zig"),	zig0.16/build-test-step	POS
+build-08	error	error: no field or member function named 'addCSourceFile' in 'Build.Step.Compile'  tests.addCSourceFile(.{ .file = b.path("src/c/add.c") });	zig0.16/build-c-source-files	POS
+build-09	direct	zig build test falla: dependency on libc must be explicitly specified, como enlazo libc en zig 0.16 sin @cImport	zig0.16/build-link-libc	POS
+build-10	direct	zig 0.16 build.zig: @import("util") da no module named, como registro un modulo importado por nombre con addImport	zig0.16/build-add-import	POS
+build-11	direct	zig 0.16 build.zig: como importo un archivo que esta fuera de src con @import("../lib/x.zig") sin error import of file outside module path	zig0.16/build-import-outside-module	POS
+build-12	direct	zig 0.16 libreria dinamica: addSharedLibrary no existe, como compilo un .so con b.addLibrary linkage dynamic	zig0.16/build-shared-library	POS
+build-13	direct	zig 0.16 build.zig con pic = false falla al crear el modulo de la libreria dinamica por Position Independent Code	zig0.16/build-dynamic-library-pic	POS
+build-14	direct	zig build test en zig 0.16: como conecto addTest con addRunArtifact y el paso test de build.zig	zig0.16/build-test-step	POS
+build-15	direct	zig 0.16 build.zig: compilar un archivo C con addCSourceFiles y llamarlo desde Zig con extern fn	zig0.16/build-c-source-files	POS
+build-16	direct	zig 0.16 ejecutable: addExecutable ya no acepta root_source_file, usar b.createModule y root_module	zig0.16/build-exe-root-module	POS
+mate_bytes-01	direct	interpolar variables y numeros en una cadena como una f-string	zig0.16/format-string-alloc-print	POS
+mate_bytes-02	api	std.fmt.allocPrint para formatear texto con placeholders	zig0.16/format-string-alloc-print	POS
+mate_bytes-03	direct	comprobar si un float es infinito o es NaN	zig0.16/float-special-values-isinf-isnan	POS
+mate_bytes-04	api	math.isinf y math.isnan equivalentes en std.math	zig0.16/float-special-values-isinf-isnan	POS
+mate_bytes-05	api	struct.pack con '<I' para empaquetar un entero en 4 bytes little endian	zig0.16/struct-pack-endian-readint	POS
+mate_bytes-06	paraphrase	leer dos bytes big endian de un buffer sin copiar con readInt	zig0.16/struct-pack-endian-readint	POS
+mate_bytes-07	api	int.from_bytes y to_bytes con orden big endian y signed	zig0.16/int-from-bytes-to-bytes-endian	POS
+mate_bytes-08	paraphrase	convertir un entero de 8 bytes a numero y al reves con signo	zig0.16/int-from-bytes-to-bytes-endian	POS
+mate_bytes-09	direct	division entera y resto de Python cuando los numeros son negativos	zig0.16/div-floor-mod-negative	POS
+mate_bytes-10	paraphrase	equivalente de la division floor y el modulo con negativos	zig0.16/div-floor-mod-negative	POS
+mate_bytes-11	api	int.bit_count y int.bit_length en Zig	zig0.16/int-bit-count-bit-length	POS
+mate_bytes-12	paraphrase	contar los bits encendidos y cuantos bits necesita un entero	zig0.16/int-bit-count-bit-length	POS
+mate_bytes-13	direct	redondear al entero mas cercano, hacia abajo y hacia arriba	zig0.16/round-floor-ceil-bankers	POS
+mate_bytes-14	api	round de Python redondea al par, cual es el equivalente en Zig	zig0.16/round-floor-ceil-bankers	POS
+mate_bytes-15	direct	convertir un puntero char* terminado en nulo en un slice de bytes	zig0.16/cstring-span-slice-to	POS
+mate_bytes-16	api	std.mem.span y std.mem.sliceTo para cadenas C con terminador cero	zig0.16/cstring-span-slice-to	POS

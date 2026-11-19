@@ -3,7 +3,9 @@
 Dos modos por entrada:
 - por defecto: `zig test <zig_test>` sobre un archivo suelto (en `var/build`);
 - `gate_mode: "build"`: escribe `build_files` (build.zig + src/...) en un
-  directorio temporal y ejecuta `zig build test` alli, sin red y sin dependencias.
+  directorio temporal y ejecuta `zig build test` alli. No necesita red: se rechazan
+  URLs y `b.dependency`. NO es un sandbox (igual que el gate de `zig test`): el corpus
+  es codigo propio del repo; el codigo no confiable va por `pyzig_check` (bwrap).
 """
 from __future__ import annotations
 import hashlib, json, pathlib, subprocess, tempfile, time, re

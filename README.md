@@ -18,7 +18,8 @@ scripts/make_corpus.py         regenera el corpus (entradas + hash de contenido)
 scripts/recipes/<area>.py      recetas por area (ENTRIES + CONTRACTS no fuzzables) y
 scripts/recipes/<area>_queries.tsv   sus consultas de eval
 pyzig/corpus.py                UNICO escritor: hash canonico, append-only, atomico
-pyzig/gates.py                 gates: `zig test` por entrada → promueve evidencia
+pyzig/gates.py                 gates: `zig test` por entrada (o `zig build test` si la entrada
+                               trae `gate_mode: "build"` + `build_files`) → promueve evidencia
 fuzz/src/                      motor Zig: generacion, chunks, comparacion, evidencia
 pyzig/fuzz/                    control plane Python: contratos, oracle por lotes,
                                triage, assembler, warden y campana
@@ -29,6 +30,8 @@ pyzig/mcp_server.py            FastMCP stdio: 3 consultas de solo lectura + pyzi
 pyzig/check.py                 pyzig_check: compila/ejecuta Zig en bwrap y mapea errores a recetas
 scripts/mine_sessions.py       mina transcripts locales: firmas de error zig frecuentes → var/mined/
 eval/queries.tsv, eval/results.json   evaluacion fija (lexical vs hibrida)
+scripts/eval_mined.py          evalua las sugerencias de pyzig_check contra firmas minadas
+eval/mined_labels.tsv          etiquetas humanas firma → receta(s)|NONE → eval/mined_coverage.json
 ```
 
 Decisiones (y por que):
@@ -207,12 +210,22 @@ Recetas por area en `scripts/recipes/` (no fuzzables todavia: contrato con
 | `tiempo_args` | `time.time`, `time.monotonic`, PRNG con semilla, `sys.argv`, flags `--k v`, `zlib.crc32`, `hashlib.md5` |
 | `io_red` | `threading.Thread`/`Lock` (`std.Thread`, `std.Io.Mutex`, atomics), `io.async`/`Group`, TCP y UDP en loopback, `std.http.Client` contra servidor local, FFI con `extern fn` (gate con `-lc`) |
 | `migracion` | Zig 0.13/0.14 → 0.16: `readFileAlloc`, `writeFile`, stdout writer, `ArrayList` unmanaged, `@Type`→`@Int`/`@Struct`, `Child.run`, `time.sleep`, `Thread.Mutex` |
+| `diagnosticos` | errores de compilacion frecuentes en las sesiones: cuota de `comptime`, `var` nunca mutada, sombreado (local y de primitivo), `comptime`/`inline` redundante, valor/llamada de runtime en `comptime`, `@ptrCast` que quita `const`, estrechar enteros, `builtin` sin importar |
+| `build_zig` | `build.zig` de 0.16: `root_module`/`createModule`, `link_libc`, `addImport`, import fuera del modulo, `addLibrary(.dynamic)`, PIC, paso `test`, `addCSourceFiles`; gate con `zig build test` |
+| `mate_bytes` | f-strings→`allocPrint`, `inf`/`nan`, `struct.pack`→`readInt`/`writeInt`, `int.from_bytes`, `//` y `%` con negativos, `bit_count`/`bit_length`, redondeo, cadenas C (`span`/`sliceTo`) |
 
 Anadir un area: crear `scripts/recipes/<area>.py` con `ENTRIES` (mismo formato
 que `make_corpus.py`) y `CONTRACTS` (`_c(..., skip_reason=...)`), y
-`<area>_queries.tsv`; luego `make_corpus.py`, `run_gates.py`, anadir las
+`<area>_queries.tsv`. Las recetas que nacen de un error llevan `error_signatures`
+(lineas `error:` reales del compilador); las de `build.zig` llevan ademas
+`gate_mode: "build"` y `build_files` (proyecto arreglado; sin URLs ni
+`b.dependency`; el gate no es sandbox, el corpus es codigo propio). Luego `make_corpus.py`, `run_gates.py`, anadir las
 consultas a `eval/queries.tsv` y `run_eval.py`. `make_corpus.py` rechaza
 contratos duplicados o fuzzables fuera de `pyzig/fuzz/contracts.py`.
+
+Las recetas Zig→Zig (`source_lang` `zig-0.13/0.14`) ceden ante las Python→Zig si la
+consulta no trae marcas de Zig (`std.`, `error:`, `@builtin`...); las nativas de 0.16
+(`zig-0.16`, `zig-build`) no se penalizan.
 
 Todas las verificadas contra la std local de zig 0.16.0 (`lib/std`), con
 comando, exit code, duracion y SHA-256 de la salida guardados en
@@ -237,6 +250,14 @@ regenera `scripts/run_eval.py`; no se copian aqui.
   multilingues (`multilingual-e5-small`, `paraphrase-multilingual-MiniLM-L12-v2`;
   `scripts/run_eval.py --build --models a,b`): ninguno supero al lexical ni a MiniLM
   en P@1 y ambos rechazan peor las negativas, con ~5x latencia y ~2x RAM. MiniLM se queda.
+- **Sugerencias de `pyzig_check`** (`scripts/eval_mined.py` → `eval/mined_coverage.json`):
+  (A) cada `error_signatures` del corpus debe devolver su receta; (B) firmas reales de
+  `var/mined/signatures.jsonl` etiquetadas a mano en `eval/mined_labels.tsv`: hit@1/hit@3
+  contra la etiqueta y falsos positivos sobre las `NONE`. El camino es el de `check_zig`
+  (`check.suggest_for_message`): primero la firma (plantilla + huecos entre comillas; numeros
+  y `uN` normalizados; si la plantilla la comparten varias recetas los huecos deben
+  coincidir), si no hay firma y tampoco una API `std.*` anclada se abstiene, y solo entonces
+  busca. Las etiquetas las pone quien escribe el emparejador: conjunto de desarrollo.
 - Un `gap` solo sube a top-1 si su cobertura lexica supera a la de toda receta;
   si la receta ASCII documenta la misma diferencia (p. ej. `casefold`), empatan
   y gana la receta. El proximo experimento util es
@@ -260,9 +281,11 @@ compilacion, tokens), fuera del alcance de este prototipo.
 
 - Sin re-ranker, sin web UI, sin escritura de corpus por MCP.
 - Corpus pequeno: umbrales calibrados con las consultas de `eval/queries.tsv`, no con 1000.
-- `scripts/mine_sessions.py` lee transcripts de Claude Code y Codex (`.jsonl`); no parsea los
-  `.zst` de Codex, la base sqlite de opencode ni los formatos de Gemini/Qwen. Su informe solo
-  guarda firmas de error del compilador, nombres de API de la std y conteos.
+- `scripts/mine_sessions.py` lee (solo lectura) Claude Code y Codex (`.jsonl`, `.jsonl.zst`),
+  la base sqlite de opencode y los `.jsonl` de Gemini/AGY y Qwen. Su informe solo guarda firmas
+  de error del compilador, nombres de API de la std y conteos.
+- Firmas reales sin receta (`eval/mined_coverage.json`, casos con `got_top3` vacio o errado):
+  la siguiente lista de recetas candidatas.
 - Embeddings requieren modelo local descargado (o degradacion declarada).
 - No hay equivalente para `setsid`/demonio: esa es la frontera real hoy.
 

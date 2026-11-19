@@ -40,115 +40,11 @@ _STOP_IDENTIFIERS = frozenset({
     "struct", "enum", "union", "type", "anytype", "usize", "u8", "i32",
 })
 
-#: Umbral minimo de confianza para aceptar una sugerencia de migration.
-#: Por debajo se abstiene (no se devuelven sugerencias).
-_SUGGEST_CONF_MIN = 0.55
-
-#: Tokens que se normalizan a comodin al emparejar una firma de error contra
-#: `error_signatures` del corpus.
-_WILDCARD_STR = re.compile(r"'(?:[^']*)'")   # 'cwd' -> '*'
-_AT_BUILTIN = re.compile(r"@[A-Za-z_][A-Za-z0-9_]*")  # @Type -> @*
-_ZIG_TYPE = re.compile(r"\b[uijf][0-9]+\b")            # u32 -> *
-_NUMBER = re.compile(r"\b\d+\b")                       # 4 -> *
-_UNDER = re.compile(r"\b_\b")                          # _ -> *
-
-
-def _normalize_signature(sig: str) -> str:
-    """Convierte una firma de error en un patron con comodines para emparejamiento difuso."""
-    s = _WILDCARD_STR.sub("'*'", sig)
-    s = _AT_BUILTIN.sub("@*", s)
-    s = _ZIG_TYPE.sub("*", s)
-    s = _NUMBER.sub("*", s)
-    s = _UNDER.sub("*", s)
-    return s
-
-
 def _load_corpus_entries() -> list[dict]:
     """Carga las entradas del corpus (con cache simple en modulo)."""
     if not hasattr(_load_corpus_entries, "_cache"):
         _load_corpus_entries._cache = corpus_mod.load()
     return _load_corpus_entries._cache
-
-
-def _match_error_signatures(message: str) -> list[dict]:
-    """Devuelve entradas del corpus cuyas `error_signatures` coincidan con `message`.
-
-    Cada resultado: {operation_id, name, apis_used, confidence}.
-    """
-    pat = _normalize_signature(message)
-    hits: list[dict] = []
-    seen: set[str] = set()
-    for e in _load_corpus_entries():
-        for sig in (e.error_signatures or []):
-            if _normalize_signature(sig) == pat and e.operation_id not in seen:
-                seen.add(e.operation_id)
-                hits.append({
-                    "operation_id": e.operation_id,
-                    "name": e.name,
-                    "apis_used": list(e.apis_used or []),
-                    "confidence": 1.0,
-                })
-    return hits
-
-
-def _message_api_hits(message: str) -> list[dict]:
-    """Empareja por API nombrada en el mensaje del error (apis_msg).
-
-    Se usa como fallback de abstencion: si el mensaje nombra una API que aparece
-    en `error_signatures` de alguna entrada (aunque la firma no coincida
-    exactamente), se sugiere esa entrada con confianza media.
-    """
-    hits: list[dict] = []
-    seen: set[str] = set()
-    for e in _load_corpus_entries():
-        for sig in (e.error_signatures or []):
-            # La firma puede contener la API entre comillas o como identificador.
-            for api in (e.apis_used or []):
-                if api and api in message and e.operation_id not in seen:
-                    seen.add(e.operation_id)
-                    hits.append({
-                        "operation_id": e.operation_id,
-                        "name": e.name,
-                        "apis_used": list(e.apis_used or []),
-                        "confidence": 0.6,
-                    })
-                    break
-    return hits
-
-
-def _suggest_from_signatures(message: str, notes: list[str] | None,
-                             source_line: str = "") -> list[dict[str, Any]] | None:
-    """Sugiere recetas de migration emparejando la firma normalizada contra
-    `error_signatures` del corpus, con abstencion si no hay confianza suficiente.
-
-    Orden de preferencia:
-      1. Coincidencia exacta de firma normalizada (confianza 1.0).
-      2. API nombrada en el mensaje que aparece en error_signatures (confianza 0.6).
-    Se abstiene (devuelve None) si el mejor candidato queda por debajo de
-    _SUGGEST_CONF_MIN.
-    """
-    text = " ".join([message, *(notes or ()), source_line])
-    exact = _match_error_signatures(message)
-    if exact:
-        best = exact[0]
-        if best["confidence"] >= _SUGGEST_CONF_MIN:
-            return [_project_suggestion(best)]
-    fb = _message_api_hits(text)
-    if fb:
-        best = fb[0]
-        if best["confidence"] >= _SUGGEST_CONF_MIN:
-            return [_project_suggestion(best)]
-    return None
-
-
-def _project_suggestion(hit: dict) -> dict[str, Any]:
-    """Proyecta un hit de corpus al formato de sugerencia de check_zig."""
-    return {
-        "operation_id": hit["operation_id"],
-        "name": hit["name"],
-        "status": "DEMONSTRATED",
-        "apis_used": hit["apis_used"],
-    }
 
 
 def _parse_raw_errors(stderr: str) -> list[dict[str, Any]]:
@@ -474,14 +370,9 @@ def check_zig(zig_code: str, mode: str = "test",
             snippet = source_lines[err["line"] - 1].strip()
         suggestions = None
         if suggest:
-            q = build_error_query(err["message"], notes=err["notes"], source_line=snippet)
-            suggestions = suggest_for_error(q, zig_version=zig_version)
-            if suggestions is None:
-                # Abstencion controlada: emparejar la firma normalizada contra
-                # error_signatures del corpus (migraciones conocidas) antes de
-                # rendirse. Nunca toca el sandbox.
-                suggestions = _suggest_from_signatures(
-                    err["message"], notes=err["notes"], source_line=snippet)
+            suggestions = suggest_for_message(
+                err["message"], notes=err["notes"], source_line=snippet,
+                zig_version=zig_version)
         errors.append({
             "line": err["line"],
             "col": err["col"],
@@ -525,3 +416,136 @@ def check_zig(zig_code: str, mode: str = "test",
         "errors": errors,
         "stderr_tail": stderr_tail,
     }
+
+
+
+# --- Emparejamiento de firmas de error (plantilla + huecos) -------------------
+#
+# Una firma se parte en PLANTILLA (texto con cada '...' sustituido por un hueco)
+# y HUECOS (el contenido de cada '...'). Numeros y tipos enteros/float se
+# normalizan en ambos (`4`->`N`, `u32`->`uN`) porque la mineria ya los reduce asi.
+# `_` dentro de un hueco es el comodin de la mineria (identificador propio).
+#
+# Una plantilla que en el corpus solo aparece en UNA receta identifica la receta
+# por si sola (los huecos son nombres del usuario: 'limite', 'cuenta'...). Si
+# aparece en varias recetas, los huecos distinguen ('fs'/'cwd' vs 'time'/'sleep')
+# y deben coincidir; un hueco que es solo `_` no aporta evidencia, y una firma
+# sin ningun hueco con contenido literal coincidente se considera generica.
+
+_QUOTED = re.compile(r"'([^']*)'")
+#: Huecos que SON el error aunque la plantilla sea unica: "use of undeclared
+#: identifier 'builtin'" es la receta de @import("builtin"); 'foo' no lo es.
+_IDENTITY_SLOTS = frozenset({"builtin"})
+
+
+def _norm_text(s: str) -> str:
+    s = re.sub(r"\d+", "N", s)
+    return re.sub(r"\b([uif])N\b", r"\1N", s)
+
+
+def _split_signature(sig: str) -> tuple[str, list[str]]:
+    sig = sig.strip()
+    if sig.startswith("error: "):
+        sig = sig[len("error: "):]
+    slots = [_norm_text(m) for m in _QUOTED.findall(sig)]
+    template = _norm_text(_QUOTED.sub("'*'", sig)).lower()
+    return template, slots
+
+
+def signature_key(sig: str) -> str:
+    """Clave canonica de una firma: plantilla + huecos normalizados."""
+    t, slots = _split_signature(sig)
+    return t + "|" + "|".join(slots)
+
+
+def _slot_matches(msg_slot: str, corpus_slot: str) -> bool | None:
+    """True/False si el hueco del mensaje coincide con el del corpus; None si el
+    hueco del mensaje es comodin puro (`_`) y no aporta evidencia."""
+    if msg_slot.strip("_") == "":
+        return None
+    if "_" not in msg_slot or re.fullmatch(r"[A-Za-z0-9.]+", msg_slot):
+        return msg_slot == corpus_slot
+    # comodin parcial de la mineria: 'array_list._(uN,null)', 'Build._._'
+    parts = re.split(r"(?<![A-Za-z0-9])_(?![A-Za-z0-9])", msg_slot)
+    if len(parts) == 1:
+        return msg_slot == corpus_slot
+    rx = r"[A-Za-z0-9_]+".join(re.escape(x) for x in parts)
+    return re.fullmatch(rx, corpus_slot) is not None
+
+
+def _signature_index() -> dict[str, list[tuple[int, Any, list[str]]]]:
+    """plantilla -> [(posicion de la firma en su receta, entrada, huecos)]."""
+    if not hasattr(_signature_index, "_cache"):
+        idx: dict[str, list[tuple[int, Any, list[str]]]] = {}
+        for e in _load_corpus_entries():
+            for pos, sig in enumerate(e.error_signatures or []):
+                t, slots = _split_signature(sig)
+                idx.setdefault(t, []).append((pos, e, slots))
+        _signature_index._cache = idx
+    return _signature_index._cache
+
+
+def match_signature(message: str) -> list[dict] | None:
+    """Recetas cuya `error_signatures` coincide con el mensaje (plantilla y
+    huecos). Devuelve [] si la plantilla es conocida pero el mensaje es generico
+    o no coincide con ninguna, y None si la plantilla no aparece en el corpus."""
+    template, slots = _split_signature(message)
+    cands = _signature_index().get(template)
+    if not cands:
+        return None
+    distinct = {e.operation_id for _, e, _ in cands}
+    scored: dict[str, tuple[int, Any]] = {}
+    for pos, e, cslots in cands:
+        if len(cslots) != len(slots):
+            continue
+        if any(c in _IDENTITY_SLOTS for c in cslots) and \
+                any(m != c for m, c in zip(slots, cslots) if c in _IDENTITY_SLOTS):
+            continue
+        if len(distinct) > 1 and cslots:
+            verdicts = [_slot_matches(m, c) for m, c in zip(slots, cslots)]
+            if False in verdicts or True not in verdicts:
+                continue
+        prev = scored.get(e.operation_id)
+        if prev is None or pos < prev[0]:
+            scored[e.operation_id] = (pos, e)
+    hits = sorted(scored.values(), key=lambda pe: (pe[0], pe[1].operation_id))
+    return [{"operation_id": e.operation_id, "name": e.name,
+             "status": e.status, "apis_used": list(e.apis_used or [])}
+            for _, e in hits]
+
+
+def _anchored_std_api(message: str, notes: list[str] | None, source_line: str) -> bool:
+    """Hay una API de la std nombrada (`std.X.y`), o un 'struct X has no member
+    named Y' con nombres concretos: la busqueda tiene algo a lo que agarrarse."""
+    for block in (message, source_line, *(notes or ())):
+        if block and _STD_CHAIN_RE.search(block):
+            return True
+    m = re.search(r"struct '([^']+)' has no member named '([^']+)'", message)
+    return bool(m and m.group(1).strip("_") and m.group(2).strip("_"))
+
+
+def suggest_for_message(message: str, notes: list[str] | None = None,
+                        source_line: str = "", zig_version: str = "0.16.0",
+                        limit: int = MAX_SUGGESTIONS) -> list[dict[str, Any]] | None:
+    """Camino de sugerencia de `check_zig` para un error del compilador.
+
+    1. Firma: si el mensaje coincide con `error_signatures` (plantilla + huecos),
+       esas recetas, sin pasar por la busqueda.
+    2. Abstencion: sin firma y sin API de la std anclada, el error es generico
+       ("expected type '_', found '_'"): no se sugiere nada.
+    3. Busqueda hibrida con la consulta de `build_error_query`.
+    """
+    sig_hits = match_signature(message)
+    if sig_hits:
+        return sig_hits[:limit]
+    if not _anchored_std_api(message, notes, source_line):
+        return None
+    m = re.search(r"struct '([^']+)' has no member named '([^']+)'", message)
+    if m:
+        # el texto de la plantilla no discrimina: buscar por la API que falta
+        q = f"std.{m.group(1)}.{m.group(2)} {m.group(2)}"
+        if source_line:
+            q += " " + " ".join(extract_api_identifiers("", source_line=source_line))
+    else:
+        q = build_error_query(message, notes=notes, source_line=source_line)
+    return suggest_for_error(q, zig_version=zig_version, limit=limit)

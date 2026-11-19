@@ -9,9 +9,12 @@ RRF_K = 60
 COV_MIN = 0.40   # cobertura lexica minima (tokens discriminativos)
 COS_MIN = 0.35   # cosine minimo (all-MiniLM-L6-v2)
 UNVERIFIED_PENALTY = 0.6  # entradas sin evidencia demostrada rankean por debajo
-# Recetas de migracion Zig->Zig (source_lang "zig-...") ceden ante las Python->Zig cuando la
-# consulta no trae marcas de Zig: "time.sleep equivalente" es una pregunta de Python.
+# Recetas de migracion Zig->Zig (source_lang "zig-<version vieja>") ceden ante las Python->Zig
+# cuando la consulta no trae marcas de Zig: "time.sleep equivalente" es una pregunta de Python.
+# Las recetas nativas de 0.16 (diag-*: "zig-0.16", build-*: "zig-build") NO son migracion:
+# sus consultas suelen decir "en zig" sin std./error:, y penalizarlas las hundia.
 MIGRATION_PENALTY = 0.5
+_NATIVE_ZIG_LANGS = ("zig-0.16", "zig-build")
 _ZIG_MARKERS = re.compile(r"\bstd\.|error:|@[A-Za-z]|\.zig\b|\bzig\s*0\.1|\bmigra")
 
 _EMB: Embedder | None = None
@@ -146,7 +149,8 @@ def search(query: str, zig_version: str | None = None, platform: str | None = No
                 is_gap = _type_of(con, o) == "gap"
                 if not (is_gap and cov > best_recipe_cov):
                     penalty = UNVERIFIED_PENALTY
-            if not zig_query and _source_lang_of(con, o).startswith("zig"):
+            sl = _source_lang_of(con, o)
+            if not zig_query and sl.startswith("zig") and sl not in _NATIVE_ZIG_LANGS:
                 penalty *= MIGRATION_PENALTY
             return base * factor * penalty
 
