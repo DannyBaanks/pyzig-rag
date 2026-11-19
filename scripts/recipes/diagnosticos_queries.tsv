@@ -1,0 +1,33 @@
+diag-01	error	error: evaluation exceeded 1000 backwards branches	zig0.16/diag-eval-branch-quota	POS
+diag-02	direct	el compilador aborta al calcular una suma larga en comptime, como subo el limite de saltos	zig0.16/diag-eval-branch-quota	POS
+diag-03	paraphrase	mi bucle en comptime es demasiado largo para zig, que hago	zig0.16/diag-eval-branch-quota	POS
+diag-04	error	error: local variable is never mutated	zig0.16/diag-never-mutated	POS
+diag-05	direct	variable local nunca mutada en zig, cambiar var por const	zig0.16/diag-never-mutated	POS
+diag-06	paraphrase	zig me pide const porque nunca reasigno la variable	zig0.16/diag-never-mutated	POS
+diag-07	error	error: local constant shadows declaration of 'limite'	zig0.16/diag-shadow-local	POS
+diag-08	error	error: capture shadows declaration of 'x'	zig0.16/diag-shadow-local	POS
+diag-09	direct	variable local que sombrea una declaracion de nivel superior en zig, renombrar	zig0.16/diag-shadow-local	POS
+diag-10	error	error: name shadows primitive 'u8'	zig0.16/diag-shadow-primitive	POS
+diag-11	direct	nombre de constante que sombrea un tipo primitivo como u8 en zig	zig0.16/diag-shadow-primitive	POS
+diag-12	paraphrase	no puedo llamar a mi variable u8 o i32 en zig	zig0.16/diag-shadow-primitive	POS
+diag-13	error	error: redundant comptime keyword in already comptime scope	zig0.16/diag-comptime-redundant	POS
+diag-14	error	error: 'comptime var' is redundant in comptime scope	zig0.16/diag-comptime-redundant	POS
+diag-15	direct	keyword comptime redundante dentro de un bloque comptime en zig	zig0.16/diag-comptime-redundant	POS
+diag-16	error	error: redundant inline keyword in comptime scope	zig0.16/diag-inline-redundant	POS
+diag-17	direct	inline for dentro de comptime redundante en zig	zig0.16/diag-inline-redundant	POS
+diag-18	paraphrase	zig dice que inline sobra dentro de un bloque comptime	zig0.16/diag-inline-redundant	POS
+diag-19	error	error: unable to resolve comptime value	zig0.16/diag-comptime-runtime-value	POS
+diag-20	direct	usar una variable de runtime como tamano de array en comptime zig	zig0.16/diag-comptime-runtime-value	POS
+diag-21	paraphrase	necesito una longitud conocida en compilacion pero mi valor cambia en ejecucion	zig0.16/diag-comptime-runtime-value	POS
+diag-22	error	error: unable to evaluate comptime expression	zig0.16/diag-comptime-runtime-call	POS
+diag-23	direct	llamar una funcion que hace una syscall dentro de comptime en zig	zig0.16/diag-comptime-runtime-call	POS
+diag-24	paraphrase	zig no puede evaluar en compilacion una llamada que depende del sistema operativo	zig0.16/diag-comptime-runtime-call	POS
+diag-25	error	error: @ptrCast discards const qualifier	zig0.16/diag-ptrcast-const	POS
+diag-26	direct	ptrCast descarta el qualifier const, como quito const en zig	zig0.16/diag-ptrcast-const	POS
+diag-27	paraphrase	convertir un puntero const a puntero mutable en zig da error	zig0.16/diag-ptrcast-const	POS
+diag-28	error	error: expected type 'u8', found 'u32'	zig0.16/diag-narrowing-intcast	POS
+diag-29	direct	estrechar un entero u32 a u8 en zig, intCast o truncate	zig0.16/diag-narrowing-intcast	POS
+diag-30	paraphrase	pasar un u32 a una variable u8 en zig da error de tipo	zig0.16/diag-narrowing-intcast	POS
+diag-31	error	error: use of undeclared identifier 'builtin'	zig0.16/diag-builtin-undeclared	POS
+diag-32	direct	falta const builtin = @import builtin en zig	zig0.16/diag-builtin-undeclared	POS
+diag-33	paraphrase	zig no conoce builtin, como miro el sistema operativo	zig0.16/diag-builtin-undeclared	POS
