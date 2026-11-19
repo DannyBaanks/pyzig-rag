@@ -1,0 +1,15 @@
+{
+  "task_id": "t11_is_palindrome",
+  "title": "palíndromo byte a byte",
+  "control": false,
+  "coverage_note": "Recombinación: el corpus cubre prefijos/sufijos, pero no `s == s[::-1]` ni la comparación de extremos sin asignar.",
+  "prompt": "Tarea t11_is_palindrome: Devuelve si la cadena es igual a su reverso byte a byte, como `s == s[::-1]` en Python. La comparación distingue mayúsculas y minúsculas y no interpreta UTF-8. No asignes memoria.\n\nEscribe un único archivo de código Zig 0.16.0 que defina exactamente estas funciones públicas:\n```zig\npub fn isPalindrome(s: []const u8) bool\n```\n\nEl archivo debe empezar con `const std = @import(\"std\");` si necesitas la biblioteca estándar. No incluyas pruebas ni `pub fn main`: el arnés añadirá sus propias pruebas Zig al final de tu archivo. Devuelve SOLO el código Zig, sin texto explicativo ni cercas de código markdown.",
+  "py_ref": "def is_palindrome(s):\n    return s == s[::-1]\n\nassert is_palindrome(\"reconocer\")\nassert not is_palindrome(\"zig\")\nassert is_palindrome(\"\")",
+  "signature": "pub fn isPalindrome(s: []const u8) bool",
+  "oracle": [
+    "isPalindrome('reconocer') == true",
+    "isPalindrome('zig') == false",
+    "isPalindrome('') == true"
+  ],
+  "zig_test": "test \"t11 palindromo\" {\n    try std.testing.expect(isPalindrome(\"reconocer\"));\n    try std.testing.expect(!isPalindrome(\"zig\"));\n    try std.testing.expect(isPalindrome(\"\"));\n    try std.testing.expect(isPalindrome(\"a\"));\n    try std.testing.expect(!isPalindrome(\"ab\"));\n}\n"
+}

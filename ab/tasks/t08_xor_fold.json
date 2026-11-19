@@ -1,0 +1,15 @@
+{
+  "task_id": "t08_xor_fold",
+  "title": "reduce con xor",
+  "control": false,
+  "coverage_note": "Recombinación: el corpus cubre bytes y hashes, pero no un plegado `functools.reduce(operator.xor, ...)` con valor inicial 0.",
+  "prompt": "Tarea t08_xor_fold: Calcula el xor acumulado de todos los bytes, como `functools.reduce(operator.xor, data, 0)` en Python. Con una entrada vacía devuelve 0. No asignes memoria.\n\nEscribe un único archivo de código Zig 0.16.0 que defina exactamente estas funciones públicas:\n```zig\npub fn xorFold(bytes: []const u8) u8\n```\n\nEl archivo debe empezar con `const std = @import(\"std\");` si necesitas la biblioteca estándar. No incluyas pruebas ni `pub fn main`: el arnés añadirá sus propias pruebas Zig al final de tu archivo. Devuelve SOLO el código Zig, sin texto explicativo ni cercas de código markdown.",
+  "py_ref": "from functools import reduce\nfrom operator import xor\n\ndef xor_fold(data):\n    return reduce(xor, data, 0)\n\nassert xor_fold(b\"\\x01\\x02\\x03\") == 0\nassert xor_fold(b\"\\x0f\\xf0\") == 0xff",
+  "signature": "pub fn xorFold(bytes: []const u8) u8",
+  "oracle": [
+    "xorFold([0x01,0x02,0x03]) == 0",
+    "xorFold([0x0f,0xf0]) == 0xff",
+    "xorFold([]) == 0"
+  ],
+  "zig_test": "test \"t08 xor fold\" {\n    const a = [_]u8{ 0x01, 0x02, 0x03 };\n    try std.testing.expectEqual(@as(u8, 0), xorFold(&a));\n    const b = [_]u8{ 0x0f, 0xf0 };\n    try std.testing.expectEqual(@as(u8, 0xff), xorFold(&b));\n    const empty = [_]u8{};\n    try std.testing.expectEqual(@as(u8, 0), xorFold(&empty));\n}\n"
+}

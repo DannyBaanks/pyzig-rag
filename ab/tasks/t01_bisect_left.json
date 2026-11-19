@@ -1,0 +1,16 @@
+{
+  "task_id": "t01_bisect_left",
+  "title": "punto de inserción con bisect_left",
+  "control": true,
+  "coverage_note": "Control: `bisect.bisect_left` no aparece en ninguna entrada del corpus (ziggrep -il 'bisect' corpus/pyzig.corpus.jsonl -> 0).",
+  "prompt": "Tarea t01_bisect_left: Dado un vector de enteros ordenado de forma ascendente, devuelve el primer índice donde el valor buscado podría insertarse sin romper el orden (equivalente a `bisect.bisect_left`). Devuelve `a.len` si el valor es mayor que todos. Complejidad logarítmica: no lineal.\n\nEscribe un único archivo de código Zig 0.16.0 que defina exactamente estas funciones públicas:\n```zig\npub fn bisectLeft(a: []const i32, x: i32) usize\n```\n\nEl archivo debe empezar con `const std = @import(\"std\");` si necesitas la biblioteca estándar. No incluyas pruebas ni `pub fn main`: el arnés añadirá sus propias pruebas Zig al final de tu archivo. Devuelve SOLO el código Zig, sin texto explicativo ni cercas de código markdown.",
+  "py_ref": "from bisect import bisect_left\n\ndef insert_point(a, x):\n    return bisect_left(a, x)\n\nassert insert_point([1, 3, 3, 5, 7], 3) == 1\nassert insert_point([1, 3, 3, 5, 7], 4) == 3\nassert insert_point([], 1) == 0",
+  "signature": "pub fn bisectLeft(a: []const i32, x: i32) usize",
+  "oracle": [
+    "bisectLeft([1,3,3,5,7], 0) == 0",
+    "bisectLeft([1,3,3,5,7], 3) == 1",
+    "bisectLeft([1,3,3,5,7], 4) == 3",
+    "bisectLeft([1,3,3,5,7], 9) == 5"
+  ],
+  "zig_test": "test \"t01 bisect_left\" {\n    const a = [_]i32{ 1, 3, 3, 5, 7 };\n    try std.testing.expectEqual(@as(usize, 0), bisectLeft(&a, 0));\n    try std.testing.expectEqual(@as(usize, 1), bisectLeft(&a, 3));\n    try std.testing.expectEqual(@as(usize, 3), bisectLeft(&a, 4));\n    try std.testing.expectEqual(@as(usize, 5), bisectLeft(&a, 9));\n    const empty = [_]i32{};\n    try std.testing.expectEqual(@as(usize, 0), bisectLeft(&empty, 1));\n}\n"
+}

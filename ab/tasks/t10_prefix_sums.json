@@ -1,0 +1,15 @@
+{
+  "task_id": "t10_prefix_sums",
+  "title": "sumas acumuladas",
+  "control": false,
+  "coverage_note": "Recombinación: el corpus cubre listas y aritmética, pero no `itertools.accumulate` ni la Convención de longitud del slice devuelto.",
+  "prompt": "Tarea t10_prefix_sums: Devuelve las sumas acumuladas de `xs`, como `list(itertools.accumulate(xs))` en Python. El slice devuelto tiene la misma longitud que la entrada y pertenece al llamador, que debe liberarlo con el mismo allocator.\n\nEscribe un único archivo de código Zig 0.16.0 que defina exactamente estas funciones públicas:\n```zig\npub fn prefixSums(allocator: std.mem.Allocator, xs: []const i64) ![]i64\n```\n\nEl archivo debe empezar con `const std = @import(\"std\");` si necesitas la biblioteca estándar. No incluyas pruebas ni `pub fn main`: el arnés añadirá sus propias pruebas Zig al final de tu archivo. Devuelve SOLO el código Zig, sin texto explicativo ni cercas de código markdown.",
+  "py_ref": "from itertools import accumulate\n\nassert list(accumulate([1, 2, 3])) == [1, 3, 6]\nassert list(accumulate([])) == []",
+  "signature": "pub fn prefixSums(allocator: std.mem.Allocator, xs: []const i64) ![]i64",
+  "oracle": [
+    "prefixSums([1,2,3]) == [1,3,6]",
+    "prefixSums([]) == []",
+    "prefixSums([-2,5]) == [-2,3]"
+  ],
+  "zig_test": "test \"t10 sumas acumuladas\" {\n    const a = [_]i64{ 1, 2, 3 };\n    const out = try prefixSums(std.testing.allocator, &a);\n    defer std.testing.allocator.free(out);\n    try std.testing.expectEqualSlices(i64, &[_]i64{ 1, 3, 6 }, out);\n    const empty = [_]i64{};\n    const out2 = try prefixSums(std.testing.allocator, &empty);\n    defer std.testing.allocator.free(out2);\n    try std.testing.expectEqual(@as(usize, 0), out2.len);\n    const b = [_]i64{ -2, 5 };\n    const out3 = try prefixSums(std.testing.allocator, &b);\n    defer std.testing.allocator.free(out3);\n    try std.testing.expectEqualSlices(i64, &[_]i64{ -2, 3 }, out3);\n}\n"
+}
