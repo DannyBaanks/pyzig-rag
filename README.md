@@ -133,11 +133,17 @@ ejecuta nada si bwrap falta.
   "enabled": true}}}
 ```
 
+En esta maquina se sirve desde **isymcp-hub** (entrada `pyzig-rag`, `isolation: shared`, en
+`~/.codex-web-http/hub/servers.json`; recarga en caliente con SIGHUP al daemon), asi que
+todas las TUIs lo ven via `hub_execute(server="pyzig-rag", tool="pyzig_search", ...)`. El
+servidor publica `instructions` (cuando consultarlo, como leer `status`/`differences`) y la
+skill `zig-0-16` remite a el antes de escribir Zig 0.16.
+
 Herramientas (todas read-only, sin ejecucion de codigo recuperado):
 
 | tool | entrada | salida |
 |---|---|---|
-| `pyzig_search` | `intent`, `py_code?`, `zig_version="0.16.0"`, `platform="linux"`, `max_results`, `mode` | candidatos con `operation_id`, `reason` (rank lexical/vectorial), `signals{coverage,cosine}`, `status`, `constraints`, `apis_used`, `tests`, `provenance`, `warnings`; errores `NO_RESULTS`/`VERSION_MISMATCH`/`INDEX_UNAVAILABLE` |
+| `pyzig_search` | `intent`, `py_code?`, `zig_version="0.16.0"`, `platform="linux"`, `max_results`, `mode`, `code="top"` | candidatos (el primero con `zig_impl` completo; `code="all"`/`"none"`) con `operation_id`, `reason` (rank lexical/vectorial), `signals{coverage,cosine}`, `status`, `constraints`, `apis_used`, `tests`, `provenance`, `warnings`; errores `NO_RESULTS`/`VERSION_MISMATCH`/`INDEX_UNAVAILABLE` |
 | `pyzig_get` | `operation_id` | entrada completa (contrato, codigo, tests, evidencia) |
 | `pyzig_catalog` | — | salud del indice, `embed_mode`, versiones, operaciones y estados |
 
