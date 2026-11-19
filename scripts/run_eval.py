@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Eval fija: compara recuperacion lexical vs hibrida sobre eval/queries.tsv."""
-import json, pathlib, statistics, sys, time
+import argparse, json, os, pathlib, resource, statistics, subprocess, sys, time
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 from pyzig import search as s
 from pyzig.paths import EVAL
@@ -62,16 +62,73 @@ def _per_kind(rows: list[dict]) -> dict:
                      "aciertos_top3": sum(r["ok_top3"] for r in sub)}
     return out
 
-if __name__ == "__main__":
+def _patch_query_prefix() -> None:
+    """search.py llama emb.encode([query]) sin 'kind'; los modelos con prefijo
+    (e5) necesitan 'query: '. Aqui se redirige a encode_query solo en la eval."""
+    emb = s._embedder()
+    orig = emb.encode
+    emb.encode = lambda texts, kind="query": orig(texts, kind=kind)
+
+def _eval_one(build: bool) -> dict:
+    from pyzig import index as idx, embed
+    name = embed.selected_model()
+    info = {"model": name}
+    if build:
+        # indice por modelo, sin tocar var/pyzig.db
+        out = pathlib.Path(os.environ.get("PYZIG_EVAL_DIR", str(idx.VAR / "eval")))
+        out.mkdir(parents=True, exist_ok=True)
+        idx.DB = out / f"{name}.db"
+        t0 = time.perf_counter()
+        emb = embed.Embedder()
+        info["load_s"] = round(time.perf_counter() - t0, 2)
+        t0 = time.perf_counter()
+        idx.build(emb)
+        info["build_s"] = round(time.perf_counter() - t0, 2)
+        s._EMB = emb
+    _patch_query_prefix()
+    s._embedder().encode(["warmup"])
     report = {}
     for mode in ("lexical", "hybrid"):
         rows = run_queries(mode)
         report[mode] = {"summary": summarize(rows), "rows": rows}
-        print(f"== {mode} ==", json.dumps(report[mode]["summary"], ensure_ascii=False))
-    cat = s.catalog()
-    out = EVAL / "results.json"
-    out.write_text(json.dumps({"embed_mode": cat["embed_mode"],
-                               "embed_model": cat.get("embed_model"),
-                               "entries": cat["entries"],
-                               "modes": report}, ensure_ascii=False, indent=2), encoding="utf-8")
+        print(f"== {name} {mode} ==", json.dumps(report[mode]["summary"], ensure_ascii=False))
+    info["peak_rss_mb"] = round(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024, 1)
+    info["modes"] = report
+    return info
+
+def _mrr(rows: list[dict]) -> float:
+    pos = [r for r in rows if r["expect"] == "POS"]
+    return round(sum((1 / (r["got_top3"].index(r["expected"]) + 1)) if r["expected"] in r["got_top3"] else 0
+                     for r in pos) / len(pos), 3)
+
+if __name__ == "__main__":
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--build", action="store_true", help="construir indice propio del modelo (var/eval/<modelo>.db)")
+    ap.add_argument("--models", help="lista separada por comas; un subproceso por modelo (implica --build)")
+    a = ap.parse_args()
+    if a.models:
+        print("| modelo | modo | P@1 | R@3 | MRR@3 | neg | status | ms/q | build s | RSS MB |")
+        print("|---|---|---|---|---|---|---|---|---|---|")
+        for m in a.models.split(","):
+            r = subprocess.run([sys.executable, __file__, "--build"], capture_output=True, text=True,
+                               env={**os.environ, "PYZIG_EMBED_MODEL": m})
+            if r.returncode != 0:
+                print(f"| {m} | ERROR rc={r.returncode} | " + r.stderr.strip().splitlines()[-1] + " |"); continue
+            info = json.loads(pathlib.Path(r.stdout.strip().splitlines()[-1].split("resultados:")[1].strip()).read_text())
+            for mode, d in info["modes"].items():
+                sm = d["summary"]
+                print(f"| {m} | {mode} | {sm['precision_at_1']} | {sm['recall_at_3']} | {_mrr(d['rows'])} | "
+                      f"{sm['negativas_correctas']} | {sm['status_correcto']} | {sm['latencia_ms_media']} | "
+                      f"{info.get('build_s')} | {info['peak_rss_mb']} |")
+        sys.exit(0)
+    info = _eval_one(a.build)
+    for d in info["modes"].values():
+        d["summary"]["mrr_at_3"] = _mrr(d["rows"])
+    if a.build:
+        out = pathlib.Path(os.environ.get("PYZIG_EVAL_DIR", str(EVAL.parent / "var" / "eval"))) / f"results-{info['model']}.json"
+    else:
+        out = EVAL / "results.json"
+        cat = s.catalog()
+        info.update({"embed_mode": cat["embed_mode"], "embed_model": cat.get("embed_model"), "entries": cat["entries"]})
+    out.write_text(json.dumps(info, ensure_ascii=False, indent=2), encoding="utf-8")
     print("resultados:", out)
