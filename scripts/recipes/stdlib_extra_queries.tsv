@@ -1,0 +1,20 @@
+stdlib_extra-01	error	error: root source file struct 'fs' has no member named 'openDirAbsolute'  var d = try std.fs.openDirAbsolute("/tmp", .{ .iterate = true });	zig0.16/migrate-open-dir-absolute	POS
+stdlib_extra-02	direct	como abro un directorio por ruta absoluta en zig 0.16 si std.fs.openDirAbsolute ya no existe	zig0.16/migrate-open-dir-absolute	POS
+stdlib_extra-03	api	std.Io.Dir.openDirAbsolute con io y opciones iterate	zig0.16/migrate-open-dir-absolute	POS
+stdlib_extra-04	error	error: no field or member function named 'writer' in 'array_list.Aligned(u8,null)'  const w = list.writer();	zig0.16/migrate-arraylist-writer	POS
+stdlib_extra-05	direct	list.writer() no existe en el ArrayList de zig 0.16, como imprimir con formato en el buffer	zig0.16/migrate-arraylist-writer	POS
+stdlib_extra-06	paraphrase	quiero escribir un print con formato dentro de una lista de bytes sin usar writer	zig0.16/migrate-arraylist-writer	POS
+stdlib_extra-07	error	error: expected type '?[*:0]const u8', found '*const [:0]const u8'  takes(&name);	zig0.16/cstring-sentinel-slice-ptr	POS
+stdlib_extra-08	direct	pasar un slice terminado en cero a una funcion C, usar .ptr en vez de &slice	zig0.16/cstring-sentinel-slice-ptr	POS
+stdlib_extra-09	paraphrase	el puntero a slice centinela no coincide con el many pointer que espera la funcion de C	zig0.16/cstring-sentinel-slice-ptr	POS
+stdlib_extra-10	direct	partir una linea csv en campos respetando comillas y comas dentro de comillas	zig0.16/csv-reader-line-quoted	POS
+stdlib_extra-11	api	csv.reader con comillas dobles escapadas dentro de un campo	zig0.16/csv-reader-line-quoted	POS
+stdlib_extra-12	paraphrase	separar una linea por comas pero no cortar lo que va entre comillas	zig0.16/csv-reader-line-quoted	POS
+stdlib_extra-13	direct	convertir segundos desde epoch a fecha y hora UTC en zig	zig0.16/epoch-to-utc-ymd-hms	POS
+stdlib_extra-14	api	datetime.fromtimestamp con tz utc y strftime en zig	zig0.16/epoch-to-utc-ymd-hms	POS
+stdlib_extra-15	paraphrase	de un timestamp unix sacar anio mes y dia sin libreria externa	zig0.16/epoch-to-utc-ymd-hms	POS
+stdlib_extra-16	direct	argumentos de linea de comandos con subcomandos add y list en zig	zig0.16/argparse-subcommands	POS
+stdlib_extra-17	api	add_subparsers con subcomando obligatorio equivalente en zig	zig0.16/argparse-subcommands	POS
+stdlib_extra-18	paraphrase	parsear argv con un comando obligatorio y error si el subcomando no existe	zig0.16/argparse-subcommands	POS
+stdlib_extra-19	status	buscar con expresion regular grupos y cuantificadores como re.findall en zig	zig0.16/re-regex-gap	STATUS
+stdlib_extra-20	status	re.sub con patron regex sobre un texto en zig 0.16	zig0.16/re-regex-gap	STATUS
