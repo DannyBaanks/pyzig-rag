@@ -1,0 +1,14 @@
+{
+  "task_id": "t07_longest_true_run",
+  "title": "racha más larga de valores verdaderos",
+  "control": false,
+  "coverage_note": "Recombinación: no hay entrada en el corpus para `itertools.groupby` ni para rachas consecutivas; se construye con un escaneo lineal.",
+  "prompt": "Tarea t07_longest_true_run: Devuelve la longitud de la racha consecutiva más larga de `true` en un vector de booleanos, como `max(len(list(g)) for k, g in groupby(bits) if k)` con el caso vacío a 0. No asignes memoria.\n\nEscribe un único archivo de código Zig 0.16.0 que defina exactamente estas funciones públicas:\n```zig\npub fn longestTrueRun(bits: []const bool) usize\n```\n\nEl archivo debe empezar con `const std = @import(\"std\");` si necesitas la biblioteca estándar. No incluyas pruebas ni `pub fn main`: el arnés añadirá sus propias pruebas Zig al final de tu archivo. Devuelve SOLO el código Zig, sin texto explicativo ni cercas de código markdown.",
+  "py_ref": "from itertools import groupby\n\ndef longest_true_run(bits):\n    return max([len(list(g)) for k, g in groupby(bits) if k] or [0])\n\nassert longest_true_run([True, True, False, True]) == 2\nassert longest_true_run([False, False]) == 0",
+  "signature": "pub fn longestTrueRun(bits: []const bool) usize",
+  "oracle": [
+    "longestTrueRun([T,T,F,T,T,T,F]) == 3",
+    "longestTrueRun([]) == 0"
+  ],
+  "zig_test": "test \"t07 racha mas larga\" {\n    const a = [_]bool{ true, true, false, true, true, true, false };\n    try std.testing.expectEqual(@as(usize, 3), longestTrueRun(&a));\n    const empty = [_]bool{};\n    try std.testing.expectEqual(@as(usize, 0), longestTrueRun(&empty));\n    const none = [_]bool{ false, false };\n    try std.testing.expectEqual(@as(usize, 0), longestTrueRun(&none));\n}\n"
+}
