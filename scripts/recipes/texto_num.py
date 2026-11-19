@@ -247,7 +247,7 @@ test "formato en otra base" {
     side_effects=[],
     error_behavior="parseInt: error.InvalidCharacter (vacio o caracter invalido) y error.Overflow (no cabe en T); bufPrint: error.NoSpaceLeft.",
     ownership_memory="sin asignacion; buffer de pila del llamador.",
-    differences=["Python no desborda (enteros ilimitados): el tipo destino de Zig impone el rango y da error.Overflow","int() recorta espacios y saltos de linea; parseInt los rechaza (InvalidCharacter): hay que std.mem.trim antes","parseInt acepta '_' entre digitos como Python (sin '_' al inicio o al final) pero Python tambien acepta digitos Unicode (int('٣') == 3) y Zig no","con base 0 parseInt detecta 0b/0o/0x como Python; Python ademas admite 0 a secas y prohibe ceros a la izquierda en base 0","parseInt en tipo sin signo acepta '-0' (da 0) y da Overflow con '-1'"],
+    differences=["Python no desborda (enteros ilimitados): el tipo destino de Zig impone el rango y da error.Overflow","int() recorta espacios y saltos de linea; parseInt los rechaza (InvalidCharacter): hay que std.mem.trim antes","parseInt acepta '_' entre digitos (sin '_' al inicio o al final) pero es mas laxo que Python: acepta '1__0' (Python exige un solo '_' entre digitos) y, con base 0, ceros a la izquierda ('010' -> 10; Python da ValueError). Python acepta digitos Unicode (int('٣') == 3) y Zig no. Hallado por el fuzzer diferencial (pzsw4)","con base 0 parseInt detecta 0b/0o/0x como Python; Python ademas admite 0 a secas y prohibe ceros a la izquierda en base 0","parseInt en tipo sin signo acepta '-0' (da 0) y da Overflow con '-1'"],
     provenance=PROV,
 ),
 dict(
