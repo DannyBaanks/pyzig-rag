@@ -37,7 +37,7 @@ expected N argument(s), found N	zig0.16/format-string-alloc-print
 expected integer or vector, found '[N]uN'	zig0.16/struct-pack-endian-readint
 file exists in modules '_' and '_'	NONE
 function parameter shadows declaration of 'fmt'	zig0.16/diag-shadow-local
-no field or member function named '_' in 'array_list._(uN,null)'	zig0.16/migrate-arraylist-unmanaged
+no field or member function named '_' in 'array_list._(uN,null)'	zig0.16/migrate-arraylist-unmanaged,zig0.16/migrate-arraylist-writer
 redeclaration of local constant '_'	NONE
 root source file struct 'Thread' has no member named 'Mutex'	zig0.16/migrate-thread-mutex
 root source file struct 'process.Child' has no member named 'run'	zig0.16/migrate-child-run,zig0.16/subprocess-run-capture
@@ -63,7 +63,7 @@ expected '}', found 'pub'	NONE
 expected enum or union; found 'uN'	NONE
 expected signed integer type, found 'uN'	NONE
 expected type '*const fn (_, _, _, _, _, _, _, _, _) callconv(.{ ._ = .{ ._ = null } }) _', found '*const fn (_, ?*uN) callconv(.{ ._ = .{ ._ = null } }) _'	NONE
-expected type '?[*:N]const uN', found '*const [:N]const uN'	zig0.16/cstring-span-slice-to
+expected type '?[*:N]const uN', found '*const [:N]const uN'	zig0.16/cstring-span-slice-to,zig0.16/cstring-sentinel-slice-ptr
 expected type '?uN', found '?uN'	NONE
 expected type '[*]os._._', found '*os._._'	NONE
 expected type '[]const uN', found '*[N]uN'	NONE
@@ -81,7 +81,7 @@ no field or member function named 'format' in '[]const uN'	NONE
 pointless discard of local variable	NONE
 root source file struct 'fmt' has no member named 'fmtSliceHexLower'	zig0.16/hex-encode-decode,zig0.16/format-string-alloc-print,zig0.16/sha256-bytes
 root source file struct 'fs' has no member named 'File'	zig0.16/migrate-stdout-writer
-root source file struct 'fs' has no member named 'openDirAbsolute'	zig0.16/listdir-names-sorted,zig0.16/walk-tree-files
+root source file struct 'fs' has no member named 'openDirAbsolute'	zig0.16/listdir-names-sorted,zig0.16/walk-tree-files,zig0.16/migrate-open-dir-absolute
 root source file struct 'fs' has no member named 'openFileAbsolute'	zig0.16/read-file-text-limited,zig0.16/migrate-readfilealloc
 root source file struct 'testing' has no member named 'expectCrash'	NONE
 root source file struct 'time' has no member named 'nanoTimestamp'	zig0.16/monotonic-duration-measure,zig0.16/epoch-now-seconds

@@ -213,6 +213,7 @@ Recetas por area en `scripts/recipes/` (no fuzzables todavia: contrato con
 | `diagnosticos` | errores de compilacion frecuentes en las sesiones: cuota de `comptime`, `var` nunca mutada, sombreado (local y de primitivo), `comptime`/`inline` redundante, valor/llamada de runtime en `comptime`, `@ptrCast` que quita `const`, estrechar enteros, `builtin` sin importar |
 | `build_zig` | `build.zig` de 0.16: `root_module`/`createModule`, `link_libc`, `addImport`, import fuera del modulo, `addLibrary(.dynamic)`, PIC, paso `test`, `addCSourceFiles`; gate con `zig build test` |
 | `mate_bytes` | f-strings→`allocPrint`, `inf`/`nan`, `struct.pack`→`readInt`/`writeInt`, `int.from_bytes`, `//` y `%` con negativos, `bit_count`/`bit_length`, redondeo, cadenas C (`span`/`sliceTo`) |
+| `stdlib_extra` | migracion con error real de zig 0.16: `std.fs.openDirAbsolute` → `std.Io.Dir`, `ArrayList.writer()`/campo `allocator` (metodos unmanaged), `[:0]const u8` → `?[*:0]const u8` (`.ptr`); Python→Zig: `csv.reader` con comillas, `datetime` epoch→UTC con `std.time.epoch`, `argparse` con subcomandos; gap: `re` (NOT_DEMONSTRATED, sin motor de regex en std) |
 
 Anadir un area: crear `scripts/recipes/<area>.py` con `ENTRIES` (mismo formato
 que `make_corpus.py`) y `CONTRACTS` (`_c(..., skip_reason=...)`), y
