@@ -111,7 +111,12 @@ lo le les me te se nos os mi tu su sus nuestro vuestro este esta estos estas ese
 es son ser fue era hay haber hacer hace puede deben debe cual otro mismos todo tambien
 the a an of to in on for with without and or but is are be been from by at as it its
 how do does i my me you your we our
-""".split())
+""".split()) | frozenset((
+    # dominio: TODAS las recetas son Python->Zig, asi que estas palabras no
+    # discriminan. Antes las filtraba solo el umbral de df (0.6*N) y al crecer
+    # el corpus "python" dejo de ser "ubicua" (q25 paso a devolver una receta).
+    "python", "zig", "py",
+))
 
 def tokens(q: str) -> list[str]:
     return [t for t in _TOKEN.findall(q.lower())
