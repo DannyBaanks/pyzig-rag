@@ -2,7 +2,8 @@
 """Servidor MCP para el corpus Python<->Zig 0.16.
 
 Transporte: stdio (JSON-RPC MCP). Consulta recetas verificadas del indice y
-permite verificar codigo Zig 0.16 en un directorio temporal aislado (`pyzig_check`).
+permite verificar codigo Zig 0.16 (`pyzig_check` compila y ejecuta en bwrap sin red;
+sin bwrap se niega).
 """
 from __future__ import annotations
 from datetime import datetime, timezone
@@ -24,7 +25,7 @@ Consultalo ANTES de escribir Zig que toque std.Io, archivos/rutas, json, proceso
 la API de 0.16 (std.Io, Io.Dir, Io.Limit, writer/reader nuevos) difiere de lo que recuerdan los modelos.
 Flujo: pyzig_search(intent="que quieres hacer", py_code="opcional") -> el primer resultado trae zig_impl completo;
 pyzig_get(operation_id) para contrato, tests y procedencia de otro; pyzig_catalog() lista todas las operaciones;
-pyzig_check(zig_code, mode="test"|"ast") compila/prueba tu codigo Zig 0.16 en un directorio temporal aislado y sugiere recetas del corpus para cada error.
+pyzig_check(zig_code, mode="test"|"ast") compila y ejecuta en bwrap sin red (sin bwrap se niega) y sugiere recetas del corpus para cada error.
 Lee 'status': solo DEMONSTRATED es equivalencia verificada; NOT_DEMONSTRATED documenta un hueco real de la std.
 'differences' lista las trampas Python vs Zig. NO_RESULTS = no hay receta: no inventes que la hay."""
 
@@ -114,14 +115,15 @@ def pyzig_catalog() -> dict:
 def pyzig_check(zig_code: str, mode: str = "test") -> dict:
     """Verifica codigo Zig 0.16 con `zig test` (mode='test') o `zig ast-check` (mode='ast').
 
-    Ejecuta en un directorio temporal aislado sin shell ni red, parsea los errores
-    y adjunta hasta 2 recetas sugeridas del corpus por cada error de compilacion.
+    pyzig_check compila y ejecuta en bwrap sin red; sin bwrap se niega (SANDBOX_UNAVAILABLE).
+    Parsea los errores y adjunta hasta 2 recetas sugeridas del corpus por cada error.
     """
     try:
         return check_mod.check_zig(zig_code, mode=mode)
     except Exception as e:  # noqa: BLE001
         return {"ok": False, "error": "INTERNAL", "message": f"{type(e).__name__}: {e}",
-                "compiled": False, "tests_passed": None, "errors": [], "stderr_tail": ""}
+                "sandbox": None, "compiled": False, "tests_passed": None,
+                "errors": [], "stderr_tail": ""}
 
 if __name__ == "__main__":
     mcp.run(show_banner=False)

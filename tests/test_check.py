@@ -14,6 +14,7 @@ from pyzig import mcp_server
 from pyzig import search as search_mod
 
 HAS_ZIG = shutil.which("zig") is not None
+HAS_BWRAP = check_mod.probe_bwrap() is not None
 
 FIXTURE_STDERR = """\
 check.zig:3:28: error: root source file struct 'fs' has no member named 'cwd'
@@ -99,6 +100,18 @@ class ParseErrorsTest(unittest.TestCase):
         self.assertFalse(res["compiled"])
         self.assertIsNone(res["tests_passed"])
 
+    def test_sandbox_unavailable_is_fail_closed_and_never_runs_zig(self) -> None:
+        with mock.patch.object(check_mod, "probe_bwrap", return_value=None), \
+             mock.patch.object(check_mod.subprocess, "run") as run_mock:
+            for mode in ("test", "ast"):
+                res = check_mod.check_zig("pub fn main() void {}", mode=mode)
+                self.assertFalse(res["ok"])
+                self.assertEqual(res["error"], "SANDBOX_UNAVAILABLE")
+                self.assertIsNone(res["sandbox"])
+                self.assertFalse(res["compiled"])
+                self.assertIsNone(res["tests_passed"])
+            run_mock.assert_not_called()
+
 
 class CheckRealZigTest(unittest.TestCase):
     @classmethod
@@ -122,7 +135,7 @@ class CheckRealZigTest(unittest.TestCase):
             p.stop()
         cls._tmp.cleanup()
 
-    @unittest.skipUnless(HAS_ZIG, "zig no instalado en PATH")
+    @unittest.skipUnless(HAS_ZIG and HAS_BWRAP, "zig o bwrap no disponibles")
     def test_valid_zig_test_compiles_and_passes(self) -> None:
         code = (
             'const std = @import("std");\n'
@@ -132,20 +145,22 @@ class CheckRealZigTest(unittest.TestCase):
         )
         res = check_mod.check_zig(code, mode="test")
         self.assertTrue(res["ok"])
+        self.assertEqual(res["sandbox"], "bwrap")
         self.assertTrue(res["compiled"])
         self.assertTrue(res["tests_passed"])
         self.assertEqual(res["errors"], [])
 
-    @unittest.skipUnless(HAS_ZIG, "zig no instalado en PATH")
+    @unittest.skipUnless(HAS_ZIG and HAS_BWRAP, "zig o bwrap no disponibles")
     def test_valid_zig_ast_check(self) -> None:
         code = 'pub fn add(a: i32, b: i32) i32 { return a + b; }\n'
         res = check_mod.check_zig(code, mode="ast")
         self.assertTrue(res["ok"])
+        self.assertEqual(res["sandbox"], "bwrap")
         self.assertTrue(res["compiled"])
         self.assertIsNone(res["tests_passed"])
         self.assertEqual(res["errors"], [])
 
-    @unittest.skipUnless(HAS_ZIG, "zig no instalado en PATH")
+    @unittest.skipUnless(HAS_ZIG and HAS_BWRAP, "zig o bwrap no disponibles")
     def test_old_api_fails_compile_and_suggests_recipe(self) -> None:
         code = (
             'const std = @import("std");\n'
@@ -156,6 +171,7 @@ class CheckRealZigTest(unittest.TestCase):
         )
         res = check_mod.check_zig(code, mode="test")
         self.assertFalse(res["ok"])
+        self.assertEqual(res["sandbox"], "bwrap")
         self.assertFalse(res["compiled"])
         self.assertIsNone(res["tests_passed"])
         self.assertGreaterEqual(len(res["errors"]), 1)
@@ -167,7 +183,7 @@ class CheckRealZigTest(unittest.TestCase):
         for s_item in err0["suggestions"]:
             self.assertEqual(set(s_item.keys()), {"operation_id", "name", "status", "apis_used"})
 
-    @unittest.skipUnless(HAS_ZIG, "zig no instalado en PATH")
+    @unittest.skipUnless(HAS_ZIG and HAS_BWRAP, "zig o bwrap no disponibles")
     def test_runtime_test_failure_marks_compiled_true_and_tests_passed_false(self) -> None:
         code = (
             'const std = @import("std");\n'
@@ -177,9 +193,32 @@ class CheckRealZigTest(unittest.TestCase):
         )
         res = check_mod.check_zig(code, mode="test")
         self.assertFalse(res["ok"])
+        self.assertEqual(res["sandbox"], "bwrap")
         self.assertTrue(res["compiled"])
         self.assertFalse(res["tests_passed"])
         self.assertEqual(res["errors"], [])
+
+    @unittest.skipUnless(HAS_ZIG and HAS_BWRAP, "zig o bwrap no disponibles")
+    def test_sandbox_isolation_blocks_host_file_access(self) -> None:
+        host_file = pathlib.Path.home() / ".bashrc"
+        if not host_file.exists():
+            host_file = self.var / "outside_host_sentinel.txt"
+            host_file.write_text("host-only", encoding="utf-8")
+        self.assertTrue(host_file.exists(), "el archivo de host debe existir antes de probar aislamiento")
+        escaped = json.dumps(str(host_file))
+        code = (
+            'const std = @import("std");\n'
+            'test "read outside /work" {\n'
+            f'    const f = try std.Io.Dir.openFileAbsolute(std.testing.io, {escaped}, .{{}});\n'
+            '    f.close(std.testing.io);\n'
+            '}\n'
+        )
+        res = check_mod.check_zig(code, mode="test")
+        self.assertEqual(res["sandbox"], "bwrap")
+        self.assertTrue(res["compiled"])
+        self.assertFalse(res["tests_passed"])
+        self.assertFalse(res["ok"])
+        self.assertIn("FileNotFound", res["stderr_tail"])
 
 
 class NoresAndMcpTest(unittest.TestCase):
@@ -239,6 +278,7 @@ class NoresAndMcpTest(unittest.TestCase):
 
     def test_instructions_mention_pyzig_check(self) -> None:
         self.assertIn("pyzig_check", mcp_server.INSTRUCTIONS)
+        self.assertIn("bwrap", mcp_server.INSTRUCTIONS)
 
 
 if __name__ == "__main__":

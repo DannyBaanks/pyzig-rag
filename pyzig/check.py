@@ -1,6 +1,7 @@
-"""Verificacion de codigo Zig 0.16 en directorio temporal aislado + sugerencias del corpus."""
+"""Verificacion de codigo Zig 0.16 en sandbox bwrap aislado + sugerencias del corpus."""
 from __future__ import annotations
 
+import os
 import pathlib
 import re
 import shutil
@@ -19,6 +20,9 @@ ALLOWED_MODES = ("test", "ast")
 #: Cache global de zig para `pyzig_check` (evita recompilar std en cada llamada).
 #: En tests hermeticos se parchea a un directorio temporal.
 CACHE_DIR: pathlib.Path | None = BUILD / "check-cache"
+
+_BWRAP_PROBED = False
+_BWRAP_BIN: str | None = None
 
 _DIAG_RE = re.compile(r"^(.+?):(\d+):(\d+):\s+(error|note):\s+(.*)$")
 _CARET_RE = re.compile(r"^\s*[~^]+\s*$")
@@ -153,6 +157,52 @@ def suggest_for_error(query: str, zig_version: str = "0.16.0",
     ]
 
 
+def _base_bwrap_binds() -> list[str]:
+    args = ["--ro-bind", "/usr", "/usr"]
+    for lib_dir in ("/lib", "/lib64"):
+        if os.path.exists(lib_dir):
+            args.extend(["--ro-bind", lib_dir, lib_dir])
+    return args
+
+
+def probe_bwrap() -> str | None:
+    """Comprueba una vez si `bwrap` existe y puede ejecutar `/usr/bin/true`; cachea el resultado."""
+    global _BWRAP_PROBED, _BWRAP_BIN
+    if _BWRAP_PROBED:
+        return _BWRAP_BIN
+    _BWRAP_PROBED = True
+    bwrap_bin = shutil.which("bwrap")
+    if not bwrap_bin:
+        _BWRAP_BIN = None
+        return None
+    cmd = [
+        bwrap_bin,
+        "--unshare-all",
+        "--die-with-parent",
+        "--new-session",
+        "--clearenv",
+        *_base_bwrap_binds(),
+        "--proc", "/proc",
+        "--dev", "/dev",
+        "--tmpfs", "/tmp",
+        "--setenv", "PATH", "/usr/bin:/bin",
+        "--",
+        "/usr/bin/true",
+    ]
+    try:
+        p = subprocess.run(
+            cmd,
+            capture_output=True,
+            text=True,
+            stdin=subprocess.DEVNULL,
+            timeout=5,
+        )
+        _BWRAP_BIN = bwrap_bin if p.returncode == 0 else None
+    except (OSError, subprocess.TimeoutExpired):
+        _BWRAP_BIN = None
+    return _BWRAP_BIN
+
+
 def _resolve_global_cache(tmp_path: pathlib.Path,
                           cache_dir: pathlib.Path | None) -> pathlib.Path:
     target = cache_dir if cache_dir is not None else CACHE_DIR
@@ -172,32 +222,60 @@ def check_zig(zig_code: str, mode: str = "test",
               zig_version: str = "0.16.0",
               cache_dir: pathlib.Path | None = None,
               suggest: bool = True) -> dict[str, Any]:
-    """Ejecuta `zig ast-check` o `zig test` sobre `zig_code` en un dir temporal aislado.
+    """Ejecuta `zig ast-check` o `zig test` sobre `zig_code` dentro de `bwrap` sin red.
 
-    No usa shell ni red. Limpia el directorio temporal al terminar.
+    Fail-closed: si `bwrap` no esta disponible o no es usable, devuelve
+    `SANDBOX_UNAVAILABLE` y no ejecuta nada. No usa shell. Limpia el dir temporal.
     """
     if mode not in ALLOWED_MODES:
         return {
             "ok": False,
             "error": "INVALID_MODE",
             "message": f"mode invalido: {mode!r} (usa 'test' o 'ast')",
+            "sandbox": None,
             "compiled": False,
             "tests_passed": None,
             "errors": [],
             "stderr_tail": "",
         }
 
-    zig_bin = shutil.which("zig")
-    if not zig_bin:
+    bwrap_bin = probe_bwrap()
+    if not bwrap_bin:
         return {
             "ok": False,
-            "error": "ZIG_NOT_FOUND",
-            "message": "binario 'zig' no encontrado en PATH",
+            "error": "SANDBOX_UNAVAILABLE",
+            "message": "sandbox bwrap no disponible o no usable; ejecucion denegada (fail-closed)",
+            "sandbox": None,
             "compiled": False,
             "tests_passed": None,
             "errors": [],
             "stderr_tail": "",
         }
+
+    zig_which = shutil.which("zig")
+    if not zig_which:
+        return {
+            "ok": False,
+            "error": "ZIG_NOT_FOUND",
+            "message": "binario 'zig' no encontrado en PATH",
+            "sandbox": "bwrap",
+            "compiled": False,
+            "tests_passed": None,
+            "errors": [],
+            "stderr_tail": "",
+        }
+
+    zig_real = pathlib.Path(os.path.realpath(zig_which))
+    zig_dir = zig_real.parent
+    zig_dir_str = str(zig_dir)
+    if zig_dir_str == "/usr" or zig_dir_str.startswith("/usr/"):
+        zig_in_sandbox = str(zig_real)
+        zig_ro_bind: list[str] = []
+        sandbox_path = "/usr/bin:/bin"
+    else:
+        zig_in_sandbox = f"/zig/{zig_real.name}"
+        zig_ro_bind = ["--ro-bind", zig_dir_str, "/zig"]
+        sandbox_path = "/usr/bin:/bin:/zig"
 
     source_lines = zig_code.splitlines()
 
@@ -207,16 +285,42 @@ def check_zig(zig_code: str, mode: str = "test",
         src_file.write_text(zig_code, encoding="utf-8")
 
         if mode == "ast":
-            cmd = [zig_bin, "ast-check", "--color", "off", src_file.name]
+            cache_bind: list[str] = []
+            sandbox_global_cache = "/work/global-cache"
+            zig_cmd = [zig_in_sandbox, "ast-check", "--color", "off", src_file.name]
         else:
-            local_cache = tmp_path / "local-cache"
             global_cache = _resolve_global_cache(tmp_path, cache_dir)
-            cmd = [
-                zig_bin, "test", "--color", "off",
-                "--cache-dir", str(local_cache),
-                "--global-cache-dir", str(global_cache),
+            cache_bind = ["--bind", str(global_cache), "/cache"]
+            sandbox_global_cache = "/cache"
+            zig_cmd = [
+                zig_in_sandbox, "test", "--color", "off",
+                "--cache-dir", "/work/local-cache",
+                "--global-cache-dir", sandbox_global_cache,
                 src_file.name,
             ]
+
+        cmd = [
+            bwrap_bin,
+            "--unshare-all",
+            "--die-with-parent",
+            "--new-session",
+            "--clearenv",
+            *_base_bwrap_binds(),
+            "--proc", "/proc",
+            "--dev", "/dev",
+            "--tmpfs", "/tmp",
+            *zig_ro_bind,
+            "--bind", tmp_dir, "/work",
+            *cache_bind,
+            "--chdir", "/work",
+            "--setenv", "HOME", "/work",
+            "--setenv", "TMPDIR", "/tmp",
+            "--setenv", "PATH", sandbox_path,
+            "--setenv", "ZIG_GLOBAL_CACHE_DIR", sandbox_global_cache,
+            "--setenv", "ZIG_LOCAL_CACHE_DIR", "/work/local-cache",
+            "--",
+            *zig_cmd,
+        ]
 
         try:
             proc = subprocess.run(
@@ -235,6 +339,7 @@ def check_zig(zig_code: str, mode: str = "test",
                 "ok": False,
                 "error": "TIMEOUT",
                 "message": f"zig {mode} excedio timeout de {timeout_s}s",
+                "sandbox": "bwrap",
                 "compiled": False,
                 "tests_passed": None,
                 "errors": [],
@@ -286,6 +391,7 @@ def check_zig(zig_code: str, mode: str = "test",
 
     return {
         "ok": ok,
+        "sandbox": "bwrap",
         "compiled": compiled,
         "tests_passed": tests_passed,
         "errors": errors,
