@@ -192,7 +192,7 @@ ensayo real):
 | comando | resultado observado (rc) |
 |---|---|
 | `.venv/bin/python -m unittest discover -s tests -p 'test_ab.py' -v` | rc 0 — `Ran 9 tests ... OK` |
-| `python3 -m pytest -q tests` | rc 0 — `93 passed in 34.93s` (el `.venv` local no trae `pytest`; se usa el `python3` del sistema que sí lo tiene) |
+| `python3 -m pytest -q tests` | rc 0 — `93 passed` (32.34 s en la verificación final; el `.venv` local no trae `pytest`, se usa el `python3` del sistema que sí lo tiene) |
 | `.venv/bin/python scripts/ab_score.py --solutions-dir ab/examples/solutions/good --cache-dir /tmp/opencode/ab-cache-good` | rc 0 — 12/12 tareas pasan en A y 12/12 en B; 24 compilaciones; 0 errores de compilación |
 | `.venv/bin/python scripts/ab_score.py --solutions-dir ab/examples/solutions/broken --cache-dir /tmp/opencode/ab-cache-good` | rc 0 — 2 intentos observados: `t01` = `TEST_FAIL` (compila, tests fallan), `t02` = `COMPILE_FAIL` (1 diagnóstico); `compiles_until_pass.n = 0` |
 | `.venv/bin/python scripts/ab_run.py --dry-run --out /tmp/opencode/ab-dry --cache-dir /tmp/opencode/ab-cache-good` | rc 0 — `manifest.json` + `score.json`, sin agente |
