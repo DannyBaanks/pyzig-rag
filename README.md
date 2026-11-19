@@ -15,7 +15,8 @@ servidor **MCP de solo lectura** para que un agente consulte recetas
 corpus/pyzig.corpus.jsonl      fuente de verdad (git): recetas, gaps y artefactos
                                cosechados por el fuzzer (case_fixture, pipeline_entry)
 scripts/make_corpus.py         regenera el corpus (entradas + hash de contenido)
-scripts/recipes/<area>.py      recetas por area (ENTRIES + CONTRACTS no fuzzables) y
+scripts/recipes/<area>.py      recetas por area (ENTRIES + CONTRACTS; si es fuzzable, el mismo
+                               objeto de pyzig/fuzz/contracts.py) y
 scripts/recipes/<area>_queries.tsv   sus consultas de eval
 pyzig/corpus.py                UNICO escritor: hash canonico, append-only, atomico
 pyzig/gates.py                 gates: `zig test` por entrada (o `zig build test` si la entrada
@@ -32,6 +33,9 @@ scripts/mine_sessions.py       mina transcripts locales: firmas de error zig fre
 eval/queries.tsv, eval/results.json   evaluacion fija (lexical vs hibrida)
 scripts/eval_mined.py          evalua las sugerencias de pyzig_check contra firmas minadas
 eval/mined_labels.tsv          etiquetas humanas firma → receta(s)|NONE → eval/mined_coverage.json
+eval/heldout_queries.tsv       validacion congelada (eval/HELDOUT.md) → eval/heldout_results.json
+ab/                            ensayo A/B agente-sin-MCP vs con-MCP: PROTOCOL.md, tasks/, examples/
+scripts/ab_run.py, ab_score.py orquestador (--agent-cmd, --dry-run) y puntuacion en el sandbox de check.py
 ```
 
 Decisiones (y por que):
@@ -97,7 +101,7 @@ Sandbox fail-closed con bubblewrap + prlimit; sin `--allow-unsandboxed` no se
 ejecuta nada si bwrap falta.
 
 ```sh
-.venv/bin/python scripts/fuzz.py prepare     # inyecta zig_impl y compila 11 drivers
+.venv/bin/python scripts/fuzz.py prepare     # inyecta zig_impl y compila 14 drivers
 .venv/bin/python scripts/fuzz.py diff --op zig0.16/sha256-bytes \
     --iterations 200 --chunk 100 --replay 8 --harvest-limit 50
 .venv/bin/python scripts/fuzz.py triage --run var/fuzz/runs/<run>
@@ -198,8 +202,11 @@ pyzig_get: ejecutar proceso externo y capturar streams
 | `zig0.16/sha256-bytes` | DEMONSTRATED | `bytesToHex(.lower)` |
 | `zig0.16/detached-daemon-no-shell` | NOT_DEMONSTRATED (`gap`) | `setsid` no envuelto por std; paridad via `sh -c 'setsid … &'` |
 
-Recetas por area en `scripts/recipes/` (no fuzzables todavia: contrato con
-`skip_reason`, sin driver diferencial):
+Recetas por area en `scripts/recipes/`. Casi todas llevan contrato con `skip_reason`
+(sin driver diferencial); desde la ola 4 son fuzzables `base64-encode-decode`,
+`hex-encode-decode` y `parse-int-base-overflow` (`texto_num`), con drivers en
+`fuzz/drivers/{base64,hex,parseint}.zig`, modelos en `pyzig/fuzz/models.py` y sus
+divergencias reales Python≠Zig declaradas como `known_divergences`:
 
 | area | operaciones |
 |---|---|
