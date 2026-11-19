@@ -3,13 +3,20 @@ from __future__ import annotations
 
 import hashlib
 import json
+import pathlib
+import tempfile
+import subprocess
 import unittest
+from unittest import mock
 
 from pyzig import corpus as corpus_mod
-from pyzig.fuzz import campaign
+from pyzig.fuzz import campaign, drivers
+
+from _hermetic import HermeticCase, fake_driver
+from test_assembler import _fixture
 
 
-class CampaignTest(unittest.TestCase):
+class CampaignTest(HermeticCase):
     def test_queue_prioriza_ops_sin_artefactos(self):
         ops = ("zig0.16/parse-kv-config", "zig0.16/sha256-bytes")
         entries = corpus_mod.load()
@@ -54,6 +61,65 @@ class CampaignTest(unittest.TestCase):
         digest = (dirs[-1] / "campaign.sha256").read_text(encoding="utf-8").split()[0]
         self.assertEqual(hashlib.sha256((dirs[-1] / "campaign.json").read_bytes()).hexdigest(),
                          digest)
+
+    def test_stage_and_merge_admitted(self):
+        with tempfile.TemporaryDirectory() as d:
+            run, corpus_path = _fixture(pathlib.Path(d))
+            before = len(corpus_mod.load(corpus_path))
+            merged, rejected = campaign.stage_and_merge(
+                run, "zig0.16/sha256-bytes", ["case_fixture", "pipeline_entry"], 1, corpus_path)
+            self.assertEqual(len(merged), 2)
+            self.assertEqual(rejected, {})
+            entries = corpus_mod.load(corpus_path)
+            self.assertEqual(len(entries), before + 2)
+            self.assertTrue(all(e.evidence["status"] == "ADMITTED" for e in entries[-2:]))
+            self.assertEqual(corpus_mod.verify_chain(corpus_path), [])
+
+    def test_stage_and_merge_never_writes_rejected(self):
+        # el warden rechaza (driver con otro fuente): el corpus real no cambia
+        with tempfile.TemporaryDirectory() as d:
+            run, corpus_path = _fixture(pathlib.Path(d))
+            drivers.write_manifest("0.16.0",
+                                   {"sha256": dict(fake_driver(), source_sha256="0" * 64)},
+                                   replace=True, path=self.manifest)
+            before = corpus_path.read_bytes()
+            merged, rejected = campaign.stage_and_merge(
+                run, "zig0.16/sha256-bytes", ["case_fixture"], 1, corpus_path)
+            self.assertEqual(merged, [])
+            self.assertEqual(len(rejected), 1)
+            self.assertIn("I6 CLEAN_RUN", next(iter(rejected.values())))
+            self.assertEqual(corpus_path.read_bytes(), before)
+
+    def _fake_engine(self, returncode: int, status: str | None):
+        def run(args, timeout=None):
+            if args[0] == "triage":   # todas las divergencias son conocidas
+                return subprocess.CompletedProcess(args, 0, "", "")
+            run_dir = pathlib.Path(args[args.index("--run-dir") + 1])
+            run_dir.mkdir(parents=True, exist_ok=True)
+            if status is not None:
+                (run_dir / "summary.json").write_text(json.dumps({
+                    "status": status, "divergences": 3 if returncode else 0,
+                    "counts": {"EQUIV": 7, "DIVERGENT": 3 if returncode else 0}}))
+            return subprocess.CompletedProcess(args, returncode, "", "")
+        return run
+
+    def _campaign(self, returncode: int, status: str | None) -> dict:
+        cfg = campaign.CampaignConfig(seed=5, iterations=10, auto_merge=False,
+                                      ops=("zig0.16/sha256-bytes",))
+        with mock.patch.object(campaign, "_run_cmd", side_effect=self._fake_engine(returncode, status)):
+            campaign.run_campaign(cfg)
+        report = sorted(campaign.CAMPAIGN_DIR.glob("*-5"))[-1] / "campaign.json"
+        return json.loads(report.read_text(encoding="utf-8"))["results"][0]
+
+    def test_exit_1_with_divergences_is_not_engine_failure(self):
+        # el motor sale con 1 cuando hay divergencias (aunque sean conocidas)
+        rec = self._campaign(1, "DIVERGENCES_FOUND")
+        self.assertNotEqual(rec["verdict"], "ENGINE_FAILED")
+        self.assertIn("triage_ok", rec)
+
+    def test_incoherent_or_missing_summary_is_engine_failure(self):
+        self.assertEqual(self._campaign(1, "CLEAN")["verdict"], "ENGINE_FAILED")
+        self.assertEqual(self._campaign(2, None)["verdict"], "ENGINE_FAILED")
 
 
 if __name__ == "__main__":

@@ -12,8 +12,10 @@ import hashlib
 import json
 import pathlib
 import re
+import shutil
 import subprocess
 import sys
+import tempfile
 import time
 from dataclasses import dataclass
 
@@ -92,22 +94,41 @@ def merge_decision(summary: dict, triage_ok: bool, kind: str) -> bool:
     return summary.get("status") in ("CLEAN", "DIVERGENCES_FOUND")
 
 
+def stage_and_merge(run_dir: pathlib.Path, op: str, kinds: list[str], limit: int,
+                    corpus_path: pathlib.Path | None = None) -> tuple[list[str], dict[str, list[str]]]:
+    """Ensambla y pasa el warden en una COPIA del corpus; solo lo ADMITTED
+    llega al corpus real.
+
+    Antes se anadia al corpus real y despues se corria el warden: lo rechazado
+    se quedaba dentro como REJECTED. Devuelve (ids fusionados, rechazados con
+    sus invariantes incumplidos).
+    """
+    real = pathlib.Path(corpus_path or corpus_mod.CORPUS_FILE)
+    with tempfile.TemporaryDirectory(prefix="pyzig-stage-") as tmp:
+        staging = pathlib.Path(tmp) / real.name
+        shutil.copyfile(real, staging)
+        ids: list[str] = []
+        for kind in kinds:
+            ids.extend(assembler.assemble(run_dir, op, kind, limit, False, staging))
+        if not ids:
+            return [], {}
+        warden._run("admit", staging, False, report_dir=run_dir)
+        staged = {e.operation_id: e for e in corpus_mod.load(staging)}
+        merged: list[str] = []
+        rejected: dict[str, list[str]] = {}
+        for oid in ids:
+            e = staged[oid]
+            if e.evidence.get("status") == "ADMITTED":
+                corpus_mod.append_entry(e.raw, path=real)
+                merged.append(oid)
+            else:
+                rejected[oid] = e.evidence.get("warden", {}).get("failed_invariants", [])
+        return merged, rejected
+
+
 def _run_cmd(args: list[str], timeout: float | None = None) -> subprocess.CompletedProcess:
     return subprocess.run([sys.executable, str(FUZZ_SCRIPT)] + args, cwd=ROOT,
                           capture_output=True, text=True, timeout=timeout)
-
-
-def _summary_from_stdout(text: str) -> dict:
-    for line in reversed(text.splitlines()):
-        line = line.strip()
-        if line.startswith("{"):
-            try:
-                obj = json.loads(line)
-            except json.JSONDecodeError:
-                continue
-            if "status" in obj:
-                return obj
-    raise ValueError("el motor no devolvio un resumen JSON")
 
 
 def run_campaign(cfg: CampaignConfig) -> int:
@@ -137,7 +158,7 @@ def run_campaign(cfg: CampaignConfig) -> int:
                 run_dir = out_dir / f"{_safe(item['op'])}-r{round_no}-s{seed}"
                 rec: dict = {"op": item["op"], "schema": item["schema"],
                              "round": round_no, "seed": seed,
-                             "run": str(run_dir.relative_to(ROOT))}
+                             "run": assembler._run_label(run_dir)}
                 cmd = ["diff", "--op", item["op"], "--seed", str(seed),
                        "--iterations", str(cfg.iterations), "--chunk", str(cfg.chunk),
                        "--replay", str(cfg.replay),
@@ -151,31 +172,46 @@ def run_campaign(cfg: CampaignConfig) -> int:
                     results.append(rec)
                     break
                 used_iterations += cfg.iterations
-                if proc.returncode != 0:
+                # Contrato del motor: exit 0 = CLEAN, exit 1 = hubo divergencias
+                # (conocidas o no: eso lo decide triage). Solo es fallo del motor
+                # otro codigo o la ausencia de summary.json.
+                summary_path = run_dir / "summary.json"
+                if proc.returncode not in (0, 1) or not summary_path.exists():
                     rec.update({"verdict": "ENGINE_FAILED",
                                 "detail": (proc.stderr or proc.stdout)[-500:]})
                     results.append(rec)
                     continue
-                summary = _summary_from_stdout(proc.stdout)
-                rec["summary_sha256"] = _sha256_file(run_dir / "summary.json")
+                summary = json.loads(summary_path.read_text(encoding="utf-8"))
+                if (proc.returncode == 1) != (summary.get("status") == "DIVERGENCES_FOUND"):
+                    rec.update({"verdict": "ENGINE_FAILED",
+                                "detail": f"exit {proc.returncode} incoherente con "
+                                          f"status {summary.get('status')!r}"})
+                    results.append(rec)
+                    continue
+                rec["summary_sha256"] = _sha256_file(summary_path)
                 triage_ok = True
                 if summary.get("divergences", 0):
                     tproc = _run_cmd(["triage", "--run", str(run_dir), "--op", item["op"]])
                     triage_ok = tproc.returncode == 0
                     rec["triage_ok"] = triage_ok
                 merged: list[str] = []
+                rejected: dict[str, list[str]] = {}
                 if cfg.auto_merge and merge_decision(summary, triage_ok, "case_fixture"):
                     kinds = ["case_fixture"] + (["pipeline_entry"] if item["has_pipeline"] else [])
-                    for kind in kinds:
-                        ids = assembler.assemble(run_dir, item["op"], kind,
-                                                 cfg.harvest_limit, False)
-                        merged.extend(ids)
-                    if merged:
-                        warden._run("admit", None, False)
-                rec.update({"verdict": "MERGED" if merged else "CLEAN",
+                    try:
+                        merged, rejected = stage_and_merge(run_dir, item["op"], kinds,
+                                                           cfg.harvest_limit)
+                    except (ValueError, KeyError) as exc:
+                        # un op que no se puede cosechar no tumba la campana
+                        rec.update({"verdict": "MERGE_FAILED", "detail": str(exc)[-500:]})
+                        results.append(rec)
+                        continue
+                verdict = "MERGED" if merged else ("REJECTED" if rejected else "CLEAN")
+                rec.update({"verdict": verdict,
                             "divergences": summary.get("divergences", 0),
                             "counts": summary.get("counts", {}),
-                            "merged": merged})
+                            "merged": merged,
+                            "rejected": rejected})
                 results.append(rec)
             if cfg.rounds == 0 and used_iterations >= cfg.budget_iterations:
                 break
@@ -188,7 +224,7 @@ def run_campaign(cfg: CampaignConfig) -> int:
         "summary": {
             "runs": len(results),
             "merged": sum(len(r.get("merged", [])) for r in results),
-            "failed": sum(1 for r in results if r.get("verdict") in ("ENGINE_FAILED", "TIMEOUT")),
+            "failed": sum(1 for r in results if r.get("verdict") in ("ENGINE_FAILED", "TIMEOUT", "REJECTED", "MERGE_FAILED")),
             "elapsed_s": round(time.monotonic() - started, 3),
             "iterations": used_iterations,
         },

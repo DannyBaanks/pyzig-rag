@@ -23,6 +23,7 @@ import sys
 
 from .. import corpus as corpus_mod
 from ..paths import ROOT
+from . import drivers
 
 AUTO_ADMISSIBLE = ("case_fixture", "pipeline_entry")
 BLOCKING_CLASSES = ("CRASH", "TIMEOUT", "INCONCLUSIVE", "NONDETERMINISTIC", "INVALID_ACCEPTED")
@@ -68,12 +69,14 @@ def read_harvest(run: pathlib.Path) -> tuple[dict, list[dict]]:
             raise HarvestError(f"case_sha256 roto en i={r.get('i')}")
         if _sha256(obs) != r["obs_sha256"]:
             raise HarvestError(f"obs_sha256 roto en i={r.get('i')}")
-        if r.get("status") != "ok":
-            raise HarvestError(f"ejemplo no-ok en la cosecha: i={r.get('i')}")
+    # Todas las filas se verifican (tamper => falla cerrado), pero solo las
+    # `ok` son fixtures: un EQUIV de error (ambos lados FileNotFound) es una
+    # equivalencia valida que no se convierte en fixture; antes abortaba la
+    # cosecha entera y con ella la campana.
     return meta, rows
 
 
-def run_snapshot(run: pathlib.Path, schema: str) -> dict:
+def run_snapshot(run: pathlib.Path, schema: str, subject_sha256: str = "") -> dict:
     """Datos minimos de la ejecucion para que el warden no dependa de var/."""
     summary_path = run / "summary.json"
     summary = json.loads(summary_path.read_text(encoding="utf-8")) if summary_path.exists() else {}
@@ -83,16 +86,15 @@ def run_snapshot(run: pathlib.Path, schema: str) -> dict:
     new_div = 0
     if triage_path.exists():
         new_div = len(json.loads(triage_path.read_text(encoding="utf-8")).get("new_divergences", []))
-    driver_sha = ""
-    manifest_path = ROOT / "var" / "fuzz" / "drivers" / "manifest.json"
-    if manifest_path.exists():
-        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-        driver_sha = manifest.get("drivers", {}).get(schema, {}).get("binary_sha256", "")
+    # identidad del driver que CORRIO (no la del manifest de hoy): ver drivers.py
+    drv = drivers.for_run(run, schema, subject_sha256)
     return {
         "sandbox": meta.get("sandbox", ""),
         "counts": summary.get("counts", {}),
         "new_divergences": new_div,
-        "driver_sha256": driver_sha,
+        "driver_sha256": drv.get("binary_sha256", ""),
+        "driver_source_sha256": drv.get("source_sha256", ""),
+        "driver_zig_version": drv.get("zig_version", ""),
         "summary_sha256": _sha256(summary_path.read_bytes()) if summary_path.exists() else "",
     }
 
@@ -143,7 +145,7 @@ def build_entry(parent: dict, meta: dict, row: dict, kind: str, run: pathlib.Pat
         "harvest_sha256": meta["equiv_sha256"],
         "case_sha256": row["case_sha256"],
         "obs_sha256": row["obs_sha256"],
-        "run_snapshot": run_snapshot(run, meta["schema"]),
+        "run_snapshot": run_snapshot(run, meta["schema"], meta["subject_sha256"]),
     }
     e["evidence"] = {"status": "FUZZ_EQUIV", "runs": [harvest_evidence]}
 
@@ -187,7 +189,8 @@ def assemble(run: pathlib.Path, op: str | None, kind: str, limit: int | None,
     parent = parent_entry.raw
 
     existing = {e.operation_id for e in corpus_mod.load(corpus_path)}
-    selected = rows[:limit] if limit is not None else rows
+    ok_rows = [r for r in rows if r.get("status") == "ok"]
+    selected = ok_rows[:limit] if limit is not None else ok_rows
     planned = [build_entry(parent, meta, row, kind, run) for row in selected]
 
     ids: list[str] = []

@@ -32,6 +32,7 @@ from pyzig import corpus as corpus_mod          # noqa: E402
 from pyzig.fuzz import assembler as assembler_mod  # noqa: E402
 from pyzig.fuzz import campaign as campaign_mod    # noqa: E402
 from pyzig.fuzz import contracts                 # noqa: E402
+from pyzig.fuzz import drivers as drivers_mod     # noqa: E402
 from pyzig.fuzz import triage as triage_mod      # noqa: E402
 from pyzig.fuzz import warden as warden_mod      # noqa: E402
 
@@ -70,6 +71,7 @@ def prepare(only: str | None = None, verbose: bool = True) -> int:
 
     manifest: dict[str, dict] = {}
     failures = 0
+    zig_version = _zig_version()
     for e in entries:
         contract = e.fuzz
         if not contract.get("fuzzable"):
@@ -105,15 +107,17 @@ def prepare(only: str | None = None, verbose: bool = True) -> int:
             "source_sha256": hashlib.sha256(source.encode("utf-8")).hexdigest(),
             "binary": str(bin_path.relative_to(ROOT)),
             "binary_sha256": _sha256(bin_path),
+            "zig_version": zig_version,
             "compared_fields": contract["compared_fields"],
             "model": contract["model"],
         }
         if verbose:
             print(f"driver {schema}: ok ({contract['driver']})")
 
-    (DRIVERS / "manifest.json").write_text(
-        json.dumps({"zig_version": _zig_version(), "drivers": manifest}, ensure_ascii=False, indent=2) + "\n",
-        encoding="utf-8")
+    # `--only X` fusiona: reescribir el manifest solo con X dejaba sin
+    # identidad al resto de drivers y el warden los regresaba todos.
+    drivers_mod.write_manifest(zig_version, manifest, replace=only is None,
+                               path=DRIVERS / "manifest.json")
     if failures:
         print(f"prepare: {failures} driver(s) con errores", file=sys.stderr)
         return 1
@@ -132,6 +136,24 @@ def _entry_for_op(op: str):
     raise SystemExit(f"operacion desconocida en el corpus: {op}")
 
 
+SANDBOX_PREFIXES = ("/usr/", "/lib/", "/lib64/")
+
+
+def _sandbox_python(python_bin: str, allow_unsandboxed: bool) -> str:
+    """Interprete del oracle tal como existe DENTRO del sandbox.
+
+    bwrap solo monta /usr, /lib y /lib64: `.venv/bin/python` no existe ahi
+    (execvp falla). Se resuelve el symlink al interprete real; el oracle solo
+    usa la stdlib, asi que no necesita el site-packages del venv.
+    """
+    real = os.path.realpath(python_bin)
+    if allow_unsandboxed or real.startswith(SANDBOX_PREFIXES):
+        return real
+    raise SystemExit(f"el interprete del oracle ({python_bin} -> {real}) no esta bajo "
+                     f"/usr ni /lib: no es visible dentro de bwrap. Usa --python "
+                     f"/usr/bin/python3 o --allow-unsandboxed")
+
+
 def diff(op: str, seed: int, iterations: int, chunk: int, replay: int,
          timeout_ms: int, python_bin: str, run_dir: str | None,
          allow_unsandboxed: bool, keep: bool, harvest_limit: int = 200) -> int:
@@ -146,10 +168,23 @@ def diff(op: str, seed: int, iterations: int, chunk: int, replay: int,
     if not FUZZ_BIN.exists():
         raise SystemExit(f"falta el motor {FUZZ_BIN}; ejecuta `zig build` en fuzz/")
 
+    python_bin = _sandbox_python(python_bin, allow_unsandboxed)
+    driver_info = drivers_mod.entry(schema, DRIVERS / "manifest.json")
+    subject_sha = _sha256(subject)
+    if driver_info.get("binary_sha256") != subject_sha:
+        # el binario no es el que describe el manifest: sin procedencia
+        # verificable; el run vale para explorar pero el warden no lo admitira
+        print(f"AVISO {schema}: el driver no coincide con el manifest; "
+              f"ejecuta `prepare --only {schema}`", file=sys.stderr)
+        driver_info = {}
+
     run_id = f"{schema}-{seed}-{int(time.time())}"
     run_path = pathlib.Path(run_dir) if run_dir else RUNS / run_id
     run_path.mkdir(parents=True, exist_ok=True)
     WORK.mkdir(parents=True, exist_ok=True)
+    (run_path / drivers_mod.RUN_DRIVER_FILE).write_text(
+        json.dumps({**driver_info, "schema": schema, "run_binary_sha256": subject_sha},
+                   ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
     cmd = [
         str(FUZZ_BIN), "diff",

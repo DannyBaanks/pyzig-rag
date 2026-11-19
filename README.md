@@ -103,11 +103,24 @@ ejecuta nada si bwrap falta.
 - `assemble` admite solo `case_fixture` y `pipeline_entry` (una receta nueva
   nunca se auto-mergea) y siempre pasa por `pyzig.corpus.append_entry`.
 - `warden` aplica 7 invariantes (hash chain, tipo, procedencia, integridad del
-  fixture, contrato del padre, run limpio/driver vigente, caso duplicado) y
-  mueve el estado `FUZZ_EQUIV → ADMITTED → REGRESSED`.
+  fixture, contrato del padre, run limpio/driver vigente, caso duplicado por
+  op) y mueve el estado `FUZZ_EQUIV → ADMITTED → REGRESSED`. Es idempotente:
+  si el veredicto no cambia no reescribe la entrada.
+- **Identidad del driver** (`pyzig/fuzz/drivers.py`): fuente materializado +
+  version de zig, NO el hash del binario (`zig build-exe` no es reproducible:
+  recompilar el mismo fuente da otro hash). `diff` guarda `driver.json` en el
+  run atado al binario que corrio; `prepare --only X` fusiona el manifest.
+  Cambiar el `zig_impl` o la version de zig regresa los artefactos del op.
+- `diff` resuelve el interprete del oracle a su ruta real (`.venv/bin/python`
+  → `/usr/bin/python3.x`): bwrap solo monta `/usr`, `/lib` y `/lib64`.
 - `campaign`/`loop` priorizan los ops con menos artefactos admitidos, respetan
   presupuesto de iteraciones/tiempo y solo auto-mergean si no hay hallazgos
-  nuevos; `loop` (`--rounds 0`) corre hasta agotar presupuesto.
+  nuevos: ensamblan y pasan el warden sobre una **copia** del corpus y solo
+  anaden al real lo ADMITTED (lo rechazado queda en el informe del run, nunca
+  en el corpus). El exit 1 del motor significa "hubo divergencias" (las decide
+  `triage`), no fallo. `loop` (`--rounds 0`) corre hasta agotar presupuesto.
+- Tests herméticos: `python3 -m unittest discover -s tests` no lee ni escribe
+  `var/` (pasan en un clon limpio).
 
 ### MCP (registro en cliente)
 

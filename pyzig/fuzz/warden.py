@@ -24,6 +24,7 @@ import time
 
 from .. import corpus as corpus_mod
 from ..paths import ROOT
+from . import drivers
 
 AUTO_ADMISSIBLE = ("case_fixture", "pipeline_entry")
 BLOCKING_CLASSES = ("CRASH", "TIMEOUT", "INCONCLUSIVE", "NONDETERMINISTIC", "INVALID_ACCEPTED")
@@ -55,16 +56,14 @@ def _field_count(packed: bytes) -> int:
     return n
 
 
-def _driver_sha(schema: str) -> str:
-    manifest_path = ROOT / "var" / "fuzz" / "drivers" / "manifest.json"
-    if not manifest_path.exists():
-        return ""
-    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-    return manifest.get("drivers", {}).get(schema, {}).get("binary_sha256", "")
+def _driver_identity(schema: str) -> dict:
+    """Identidad del driver vigente (fuente + zig), no el hash del binario:
+    `zig build-exe` no es reproducible y recompilar no cambia el comportamiento."""
+    return drivers.identity(drivers.entry(schema))
 
 
 def check_entry(e: corpus_mod.Entry, by_id: dict[str, corpus_mod.Entry],
-                seen_cases: set[tuple[str, str]], duplicate_ids: set[str],
+                seen_cases: set[tuple[str, str, str]], duplicate_ids: set[str],
                 *, regress: bool = False) -> list[str]:
     """Devuelve la lista de invariantes incumplidos (vacia = pasa)."""
     bad: list[str] = []
@@ -126,28 +125,39 @@ def check_entry(e: corpus_mod.Entry, by_id: dict[str, corpus_mod.Entry],
     if (snap.get("sandbox") != "bwrap" or snap.get("new_divergences") != 0
             or any(counts.get(k, 0) for k in BLOCKING_CLASSES)):
         bad.append("I6 CLEAN_RUN")
-    if not snap.get("driver_sha256") or snap["driver_sha256"] != _driver_sha(fuzz.get("schema", "")):
+    current = _driver_identity(fuzz.get("schema", ""))
+    recorded = {"source_sha256": snap.get("driver_source_sha256", ""),
+                "zig_version": snap.get("driver_zig_version", "")}
+    if not all(recorded.values()) or recorded != current:
         bad.append("I6 CLEAN_RUN")
 
-    # I7 — un mismo caso no se admite dos veces como el MISMO artefacto;
-    # case_fixture y pipeline_entry del mismo caso son complementarios.
-    case_sha = fixture.get("case_sha256", "")
-    key = (case_sha, e.entry_type)
-    if not case_sha or key in seen_cases:
+    # I7 — un mismo caso no se admite dos veces como el MISMO artefacto DEL
+    # MISMO op; case_fixture y pipeline_entry del mismo caso son
+    # complementarios, y los mismos bytes en otro op son otra prueba.
+    key = case_key(e)
+    if not key[1] or key in seen_cases:
         bad.append("I7 NO_DUPLICATE_CASE")
     seen_cases.add(key)
 
     return sorted(set(bad))
 
 
-def _write_report(name: str, report: dict) -> pathlib.Path:
-    WARDEN_DIR.mkdir(parents=True, exist_ok=True)
-    path = WARDEN_DIR / f"{name}.json"
+def case_key(e: corpus_mod.Entry) -> tuple[str, str, str]:
+    """(op padre, sha del caso, tipo de artefacto): identidad para I7."""
+    case_sha = e.fuzz.get("case_fixture", {}).get("case_sha256", "")
+    return (e.operation_id.rsplit("/", 1)[0], case_sha, e.entry_type)
+
+
+def _write_report(name: str, report: dict, report_dir: pathlib.Path | None = None) -> pathlib.Path:
+    out_dir = pathlib.Path(report_dir or WARDEN_DIR)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    path = out_dir / f"{name}.json"
     path.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return path
 
 
-def _run(mode: str, corpus_path: pathlib.Path | None, force: bool) -> int:
+def _run(mode: str, corpus_path: pathlib.Path | None, force: bool,
+         report_dir: pathlib.Path | None = None) -> int:
     entries = corpus_mod.load(corpus_path)
     by_id = {e.operation_id: e for e in entries}
     raw_rows = corpus_mod._read_raw(corpus_path or corpus_mod.CORPUS_FILE)
@@ -163,7 +173,7 @@ def _run(mode: str, corpus_path: pathlib.Path | None, force: bool) -> int:
                       and e.evidence.get("status") in ("ADMITTED", "REGRESSED")]
     else:
         candidates = [e for e in entries if e.entry_type in ("case_fixture", "pipeline_entry", "operation")]
-    seen_cases: set[tuple[str, str]] = set()
+    seen_cases: set[tuple[str, str, str]] = set()
     report: dict = {
         "mode": mode,
         "at": int(time.time()),
@@ -176,6 +186,9 @@ def _run(mode: str, corpus_path: pathlib.Path | None, force: bool) -> int:
             verdict, bad = "MANUAL_REVIEW", ["I2 ARTIFACT_KIND"]
         elif mode == "admit" and not force and e.evidence.get("status") == "ADMITTED":
             verdict, bad = "ADMITTED", []
+            # no se reverifica, pero su caso SI cuenta para I7: sin esto un
+            # duplicado de algo ya admitido pasaba admit y caia en regress
+            seen_cases.add(case_key(e))
         else:
             bad = check_entry(e, by_id, seen_cases, duplicate_ids,
                               regress=(mode == "regress"))
@@ -189,7 +202,12 @@ def _run(mode: str, corpus_path: pathlib.Path | None, force: bool) -> int:
             "verdict": verdict,
             "failed": bad,
         })
-        if e.entry_type in AUTO_ADMISSIBLE or mode == "admit":
+        prev_warden = e.evidence.get("warden", {})
+        unchanged = (e.evidence.get("status") == verdict
+                     and prev_warden.get("failed_invariants") == bad)
+        # Idempotente: si el veredicto no cambia no se reescribe la entrada
+        # (antes cada corrida cambiaba `at` y con el content_sha256 del corpus).
+        if (e.entry_type in AUTO_ADMISSIBLE or mode == "admit") and not unchanged:
             def mutate(row: dict, status: str = verdict, failures: list[str] = bad, m=mode) -> None:
                 ev = dict(row.get("evidence", {}))
                 ev["status"] = status
@@ -201,7 +219,7 @@ def _run(mode: str, corpus_path: pathlib.Path | None, force: bool) -> int:
     passed = sum(1 for r in report["results"] if r["verdict"] == "ADMITTED")
     report["summary"] = {"total": len(candidates), "passed": passed,
                          "failed": len(candidates) - passed}
-    path = _write_report(mode, report)
+    path = _write_report(mode, report, report_dir)
     print(json.dumps(report["summary"], ensure_ascii=False))
     print(f"warden {mode}: {path}")
     for r in report["results"]:

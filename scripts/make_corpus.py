@@ -458,21 +458,49 @@ test "duracion cero es inmediata" {
     provenance=PROV,
 ))
 
-E.append(dict(
-    operation_id="zig0.16/string-split-strip-format",
-    name="dividir, recortar y formatear cadenas",
-    intent="Partir una cadena por un separador descartando vacios, recortar espacios y formatear valores en un buffer tamano fijo sin asignar.",
-    aliases=["split(sep)","strip()","f-string","format()","str.join","rsplit","particion"],
-    source_lang="python", target_lang="zig", zig_version=ZIG, python_version=PY, platform="linux",
-    py_ref='''"a, b ,, c".split(",")             # ['a',' b ','',' c']
-[x.strip() for x in _]
-f"{mac:<18} {ip:<15}"''',
-    zig_impl='''// recoleccion sin asignacion del llamante salvo la lista
+SPLIT_IMPL = r"""// recoleccion sin asignacion del llamante salvo la lista
+
+/// Espacio en blanco de `str.isspace()` de Python 3 (lo que quita `strip()`):
+/// incluye \x1c-\x1f, NEL, NBSP y los espacios Unicode. `std.ascii.whitespace`
+/// NO basta: solo cubre " \t\n\r\x0b\x0c".
+fn isPySpace(cp: u21) bool {
+    return switch (cp) {
+        0x09...0x0d, 0x1c...0x20, 0x85, 0xa0, 0x1680, 0x2000...0x200a,
+        0x2028, 0x2029, 0x202f, 0x205f, 0x3000 => true,
+        else => false,
+    };
+}
+
+/// Equivalente de `s.strip()` sobre bytes UTF-8. Un byte invalido no es
+/// espacio (Python lo decodifica como U+FFFD) y corta el recorte.
+fn pyStrip(s: []const u8) []const u8 {
+    var i: usize = 0;
+    while (i < s.len) {
+        const n = std.unicode.utf8ByteSequenceLength(s[i]) catch break;
+        if (i + n > s.len) break;
+        const cp = std.unicode.utf8Decode(s[i .. i + n]) catch break;
+        if (!isPySpace(cp)) break;
+        i += n;
+    }
+    var j: usize = s.len;
+    while (j > i) {
+        var k = j - 1;
+        while (k > i and j - k < 4 and (s[k] & 0xc0) == 0x80) k -= 1;
+        const n = std.unicode.utf8ByteSequenceLength(s[k]) catch break;
+        if (k + n != j) break;
+        const cp = std.unicode.utf8Decode(s[k..j]) catch break;
+        if (!isPySpace(cp)) break;
+        j = k;
+    }
+    return s[i..j];
+}
+
 fn collectNonEmpty(gpa: std.mem.Allocator, text: []const u8, sep: u8) ![][]const u8 {
     var list: std.ArrayList([]const u8) = .empty;
+    errdefer list.deinit(gpa);
     var it = std.mem.splitScalar(u8, text, sep);
     while (it.next()) |tok| {
-        const t = std.mem.trim(u8, tok, " \\t");
+        const t = pyStrip(tok);
         if (t.len > 0) try list.append(gpa, t);
     }
     return list.toOwnedSlice(gpa);
@@ -485,23 +513,11 @@ fn formatInto(buf: []u8, comptime fmt: []const u8, args: anytype) ![]const u8 {
 /// Relleno a la izquierda con `width` (equivalente a f"{text:<width}") y cola.
 fn formatPadded(buf: []u8, text: []const u8, width: usize, tail: []const u8) ![]const u8 {
     return std.fmt.bufPrint(buf, "{[text]s:<[width]}{[tail]s}", .{ .text = text, .width = width, .tail = tail });
-}''',
-    zig_test='''const std = @import("std");
+}"""
 
-fn collectNonEmpty(gpa: std.mem.Allocator, text: []const u8, sep: u8) ![][]const u8 {
-    var list: std.ArrayList([]const u8) = .empty;
-    defer list.deinit(gpa);
-    var it = std.mem.splitScalar(u8, text, sep);
-    while (it.next()) |tok| {
-        const t = std.mem.trim(u8, tok, " \\t");
-        if (t.len > 0) try list.append(gpa, t);
-    }
-    return list.toOwnedSlice(gpa);
-}
-
-fn formatPadded(buf: []u8, text: []const u8, width: usize, tail: []const u8) ![]const u8 {
-    return std.fmt.bufPrint(buf, "{[text]s:<[width]}{[tail]s}", .{ .text = text, .width = width, .tail = tail });
-}
+# El gate prueba la MISMA implementacion que se publica (antes era una copia
+# a mano que podia divergir de zig_impl).
+SPLIT_TEST = 'const std = @import("std");\n\n' + SPLIT_IMPL + r"""
 
 test "split descarta vacios y recorta" {
     const a = std.testing.allocator;
@@ -509,6 +525,21 @@ test "split descarta vacios y recorta" {
     defer a.free(toks); // tokens prestados: solo se libera la lista
     try std.testing.expectEqual(@as(usize, 3), toks.len);
     try std.testing.expectEqualStrings("b", toks[1]);
+}
+
+test "strip recorta como str.isspace(): control y Unicode" {
+    const a = std.testing.allocator;
+    // "\n", "\x0b\x1c" y NBSP+IDEOGRAPHIC SPACE son vacios para Python
+    const toks = try collectNonEmpty(a, "a, \n ,\x0b\x1c, \xc2\xa0\xe3\x80\x80 ,b", ',');
+    defer a.free(toks);
+    try std.testing.expectEqual(@as(usize, 2), toks.len);
+    try std.testing.expectEqualStrings("b", toks[1]);
+    try std.testing.expectEqualStrings("x", pyStrip("\xc2\xa0x\xe2\x80\x83"));
+}
+
+test "strip no recorta bytes UTF-8 invalidos" {
+    try std.testing.expectEqualStrings("\xff", pyStrip("\xff \t"));
+    try std.testing.expectEqualStrings("\xe3\x80", pyStrip("\xe3\x80 "));
 }
 
 test "bufPrint formatea con pad" {
@@ -527,15 +558,27 @@ test "formatPadded no trunca si ya es mas largo" {
     var buf: [32]u8 = undefined;
     const s = try formatPadded(&buf, "abcdefgh", 3, "|ip");
     try std.testing.expectEqualStrings("abcdefgh|ip", s);
-}''',
-    apis_used=["std.mem.splitScalar","std.mem.trim","std.fmt.bufPrint","ArrayList.append","ArrayList.toOwnedSlice"],
+}"""
+
+E.append(dict(
+    operation_id="zig0.16/string-split-strip-format",
+    name="dividir, recortar y formatear cadenas",
+    intent="Partir una cadena por un separador descartando vacios, recortar espacios y formatear valores en un buffer tamano fijo sin asignar.",
+    aliases=["split(sep)","strip()","f-string","format()","str.join","rsplit","particion"],
+    source_lang="python", target_lang="zig", zig_version=ZIG, python_version=PY, platform="linux",
+    py_ref='''"a, b ,, c".split(",")             # ['a',' b ','',' c']
+[x.strip() for x in _]
+f"{mac:<18} {ip:<15}"''',
+    zig_impl=SPLIT_IMPL,
+    zig_test=SPLIT_TEST,
+    apis_used=["std.mem.splitScalar","std.unicode.utf8Decode","std.unicode.utf8ByteSequenceLength","std.fmt.bufPrint","ArrayList.append","ArrayList.toOwnedSlice"],
     constraints=["sin root","gpa"],
     preconditions=["texto valido UTF-8/bytes"],
     postconditions=["tokens no vacios recortados"],
     side_effects=[],
     error_behavior="bufPrint error.NoSpaceLeft si no cabe.",
     ownership_memory="lista owned; tokens prestados del texto original (liberar solo la lista).",
-    differences=["split de Python mantiene vacios; aqui se descartan con trim+len>0","f-strings no existen: bufPrint con {s:<N} y {d:0>N}"],
+    differences=["split de Python mantiene vacios; aqui se descartan con strip+len>0","str.strip() quita todo lo que str.isspace() acepta (\\x1c-\\x1f, NEL, NBSP, espacios Unicode): std.mem.trim con ' \\t' o std.ascii.whitespace NO es equivalente (hallado por fuzzing: token '\\n')","f-strings no existen: bufPrint con {s:<N} y {d:0>N}; {s:<N} rellena bytes, la f-string rellena codepoints"],
     provenance=PROV,
 ))
 

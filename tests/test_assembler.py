@@ -4,19 +4,27 @@ from __future__ import annotations
 import hashlib
 import json
 import pathlib
-import shutil
 import tempfile
 import unittest
 
 from pyzig import corpus as corpus_mod
 from pyzig.fuzz import assembler
 
+from _hermetic import FAKE_BINARY, HermeticCase, fake_driver
 
-def _fixture(tmp: pathlib.Path, *, tamper: bool = False) -> tuple[pathlib.Path, pathlib.Path]:
+
+def _fixture(tmp: pathlib.Path, *, tamper: bool = False,
+             driver: dict | None = None) -> tuple[pathlib.Path, pathlib.Path]:
+    """Run sintetico + copia del corpus SOLO con recetas (sin los artefactos
+    reales: el test no depende del estado del corpus ni de var/)."""
     run = tmp / "run"
     run.mkdir()
     corpus_path = tmp / "corpus.jsonl"
-    shutil.copyfile(corpus_mod.CORPUS_FILE, corpus_path)
+    rows = [r for r in corpus_mod._read_raw(corpus_mod.CORPUS_FILE)
+            if r.get("entry_type") in ("recipe", "gap")]
+    corpus_path.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows),
+                           encoding="utf-8")
+    (run / "driver.json").write_text(json.dumps(driver or fake_driver()), encoding="utf-8")
 
     case = bytes.fromhex("0400000061626364")
     obs = bytes.fromhex("020000006f6b000000000400000061626364")
@@ -40,7 +48,7 @@ def _fixture(tmp: pathlib.Path, *, tamper: bool = False) -> tuple[pathlib.Path, 
         "fields": "status,error,digest",
         "seed": 1337,
         "iterations": 10,
-        "subject_sha256": "a" * 64,
+        "subject_sha256": FAKE_BINARY,
         "results_sha256": "b" * 64,
         "equiv_stored": 1,
         "equiv_sha256": digest,
@@ -54,7 +62,7 @@ def _fixture(tmp: pathlib.Path, *, tamper: bool = False) -> tuple[pathlib.Path, 
     return run, corpus_path
 
 
-class AssemblerTest(unittest.TestCase):
+class AssemblerTest(HermeticCase):
     def test_append_only_and_hash_chain(self):
         with tempfile.TemporaryDirectory() as d:
             tmp = pathlib.Path(d)
@@ -91,6 +99,41 @@ class AssemblerTest(unittest.TestCase):
             e = corpus_mod.load(corpus_path)[-1]
             self.assertEqual(e.operation_id, ids[0])
             self.assertFalse(e.fuzz["auto_admissible"])
+
+    def test_snapshot_records_stable_driver_identity(self):
+        with tempfile.TemporaryDirectory() as d:
+            run, corpus_path = _fixture(pathlib.Path(d))
+            ids = assembler.assemble(run, None, "case_fixture", 1, False, corpus_path)
+            snap = corpus_mod.load(corpus_path)[-1].evidence["runs"][0]["run_snapshot"]
+            self.assertEqual(snap["driver_source_sha256"], fake_driver()["source_sha256"])
+            self.assertEqual(snap["driver_zig_version"], fake_driver()["zig_version"])
+            self.assertTrue(ids)
+
+    def test_driver_json_must_match_binary_that_ran(self):
+        with tempfile.TemporaryDirectory() as d:
+            other = dict(fake_driver(), binary_sha256="f" * 64)
+            run, corpus_path = _fixture(pathlib.Path(d), driver=other)
+            assembler.assemble(run, None, "case_fixture", 1, False, corpus_path)
+            snap = corpus_mod.load(corpus_path)[-1].evidence["runs"][0]["run_snapshot"]
+            self.assertEqual(snap["driver_source_sha256"], "")
+
+    def test_non_ok_equiv_rows_are_skipped_not_fatal(self):
+        with tempfile.TemporaryDirectory() as d:
+            run, corpus_path = _fixture(pathlib.Path(d))
+            err_case, err_obs = b"\x00", b"\x03\x00\x00\x00err"
+            rows = [json.loads(l) for l in (run / "equiv.jsonl").read_text().splitlines()]
+            rows.insert(0, {"i": 9, "case": err_case.hex(), "obs": err_obs.hex(), "status": "err",
+                            "case_sha256": hashlib.sha256(err_case).hexdigest(),
+                            "obs_sha256": hashlib.sha256(err_obs).hexdigest()})
+            equiv = ("\n".join(json.dumps(r) for r in rows) + "\n").encode()
+            (run / "equiv.jsonl").write_bytes(equiv)
+            meta = json.loads((run / "harvest.json").read_text())
+            meta.update(equiv_stored=2, equiv_sha256=hashlib.sha256(equiv).hexdigest())
+            (run / "harvest.json").write_text(json.dumps(meta))
+            ids = assembler.assemble(run, None, "case_fixture", 1, False, corpus_path)
+            self.assertEqual(len(ids), 1)   # el limite cuenta solo filas ok
+            fx = corpus_mod.load(corpus_path)[-1].fuzz["case_fixture"]
+            self.assertEqual(fx["status"], "ok")
 
 
 if __name__ == "__main__":

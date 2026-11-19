@@ -232,8 +232,30 @@ fn genSplitFmt(r: *Rng, gpa: std.mem.Allocator) ![]u8 {
     const seps = [_][]const u8{ ",", ";", " ", "|", "\t", "" };
     const sep = r.pick([]const u8, &seps);
     var text: [128]u8 = undefined;
-    const text_len = r.boundaryLen(text.len);
-    randomBytes(r, text[0..text_len]);
+    var text_len = r.boundaryLen(text.len);
+    if (r.chance(1, 3)) {
+        // Trozos con el espacio en blanco de str.isspace() de Python: los
+        // bytes aleatorios casi nunca generan \x0b, \x1c-\x1f ni espacios
+        // Unicode, y ahi es donde trim(" \t") divergia de str.strip().
+        // U+200B (zero width space) y \xff son controles: NO son espacio.
+        const pieces = [_][]const u8{
+            "a",            "bc",           ",",            ";",            " ",
+            "|",            "\t",           "\n",           "\r",           "\x0b",
+            "\x0c",         "\x1c",         "\x1f",         "\xc2\x85",     "\xc2\xa0",
+            "\xe1\x9a\x80", "\xe2\x80\x83", "\xe2\x80\xa8", "\xe3\x80\x80", "\xe2\x80\x8b",
+            "\xff",
+        };
+        const want = text_len;
+        text_len = 0;
+        while (true) {
+            const piece = r.pick([]const u8, &pieces);
+            if (text_len + piece.len > want) break;
+            @memcpy(text[text_len..][0..piece.len], piece);
+            text_len += piece.len;
+        }
+    } else {
+        randomBytes(r, text[0..text_len]);
+    }
     const macs = [_][]const u8{ "aa:bb:cc:dd:ee:ff", "", "corto", "\xc3\xb1mac" };
     const ips = [_][]const u8{ "192.168.1.10", "", "x", "10.0.0.1" };
     const mac = r.pick([]const u8, &macs);
