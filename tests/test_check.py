@@ -151,6 +151,28 @@ class CheckRealZigTest(unittest.TestCase):
         self.assertEqual(res["errors"], [])
 
     @unittest.skipUnless(HAS_ZIG and HAS_BWRAP, "zig o bwrap no disponibles")
+    def test_exit_zero_before_runner_summary_is_not_a_pass(self) -> None:
+        # un test que sale con exit(0) devuelve rc 0 sin que el runner haya
+        # comprobado nada (hallazgo del verificador pzsw4): no es PASS
+        code = (
+            'const std = @import("std");\n'
+            'test "aaa" { std.process.exit(0); }\n'
+            'test "zzz" { try std.testing.expect(false); }\n'
+        )
+        res = check_mod.check_zig(code, mode="test")
+        self.assertTrue(res["compiled"])
+        self.assertFalse(res["tests_passed"])
+        self.assertFalse(res["ok"])
+
+    def test_runner_summary_parser(self) -> None:
+        ok = check_mod._runner_summary_ok
+        self.assertTrue(ok("1/1 t...OK\nAll 1 tests passed.\n"))
+        self.assertTrue(ok("2 passed; 1 skipped; 0 failed.\n"))
+        self.assertFalse(ok("All 0 tests passed.\n"))
+        self.assertFalse(ok("1 passed; 0 skipped; 1 failed.\n"))
+        self.assertFalse(ok(""))
+
+    @unittest.skipUnless(HAS_ZIG and HAS_BWRAP, "zig o bwrap no disponibles")
     def test_valid_zig_ast_check(self) -> None:
         code = 'pub fn add(a: i32, b: i32) i32 { return a + b; }\n'
         res = check_mod.check_zig(code, mode="ast")

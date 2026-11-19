@@ -30,6 +30,21 @@ _CARET_RE = re.compile(r"^\s*[~^]+\s*$")
 _STD_CHAIN_RE = re.compile(r"\bstd(?:\.[A-Za-z_][A-Za-z0-9_]*)+\b")
 _MEMBER_RE = re.compile(r"\.([A-Za-z_][A-Za-z0-9_]*)\b")
 _QUOTED_ID_RE = re.compile(r"'([A-Za-z_][A-Za-z0-9_.]*)'")
+_RUNNER_ALL_RE = re.compile(r"^All (\d+) tests passed\.$", re.M)
+_RUNNER_MIXED_RE = re.compile(r"^(\d+) passed; (\d+) skipped; (\d+) failed\.$", re.M)
+
+
+def _runner_summary_ok(stderr: str) -> bool:
+    """El binario de test de zig 0.16 imprime su resumen al final
+    (lib/compiler/test_runner.zig). Sin resumen no hay evidencia de que los
+    tests corrieran."""
+    m = _RUNNER_ALL_RE.search(stderr)
+    if m:
+        return int(m.group(1)) >= 1
+    m = _RUNNER_MIXED_RE.search(stderr)
+    return bool(m) and int(m.group(1)) >= 1 and int(m.group(3)) == 0
+
+
 _TEST_FAILED_RE = re.compile(
     r"(?m)(?:^\d+ passed; \d+ skipped; \d+ failed\.|^FAIL \(|error: the following test command (?:failed|terminated))"
 )
@@ -341,6 +356,7 @@ def check_zig(zig_code: str, mode: str = "test",
                 compiled_phase = proc.returncode == 0
                 if compiled_phase:
                     run = sandboxed(["/work/check-test"], with_cache=False)
+                    run_stderr = run.stderr or ""
                     proc = subprocess.CompletedProcess(
                         run.args, run.returncode, run.stdout,
                         (proc.stderr or "") + (run.stderr or ""))
@@ -387,8 +403,11 @@ def check_zig(zig_code: str, mode: str = "test",
         ok = compiled
     elif compiled_phase:
         # compilo en la fase 1; el resultado del binario decide (incluye muerte por senal)
+        # exit 0 no basta: un test que llama a exit(0) se salta el resumen del
+        # test runner sin haber comprobado nada. Exige el resumen con >=1 test
+        # pasado y 0 fallidos.
         compiled = True
-        tests_passed = proc.returncode == 0
+        tests_passed = proc.returncode == 0 and _runner_summary_ok(run_stderr)
         ok = tests_passed
     else:
         if proc.returncode == 0:
