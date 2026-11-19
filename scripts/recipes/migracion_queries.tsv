@@ -1,0 +1,19 @@
+migracion-01	error	error: root source file struct 'fs' has no member named 'cwd'  const data = try std.fs.cwd().readFileAlloc(gpa, "datos.txt", 1024 * 1024);	zig0.16/migrate-readfilealloc	POS
+migracion-02	error	error: member function expected 4 argument(s), found 3 readFileAlloc	zig0.16/migrate-readfilealloc	POS
+migracion-03	error	error: root source file struct 'std' has no member named 'io'  const stdout = std.io.getStdOut().writer();	zig0.16/migrate-stdout-writer	POS
+migracion-04	error	error: root source file struct 'fs' has no member named 'File'  var w = std.fs.File.stdout().writer(&buf);	zig0.16/migrate-stdout-writer	POS
+migracion-05	error	error: struct 'array_list.Aligned(u32,null)' has no member named 'init'	zig0.16/migrate-arraylist-unmanaged	POS
+migracion-06	error	error: member function expected 2 argument(s), found 1 list.deinit() ArrayList	zig0.16/migrate-arraylist-unmanaged	POS
+migracion-07	error	error: invalid builtin function: '@Type'	zig0.16/migrate-type-builtin	POS
+migracion-08	error	error: root source file struct 'process.Child' has no member named 'run'	zig0.16/migrate-child-run	POS
+migracion-09	error	error: root source file struct 'time' has no member named 'sleep'	zig0.16/migrate-time-sleep	POS
+migracion-10	error	error: root source file struct 'Thread' has no member named 'sleep'	zig0.16/migrate-time-sleep	POS
+migracion-11	error	error: root source file struct 'Thread' has no member named 'Mutex'	zig0.16/migrate-thread-mutex	POS
+migracion-12	direct	como migro std.fs.cwd().readFileAlloc de zig 0.14 a 0.16	zig0.16/migrate-readfilealloc	POS
+migracion-13	direct	reemplazo de std.io.getStdOut().writer() con buffer y flush en zig 0.16	zig0.16/migrate-stdout-writer	POS
+migracion-14	direct	ArrayList(u8).init(allocator) no existe en zig 0.16, usar .empty	zig0.16/migrate-arraylist-unmanaged	POS
+migracion-15	direct	@Type fue eliminado, como creo un entero de 7 bits en comptime	zig0.16/migrate-type-builtin	POS
+migracion-16	direct	std.process.Child.run ahora es std.process.run con io	zig0.16/migrate-child-run	POS
+migracion-17	direct	std.time.sleep no existe en zig 0.16 (has no member named sleep), migrar a std.Io.sleep	zig0.16/migrate-time-sleep	POS
+migracion-18	direct	mutex para proteger un contador compartido entre hilos con std.Io.Mutex	zig0.16/migrate-thread-mutex	POS
+migracion-19	error	error: root source file struct 'fs' has no member named 'cwd'  try std.fs.cwd().writeFile(.{ .sub_path = "salida.txt", .data = "hola" });	zig0.16/migrate-writefile	POS
