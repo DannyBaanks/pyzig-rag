@@ -1,26 +1,26 @@
 {
   "embed_mode": "onnx",
   "embed_model": "all-MiniLM-L6-v2",
-  "entries": 18,
+  "entries": 53,
   "modes": {
     "lexical": {
       "summary": {
-        "n": 28,
-        "precision_at_1": 1.0,
-        "recall_at_3": 1.0,
+        "n": 98,
+        "precision_at_1": 0.968,
+        "recall_at_3": 0.989,
         "negativas_correctas": "4/4",
         "status_correcto": "1/1",
-        "latencia_ms_media": 0.8,
+        "latencia_ms_media": 1.1,
         "por_tipo": {
           "api": {
-            "n": 11,
-            "aciertos_top1": 11,
-            "aciertos_top3": 11
+            "n": 39,
+            "aciertos_top1": 38,
+            "aciertos_top3": 38
           },
           "direct": {
-            "n": 8,
-            "aciertos_top1": 8,
-            "aciertos_top3": 8
+            "n": 23,
+            "aciertos_top1": 21,
+            "aciertos_top3": 23
           },
           "negative": {
             "n": 3,
@@ -28,9 +28,9 @@
             "aciertos_top3": 3
           },
           "paraphrase": {
-            "n": 4,
-            "aciertos_top1": 4,
-            "aciertos_top3": 4
+            "n": 31,
+            "aciertos_top1": 31,
+            "aciertos_top3": 31
           },
           "status": {
             "n": 1,
@@ -59,7 +59,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 1.4
         },
         {
           "qid": "q02",
@@ -73,7 +73,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.8
+          "ms": 0.9
         },
         {
           "qid": "q03",
@@ -87,7 +87,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.0
+          "ms": 1.1
         },
         {
           "qid": "q04",
@@ -96,12 +96,13 @@
           "expect": "POS",
           "expected": "zig0.16/read-file-text-limited",
           "got_top3": [
-            "zig0.16/read-file-text-limited"
+            "zig0.16/read-file-text-limited",
+            "zig0.16/json-read-file-limited"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.0
+          "ms": 1.1
         },
         {
           "qid": "q05",
@@ -111,12 +112,13 @@
           "expected": "zig0.16/read-file-text-limited",
           "got_top3": [
             "zig0.16/read-file-text-limited",
-            "zig0.16/write-file-bytes-atomic"
+            "zig0.16/process-args-iterate",
+            "zig0.16/json-read-file-limited"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.0
+          "ms": 1.7
         },
         {
           "qid": "q06",
@@ -125,12 +127,13 @@
           "expect": "POS",
           "expected": "zig0.16/write-file-bytes-atomic",
           "got_top3": [
-            "zig0.16/write-file-bytes-atomic"
+            "zig0.16/write-file-bytes-atomic",
+            "zig0.16/copyfile-replace"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.9
+          "ms": 1.0
         },
         {
           "qid": "q07",
@@ -140,7 +143,8 @@
           "expected": "zig0.16/write-file-bytes-atomic",
           "got_top3": [
             "zig0.16/write-file-bytes-atomic",
-            "zig0.16/read-file-text-limited"
+            "zig0.16/read-file-text-limited",
+            "zig0.16/copyfile-replace"
           ],
           "error": null,
           "ok_top1": true,
@@ -169,13 +173,13 @@
           "expected": "zig0.16/file-exists-vs-error",
           "got_top3": [
             "zig0.16/file-exists-vs-error",
-            "zig0.16/write-file-bytes-atomic",
-            "zig0.16/read-file-text-limited"
+            "zig0.16/makedirs-exist-ok",
+            "zig0.16/path-join-basename-ext"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.3
+          "ms": 1.1
         },
         {
           "qid": "q10",
@@ -185,12 +189,13 @@
           "expected": "zig0.16/stdout-print-flush",
           "got_top3": [
             "zig0.16/stdout-print-flush",
-            "zig0.16/write-file-bytes-atomic"
+            "zig0.16/write-file-bytes-atomic",
+            "zig0.16/json-dumps-indent"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.8
+          "ms": 1.1
         },
         {
           "qid": "q11",
@@ -204,7 +209,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.7
+          "ms": 1.1
         },
         {
           "qid": "q12",
@@ -213,12 +218,14 @@
           "expect": "POS",
           "expected": "zig0.16/parse-kv-config",
           "got_top3": [
-            "zig0.16/parse-kv-config"
+            "zig0.16/parse-kv-config",
+            "zig0.16/argparse-flags-parse",
+            "zig0.16/json-loads-dynamic"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.7
+          "ms": 1.1
         },
         {
           "qid": "q13",
@@ -228,13 +235,13 @@
           "expected": "zig0.16/parse-kv-config",
           "got_top3": [
             "zig0.16/parse-kv-config",
-            "zig0.16/string-split-strip-format",
-            "zig0.16/detached-daemon-no-shell"
+            "zig0.16/json-invalid-input-error",
+            "zig0.16/json-loads-typed-struct"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.8
+          "ms": 1.4
         },
         {
           "qid": "q14",
@@ -243,12 +250,14 @@
           "expect": "POS",
           "expected": "zig0.16/sleep-ms",
           "got_top3": [
-            "zig0.16/sleep-ms"
+            "zig0.16/sleep-ms",
+            "zig0.16/monotonic-duration-measure",
+            "zig0.16/epoch-now-seconds"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.6
+          "ms": 0.9
         },
         {
           "qid": "q15",
@@ -262,7 +271,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.7
+          "ms": 0.9
         },
         {
           "qid": "q16",
@@ -271,12 +280,13 @@
           "expect": "POS",
           "expected": "zig0.16/string-split-strip-format",
           "got_top3": [
-            "zig0.16/string-split-strip-format"
+            "zig0.16/string-split-strip-format",
+            "zig0.16/hex-encode-decode"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.7
+          "ms": 1.1
         },
         {
           "qid": "q17",
@@ -285,12 +295,14 @@
           "expect": "POS",
           "expected": "zig0.16/string-split-strip-format",
           "got_top3": [
-            "zig0.16/string-split-strip-format"
+            "zig0.16/string-split-strip-format",
+            "zig0.16/json-string-escape-unicode",
+            "zig0.16/json-dumps-indent"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.7
+          "ms": 1.4
         },
         {
           "qid": "q18",
@@ -306,7 +318,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.0
+          "ms": 1.3
         },
         {
           "qid": "q19",
@@ -332,12 +344,13 @@
           "expected": "zig0.16/env-var-read",
           "got_top3": [
             "zig0.16/env-var-read",
-            "zig0.16/read-file-text-limited"
+            "zig0.16/read-file-text-limited",
+            "zig0.16/json-read-file-limited"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.7
+          "ms": 1.5
         },
         {
           "qid": "q21",
@@ -347,13 +360,13 @@
           "expected": "zig0.16/env-var-read",
           "got_top3": [
             "zig0.16/env-var-read",
-            "zig0.16/parse-kv-config",
-            "zig0.16/string-split-strip-format"
+            "zig0.16/json-invalid-input-error",
+            "zig0.16/parse-kv-config"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.8
+          "ms": 1.1
         },
         {
           "qid": "q22",
@@ -362,12 +375,14 @@
           "expect": "POS",
           "expected": "zig0.16/sha256-bytes",
           "got_top3": [
-            "zig0.16/sha256-bytes"
+            "zig0.16/sha256-bytes",
+            "zig0.16/crc32-checksum",
+            "zig0.16/md5-hexdigest"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.6
+          "ms": 0.9
         },
         {
           "qid": "q23",
@@ -376,12 +391,13 @@
           "expect": "POS",
           "expected": "zig0.16/sha256-bytes",
           "got_top3": [
-            "zig0.16/sha256-bytes"
+            "zig0.16/sha256-bytes",
+            "zig0.16/md5-hexdigest"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.5
+          "ms": 0.6
         },
         {
           "qid": "q24",
@@ -393,7 +409,7 @@
           "error": "NO_RESULTS",
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.6
+          "ms": 1.0
         },
         {
           "qid": "q25",
@@ -405,7 +421,7 @@
           "error": "NO_RESULTS",
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.6
+          "ms": 0.9
         },
         {
           "qid": "q26",
@@ -417,7 +433,7 @@
           "error": "NO_RESULTS",
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.5
+          "ms": 0.6
         },
         {
           "qid": "q27",
@@ -429,7 +445,7 @@
           "error": "VERSION_MISMATCH",
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.3
+          "ms": 0.1
         },
         {
           "qid": "q28",
@@ -444,28 +460,1069 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
+          "ms": 0.9
+        },
+        {
+          "qid": "colecciones-01",
+          "kind": "direct",
+          "query": "guardar un contador por nombre y consultar si existe una clave, con valor por defecto si falta",
+          "expect": "POS",
+          "expected": "zig0.16/dict-str-int-basic",
+          "got_top3": [
+            "zig0.16/dict-str-int-basic",
+            "zig0.16/env-var-read"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.3
+        },
+        {
+          "qid": "colecciones-02",
+          "kind": "api",
+          "query": "dict.get(key, 0) y key in d con claves string y valores enteros",
+          "expect": "POS",
+          "expected": "zig0.16/dict-str-int-basic",
+          "got_top3": [
+            "zig0.16/dict-str-int-basic",
+            "zig0.16/json-loads-dynamic",
+            "zig0.16/counter-most-common"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.5
+        },
+        {
+          "qid": "colecciones-03",
+          "kind": "api",
+          "query": "list.insert(i, x) con indices negativos o pasados del final, y list.pop(i)",
+          "expect": "POS",
+          "expected": "zig0.16/list-append-pop-insert",
+          "got_top3": [
+            "zig0.16/list-append-pop-insert",
+            "zig0.16/deque-popleft-appendleft"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.5
+        },
+        {
+          "qid": "colecciones-04",
+          "kind": "paraphrase",
+          "query": "vector que crece donde puedo quitar el ultimo elemento sin que explote si esta vacio",
+          "expect": "POS",
+          "expected": "zig0.16/list-append-pop-insert",
+          "got_top3": [
+            "zig0.16/list-append-pop-insert"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.0
+        },
+        {
+          "qid": "colecciones-05",
+          "kind": "api",
+          "query": "sorted(lista, key=lambda x: x.edad, reverse=True) conservando orden de los iguales",
+          "expect": "POS",
+          "expected": "zig0.16/sorted-key-stable",
+          "got_top3": [
+            "zig0.16/sorted-key-stable"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.2
+        },
+        {
+          "qid": "colecciones-06",
+          "kind": "paraphrase",
+          "query": "ordenar una lista de structs por un campo sin alterar la lista original",
+          "expect": "POS",
+          "expected": "zig0.16/sorted-key-stable",
+          "got_top3": [
+            "zig0.16/sorted-key-stable"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.1
+        },
+        {
+          "qid": "colecciones-07",
+          "kind": "api",
+          "query": "set de strings con add, discard, in, union e interseccion",
+          "expect": "POS",
+          "expected": "zig0.16/set-str-membership",
+          "got_top3": [
+            "zig0.16/set-str-membership"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.3
+        },
+        {
+          "qid": "colecciones-08",
+          "kind": "paraphrase",
+          "query": "quitar cadenas duplicadas y comprobar rapido si una cadena ya la vi",
+          "expect": "POS",
+          "expected": "zig0.16/set-str-membership",
+          "got_top3": [
+            "zig0.16/set-str-membership"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.1
+        },
+        {
+          "qid": "colecciones-09",
+          "kind": "api",
+          "query": "heapq.heappush y heappop con tuplas (prioridad, contador, item)",
+          "expect": "POS",
+          "expected": "zig0.16/heapq-priority-queue",
+          "got_top3": [
+            "zig0.16/heapq-priority-queue"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.1
+        },
+        {
+          "qid": "colecciones-10",
+          "kind": "paraphrase",
+          "query": "cola donde siempre saco la tarea de menor prioridad primero",
+          "expect": "POS",
+          "expected": "zig0.16/heapq-priority-queue",
+          "got_top3": [
+            "zig0.16/heapq-priority-queue"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 2.3
+        },
+        {
+          "qid": "colecciones-11",
+          "kind": "api",
+          "query": "collections.deque con maxlen, appendleft, popleft y rotate",
+          "expect": "POS",
+          "expected": "zig0.16/deque-popleft-appendleft",
+          "got_top3": [
+            "zig0.16/deque-popleft-appendleft"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 0.9
+        },
+        {
+          "qid": "colecciones-12",
+          "kind": "paraphrase",
+          "query": "ventana deslizante de los ultimos N valores con cola circular",
+          "expect": "POS",
+          "expected": "zig0.16/deque-popleft-appendleft",
+          "got_top3": [
+            "zig0.16/deque-popleft-appendleft"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.0
+        },
+        {
+          "qid": "colecciones-13",
+          "kind": "api",
+          "query": "Counter(texto.split()).most_common(k)",
+          "expect": "POS",
+          "expected": "zig0.16/counter-most-common",
+          "got_top3": [
+            "zig0.16/counter-most-common",
+            "zig0.16/string-split-strip-format"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
           "ms": 0.8
+        },
+        {
+          "qid": "colecciones-14",
+          "kind": "paraphrase",
+          "query": "contar cuantas veces aparece cada palabra y listar las mas repetidas",
+          "expect": "POS",
+          "expected": "zig0.16/counter-most-common",
+          "got_top3": [
+            "zig0.16/counter-most-common"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 0.9
+        },
+        {
+          "qid": "fs_rutas-01",
+          "kind": "api",
+          "query": "os.path.splitext y os.path.basename de una ruta",
+          "expect": "POS",
+          "expected": "zig0.16/path-join-basename-ext",
+          "got_top3": [
+            "zig0.16/path-join-basename-ext",
+            "zig0.16/file-exists-vs-error",
+            "zig0.16/remove-file-rmtree"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.4
+        },
+        {
+          "qid": "fs_rutas-02",
+          "kind": "paraphrase",
+          "query": "como saco la extension y el nombre de un archivo a partir de su ruta",
+          "expect": "POS",
+          "expected": "zig0.16/path-join-basename-ext",
+          "got_top3": [
+            "zig0.16/path-join-basename-ext"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.3
+        },
+        {
+          "qid": "fs_rutas-03",
+          "kind": "api",
+          "query": "os.listdir de un directorio ordenado",
+          "expect": "POS",
+          "expected": "zig0.16/listdir-names-sorted",
+          "got_top3": [
+            "zig0.16/listdir-names-sorted"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 0.8
+        },
+        {
+          "qid": "fs_rutas-04",
+          "kind": "paraphrase",
+          "query": "quiero los nombres de los archivos que hay dentro de una carpeta, sin recursion",
+          "expect": "POS",
+          "expected": "zig0.16/listdir-names-sorted",
+          "got_top3": [
+            "zig0.16/listdir-names-sorted"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.0
+        },
+        {
+          "qid": "fs_rutas-05",
+          "kind": "api",
+          "query": "os.walk recursivo para juntar todos los archivos",
+          "expect": "POS",
+          "expected": "zig0.16/walk-tree-files",
+          "got_top3": [
+            "zig0.16/walk-tree-files",
+            "zig0.16/makedirs-exist-ok"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 0.8
+        },
+        {
+          "qid": "fs_rutas-06",
+          "kind": "paraphrase",
+          "query": "buscar todos los ficheros dentro de un arbol de carpetas y subcarpetas",
+          "expect": "POS",
+          "expected": "zig0.16/walk-tree-files",
+          "got_top3": [
+            "zig0.16/walk-tree-files"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.1
+        },
+        {
+          "qid": "fs_rutas-07",
+          "kind": "api",
+          "query": "os.makedirs con exist_ok=True",
+          "expect": "POS",
+          "expected": "zig0.16/makedirs-exist-ok",
+          "got_top3": [
+            "zig0.16/makedirs-exist-ok"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 0.8
+        },
+        {
+          "qid": "fs_rutas-08",
+          "kind": "paraphrase",
+          "query": "crear una carpeta y sus padres sin que falle si ya estaba",
+          "expect": "POS",
+          "expected": "zig0.16/makedirs-exist-ok",
+          "got_top3": [
+            "zig0.16/makedirs-exist-ok",
+            "zig0.16/temp-dir-scoped"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.1
+        },
+        {
+          "qid": "fs_rutas-09",
+          "kind": "api",
+          "query": "tempfile.TemporaryDirectory",
+          "expect": "POS",
+          "expected": "zig0.16/temp-dir-scoped",
+          "got_top3": [
+            "zig0.16/temp-dir-scoped"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 0.6
+        },
+        {
+          "qid": "fs_rutas-10",
+          "kind": "paraphrase",
+          "query": "necesito una carpeta temporal que se borre sola al acabar, en un programa normal no en un test",
+          "expect": "POS",
+          "expected": "zig0.16/temp-dir-scoped",
+          "got_top3": [
+            "zig0.16/temp-dir-scoped"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.2
+        },
+        {
+          "qid": "fs_rutas-11",
+          "kind": "api",
+          "query": "shutil.copyfile de origen a destino",
+          "expect": "POS",
+          "expected": "zig0.16/copyfile-replace",
+          "got_top3": [
+            "zig0.16/copyfile-replace",
+            "zig0.16/remove-file-rmtree"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.1
+        },
+        {
+          "qid": "fs_rutas-12",
+          "kind": "paraphrase",
+          "query": "duplicar un archivo y no pisar el destino si ya existe",
+          "expect": "POS",
+          "expected": "zig0.16/copyfile-replace",
+          "got_top3": [
+            "zig0.16/copyfile-replace",
+            "zig0.16/remove-file-rmtree",
+            "zig0.16/makedirs-exist-ok"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.8
+        },
+        {
+          "qid": "fs_rutas-13",
+          "kind": "api",
+          "query": "shutil.rmtree y os.remove",
+          "expect": "POS",
+          "expected": "zig0.16/remove-file-rmtree",
+          "got_top3": [
+            "zig0.16/remove-file-rmtree"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 0.7
+        },
+        {
+          "qid": "fs_rutas-14",
+          "kind": "paraphrase",
+          "query": "eliminar una carpeta entera con todo lo que contiene",
+          "expect": "POS",
+          "expected": "zig0.16/remove-file-rmtree",
+          "got_top3": [
+            "zig0.16/remove-file-rmtree"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 0.9
+        },
+        {
+          "qid": "json-01",
+          "kind": "direct",
+          "query": "convertir un texto json en una estructura de datos sin saber su esquema",
+          "expect": "POS",
+          "expected": "zig0.16/json-loads-dynamic",
+          "got_top3": [
+            "zig0.16/json-loads-dynamic",
+            "zig0.16/json-invalid-input-error",
+            "zig0.16/json-dumps-indent"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.3
+        },
+        {
+          "qid": "json-02",
+          "kind": "api",
+          "query": "json.loads equivalente en Zig con std.json.Value",
+          "expect": "POS",
+          "expected": "zig0.16/json-loads-dynamic",
+          "got_top3": [
+            "zig0.16/json-loads-dynamic",
+            "zig0.16/json-loads-typed-struct",
+            "zig0.16/json-string-escape-unicode"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.3
+        },
+        {
+          "qid": "json-03",
+          "kind": "direct",
+          "query": "decodificar json a un struct con campos opcionales y valores por defecto",
+          "expect": "POS",
+          "expected": "zig0.16/json-loads-typed-struct",
+          "got_top3": [
+            "zig0.16/json-loads-typed-struct",
+            "zig0.16/json-loads-dynamic",
+            "zig0.16/json-dumps-indent"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.4
+        },
+        {
+          "qid": "json-04",
+          "kind": "paraphrase",
+          "query": "que pasa si el json trae campos que mi struct no tiene",
+          "expect": "POS",
+          "expected": "zig0.16/json-loads-typed-struct",
+          "got_top3": [
+            "zig0.16/json-loads-typed-struct",
+            "zig0.16/json-dumps-indent"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.0
+        },
+        {
+          "qid": "json-05",
+          "kind": "direct",
+          "query": "convertir un struct a texto json con sangria",
+          "expect": "POS",
+          "expected": "zig0.16/json-dumps-indent",
+          "got_top3": [
+            "zig0.16/json-dumps-indent",
+            "zig0.16/json-loads-typed-struct",
+            "zig0.16/json-loads-dynamic"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.4
+        },
+        {
+          "qid": "json-06",
+          "kind": "api",
+          "query": "json.dumps con indent en Zig",
+          "expect": "POS",
+          "expected": "zig0.16/json-dumps-indent",
+          "got_top3": [
+            "zig0.16/json-dumps-indent",
+            "zig0.16/json-string-escape-unicode"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.0
+        },
+        {
+          "qid": "json-07",
+          "kind": "direct",
+          "query": "saber si un texto es json valido sin que el programa se caiga",
+          "expect": "POS",
+          "expected": "zig0.16/json-invalid-input-error",
+          "got_top3": [
+            "zig0.16/json-invalid-input-error"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.0
+        },
+        {
+          "qid": "json-08",
+          "kind": "api",
+          "query": "try except json.JSONDecodeError en Zig",
+          "expect": "POS",
+          "expected": "zig0.16/json-invalid-input-error",
+          "got_top3": [
+            "zig0.16/json-invalid-input-error",
+            "zig0.16/json-read-file-limited",
+            "zig0.16/json-string-escape-unicode"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.0
+        },
+        {
+          "qid": "json-09",
+          "kind": "direct",
+          "query": "escapar un texto con acentos y emoji a formato json solo ascii",
+          "expect": "POS",
+          "expected": "zig0.16/json-string-escape-unicode",
+          "got_top3": [
+            "zig0.16/json-string-escape-unicode",
+            "zig0.16/unicode-case-mapping"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.3
+        },
+        {
+          "qid": "json-10",
+          "kind": "paraphrase",
+          "query": "decodificar secuencias \\u con pares sustitutos a utf-8",
+          "expect": "POS",
+          "expected": "zig0.16/json-string-escape-unicode",
+          "got_top3": [
+            "zig0.16/json-string-escape-unicode",
+            "zig0.16/utf8-codepoints-validate",
+            "zig0.16/json-read-file-limited"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.2
+        },
+        {
+          "qid": "json-11",
+          "kind": "direct",
+          "query": "cargar un fichero json de disco con un maximo de bytes",
+          "expect": "POS",
+          "expected": "zig0.16/json-read-file-limited",
+          "got_top3": [
+            "zig0.16/json-read-file-limited"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.2
+        },
+        {
+          "qid": "json-12",
+          "kind": "paraphrase",
+          "query": "leer un archivo de configuracion en formato json y rechazarlo si es demasiado grande",
+          "expect": "POS",
+          "expected": "zig0.16/json-read-file-limited",
+          "got_top3": [
+            "zig0.16/json-read-file-limited"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.2
+        },
+        {
+          "qid": "texto_num-01",
+          "kind": "direct",
+          "query": "codificar bytes como texto base64",
+          "expect": "POS",
+          "expected": "zig0.16/base64-encode-decode",
+          "got_top3": [
+            "zig0.16/base64-encode-decode",
+            "zig0.16/temp-dir-scoped",
+            "zig0.16/ascii-case-lower-upper"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.7
+        },
+        {
+          "qid": "texto_num-02",
+          "kind": "api",
+          "query": "base64.b64decode con entrada que puede ser invalida",
+          "expect": "POS",
+          "expected": "zig0.16/base64-encode-decode",
+          "got_top3": [
+            "zig0.16/base64-encode-decode",
+            "zig0.16/hex-encode-decode"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 0.9
+        },
+        {
+          "qid": "texto_num-03",
+          "kind": "direct",
+          "query": "pasar un buffer de bytes a cadena hexadecimal",
+          "expect": "POS",
+          "expected": "zig0.16/hex-encode-decode",
+          "got_top3": [
+            "zig0.16/hex-encode-decode",
+            "zig0.16/md5-hexdigest",
+            "zig0.16/string-split-strip-format"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.5
+        },
+        {
+          "qid": "texto_num-04",
+          "kind": "api",
+          "query": "bytes.fromhex con longitud impar",
+          "expect": "POS",
+          "expected": "zig0.16/hex-encode-decode",
+          "got_top3": [
+            "zig0.16/hex-encode-decode",
+            "zig0.16/md5-hexdigest"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 0.9
+        },
+        {
+          "qid": "texto_num-05",
+          "kind": "direct",
+          "query": "convertir texto a entero detectando si se desborda",
+          "expect": "POS",
+          "expected": "zig0.16/parse-int-base-overflow",
+          "got_top3": [
+            "zig0.16/parse-int-base-overflow",
+            "zig0.16/base64-encode-decode",
+            "zig0.16/parse-float-format-decimals"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.3
+        },
+        {
+          "qid": "texto_num-06",
+          "kind": "api",
+          "query": "int(s, 16) en Zig con error de overflow",
+          "expect": "POS",
+          "expected": "zig0.16/parse-int-base-overflow",
+          "got_top3": [
+            "zig0.16/parse-int-base-overflow",
+            "zig0.16/json-loads-typed-struct",
+            "zig0.16/json-loads-dynamic"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.4
+        },
+        {
+          "qid": "texto_num-07",
+          "kind": "direct",
+          "query": "convertir cadena a numero decimal con error si no es valido",
+          "expect": "POS",
+          "expected": "zig0.16/parse-float-format-decimals",
+          "got_top3": [
+            "zig0.16/parse-float-format-decimals",
+            "zig0.16/hex-encode-decode"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.2
+        },
+        {
+          "qid": "texto_num-08",
+          "kind": "paraphrase",
+          "query": "f-string con dos decimales en Zig",
+          "expect": "POS",
+          "expected": "zig0.16/parse-float-format-decimals",
+          "got_top3": [
+            "zig0.16/parse-float-format-decimals"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 0.9
+        },
+        {
+          "qid": "texto_num-09",
+          "kind": "direct",
+          "query": "comprobar si un texto empieza o termina con una cadena",
+          "expect": "POS",
+          "expected": "zig0.16/str-find-replace-affix",
+          "got_top3": [
+            "zig0.16/string-split-strip-format",
+            "zig0.16/str-find-replace-affix",
+            "zig0.16/json-loads-dynamic"
+          ],
+          "error": null,
+          "ok_top1": false,
+          "ok_top3": true,
+          "ms": 1.2
+        },
+        {
+          "qid": "texto_num-10",
+          "kind": "paraphrase",
+          "query": "reemplazar todas las apariciones de una subcadena",
+          "expect": "POS",
+          "expected": "zig0.16/str-find-replace-affix",
+          "got_top3": [
+            "zig0.16/str-find-replace-affix"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 0.8
+        },
+        {
+          "qid": "texto_num-11",
+          "kind": "direct",
+          "query": "recorrer un texto por caracteres unicode y no por bytes",
+          "expect": "POS",
+          "expected": "zig0.16/utf8-codepoints-validate",
+          "got_top3": [
+            "zig0.16/utf8-codepoints-validate",
+            "zig0.16/json-string-escape-unicode",
+            "zig0.16/base64-encode-decode"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.6
+        },
+        {
+          "qid": "texto_num-12",
+          "kind": "paraphrase",
+          "query": "comprobar si unos bytes son utf-8 valido",
+          "expect": "POS",
+          "expected": "zig0.16/utf8-codepoints-validate",
+          "got_top3": [
+            "zig0.16/utf8-codepoints-validate",
+            "zig0.16/str-find-replace-affix",
+            "zig0.16/json-string-escape-unicode"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.4
+        },
+        {
+          "qid": "texto_num-13",
+          "kind": "direct",
+          "query": "poner un texto en minusculas",
+          "expect": "POS",
+          "expected": "zig0.16/ascii-case-lower-upper",
+          "got_top3": [
+            "zig0.16/ascii-case-lower-upper",
+            "zig0.16/parse-int-base-overflow",
+            "zig0.16/unicode-case-mapping"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.0
+        },
+        {
+          "qid": "texto_num-14",
+          "kind": "paraphrase",
+          "query": "comparar dos cadenas ignorando mayusculas",
+          "expect": "POS",
+          "expected": "zig0.16/ascii-case-lower-upper",
+          "got_top3": [
+            "zig0.16/ascii-case-lower-upper",
+            "zig0.16/unicode-case-mapping"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 0.8
+        },
+        {
+          "qid": "texto_num-15",
+          "kind": "direct",
+          "query": "pasar a mayusculas texto con acentos y eñes",
+          "expect": "POS",
+          "expected": "zig0.16/unicode-case-mapping",
+          "got_top3": [
+            "zig0.16/ascii-case-lower-upper",
+            "zig0.16/unicode-case-mapping"
+          ],
+          "error": null,
+          "ok_top1": false,
+          "ok_top3": true,
+          "ms": 1.2
+        },
+        {
+          "qid": "texto_num-16",
+          "kind": "api",
+          "query": "str.casefold unicode en zig",
+          "expect": "POS",
+          "expected": "zig0.16/unicode-case-mapping",
+          "got_top3": [
+            "zig0.16/ascii-case-lower-upper",
+            "zig0.16/utf8-codepoints-validate",
+            "zig0.16/json-string-escape-unicode"
+          ],
+          "error": null,
+          "ok_top1": false,
+          "ok_top3": false,
+          "ms": 1.8
+        },
+        {
+          "qid": "tiempo_args-01",
+          "kind": "api",
+          "query": "time.time en Zig",
+          "expect": "POS",
+          "expected": "zig0.16/epoch-now-seconds",
+          "got_top3": [
+            "zig0.16/epoch-now-seconds",
+            "zig0.16/monotonic-duration-measure",
+            "zig0.16/sleep-ms"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 0.9
+        },
+        {
+          "qid": "tiempo_args-02",
+          "kind": "paraphrase",
+          "query": "obtener los segundos actuales desde 1970 reloj de pared",
+          "expect": "POS",
+          "expected": "zig0.16/epoch-now-seconds",
+          "got_top3": [
+            "zig0.16/epoch-now-seconds"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 0.9
+        },
+        {
+          "qid": "tiempo_args-03",
+          "kind": "api",
+          "query": "time.monotonic para medir duracion en Zig",
+          "expect": "POS",
+          "expected": "zig0.16/monotonic-duration-measure",
+          "got_top3": [
+            "zig0.16/monotonic-duration-measure",
+            "zig0.16/sleep-ms"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 0.8
+        },
+        {
+          "qid": "tiempo_args-04",
+          "kind": "paraphrase",
+          "query": "calcular cuanto tarda una funcion sin que afecte el cambio de hora",
+          "expect": "POS",
+          "expected": "zig0.16/monotonic-duration-measure",
+          "got_top3": [
+            "zig0.16/monotonic-duration-measure"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.0
+        },
+        {
+          "qid": "tiempo_args-05",
+          "kind": "api",
+          "query": "random.seed randint choice y shuffle en Zig",
+          "expect": "POS",
+          "expected": "zig0.16/random-prng-ops",
+          "got_top3": [
+            "zig0.16/random-prng-ops"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 0.8
+        },
+        {
+          "qid": "tiempo_args-06",
+          "kind": "paraphrase",
+          "query": "generar numeros aleatorios reproducibles con semilla y mezclar lista",
+          "expect": "POS",
+          "expected": "zig0.16/random-prng-ops",
+          "got_top3": [
+            "zig0.16/random-prng-ops"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 0.9
+        },
+        {
+          "qid": "tiempo_args-07",
+          "kind": "api",
+          "query": "sys.argv en Zig con std.process.Args",
+          "expect": "POS",
+          "expected": "zig0.16/process-args-iterate",
+          "got_top3": [
+            "zig0.16/process-args-iterate",
+            "zig0.16/argparse-flags-parse",
+            "zig0.16/subprocess-run-capture"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.1
+        },
+        {
+          "qid": "tiempo_args-08",
+          "kind": "paraphrase",
+          "query": "leer los argumentos pasados al programa desde la terminal",
+          "expect": "POS",
+          "expected": "zig0.16/process-args-iterate",
+          "got_top3": [
+            "zig0.16/process-args-iterate"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 0.8
+        },
+        {
+          "qid": "tiempo_args-09",
+          "kind": "api",
+          "query": "argparse flags clave valor en Zig",
+          "expect": "POS",
+          "expected": "zig0.16/argparse-flags-parse",
+          "got_top3": [
+            "zig0.16/argparse-flags-parse",
+            "zig0.16/dict-str-int-basic",
+            "zig0.16/json-loads-dynamic"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.1
+        },
+        {
+          "qid": "tiempo_args-10",
+          "kind": "paraphrase",
+          "query": "procesar parametros de consola con guiones dobles como host y puerto",
+          "expect": "POS",
+          "expected": "zig0.16/argparse-flags-parse",
+          "got_top3": [
+            "zig0.16/argparse-flags-parse"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.0
+        },
+        {
+          "qid": "tiempo_args-11",
+          "kind": "api",
+          "query": "zlib.crc32 equivalente en Zig std.hash.Crc32",
+          "expect": "POS",
+          "expected": "zig0.16/crc32-checksum",
+          "got_top3": [
+            "zig0.16/crc32-checksum",
+            "zig0.16/md5-hexdigest"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.0
+        },
+        {
+          "qid": "tiempo_args-12",
+          "kind": "paraphrase",
+          "query": "calcular suma de verificacion crc32 de un buffer de bytes",
+          "expect": "POS",
+          "expected": "zig0.16/crc32-checksum",
+          "got_top3": [
+            "zig0.16/crc32-checksum",
+            "zig0.16/sha256-bytes",
+            "zig0.16/md5-hexdigest"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.3
+        },
+        {
+          "qid": "tiempo_args-13",
+          "kind": "api",
+          "query": "hashlib.md5 hexdigest en Zig",
+          "expect": "POS",
+          "expected": "zig0.16/md5-hexdigest",
+          "got_top3": [
+            "zig0.16/md5-hexdigest",
+            "zig0.16/sha256-bytes"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 0.8
+        },
+        {
+          "qid": "tiempo_args-14",
+          "kind": "paraphrase",
+          "query": "obtener el hash md5 en cadena hexadecimal de un texto",
+          "expect": "POS",
+          "expected": "zig0.16/md5-hexdigest",
+          "got_top3": [
+            "zig0.16/md5-hexdigest"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.1
         }
       ]
     },
     "hybrid": {
       "summary": {
-        "n": 28,
-        "precision_at_1": 1.0,
-        "recall_at_3": 1.0,
+        "n": 98,
+        "precision_at_1": 0.957,
+        "recall_at_3": 0.989,
         "negativas_correctas": "4/4",
         "status_correcto": "1/1",
-        "latencia_ms_media": 93.0,
+        "latencia_ms_media": 89.2,
         "por_tipo": {
           "api": {
-            "n": 11,
-            "aciertos_top1": 11,
-            "aciertos_top3": 11
+            "n": 39,
+            "aciertos_top1": 38,
+            "aciertos_top3": 38
           },
           "direct": {
-            "n": 8,
-            "aciertos_top1": 8,
-            "aciertos_top3": 8
+            "n": 23,
+            "aciertos_top1": 21,
+            "aciertos_top3": 23
           },
           "negative": {
             "n": 3,
@@ -473,9 +1530,9 @@
             "aciertos_top3": 3
           },
           "paraphrase": {
-            "n": 4,
-            "aciertos_top1": 4,
-            "aciertos_top3": 4
+            "n": 31,
+            "aciertos_top1": 30,
+            "aciertos_top3": 31
           },
           "status": {
             "n": 1,
@@ -504,7 +1561,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 267.5
+          "ms": 270.8
         },
         {
           "qid": "q02",
@@ -514,13 +1571,13 @@
           "expected": "zig0.16/subprocess-run-capture",
           "got_top3": [
             "zig0.16/subprocess-run-capture",
-            "zig0.16/spawn-redirect-child",
-            "zig0.16/stdout-print-flush"
+            "zig0.16/stdout-print-flush",
+            "zig0.16/spawn-redirect-child"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 96.3
+          "ms": 87.0
         },
         {
           "qid": "q03",
@@ -529,13 +1586,13 @@
           "expect": "POS",
           "expected": "zig0.16/subprocess-run-capture",
           "got_top3": [
-            "zig0.16/subprocess-run-capture",
-            "zig0.16/spawn-redirect-child"
+            "zig0.16/spawn-redirect-child",
+            "zig0.16/subprocess-run-capture"
           ],
           "error": null,
-          "ok_top1": true,
+          "ok_top1": false,
           "ok_top3": true,
-          "ms": 92.7
+          "ms": 86.2
         },
         {
           "qid": "q04",
@@ -545,12 +1602,13 @@
           "expected": "zig0.16/read-file-text-limited",
           "got_top3": [
             "zig0.16/read-file-text-limited",
+            "zig0.16/json-read-file-limited",
             "zig0.16/write-file-bytes-atomic"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 95.7
+          "ms": 87.7
         },
         {
           "qid": "q05",
@@ -561,12 +1619,12 @@
           "got_top3": [
             "zig0.16/read-file-text-limited",
             "zig0.16/write-file-bytes-atomic",
-            "zig0.16/string-split-strip-format"
+            "zig0.16/json-read-file-limited"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 90.8
+          "ms": 88.8
         },
         {
           "qid": "q06",
@@ -575,12 +1633,13 @@
           "expect": "POS",
           "expected": "zig0.16/write-file-bytes-atomic",
           "got_top3": [
-            "zig0.16/write-file-bytes-atomic"
+            "zig0.16/write-file-bytes-atomic",
+            "zig0.16/copyfile-replace"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 86.5
+          "ms": 86.0
         },
         {
           "qid": "q07",
@@ -591,12 +1650,12 @@
           "got_top3": [
             "zig0.16/write-file-bytes-atomic",
             "zig0.16/read-file-text-limited",
-            "zig0.16/stdout-print-flush"
+            "zig0.16/temp-dir-scoped"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 88.8
+          "ms": 87.1
         },
         {
           "qid": "q08",
@@ -605,12 +1664,13 @@
           "expect": "POS",
           "expected": "zig0.16/file-exists-vs-error",
           "got_top3": [
-            "zig0.16/file-exists-vs-error"
+            "zig0.16/file-exists-vs-error",
+            "zig0.16/makedirs-exist-ok"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 91.1
+          "ms": 83.2
         },
         {
           "qid": "q09",
@@ -620,13 +1680,13 @@
           "expected": "zig0.16/file-exists-vs-error",
           "got_top3": [
             "zig0.16/file-exists-vs-error",
-            "zig0.16/write-file-bytes-atomic",
-            "zig0.16/env-var-read"
+            "zig0.16/makedirs-exist-ok",
+            "zig0.16/path-join-basename-ext"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 86.2
+          "ms": 88.5
         },
         {
           "qid": "q10",
@@ -636,12 +1696,13 @@
           "expected": "zig0.16/stdout-print-flush",
           "got_top3": [
             "zig0.16/stdout-print-flush",
-            "zig0.16/write-file-bytes-atomic"
+            "zig0.16/write-file-bytes-atomic",
+            "zig0.16/json-dumps-indent"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 89.0
+          "ms": 86.7
         },
         {
           "qid": "q11",
@@ -655,7 +1716,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 89.6
+          "ms": 89.7
         },
         {
           "qid": "q12",
@@ -664,12 +1725,14 @@
           "expect": "POS",
           "expected": "zig0.16/parse-kv-config",
           "got_top3": [
-            "zig0.16/parse-kv-config"
+            "zig0.16/parse-kv-config",
+            "zig0.16/argparse-flags-parse",
+            "zig0.16/json-loads-dynamic"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 89.1
+          "ms": 87.2
         },
         {
           "qid": "q13",
@@ -679,13 +1742,13 @@
           "expected": "zig0.16/parse-kv-config",
           "got_top3": [
             "zig0.16/parse-kv-config",
-            "zig0.16/string-split-strip-format",
-            "zig0.16/env-var-read"
+            "zig0.16/json-loads-typed-struct",
+            "zig0.16/argparse-flags-parse"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 89.7
+          "ms": 88.9
         },
         {
           "qid": "q14",
@@ -694,12 +1757,14 @@
           "expect": "POS",
           "expected": "zig0.16/sleep-ms",
           "got_top3": [
-            "zig0.16/sleep-ms"
+            "zig0.16/sleep-ms",
+            "zig0.16/monotonic-duration-measure",
+            "zig0.16/epoch-now-seconds"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 92.6
+          "ms": 88.9
         },
         {
           "qid": "q15",
@@ -710,12 +1775,12 @@
           "got_top3": [
             "zig0.16/sleep-ms",
             "zig0.16/spawn-redirect-child",
-            "zig0.16/detached-daemon-no-shell"
+            "zig0.16/deque-popleft-appendleft"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 90.2
+          "ms": 90.8
         },
         {
           "qid": "q16",
@@ -724,12 +1789,14 @@
           "expect": "POS",
           "expected": "zig0.16/string-split-strip-format",
           "got_top3": [
-            "zig0.16/string-split-strip-format"
+            "zig0.16/makedirs-exist-ok",
+            "zig0.16/string-split-strip-format",
+            "zig0.16/hex-encode-decode"
           ],
           "error": null,
-          "ok_top1": true,
+          "ok_top1": false,
           "ok_top3": true,
-          "ms": 90.3
+          "ms": 84.3
         },
         {
           "qid": "q17",
@@ -738,12 +1805,14 @@
           "expect": "POS",
           "expected": "zig0.16/string-split-strip-format",
           "got_top3": [
-            "zig0.16/string-split-strip-format"
+            "zig0.16/string-split-strip-format",
+            "zig0.16/json-dumps-indent",
+            "zig0.16/parse-float-format-decimals"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 88.4
+          "ms": 88.6
         },
         {
           "qid": "q18",
@@ -759,7 +1828,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 85.8
+          "ms": 88.4
         },
         {
           "qid": "q19",
@@ -775,7 +1844,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 87.1
+          "ms": 86.3
         },
         {
           "qid": "q20",
@@ -785,12 +1854,13 @@
           "expected": "zig0.16/env-var-read",
           "got_top3": [
             "zig0.16/env-var-read",
-            "zig0.16/read-file-text-limited"
+            "zig0.16/read-file-text-limited",
+            "zig0.16/json-read-file-limited"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 91.7
+          "ms": 90.5
         },
         {
           "qid": "q21",
@@ -801,12 +1871,12 @@
           "got_top3": [
             "zig0.16/env-var-read",
             "zig0.16/parse-kv-config",
-            "zig0.16/detached-daemon-no-shell"
+            "zig0.16/epoch-now-seconds"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 85.0
+          "ms": 86.6
         },
         {
           "qid": "q22",
@@ -815,12 +1885,14 @@
           "expect": "POS",
           "expected": "zig0.16/sha256-bytes",
           "got_top3": [
-            "zig0.16/sha256-bytes"
+            "zig0.16/sha256-bytes",
+            "zig0.16/md5-hexdigest",
+            "zig0.16/crc32-checksum"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 89.0
+          "ms": 86.6
         },
         {
           "qid": "q23",
@@ -829,12 +1901,14 @@
           "expect": "POS",
           "expected": "zig0.16/sha256-bytes",
           "got_top3": [
-            "zig0.16/sha256-bytes"
+            "zig0.16/sha256-bytes",
+            "zig0.16/md5-hexdigest",
+            "zig0.16/hex-encode-decode"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 88.4
+          "ms": 86.1
         },
         {
           "qid": "q24",
@@ -846,7 +1920,7 @@
           "error": "NO_RESULTS",
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 87.2
+          "ms": 87.5
         },
         {
           "qid": "q25",
@@ -858,7 +1932,7 @@
           "error": "NO_RESULTS",
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 92.3
+          "ms": 87.4
         },
         {
           "qid": "q26",
@@ -870,7 +1944,7 @@
           "error": "NO_RESULTS",
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 89.5
+          "ms": 86.1
         },
         {
           "qid": "q27",
@@ -892,12 +1966,1098 @@
           "expected": "zig0.16/detached-daemon-no-shell",
           "got_top3": [
             "zig0.16/detached-daemon-no-shell",
+            "zig0.16/spawn-redirect-child",
+            "zig0.16/argparse-flags-parse"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 87.6
+        },
+        {
+          "qid": "colecciones-01",
+          "kind": "direct",
+          "query": "guardar un contador por nombre y consultar si existe una clave, con valor por defecto si falta",
+          "expect": "POS",
+          "expected": "zig0.16/dict-str-int-basic",
+          "got_top3": [
+            "zig0.16/dict-str-int-basic",
+            "zig0.16/argparse-flags-parse",
+            "zig0.16/makedirs-exist-ok"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 85.4
+        },
+        {
+          "qid": "colecciones-02",
+          "kind": "api",
+          "query": "dict.get(key, 0) y key in d con claves string y valores enteros",
+          "expect": "POS",
+          "expected": "zig0.16/dict-str-int-basic",
+          "got_top3": [
+            "zig0.16/dict-str-int-basic",
+            "zig0.16/json-loads-dynamic",
+            "zig0.16/parse-kv-config"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 88.0
+        },
+        {
+          "qid": "colecciones-03",
+          "kind": "api",
+          "query": "list.insert(i, x) con indices negativos o pasados del final, y list.pop(i)",
+          "expect": "POS",
+          "expected": "zig0.16/list-append-pop-insert",
+          "got_top3": [
+            "zig0.16/list-append-pop-insert",
+            "zig0.16/sorted-key-stable",
+            "zig0.16/dict-str-int-basic"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 86.3
+        },
+        {
+          "qid": "colecciones-04",
+          "kind": "paraphrase",
+          "query": "vector que crece donde puedo quitar el ultimo elemento sin que explote si esta vacio",
+          "expect": "POS",
+          "expected": "zig0.16/list-append-pop-insert",
+          "got_top3": [
+            "zig0.16/list-append-pop-insert",
+            "zig0.16/argparse-flags-parse",
+            "zig0.16/parse-kv-config"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 91.6
+        },
+        {
+          "qid": "colecciones-05",
+          "kind": "api",
+          "query": "sorted(lista, key=lambda x: x.edad, reverse=True) conservando orden de los iguales",
+          "expect": "POS",
+          "expected": "zig0.16/sorted-key-stable",
+          "got_top3": [
+            "zig0.16/sorted-key-stable"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 89.5
+        },
+        {
+          "qid": "colecciones-06",
+          "kind": "paraphrase",
+          "query": "ordenar una lista de structs por un campo sin alterar la lista original",
+          "expect": "POS",
+          "expected": "zig0.16/sorted-key-stable",
+          "got_top3": [
+            "zig0.16/sorted-key-stable",
+            "zig0.16/list-append-pop-insert",
+            "zig0.16/listdir-names-sorted"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 91.6
+        },
+        {
+          "qid": "colecciones-07",
+          "kind": "api",
+          "query": "set de strings con add, discard, in, union e interseccion",
+          "expect": "POS",
+          "expected": "zig0.16/set-str-membership",
+          "got_top3": [
+            "zig0.16/set-str-membership",
+            "zig0.16/dict-str-int-basic"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 90.9
+        },
+        {
+          "qid": "colecciones-08",
+          "kind": "paraphrase",
+          "query": "quitar cadenas duplicadas y comprobar rapido si una cadena ya la vi",
+          "expect": "POS",
+          "expected": "zig0.16/set-str-membership",
+          "got_top3": [
+            "zig0.16/set-str-membership"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 86.9
+        },
+        {
+          "qid": "colecciones-09",
+          "kind": "api",
+          "query": "heapq.heappush y heappop con tuplas (prioridad, contador, item)",
+          "expect": "POS",
+          "expected": "zig0.16/heapq-priority-queue",
+          "got_top3": [
+            "zig0.16/heapq-priority-queue",
+            "zig0.16/counter-most-common",
+            "zig0.16/dict-str-int-basic"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 84.6
+        },
+        {
+          "qid": "colecciones-10",
+          "kind": "paraphrase",
+          "query": "cola donde siempre saco la tarea de menor prioridad primero",
+          "expect": "POS",
+          "expected": "zig0.16/heapq-priority-queue",
+          "got_top3": [
+            "zig0.16/heapq-priority-queue"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 88.1
+        },
+        {
+          "qid": "colecciones-11",
+          "kind": "api",
+          "query": "collections.deque con maxlen, appendleft, popleft y rotate",
+          "expect": "POS",
+          "expected": "zig0.16/deque-popleft-appendleft",
+          "got_top3": [
+            "zig0.16/deque-popleft-appendleft",
+            "zig0.16/list-append-pop-insert"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 87.7
+        },
+        {
+          "qid": "colecciones-12",
+          "kind": "paraphrase",
+          "query": "ventana deslizante de los ultimos N valores con cola circular",
+          "expect": "POS",
+          "expected": "zig0.16/deque-popleft-appendleft",
+          "got_top3": [
+            "zig0.16/deque-popleft-appendleft"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 86.5
+        },
+        {
+          "qid": "colecciones-13",
+          "kind": "api",
+          "query": "Counter(texto.split()).most_common(k)",
+          "expect": "POS",
+          "expected": "zig0.16/counter-most-common",
+          "got_top3": [
+            "zig0.16/counter-most-common",
+            "zig0.16/string-split-strip-format"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 88.0
+        },
+        {
+          "qid": "colecciones-14",
+          "kind": "paraphrase",
+          "query": "contar cuantas veces aparece cada palabra y listar las mas repetidas",
+          "expect": "POS",
+          "expected": "zig0.16/counter-most-common",
+          "got_top3": [
+            "zig0.16/counter-most-common"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 86.9
+        },
+        {
+          "qid": "fs_rutas-01",
+          "kind": "api",
+          "query": "os.path.splitext y os.path.basename de una ruta",
+          "expect": "POS",
+          "expected": "zig0.16/path-join-basename-ext",
+          "got_top3": [
+            "zig0.16/path-join-basename-ext",
+            "zig0.16/makedirs-exist-ok",
+            "zig0.16/remove-file-rmtree"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 85.3
+        },
+        {
+          "qid": "fs_rutas-02",
+          "kind": "paraphrase",
+          "query": "como saco la extension y el nombre de un archivo a partir de su ruta",
+          "expect": "POS",
+          "expected": "zig0.16/path-join-basename-ext",
+          "got_top3": [
+            "zig0.16/path-join-basename-ext"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 88.3
+        },
+        {
+          "qid": "fs_rutas-03",
+          "kind": "api",
+          "query": "os.listdir de un directorio ordenado",
+          "expect": "POS",
+          "expected": "zig0.16/listdir-names-sorted",
+          "got_top3": [
+            "zig0.16/listdir-names-sorted",
+            "zig0.16/walk-tree-files",
+            "zig0.16/makedirs-exist-ok"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 87.3
+        },
+        {
+          "qid": "fs_rutas-04",
+          "kind": "paraphrase",
+          "query": "quiero los nombres de los archivos que hay dentro de una carpeta, sin recursion",
+          "expect": "POS",
+          "expected": "zig0.16/listdir-names-sorted",
+          "got_top3": [
+            "zig0.16/listdir-names-sorted",
+            "zig0.16/walk-tree-files",
+            "zig0.16/makedirs-exist-ok"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 89.5
+        },
+        {
+          "qid": "fs_rutas-05",
+          "kind": "api",
+          "query": "os.walk recursivo para juntar todos los archivos",
+          "expect": "POS",
+          "expected": "zig0.16/walk-tree-files",
+          "got_top3": [
+            "zig0.16/walk-tree-files",
+            "zig0.16/makedirs-exist-ok",
+            "zig0.16/remove-file-rmtree"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 85.4
+        },
+        {
+          "qid": "fs_rutas-06",
+          "kind": "paraphrase",
+          "query": "buscar todos los ficheros dentro de un arbol de carpetas y subcarpetas",
+          "expect": "POS",
+          "expected": "zig0.16/walk-tree-files",
+          "got_top3": [
+            "zig0.16/walk-tree-files"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 89.4
+        },
+        {
+          "qid": "fs_rutas-07",
+          "kind": "api",
+          "query": "os.makedirs con exist_ok=True",
+          "expect": "POS",
+          "expected": "zig0.16/makedirs-exist-ok",
+          "got_top3": [
+            "zig0.16/makedirs-exist-ok",
+            "zig0.16/file-exists-vs-error",
+            "zig0.16/path-join-basename-ext"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 87.5
+        },
+        {
+          "qid": "fs_rutas-08",
+          "kind": "paraphrase",
+          "query": "crear una carpeta y sus padres sin que falle si ya estaba",
+          "expect": "POS",
+          "expected": "zig0.16/makedirs-exist-ok",
+          "got_top3": [
+            "zig0.16/makedirs-exist-ok",
+            "zig0.16/temp-dir-scoped"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 88.5
+        },
+        {
+          "qid": "fs_rutas-09",
+          "kind": "api",
+          "query": "tempfile.TemporaryDirectory",
+          "expect": "POS",
+          "expected": "zig0.16/temp-dir-scoped",
+          "got_top3": [
+            "zig0.16/temp-dir-scoped",
+            "zig0.16/listdir-names-sorted",
+            "zig0.16/makedirs-exist-ok"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 87.4
+        },
+        {
+          "qid": "fs_rutas-10",
+          "kind": "paraphrase",
+          "query": "necesito una carpeta temporal que se borre sola al acabar, en un programa normal no en un test",
+          "expect": "POS",
+          "expected": "zig0.16/temp-dir-scoped",
+          "got_top3": [
+            "zig0.16/temp-dir-scoped",
+            "zig0.16/sleep-ms",
+            "zig0.16/monotonic-duration-measure"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 91.6
+        },
+        {
+          "qid": "fs_rutas-11",
+          "kind": "api",
+          "query": "shutil.copyfile de origen a destino",
+          "expect": "POS",
+          "expected": "zig0.16/copyfile-replace",
+          "got_top3": [
+            "zig0.16/copyfile-replace",
+            "zig0.16/remove-file-rmtree"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 90.6
+        },
+        {
+          "qid": "fs_rutas-12",
+          "kind": "paraphrase",
+          "query": "duplicar un archivo y no pisar el destino si ya existe",
+          "expect": "POS",
+          "expected": "zig0.16/copyfile-replace",
+          "got_top3": [
+            "zig0.16/copyfile-replace",
+            "zig0.16/remove-file-rmtree",
+            "zig0.16/makedirs-exist-ok"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 91.4
+        },
+        {
+          "qid": "fs_rutas-13",
+          "kind": "api",
+          "query": "shutil.rmtree y os.remove",
+          "expect": "POS",
+          "expected": "zig0.16/remove-file-rmtree",
+          "got_top3": [
+            "zig0.16/remove-file-rmtree",
+            "zig0.16/walk-tree-files",
+            "zig0.16/makedirs-exist-ok"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 90.7
+        },
+        {
+          "qid": "fs_rutas-14",
+          "kind": "paraphrase",
+          "query": "eliminar una carpeta entera con todo lo que contiene",
+          "expect": "POS",
+          "expected": "zig0.16/remove-file-rmtree",
+          "got_top3": [
+            "zig0.16/remove-file-rmtree"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 86.3
+        },
+        {
+          "qid": "json-01",
+          "kind": "direct",
+          "query": "convertir un texto json en una estructura de datos sin saber su esquema",
+          "expect": "POS",
+          "expected": "zig0.16/json-loads-dynamic",
+          "got_top3": [
+            "zig0.16/json-loads-dynamic",
+            "zig0.16/json-dumps-indent",
+            "zig0.16/json-invalid-input-error"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 89.7
+        },
+        {
+          "qid": "json-02",
+          "kind": "api",
+          "query": "json.loads equivalente en Zig con std.json.Value",
+          "expect": "POS",
+          "expected": "zig0.16/json-loads-dynamic",
+          "got_top3": [
+            "zig0.16/json-loads-dynamic",
+            "zig0.16/json-loads-typed-struct",
+            "zig0.16/json-invalid-input-error"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 89.3
+        },
+        {
+          "qid": "json-03",
+          "kind": "direct",
+          "query": "decodificar json a un struct con campos opcionales y valores por defecto",
+          "expect": "POS",
+          "expected": "zig0.16/json-loads-typed-struct",
+          "got_top3": [
+            "zig0.16/json-loads-typed-struct",
+            "zig0.16/json-loads-dynamic",
+            "zig0.16/json-dumps-indent"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 88.5
+        },
+        {
+          "qid": "json-04",
+          "kind": "paraphrase",
+          "query": "que pasa si el json trae campos que mi struct no tiene",
+          "expect": "POS",
+          "expected": "zig0.16/json-loads-typed-struct",
+          "got_top3": [
+            "zig0.16/json-loads-typed-struct",
+            "zig0.16/json-dumps-indent",
+            "zig0.16/json-invalid-input-error"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 85.6
+        },
+        {
+          "qid": "json-05",
+          "kind": "direct",
+          "query": "convertir un struct a texto json con sangria",
+          "expect": "POS",
+          "expected": "zig0.16/json-dumps-indent",
+          "got_top3": [
+            "zig0.16/json-dumps-indent",
+            "zig0.16/json-loads-dynamic",
+            "zig0.16/json-loads-typed-struct"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 87.7
+        },
+        {
+          "qid": "json-06",
+          "kind": "api",
+          "query": "json.dumps con indent en Zig",
+          "expect": "POS",
+          "expected": "zig0.16/json-dumps-indent",
+          "got_top3": [
+            "zig0.16/json-dumps-indent",
+            "zig0.16/json-string-escape-unicode",
+            "zig0.16/json-loads-dynamic"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 88.7
+        },
+        {
+          "qid": "json-07",
+          "kind": "direct",
+          "query": "saber si un texto es json valido sin que el programa se caiga",
+          "expect": "POS",
+          "expected": "zig0.16/json-invalid-input-error",
+          "got_top3": [
+            "zig0.16/json-invalid-input-error",
+            "zig0.16/json-dumps-indent",
+            "zig0.16/json-string-escape-unicode"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 88.8
+        },
+        {
+          "qid": "json-08",
+          "kind": "api",
+          "query": "try except json.JSONDecodeError en Zig",
+          "expect": "POS",
+          "expected": "zig0.16/json-invalid-input-error",
+          "got_top3": [
+            "zig0.16/json-invalid-input-error",
+            "zig0.16/json-loads-dynamic",
+            "zig0.16/json-loads-typed-struct"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 91.4
+        },
+        {
+          "qid": "json-09",
+          "kind": "direct",
+          "query": "escapar un texto con acentos y emoji a formato json solo ascii",
+          "expect": "POS",
+          "expected": "zig0.16/json-string-escape-unicode",
+          "got_top3": [
+            "zig0.16/json-string-escape-unicode",
+            "zig0.16/json-invalid-input-error",
+            "zig0.16/json-dumps-indent"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 91.1
+        },
+        {
+          "qid": "json-10",
+          "kind": "paraphrase",
+          "query": "decodificar secuencias \\u con pares sustitutos a utf-8",
+          "expect": "POS",
+          "expected": "zig0.16/json-string-escape-unicode",
+          "got_top3": [
+            "zig0.16/json-string-escape-unicode",
+            "zig0.16/utf8-codepoints-validate",
+            "zig0.16/base64-encode-decode"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 90.4
+        },
+        {
+          "qid": "json-11",
+          "kind": "direct",
+          "query": "cargar un fichero json de disco con un maximo de bytes",
+          "expect": "POS",
+          "expected": "zig0.16/json-read-file-limited",
+          "got_top3": [
+            "zig0.16/json-read-file-limited",
+            "zig0.16/json-invalid-input-error",
+            "zig0.16/json-dumps-indent"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 84.4
+        },
+        {
+          "qid": "json-12",
+          "kind": "paraphrase",
+          "query": "leer un archivo de configuracion en formato json y rechazarlo si es demasiado grande",
+          "expect": "POS",
+          "expected": "zig0.16/json-read-file-limited",
+          "got_top3": [
+            "zig0.16/json-read-file-limited",
+            "zig0.16/json-dumps-indent",
+            "zig0.16/json-invalid-input-error"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 90.4
+        },
+        {
+          "qid": "texto_num-01",
+          "kind": "direct",
+          "query": "codificar bytes como texto base64",
+          "expect": "POS",
+          "expected": "zig0.16/base64-encode-decode",
+          "got_top3": [
+            "zig0.16/base64-encode-decode",
+            "zig0.16/read-file-text-limited",
+            "zig0.16/utf8-codepoints-validate"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 92.1
+        },
+        {
+          "qid": "texto_num-02",
+          "kind": "api",
+          "query": "base64.b64decode con entrada que puede ser invalida",
+          "expect": "POS",
+          "expected": "zig0.16/base64-encode-decode",
+          "got_top3": [
+            "zig0.16/base64-encode-decode",
+            "zig0.16/hex-encode-decode",
+            "zig0.16/utf8-codepoints-validate"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 92.6
+        },
+        {
+          "qid": "texto_num-03",
+          "kind": "direct",
+          "query": "pasar un buffer de bytes a cadena hexadecimal",
+          "expect": "POS",
+          "expected": "zig0.16/hex-encode-decode",
+          "got_top3": [
+            "zig0.16/hex-encode-decode",
+            "zig0.16/md5-hexdigest",
+            "zig0.16/string-split-strip-format"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 90.8
+        },
+        {
+          "qid": "texto_num-04",
+          "kind": "api",
+          "query": "bytes.fromhex con longitud impar",
+          "expect": "POS",
+          "expected": "zig0.16/hex-encode-decode",
+          "got_top3": [
+            "zig0.16/hex-encode-decode",
+            "zig0.16/md5-hexdigest",
+            "zig0.16/sha256-bytes"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 89.9
+        },
+        {
+          "qid": "texto_num-05",
+          "kind": "direct",
+          "query": "convertir texto a entero detectando si se desborda",
+          "expect": "POS",
+          "expected": "zig0.16/parse-int-base-overflow",
+          "got_top3": [
+            "zig0.16/parse-int-base-overflow",
+            "zig0.16/base64-encode-decode",
+            "zig0.16/json-invalid-input-error"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 89.1
+        },
+        {
+          "qid": "texto_num-06",
+          "kind": "api",
+          "query": "int(s, 16) en Zig con error de overflow",
+          "expect": "POS",
+          "expected": "zig0.16/parse-int-base-overflow",
+          "got_top3": [
+            "zig0.16/parse-int-base-overflow",
+            "zig0.16/json-loads-typed-struct",
+            "zig0.16/json-loads-dynamic"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 88.7
+        },
+        {
+          "qid": "texto_num-07",
+          "kind": "direct",
+          "query": "convertir cadena a numero decimal con error si no es valido",
+          "expect": "POS",
+          "expected": "zig0.16/parse-float-format-decimals",
+          "got_top3": [
+            "zig0.16/parse-float-format-decimals",
+            "zig0.16/hex-encode-decode",
+            "zig0.16/parse-int-base-overflow"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 89.6
+        },
+        {
+          "qid": "texto_num-08",
+          "kind": "paraphrase",
+          "query": "f-string con dos decimales en Zig",
+          "expect": "POS",
+          "expected": "zig0.16/parse-float-format-decimals",
+          "got_top3": [
+            "zig0.16/parse-float-format-decimals"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 88.0
+        },
+        {
+          "qid": "texto_num-09",
+          "kind": "direct",
+          "query": "comprobar si un texto empieza o termina con una cadena",
+          "expect": "POS",
+          "expected": "zig0.16/str-find-replace-affix",
+          "got_top3": [
+            "zig0.16/str-find-replace-affix",
+            "zig0.16/string-split-strip-format",
+            "zig0.16/json-loads-dynamic"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 89.2
+        },
+        {
+          "qid": "texto_num-10",
+          "kind": "paraphrase",
+          "query": "reemplazar todas las apariciones de una subcadena",
+          "expect": "POS",
+          "expected": "zig0.16/str-find-replace-affix",
+          "got_top3": [
+            "zig0.16/str-find-replace-affix"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 86.6
+        },
+        {
+          "qid": "texto_num-11",
+          "kind": "direct",
+          "query": "recorrer un texto por caracteres unicode y no por bytes",
+          "expect": "POS",
+          "expected": "zig0.16/utf8-codepoints-validate",
+          "got_top3": [
+            "zig0.16/utf8-codepoints-validate",
+            "zig0.16/json-string-escape-unicode",
+            "zig0.16/base64-encode-decode"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 90.0
+        },
+        {
+          "qid": "texto_num-12",
+          "kind": "paraphrase",
+          "query": "comprobar si unos bytes son utf-8 valido",
+          "expect": "POS",
+          "expected": "zig0.16/utf8-codepoints-validate",
+          "got_top3": [
+            "zig0.16/utf8-codepoints-validate",
+            "zig0.16/json-string-escape-unicode",
+            "zig0.16/json-invalid-input-error"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 88.9
+        },
+        {
+          "qid": "texto_num-13",
+          "kind": "direct",
+          "query": "poner un texto en minusculas",
+          "expect": "POS",
+          "expected": "zig0.16/ascii-case-lower-upper",
+          "got_top3": [
+            "zig0.16/ascii-case-lower-upper",
+            "zig0.16/parse-int-base-overflow",
+            "zig0.16/json-string-escape-unicode"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 88.2
+        },
+        {
+          "qid": "texto_num-14",
+          "kind": "paraphrase",
+          "query": "comparar dos cadenas ignorando mayusculas",
+          "expect": "POS",
+          "expected": "zig0.16/ascii-case-lower-upper",
+          "got_top3": [
+            "zig0.16/ascii-case-lower-upper",
+            "zig0.16/argparse-flags-parse",
             "zig0.16/spawn-redirect-child"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 93.1
+          "ms": 88.9
+        },
+        {
+          "qid": "texto_num-15",
+          "kind": "direct",
+          "query": "pasar a mayusculas texto con acentos y eñes",
+          "expect": "POS",
+          "expected": "zig0.16/unicode-case-mapping",
+          "got_top3": [
+            "zig0.16/argparse-flags-parse",
+            "zig0.16/ascii-case-lower-upper",
+            "zig0.16/unicode-case-mapping"
+          ],
+          "error": null,
+          "ok_top1": false,
+          "ok_top3": true,
+          "ms": 88.7
+        },
+        {
+          "qid": "texto_num-16",
+          "kind": "api",
+          "query": "str.casefold unicode en zig",
+          "expect": "POS",
+          "expected": "zig0.16/unicode-case-mapping",
+          "got_top3": [
+            "zig0.16/ascii-case-lower-upper",
+            "zig0.16/utf8-codepoints-validate",
+            "zig0.16/json-string-escape-unicode"
+          ],
+          "error": null,
+          "ok_top1": false,
+          "ok_top3": false,
+          "ms": 89.4
+        },
+        {
+          "qid": "tiempo_args-01",
+          "kind": "api",
+          "query": "time.time en Zig",
+          "expect": "POS",
+          "expected": "zig0.16/epoch-now-seconds",
+          "got_top3": [
+            "zig0.16/epoch-now-seconds",
+            "zig0.16/monotonic-duration-measure",
+            "zig0.16/sleep-ms"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 83.7
+        },
+        {
+          "qid": "tiempo_args-02",
+          "kind": "paraphrase",
+          "query": "obtener los segundos actuales desde 1970 reloj de pared",
+          "expect": "POS",
+          "expected": "zig0.16/epoch-now-seconds",
+          "got_top3": [
+            "zig0.16/epoch-now-seconds"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 88.2
+        },
+        {
+          "qid": "tiempo_args-03",
+          "kind": "api",
+          "query": "time.monotonic para medir duracion en Zig",
+          "expect": "POS",
+          "expected": "zig0.16/monotonic-duration-measure",
+          "got_top3": [
+            "zig0.16/monotonic-duration-measure",
+            "zig0.16/sleep-ms"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 88.0
+        },
+        {
+          "qid": "tiempo_args-04",
+          "kind": "paraphrase",
+          "query": "calcular cuanto tarda una funcion sin que afecte el cambio de hora",
+          "expect": "POS",
+          "expected": "zig0.16/monotonic-duration-measure",
+          "got_top3": [
+            "zig0.16/monotonic-duration-measure"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 88.5
+        },
+        {
+          "qid": "tiempo_args-05",
+          "kind": "api",
+          "query": "random.seed randint choice y shuffle en Zig",
+          "expect": "POS",
+          "expected": "zig0.16/random-prng-ops",
+          "got_top3": [
+            "zig0.16/random-prng-ops"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 88.4
+        },
+        {
+          "qid": "tiempo_args-06",
+          "kind": "paraphrase",
+          "query": "generar numeros aleatorios reproducibles con semilla y mezclar lista",
+          "expect": "POS",
+          "expected": "zig0.16/random-prng-ops",
+          "got_top3": [
+            "zig0.16/random-prng-ops"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 90.8
+        },
+        {
+          "qid": "tiempo_args-07",
+          "kind": "api",
+          "query": "sys.argv en Zig con std.process.Args",
+          "expect": "POS",
+          "expected": "zig0.16/process-args-iterate",
+          "got_top3": [
+            "zig0.16/process-args-iterate",
+            "zig0.16/argparse-flags-parse",
+            "zig0.16/subprocess-run-capture"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 86.1
+        },
+        {
+          "qid": "tiempo_args-08",
+          "kind": "paraphrase",
+          "query": "leer los argumentos pasados al programa desde la terminal",
+          "expect": "POS",
+          "expected": "zig0.16/process-args-iterate",
+          "got_top3": [
+            "zig0.16/process-args-iterate",
+            "zig0.16/argparse-flags-parse",
+            "zig0.16/walk-tree-files"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 86.6
+        },
+        {
+          "qid": "tiempo_args-09",
+          "kind": "api",
+          "query": "argparse flags clave valor en Zig",
+          "expect": "POS",
+          "expected": "zig0.16/argparse-flags-parse",
+          "got_top3": [
+            "zig0.16/argparse-flags-parse",
+            "zig0.16/parse-kv-config",
+            "zig0.16/dict-str-int-basic"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 89.6
+        },
+        {
+          "qid": "tiempo_args-10",
+          "kind": "paraphrase",
+          "query": "procesar parametros de consola con guiones dobles como host y puerto",
+          "expect": "POS",
+          "expected": "zig0.16/argparse-flags-parse",
+          "got_top3": [
+            "zig0.16/argparse-flags-parse",
+            "zig0.16/spawn-redirect-child",
+            "zig0.16/detached-daemon-no-shell"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 89.4
+        },
+        {
+          "qid": "tiempo_args-11",
+          "kind": "api",
+          "query": "zlib.crc32 equivalente en Zig std.hash.Crc32",
+          "expect": "POS",
+          "expected": "zig0.16/crc32-checksum",
+          "got_top3": [
+            "zig0.16/crc32-checksum",
+            "zig0.16/md5-hexdigest"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 89.9
+        },
+        {
+          "qid": "tiempo_args-12",
+          "kind": "paraphrase",
+          "query": "calcular suma de verificacion crc32 de un buffer de bytes",
+          "expect": "POS",
+          "expected": "zig0.16/crc32-checksum",
+          "got_top3": [
+            "zig0.16/crc32-checksum",
+            "zig0.16/sha256-bytes",
+            "zig0.16/md5-hexdigest"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 89.2
+        },
+        {
+          "qid": "tiempo_args-13",
+          "kind": "api",
+          "query": "hashlib.md5 hexdigest en Zig",
+          "expect": "POS",
+          "expected": "zig0.16/md5-hexdigest",
+          "got_top3": [
+            "zig0.16/md5-hexdigest",
+            "zig0.16/sha256-bytes",
+            "zig0.16/dict-str-int-basic"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 87.0
+        },
+        {
+          "qid": "tiempo_args-14",
+          "kind": "paraphrase",
+          "query": "obtener el hash md5 en cadena hexadecimal de un texto",
+          "expect": "POS",
+          "expected": "zig0.16/md5-hexdigest",
+          "got_top3": [
+            "zig0.16/md5-hexdigest",
+            "zig0.16/hex-encode-decode",
+            "zig0.16/sha256-bytes"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 88.6
         }
       ]
     }

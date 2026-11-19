@@ -1,0 +1,16 @@
+texto_num-01	direct	codificar bytes como texto base64	zig0.16/base64-encode-decode	POS
+texto_num-02	api	base64.b64decode con entrada que puede ser invalida	zig0.16/base64-encode-decode	POS
+texto_num-03	direct	pasar un buffer de bytes a cadena hexadecimal	zig0.16/hex-encode-decode	POS
+texto_num-04	api	bytes.fromhex con longitud impar	zig0.16/hex-encode-decode	POS
+texto_num-05	direct	convertir texto a entero detectando si se desborda	zig0.16/parse-int-base-overflow	POS
+texto_num-06	api	int(s, 16) en Zig con error de overflow	zig0.16/parse-int-base-overflow	POS
+texto_num-07	direct	convertir cadena a numero decimal con error si no es valido	zig0.16/parse-float-format-decimals	POS
+texto_num-08	paraphrase	f-string con dos decimales en Zig	zig0.16/parse-float-format-decimals	POS
+texto_num-09	direct	comprobar si un texto empieza o termina con una cadena	zig0.16/str-find-replace-affix	POS
+texto_num-10	paraphrase	reemplazar todas las apariciones de una subcadena	zig0.16/str-find-replace-affix	POS
+texto_num-11	direct	recorrer un texto por caracteres unicode y no por bytes	zig0.16/utf8-codepoints-validate	POS
+texto_num-12	paraphrase	comprobar si unos bytes son utf-8 valido	zig0.16/utf8-codepoints-validate	POS
+texto_num-13	direct	poner un texto en minusculas	zig0.16/ascii-case-lower-upper	POS
+texto_num-14	paraphrase	comparar dos cadenas ignorando mayusculas	zig0.16/ascii-case-lower-upper	POS
+texto_num-15	direct	pasar a mayusculas texto con acentos y eñes	zig0.16/unicode-case-mapping	POS
+texto_num-16	api	str.casefold unicode en zig	zig0.16/unicode-case-mapping	POS

@@ -1,0 +1,14 @@
+tiempo_args-01	api	time.time en Zig	zig0.16/epoch-now-seconds	POS
+tiempo_args-02	paraphrase	obtener los segundos actuales desde 1970 reloj de pared	zig0.16/epoch-now-seconds	POS
+tiempo_args-03	api	time.monotonic para medir duracion en Zig	zig0.16/monotonic-duration-measure	POS
+tiempo_args-04	paraphrase	calcular cuanto tarda una funcion sin que afecte el cambio de hora	zig0.16/monotonic-duration-measure	POS
+tiempo_args-05	api	random.seed randint choice y shuffle en Zig	zig0.16/random-prng-ops	POS
+tiempo_args-06	paraphrase	generar numeros aleatorios reproducibles con semilla y mezclar lista	zig0.16/random-prng-ops	POS
+tiempo_args-07	api	sys.argv en Zig con std.process.Args	zig0.16/process-args-iterate	POS
+tiempo_args-08	paraphrase	leer los argumentos pasados al programa desde la terminal	zig0.16/process-args-iterate	POS
+tiempo_args-09	api	argparse flags clave valor en Zig	zig0.16/argparse-flags-parse	POS
+tiempo_args-10	paraphrase	procesar parametros de consola con guiones dobles como host y puerto	zig0.16/argparse-flags-parse	POS
+tiempo_args-11	api	zlib.crc32 equivalente en Zig std.hash.Crc32	zig0.16/crc32-checksum	POS
+tiempo_args-12	paraphrase	calcular suma de verificacion crc32 de un buffer de bytes	zig0.16/crc32-checksum	POS
+tiempo_args-13	api	hashlib.md5 hexdigest en Zig	zig0.16/md5-hexdigest	POS
+tiempo_args-14	paraphrase	obtener el hash md5 en cadena hexadecimal de un texto	zig0.16/md5-hexdigest	POS

@@ -1,0 +1,12 @@
+json-01	direct	convertir un texto json en una estructura de datos sin saber su esquema	zig0.16/json-loads-dynamic	POS
+json-02	api	json.loads equivalente en Zig con std.json.Value	zig0.16/json-loads-dynamic	POS
+json-03	direct	decodificar json a un struct con campos opcionales y valores por defecto	zig0.16/json-loads-typed-struct	POS
+json-04	paraphrase	que pasa si el json trae campos que mi struct no tiene	zig0.16/json-loads-typed-struct	POS
+json-05	direct	convertir un struct a texto json con sangria	zig0.16/json-dumps-indent	POS
+json-06	api	json.dumps con indent en Zig	zig0.16/json-dumps-indent	POS
+json-07	direct	saber si un texto es json valido sin que el programa se caiga	zig0.16/json-invalid-input-error	POS
+json-08	api	try except json.JSONDecodeError en Zig	zig0.16/json-invalid-input-error	POS
+json-09	direct	escapar un texto con acentos y emoji a formato json solo ascii	zig0.16/json-string-escape-unicode	POS
+json-10	paraphrase	decodificar secuencias \u con pares sustitutos a utf-8	zig0.16/json-string-escape-unicode	POS
+json-11	direct	cargar un fichero json de disco con un maximo de bytes	zig0.16/json-read-file-limited	POS
+json-12	paraphrase	leer un archivo de configuracion en formato json y rechazarlo si es demasiado grande	zig0.16/json-read-file-limited	POS

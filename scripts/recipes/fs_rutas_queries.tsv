@@ -1,0 +1,14 @@
+fs_rutas-01	api	os.path.splitext y os.path.basename de una ruta	zig0.16/path-join-basename-ext	POS
+fs_rutas-02	paraphrase	como saco la extension y el nombre de un archivo a partir de su ruta	zig0.16/path-join-basename-ext	POS
+fs_rutas-03	api	os.listdir de un directorio ordenado	zig0.16/listdir-names-sorted	POS
+fs_rutas-04	paraphrase	quiero los nombres de los archivos que hay dentro de una carpeta, sin recursion	zig0.16/listdir-names-sorted	POS
+fs_rutas-05	api	os.walk recursivo para juntar todos los archivos	zig0.16/walk-tree-files	POS
+fs_rutas-06	paraphrase	buscar todos los ficheros dentro de un arbol de carpetas y subcarpetas	zig0.16/walk-tree-files	POS
+fs_rutas-07	api	os.makedirs con exist_ok=True	zig0.16/makedirs-exist-ok	POS
+fs_rutas-08	paraphrase	crear una carpeta y sus padres sin que falle si ya estaba	zig0.16/makedirs-exist-ok	POS
+fs_rutas-09	api	tempfile.TemporaryDirectory	zig0.16/temp-dir-scoped	POS
+fs_rutas-10	paraphrase	necesito una carpeta temporal que se borre sola al acabar, en un programa normal no en un test	zig0.16/temp-dir-scoped	POS
+fs_rutas-11	api	shutil.copyfile de origen a destino	zig0.16/copyfile-replace	POS
+fs_rutas-12	paraphrase	duplicar un archivo y no pisar el destino si ya existe	zig0.16/copyfile-replace	POS
+fs_rutas-13	api	shutil.rmtree y os.remove	zig0.16/remove-file-rmtree	POS
+fs_rutas-14	paraphrase	eliminar una carpeta entera con todo lo que contiene	zig0.16/remove-file-rmtree	POS

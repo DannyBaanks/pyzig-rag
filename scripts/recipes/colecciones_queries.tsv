@@ -1,0 +1,14 @@
+colecciones-01	direct	guardar un contador por nombre y consultar si existe una clave, con valor por defecto si falta	zig0.16/dict-str-int-basic	POS
+colecciones-02	api	dict.get(key, 0) y key in d con claves string y valores enteros	zig0.16/dict-str-int-basic	POS
+colecciones-03	api	list.insert(i, x) con indices negativos o pasados del final, y list.pop(i)	zig0.16/list-append-pop-insert	POS
+colecciones-04	paraphrase	vector que crece donde puedo quitar el ultimo elemento sin que explote si esta vacio	zig0.16/list-append-pop-insert	POS
+colecciones-05	api	sorted(lista, key=lambda x: x.edad, reverse=True) conservando orden de los iguales	zig0.16/sorted-key-stable	POS
+colecciones-06	paraphrase	ordenar una lista de structs por un campo sin alterar la lista original	zig0.16/sorted-key-stable	POS
+colecciones-07	api	set de strings con add, discard, in, union e interseccion	zig0.16/set-str-membership	POS
+colecciones-08	paraphrase	quitar cadenas duplicadas y comprobar rapido si una cadena ya la vi	zig0.16/set-str-membership	POS
+colecciones-09	api	heapq.heappush y heappop con tuplas (prioridad, contador, item)	zig0.16/heapq-priority-queue	POS
+colecciones-10	paraphrase	cola donde siempre saco la tarea de menor prioridad primero	zig0.16/heapq-priority-queue	POS
+colecciones-11	api	collections.deque con maxlen, appendleft, popleft y rotate	zig0.16/deque-popleft-appendleft	POS
+colecciones-12	paraphrase	ventana deslizante de los ultimos N valores con cola circular	zig0.16/deque-popleft-appendleft	POS
+colecciones-13	api	Counter(texto.split()).most_common(k)	zig0.16/counter-most-common	POS
+colecciones-14	paraphrase	contar cuantas veces aparece cada palabra y listar las mas repetidas	zig0.16/counter-most-common	POS

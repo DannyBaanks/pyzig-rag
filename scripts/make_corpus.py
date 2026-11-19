@@ -23,7 +23,7 @@ E.append(dict(
     operation_id="zig0.16/subprocess-run-capture",
     name="ejecutar proceso externo y capturar streams",
     intent="Ejecutar un comando externo, capturar stdout y stderr por separado, distinguir salida exitosa de fallo y limitar el tamano de la captura.",
-    aliases=["subprocess.run","capture_output","check_output","Popen","run process","child process","exit code","timeout","lanzar comando","codigo de salida","saber si fallo","exito o fallo","check_call"],
+    aliases=["subprocess.run","capture_output","check_output","Popen","run process","child process","exit code","timeout","lanzar comando","codigo de salida","saber si fallo","exito o fallo","check_call", "returncode", "comprobar si el comando funciono"],
     source_lang="python", target_lang="zig", zig_version=ZIG, python_version=PY, platform="linux",
     py_ref='''import subprocess
 r = subprocess.run(["printf","hola"], capture_output=True, text=True)
@@ -564,7 +564,7 @@ E.append(dict(
     operation_id="zig0.16/string-split-strip-format",
     name="dividir, recortar y formatear cadenas",
     intent="Partir una cadena por un separador descartando vacios, recortar espacios y formatear valores en un buffer tamano fijo sin asignar.",
-    aliases=["split(sep)","strip()","f-string","format()","str.join","rsplit","particion"],
+    aliases=["split(sep)","strip()","f-string","format()","str.join","rsplit","particion", "formatear cadenas", "formateo de texto", "interpolar variables en texto", "str.format", "std.fmt.bufPrint"],
     source_lang="python", target_lang="zig", zig_version=ZIG, python_version=PY, platform="linux",
     py_ref='''"a, b ,, c".split(",")             # ['a',' b ','',' c']
 [x.strip() for x in _]
@@ -795,6 +795,27 @@ E.append(dict(
     status="NOT_DEMONSTRATED",
     entry_type="gap",
 ))
+
+# ---- recetas por area: scripts/recipes/<area>.py (ENTRIES + CONTRACTS) -----
+# Cada modulo trae sus entradas y sus contratos; aqui solo se registran. Un
+# contrato fuzzable necesita driver y modelo, asi que va en contracts.py, no aqui.
+import importlib.util                            # noqa: E402
+
+for _path in sorted((ROOT / "scripts" / "recipes").glob("*.py")):
+    _spec = importlib.util.spec_from_file_location(f"pyzig_recipes_{_path.stem}", _path)
+    assert _spec is not None and _spec.loader is not None, _path
+    _mod = importlib.util.module_from_spec(_spec)
+    _spec.loader.exec_module(_mod)
+    _ids = [e["operation_id"] for e in _mod.ENTRIES]
+    if sorted(_ids) != sorted(_mod.CONTRACTS):
+        sys.exit(f"{_path.name}: ENTRIES y CONTRACTS no cubren los mismos operation_id")
+    for _oid, _c in _mod.CONTRACTS.items():
+        if _oid in contracts.CONTRACTS:
+            sys.exit(f"{_path.name}: contrato duplicado {_oid}")
+        if _c.get("fuzzable"):
+            sys.exit(f"{_path.name}: {_oid} es fuzzable; su contrato va en pyzig/fuzz/contracts.py")
+        contracts.CONTRACTS[_oid] = _c
+    E.extend(_mod.ENTRIES)
 
 # ---- validacion + escritura (unico escritor: pyzig.corpus) ----------------
 out = ROOT / "corpus" / "pyzig.corpus.jsonl"

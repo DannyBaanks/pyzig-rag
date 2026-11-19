@@ -26,3 +26,73 @@ q25	negative	compilar un transpilador universal de python a zig		NONE
 q26	negative	entrenar una red neuronal desde cero		NONE
 q27	version	subprocess.run en zig 0.13	zig0.16/subprocess-run-capture	VERSION
 q28	status	demostrar setsid sin shell para un demonio desacoplado	zig0.16/detached-daemon-no-shell	STATUS
+colecciones-01	direct	guardar un contador por nombre y consultar si existe una clave, con valor por defecto si falta	zig0.16/dict-str-int-basic	POS
+colecciones-02	api	dict.get(key, 0) y key in d con claves string y valores enteros	zig0.16/dict-str-int-basic	POS
+colecciones-03	api	list.insert(i, x) con indices negativos o pasados del final, y list.pop(i)	zig0.16/list-append-pop-insert	POS
+colecciones-04	paraphrase	vector que crece donde puedo quitar el ultimo elemento sin que explote si esta vacio	zig0.16/list-append-pop-insert	POS
+colecciones-05	api	sorted(lista, key=lambda x: x.edad, reverse=True) conservando orden de los iguales	zig0.16/sorted-key-stable	POS
+colecciones-06	paraphrase	ordenar una lista de structs por un campo sin alterar la lista original	zig0.16/sorted-key-stable	POS
+colecciones-07	api	set de strings con add, discard, in, union e interseccion	zig0.16/set-str-membership	POS
+colecciones-08	paraphrase	quitar cadenas duplicadas y comprobar rapido si una cadena ya la vi	zig0.16/set-str-membership	POS
+colecciones-09	api	heapq.heappush y heappop con tuplas (prioridad, contador, item)	zig0.16/heapq-priority-queue	POS
+colecciones-10	paraphrase	cola donde siempre saco la tarea de menor prioridad primero	zig0.16/heapq-priority-queue	POS
+colecciones-11	api	collections.deque con maxlen, appendleft, popleft y rotate	zig0.16/deque-popleft-appendleft	POS
+colecciones-12	paraphrase	ventana deslizante de los ultimos N valores con cola circular	zig0.16/deque-popleft-appendleft	POS
+colecciones-13	api	Counter(texto.split()).most_common(k)	zig0.16/counter-most-common	POS
+colecciones-14	paraphrase	contar cuantas veces aparece cada palabra y listar las mas repetidas	zig0.16/counter-most-common	POS
+fs_rutas-01	api	os.path.splitext y os.path.basename de una ruta	zig0.16/path-join-basename-ext	POS
+fs_rutas-02	paraphrase	como saco la extension y el nombre de un archivo a partir de su ruta	zig0.16/path-join-basename-ext	POS
+fs_rutas-03	api	os.listdir de un directorio ordenado	zig0.16/listdir-names-sorted	POS
+fs_rutas-04	paraphrase	quiero los nombres de los archivos que hay dentro de una carpeta, sin recursion	zig0.16/listdir-names-sorted	POS
+fs_rutas-05	api	os.walk recursivo para juntar todos los archivos	zig0.16/walk-tree-files	POS
+fs_rutas-06	paraphrase	buscar todos los ficheros dentro de un arbol de carpetas y subcarpetas	zig0.16/walk-tree-files	POS
+fs_rutas-07	api	os.makedirs con exist_ok=True	zig0.16/makedirs-exist-ok	POS
+fs_rutas-08	paraphrase	crear una carpeta y sus padres sin que falle si ya estaba	zig0.16/makedirs-exist-ok	POS
+fs_rutas-09	api	tempfile.TemporaryDirectory	zig0.16/temp-dir-scoped	POS
+fs_rutas-10	paraphrase	necesito una carpeta temporal que se borre sola al acabar, en un programa normal no en un test	zig0.16/temp-dir-scoped	POS
+fs_rutas-11	api	shutil.copyfile de origen a destino	zig0.16/copyfile-replace	POS
+fs_rutas-12	paraphrase	duplicar un archivo y no pisar el destino si ya existe	zig0.16/copyfile-replace	POS
+fs_rutas-13	api	shutil.rmtree y os.remove	zig0.16/remove-file-rmtree	POS
+fs_rutas-14	paraphrase	eliminar una carpeta entera con todo lo que contiene	zig0.16/remove-file-rmtree	POS
+json-01	direct	convertir un texto json en una estructura de datos sin saber su esquema	zig0.16/json-loads-dynamic	POS
+json-02	api	json.loads equivalente en Zig con std.json.Value	zig0.16/json-loads-dynamic	POS
+json-03	direct	decodificar json a un struct con campos opcionales y valores por defecto	zig0.16/json-loads-typed-struct	POS
+json-04	paraphrase	que pasa si el json trae campos que mi struct no tiene	zig0.16/json-loads-typed-struct	POS
+json-05	direct	convertir un struct a texto json con sangria	zig0.16/json-dumps-indent	POS
+json-06	api	json.dumps con indent en Zig	zig0.16/json-dumps-indent	POS
+json-07	direct	saber si un texto es json valido sin que el programa se caiga	zig0.16/json-invalid-input-error	POS
+json-08	api	try except json.JSONDecodeError en Zig	zig0.16/json-invalid-input-error	POS
+json-09	direct	escapar un texto con acentos y emoji a formato json solo ascii	zig0.16/json-string-escape-unicode	POS
+json-10	paraphrase	decodificar secuencias \u con pares sustitutos a utf-8	zig0.16/json-string-escape-unicode	POS
+json-11	direct	cargar un fichero json de disco con un maximo de bytes	zig0.16/json-read-file-limited	POS
+json-12	paraphrase	leer un archivo de configuracion en formato json y rechazarlo si es demasiado grande	zig0.16/json-read-file-limited	POS
+texto_num-01	direct	codificar bytes como texto base64	zig0.16/base64-encode-decode	POS
+texto_num-02	api	base64.b64decode con entrada que puede ser invalida	zig0.16/base64-encode-decode	POS
+texto_num-03	direct	pasar un buffer de bytes a cadena hexadecimal	zig0.16/hex-encode-decode	POS
+texto_num-04	api	bytes.fromhex con longitud impar	zig0.16/hex-encode-decode	POS
+texto_num-05	direct	convertir texto a entero detectando si se desborda	zig0.16/parse-int-base-overflow	POS
+texto_num-06	api	int(s, 16) en Zig con error de overflow	zig0.16/parse-int-base-overflow	POS
+texto_num-07	direct	convertir cadena a numero decimal con error si no es valido	zig0.16/parse-float-format-decimals	POS
+texto_num-08	paraphrase	f-string con dos decimales en Zig	zig0.16/parse-float-format-decimals	POS
+texto_num-09	direct	comprobar si un texto empieza o termina con una cadena	zig0.16/str-find-replace-affix	POS
+texto_num-10	paraphrase	reemplazar todas las apariciones de una subcadena	zig0.16/str-find-replace-affix	POS
+texto_num-11	direct	recorrer un texto por caracteres unicode y no por bytes	zig0.16/utf8-codepoints-validate	POS
+texto_num-12	paraphrase	comprobar si unos bytes son utf-8 valido	zig0.16/utf8-codepoints-validate	POS
+texto_num-13	direct	poner un texto en minusculas	zig0.16/ascii-case-lower-upper	POS
+texto_num-14	paraphrase	comparar dos cadenas ignorando mayusculas	zig0.16/ascii-case-lower-upper	POS
+texto_num-15	direct	pasar a mayusculas texto con acentos y eñes	zig0.16/unicode-case-mapping	POS
+texto_num-16	api	str.casefold unicode en zig	zig0.16/unicode-case-mapping	POS
+tiempo_args-01	api	time.time en Zig	zig0.16/epoch-now-seconds	POS
+tiempo_args-02	paraphrase	obtener los segundos actuales desde 1970 reloj de pared	zig0.16/epoch-now-seconds	POS
+tiempo_args-03	api	time.monotonic para medir duracion en Zig	zig0.16/monotonic-duration-measure	POS
+tiempo_args-04	paraphrase	calcular cuanto tarda una funcion sin que afecte el cambio de hora	zig0.16/monotonic-duration-measure	POS
+tiempo_args-05	api	random.seed randint choice y shuffle en Zig	zig0.16/random-prng-ops	POS
+tiempo_args-06	paraphrase	generar numeros aleatorios reproducibles con semilla y mezclar lista	zig0.16/random-prng-ops	POS
+tiempo_args-07	api	sys.argv en Zig con std.process.Args	zig0.16/process-args-iterate	POS
+tiempo_args-08	paraphrase	leer los argumentos pasados al programa desde la terminal	zig0.16/process-args-iterate	POS
+tiempo_args-09	api	argparse flags clave valor en Zig	zig0.16/argparse-flags-parse	POS
+tiempo_args-10	paraphrase	procesar parametros de consola con guiones dobles como host y puerto	zig0.16/argparse-flags-parse	POS
+tiempo_args-11	api	zlib.crc32 equivalente en Zig std.hash.Crc32	zig0.16/crc32-checksum	POS
+tiempo_args-12	paraphrase	calcular suma de verificacion crc32 de un buffer de bytes	zig0.16/crc32-checksum	POS
+tiempo_args-13	api	hashlib.md5 hexdigest en Zig	zig0.16/md5-hexdigest	POS
+tiempo_args-14	paraphrase	obtener el hash md5 en cadena hexadecimal de un texto	zig0.16/md5-hexdigest	POS

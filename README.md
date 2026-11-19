@@ -12,9 +12,11 @@ servidor **MCP de solo lectura** para que un agente consulte recetas
 ## Arquitectura
 
 ```
-corpus/pyzig.corpus.jsonl      fuente de verdad (git): 18 entradas (11 recetas, 1 gap,
-                               3 case_fixture, 3 pipeline_entry)
+corpus/pyzig.corpus.jsonl      fuente de verdad (git): recetas, gaps y artefactos
+                               cosechados por el fuzzer (case_fixture, pipeline_entry)
 scripts/make_corpus.py         regenera el corpus (entradas + hash de contenido)
+scripts/recipes/<area>.py      recetas por area (ENTRIES + CONTRACTS no fuzzables) y
+scripts/recipes/<area>_queries.tsv   sus consultas de eval
 pyzig/corpus.py                UNICO escritor: hash canonico, append-only, atomico
 pyzig/gates.py                 gates: `zig test` por entrada → promueve evidencia
 fuzz/src/                      motor Zig: generacion, chunks, comparacion, evidencia
@@ -24,7 +26,7 @@ pyzig/embed.py                 embeddings ONNX local (all-MiniLM-L6-v2, CPU)
 pyzig/index.py                 indice derivado SQLite (FTS5 + vectores) — var/pyzig.db
 pyzig/search.py                filtros exactos + fusion RRF + admision (cobertura/cosine)
 pyzig/mcp_server.py            FastMCP stdio, 3 herramientas de solo lectura
-eval/queries.tsv, eval/results.json   evaluacion fija (28 consultas, lexical vs hibrida
+eval/queries.tsv, eval/results.json   evaluacion fija (lexical vs hibrida)
 ```
 
 Decisiones (y por que):
@@ -168,25 +170,47 @@ pyzig_get: ejecutar proceso externo y capturar streams
 | `zig0.16/sha256-bytes` | DEMONSTRATED | `bytesToHex(.lower)` |
 | `zig0.16/detached-daemon-no-shell` | NOT_DEMONSTRATED (`gap`) | `setsid` no envuelto por std; paridad via `sh -c 'setsid … &'` |
 
+Recetas por area en `scripts/recipes/` (no fuzzables todavia: contrato con
+`skip_reason`, sin driver diferencial):
+
+| area | operaciones |
+|---|---|
+| `colecciones` | dict→`StringHashMapUnmanaged`, list→`ArrayList`, `sorted(key=)` estable, set, `heapq`→`PriorityQueue`, `deque`→`std.Deque`, `Counter.most_common` |
+| `fs_rutas` | `os.path.*`→`std.fs.path`, `listdir`, `os.walk`, `makedirs(exist_ok)`, `TemporaryDirectory`, `shutil.copyfile`, `remove`/`rmtree` |
+| `json_codec` | `json.loads` dinamico y a struct, `json.dumps(indent)`, `JSONDecodeError`, escapes/`ensure_ascii`, leer JSON con limite |
+| `texto_num` | base64, hex, `int(s, base)`, `float`/`{:.2f}`, find/replace/affix, UTF-8, `lower`/`upper` ASCII; gap: mayusculas/minusculas Unicode |
+| `tiempo_args` | `time.time`, `time.monotonic`, PRNG con semilla, `sys.argv`, flags `--k v`, `zlib.crc32`, `hashlib.md5` |
+
+Anadir un area: crear `scripts/recipes/<area>.py` con `ENTRIES` (mismo formato
+que `make_corpus.py`) y `CONTRACTS` (`_c(..., skip_reason=...)`), y
+`<area>_queries.tsv`; luego `make_corpus.py`, `run_gates.py`, anadir las
+consultas a `eval/queries.tsv` y `run_eval.py`. `make_corpus.py` rechaza
+contratos duplicados o fuzzables fuera de `pyzig/fuzz/contracts.py`.
+
 Todas las verificadas contra la std local de zig 0.16.0 (`lib/std`), con
 comando, exit code, duracion y SHA-256 de la salida guardados en
 `evidence.runs` dentro del corpus.
 
-## Evaluacion (28 consultas fijas, separadas del corpus)
+## Evaluacion (consultas fijas, separadas del corpus)
 
-`eval/queries.tsv`: 8 directas, 11 por nombre de API, 4 parafrasis, 3 negativas
-(no deben devolver equivalencia), 1 de version (0.13 ⇒ `VERSION_MISMATCH`), 1 de
-estado (`gap` en top-1). `eval/results.json`:
+`eval/queries.tsv`: el bloque original `q01`–`q28` (directas, por nombre de API,
+parafrasis, negativas que no deben devolver equivalencia, una de version 0.13 ⇒
+`VERSION_MISMATCH` y una de estado con el `gap` en top-1) mas las consultas de
+cada area (`<area>-NN`). Los numeros son los de `eval/results.json`, que
+regenera `scripts/run_eval.py`; no se copian aqui.
 
-| modo | P@1 | R@3 | negativas | status | latencia media |
-|---|---|---|---|---|---|
-| lexical (FTS5 + filtros + admision) | 1.0 (23/23 POS) | 1.0 | 3/3 (+1 version) | 1/1 | 0.7 ms |
-| hibrido (+ embeddings, fusion RRF) | 1.0 (23/23 POS) | 1.0 | 3/3 (+1 version) | 1/1 | 97 ms |
-
-**Lectura honesta:** con 12 entradas el lexical ya basta; el semantico no
-muestra hoy una ganancia medible en acierto (si en mecanismo de admision para
-parafrasis). Queda declarado como mejora *no demostrada*, no como mejora
-lograda; el coste medido es ~100x de latencia. El proximo experimento util es
+**Lectura honesta:**
+- Las consultas de area las escribieron los mismos workers que las recetas, y
+  los aliases se ajustaron mirando sus fallos: son un conjunto de *desarrollo*,
+  no de validacion independiente.
+- El embedding (`all-MiniLM-L6-v2`, ingles) da cosenos ~0.33-0.36 a entradas
+  sin relacion con consultas en espanol: con mas entradas, el modo hibrido
+  empieza a perder top-1 que el lexical acierta (el esperado sigue en top-3).
+  El semantico sigue siendo mejora *no demostrada*; el candidato obvio es un
+  modelo multilingue, sin medir todavia.
+- Un `gap` solo sube a top-1 si su cobertura lexica supera a la de toda receta;
+  si la receta ASCII documenta la misma diferencia (p. ej. `casefold`), empatan
+  y gana la receta. El proximo experimento util es
 el ensayo controlado agente-sin-MCP vs agente-con-MCP (iteraciones, errores de
 compilacion, tokens), fuera del alcance de este prototipo.
 
