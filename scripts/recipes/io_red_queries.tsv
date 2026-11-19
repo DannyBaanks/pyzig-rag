@@ -1,0 +1,14 @@
+io_red-01	api	threading.Thread con target y args, start y join para esperar al hilo	zig0.16/thread-spawn-join	POS
+io_red-02	paraphrase	lanzar varios hilos del sistema operativo y esperar a que todos terminen guardando su resultado	zig0.16/thread-spawn-join	POS
+io_red-03	api	threading.Lock con with lock para proteger un contador compartido	zig0.16/thread-shared-counter	POS
+io_red-04	paraphrase	incrementar una variable desde varios hilos sin perder actualizaciones, con atomics o mutex	zig0.16/thread-shared-counter	POS
+io_red-05	api	asyncio.gather de varias corutinas y esperar los resultados	zig0.16/io-async-group-future	POS
+io_red-06	paraphrase	tareas concurrentes con std.Io: async, await y un grupo de tareas	zig0.16/io-async-group-future	POS
+io_red-07	api	socket.bind listen accept connect en 127.0.0.1 con puerto 0 y getsockname	zig0.16/tcp-loopback-echo	POS
+io_red-08	paraphrase	levantar un servidor TCP de eco y conectarle un cliente en el mismo programa	zig0.16/tcp-loopback-echo	POS
+io_red-09	api	socket SOCK_DGRAM sendto recvfrom en loopback con settimeout	zig0.16/udp-loopback-datagram	POS
+io_red-10	paraphrase	mandar un datagrama UDP a mi propia maquina y recibirlo con un plazo maximo de espera	zig0.16/udp-loopback-datagram	POS
+io_red-11	api	requests.get contra un http.server local y leer status y cuerpo	zig0.16/http-client-get-local	POS
+io_red-12	paraphrase	hacer una peticion HTTP GET con el cliente de la libreria estandar sin salir a internet	zig0.16/http-client-get-local	POS
+io_red-13	api	ctypes.CDLL(None).abs y strlen llamando a libc	zig0.16/ffi-extern-c-function	POS
+io_red-14	paraphrase	declarar una funcion de C con extern fn y llamarla sin usar cImport	zig0.16/ffi-extern-c-function	POS
