@@ -1,0 +1,16 @@
+mate_bytes-01	direct	interpolar variables y numeros en una cadena como una f-string	zig0.16/format-string-alloc-print	POS
+mate_bytes-02	api	std.fmt.allocPrint para formatear texto con placeholders	zig0.16/format-string-alloc-print	POS
+mate_bytes-03	direct	comprobar si un float es infinito o es NaN	zig0.16/float-special-values-isinf-isnan	POS
+mate_bytes-04	api	math.isinf y math.isnan equivalentes en std.math	zig0.16/float-special-values-isinf-isnan	POS
+mate_bytes-05	api	struct.pack con '<I' para empaquetar un entero en 4 bytes little endian	zig0.16/struct-pack-endian-readint	POS
+mate_bytes-06	paraphrase	leer dos bytes big endian de un buffer sin copiar con readInt	zig0.16/struct-pack-endian-readint	POS
+mate_bytes-07	api	int.from_bytes y to_bytes con orden big endian y signed	zig0.16/int-from-bytes-to-bytes-endian	POS
+mate_bytes-08	paraphrase	convertir un entero de 8 bytes a numero y al reves con signo	zig0.16/int-from-bytes-to-bytes-endian	POS
+mate_bytes-09	direct	division entera y resto de Python cuando los numeros son negativos	zig0.16/div-floor-mod-negative	POS
+mate_bytes-10	paraphrase	equivalente de la division floor y el modulo con negativos	zig0.16/div-floor-mod-negative	POS
+mate_bytes-11	api	int.bit_count y int.bit_length en Zig	zig0.16/int-bit-count-bit-length	POS
+mate_bytes-12	paraphrase	contar los bits encendidos y cuantos bits necesita un entero	zig0.16/int-bit-count-bit-length	POS
+mate_bytes-13	direct	redondear al entero mas cercano, hacia abajo y hacia arriba	zig0.16/round-floor-ceil-bankers	POS
+mate_bytes-14	api	round de Python redondea al par, cual es el equivalente en Zig	zig0.16/round-floor-ceil-bankers	POS
+mate_bytes-15	direct	convertir un puntero char* terminado en nulo en un slice de bytes	zig0.16/cstring-span-slice-to	POS
+mate_bytes-16	api	std.mem.span y std.mem.sliceTo para cadenas C con terminador cero	zig0.16/cstring-span-slice-to	POS
