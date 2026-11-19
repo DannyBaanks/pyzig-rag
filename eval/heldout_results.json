@@ -1,0 +1,1922 @@
+{
+  "model": "all-MiniLM-L6-v2",
+  "peak_rss_mb": 198.0,
+  "modes": {
+    "lexical": {
+      "summary": {
+        "n": 61,
+        "precision_at_1": 0.941,
+        "recall_at_3": 1.0,
+        "negativas_correctas": "8/10",
+        "status_correcto": "0/0",
+        "latencia_ms_media": 2.2,
+        "por_tipo": {
+          "direct": {
+            "n": 30,
+            "aciertos_top1": 28,
+            "aciertos_top3": 30
+          },
+          "error": {
+            "n": 8,
+            "aciertos_top1": 8,
+            "aciertos_top3": 8
+          },
+          "long": {
+            "n": 8,
+            "aciertos_top1": 7,
+            "aciertos_top3": 8
+          },
+          "negative": {
+            "n": 10,
+            "aciertos_top1": 8,
+            "aciertos_top3": 8
+          },
+          "paraphrase": {
+            "n": 2,
+            "aciertos_top1": 2,
+            "aciertos_top3": 2
+          },
+          "typo": {
+            "n": 3,
+            "aciertos_top1": 3,
+            "aciertos_top3": 3
+          }
+        },
+        "mrr_at_3": 0.967
+      },
+      "rows": [
+        {
+          "qid": "h01",
+          "kind": "direct",
+          "query": "necesito ejecutar un comando externo tipo git status --porcelain desde zig 0.16 y capturar stdout y stderr por separado, con un tope de como 1MB para que no se me desborde la memoria; ¿cómo se hace?",
+          "expect": "POS",
+          "expected": "zig0.16/subprocess-run-capture",
+          "got_top3": [
+            "zig0.16/subprocess-run-capture"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 3.9
+        },
+        {
+          "qid": "h02",
+          "kind": "direct",
+          "query": "leer un archivo de texto entero en memoria con un limite de bytes, y que me sepa distinguir \"el archivo no existe\" de \"se paso el limite\". en python haria open().read(MAX) pero en zig?",
+          "expect": "POS",
+          "expected": "zig0.16/read-file-text-limited",
+          "got_top3": [
+            "zig0.16/read-file-text-limited",
+            "zig0.16/json-read-file-limited",
+            "zig0.16/migrate-readfilealloc"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 4.2
+        },
+        {
+          "qid": "h03",
+          "kind": "paraphrase",
+          "query": "quiero sobreescribir un archivo de bytes de forma atomica, o sea escribir en un temporal y hacer rename, para no dejar el fichero corrupto si se cae el proceso a mitad",
+          "expect": "POS",
+          "expected": "zig0.16/write-file-bytes-atomic",
+          "got_top3": [
+            "zig0.16/write-file-bytes-atomic"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 3.4
+        },
+        {
+          "qid": "h04",
+          "kind": "direct",
+          "query": "como compruebo si un path existe sin que un permiso denegado me lo reporte como inexistente? tipo os.path.exists pero con la distincion FileNotFound/AccessDenied",
+          "expect": "POS",
+          "expected": "zig0.16/file-exists-vs-error",
+          "got_top3": [
+            "zig0.16/file-exists-vs-error",
+            "zig0.16/makedirs-exist-ok"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 2.6
+        },
+        {
+          "qid": "h05",
+          "kind": "long",
+          "query": "mis prints en zig no aparecen hasta que termina el programa y parecen perdidos; como escribo lineas en stdout y stderr con flush explicito y propago el error de escritura?",
+          "expect": "POS",
+          "expected": "zig0.16/stdout-print-flush",
+          "got_top3": [
+            "zig0.16/stdout-print-flush"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 2.7
+        },
+        {
+          "qid": "h06",
+          "kind": "typo",
+          "query": "parsear un archivo de config KEY=VALOR con comillas y comentarios tipo # ..., sin ejecutar codigo del fichero. configparser pero sin secciones, en zig 0.16",
+          "expect": "POS",
+          "expected": "zig0.16/parse-kv-config",
+          "got_top3": [
+            "zig0.16/parse-kv-config"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 2.6
+        },
+        {
+          "qid": "h07",
+          "kind": "direct",
+          "query": "cual es el equivalente de time.sleep(0.25) en zig 0.16? quiero dormir 250 ms sin quemar CPU y que se propague la cancelacion",
+          "expect": "POS",
+          "expected": "zig0.16/sleep-ms",
+          "got_top3": [
+            "zig0.16/sleep-ms"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 2.7
+        },
+        {
+          "qid": "h08",
+          "kind": "direct",
+          "query": "partir una cadena por comas descartando los campos vacios, hacer strip de espacios y formatear un numero en un buffer de tamano fijo sin asignar heap (f-string pero bufPrint)",
+          "expect": "POS",
+          "expected": "zig0.16/string-split-strip-format",
+          "got_top3": [
+            "zig0.16/string-split-strip-format"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 2.7
+        },
+        {
+          "qid": "h09",
+          "kind": "direct",
+          "query": "lanzar un hijo con stdout y stderr redirigidos a un log en append, stdin ignorado, y esperar a que acabe para leer el exit code",
+          "expect": "POS",
+          "expected": "zig0.16/spawn-redirect-child",
+          "got_top3": [
+            "zig0.16/spawn-redirect-child",
+            "zig0.16/subprocess-run-capture"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 2.3
+        },
+        {
+          "qid": "h10",
+          "kind": "direct",
+          "query": "getenv en zig que devuelva null si la variable no esta y no copie la cadena cuando no hace falta, como os.environ.get",
+          "expect": "POS",
+          "expected": "zig0.16/env-var-read",
+          "got_top3": [
+            "zig0.16/env-var-read"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.6
+        },
+        {
+          "qid": "h11",
+          "kind": "direct",
+          "query": "calcular el sha256 de un buffer de bytes y pasarlo a hexadecimal en minusculas, tipo hashlib.sha256(data).hexdigest()",
+          "expect": "POS",
+          "expected": "zig0.16/sha256-bytes",
+          "got_top3": [
+            "zig0.16/sha256-bytes",
+            "zig0.16/md5-hexdigest",
+            "zig0.16/hex-encode-decode"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 2.2
+        },
+        {
+          "qid": "h12",
+          "kind": "long",
+          "query": "mi build.zig viejo usa b.addExecutable(.{ .root_source_file = b.path(\"src/main.zig\"), .target = ..., .optimize = ... }) y en zig 0.16 ya no compila; como se crea el modulo con createModule y se le pasa root_module?",
+          "expect": "POS",
+          "expected": "zig0.16/build-exe-root-module",
+          "got_top3": [
+            "zig0.16/build-add-import",
+            "zig0.16/build-exe-root-module",
+            "zig0.16/build-import-outside-module"
+          ],
+          "error": null,
+          "ok_top1": false,
+          "ok_top3": true,
+          "ms": 3.0
+        },
+        {
+          "qid": "h13",
+          "kind": "direct",
+          "query": "en el build de 0.16 llamo a una funcion de libc con extern \"c\" y el enlazador se queja; donde va .link_libc = true?",
+          "expect": "POS",
+          "expected": "zig0.16/build-link-libc",
+          "got_top3": [
+            "zig0.16/ffi-extern-c-function",
+            "zig0.16/build-link-libc"
+          ],
+          "error": null,
+          "ok_top1": false,
+          "ok_top3": true,
+          "ms": 3.1
+        },
+        {
+          "qid": "h14",
+          "kind": "typo",
+          "query": "@import(\"util\") no me lo encuentra aunque el fichero util.zig esta ahi al lado. me falta registrar el modulo con addImport en el build?",
+          "expect": "POS",
+          "expected": "zig0.16/build-add-import",
+          "got_top3": [
+            "zig0.16/build-add-import"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.8
+        },
+        {
+          "qid": "h15",
+          "kind": "long",
+          "query": "tengo un @import(\"../lib/comun.zig\") fuera de src/ y zig dice que esta fuera de la carpeta del modulo. como declaro ese archivo como modulo propio y lo importo por nombre?",
+          "expect": "POS",
+          "expected": "zig0.16/build-import-outside-module",
+          "got_top3": [
+            "zig0.16/build-import-outside-module"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 2.2
+        },
+        {
+          "qid": "h16",
+          "kind": "direct",
+          "query": "quiero generar un .so desde build.zig en 0.16, b.addSharedLibrary ya no existe; se usa b.addLibrary con linkage dynamic sobre un createModule no?",
+          "expect": "POS",
+          "expected": "zig0.16/build-shared-library",
+          "got_top3": [
+            "zig0.16/build-shared-library",
+            "zig0.16/build-dynamic-library-pic"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 2.2
+        },
+        {
+          "qid": "h17",
+          "kind": "direct",
+          "query": "zig build test no corre nada de mis tests; como se monta el paso test con addTest, addRunArtifact y b.step(\"test\") en 0.16?",
+          "expect": "POS",
+          "expected": "zig0.16/build-test-step",
+          "got_top3": [
+            "zig0.16/build-test-step",
+            "zig0.16/build-add-import",
+            "zig0.16/build-exe-root-module"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 3.1
+        },
+        {
+          "qid": "h18",
+          "kind": "direct",
+          "query": "necesito un diccionario str -> int en zig: insertar, leer con valor por defecto, contains, acumular, borrar e iterar. StringHashMapUnmanaged no?",
+          "expect": "POS",
+          "expected": "zig0.16/dict-str-int-basic",
+          "got_top3": [
+            "zig0.16/dict-str-int-basic",
+            "zig0.16/json-loads-dynamic"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 2.1
+        },
+        {
+          "qid": "h19",
+          "kind": "paraphrase",
+          "query": "lista dinamica con append, pop por indice (incluso negativo como python) e insert con recorte; se que en 0.16 el allocator va en cada llamada",
+          "expect": "POS",
+          "expected": "zig0.16/list-append-pop-insert",
+          "got_top3": [
+            "zig0.16/list-append-pop-insert",
+            "zig0.16/deque-popleft-appendleft"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 2.3
+        },
+        {
+          "qid": "h20",
+          "kind": "direct",
+          "query": "ordenar una lista de structs por una clave de forma estable y con reverse=True, como sorted(..., key=lambda x: x.edad); devolviendo copia o en sitio",
+          "expect": "POS",
+          "expected": "zig0.16/sorted-key-stable",
+          "got_top3": [
+            "zig0.16/sorted-key-stable"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 2.2
+        },
+        {
+          "qid": "h21",
+          "kind": "direct",
+          "query": "set de strings sin duplicados con add, discard, `in`, union e interseccion en zig 0.16",
+          "expect": "POS",
+          "expected": "zig0.16/set-str-membership",
+          "got_top3": [
+            "zig0.16/set-str-membership"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.9
+        },
+        {
+          "qid": "h22",
+          "kind": "direct",
+          "query": "heapq.heappush/heappop en zig con std.PriorityQueue, y quiero que empaten por orden de insercion",
+          "expect": "POS",
+          "expected": "zig0.16/heapq-priority-queue",
+          "got_top3": [
+            "zig0.16/heapq-priority-queue"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.7
+        },
+        {
+          "qid": "h23",
+          "kind": "direct",
+          "query": "contar palabras y sacar las 5 mas frecuentes de mayor a menor, o sea Counter(palabras).most_common(5)",
+          "expect": "POS",
+          "expected": "zig0.16/counter-most-common",
+          "got_top3": [
+            "zig0.16/counter-most-common"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.7
+        },
+        {
+          "qid": "h24",
+          "kind": "direct",
+          "query": "concatenar componentes de una ruta y sacar dirname, basename, stem y extension sin tocar el disco, como os.path.join/splitext",
+          "expect": "POS",
+          "expected": "zig0.16/path-join-basename-ext",
+          "got_top3": [
+            "zig0.16/path-join-basename-ext"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.7
+        },
+        {
+          "qid": "h25",
+          "kind": "direct",
+          "query": "listar los nombres de un directorio con su tipo y orden determinista, equivalente a os.listdir ordenado en python",
+          "expect": "POS",
+          "expected": "zig0.16/listdir-names-sorted",
+          "got_top3": [
+            "zig0.16/listdir-names-sorted"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 2.0
+        },
+        {
+          "qid": "h26",
+          "kind": "long",
+          "query": "recorrer un arbol de directorios en plan os.walk para recoger solo los archivos regulares .zig y guardar sus rutas relativas",
+          "expect": "POS",
+          "expected": "zig0.16/walk-tree-files",
+          "got_top3": [
+            "zig0.16/walk-tree-files"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.8
+        },
+        {
+          "qid": "h27",
+          "kind": "direct",
+          "query": "os.makedirs(ruta, exist_ok=True) en zig 0.16: crear todos los padres y no fallar si ya existe, idealmente sabiendo si cree algo",
+          "expect": "POS",
+          "expected": "zig0.16/makedirs-exist-ok",
+          "got_top3": [
+            "zig0.16/makedirs-exist-ok"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.9
+        },
+        {
+          "qid": "h28",
+          "kind": "direct",
+          "query": "necesito un directorio temporal con nombre aleatorio, usarlo fuera de un test y borrarlo entero al terminar (TemporaryDirectory)",
+          "expect": "POS",
+          "expected": "zig0.16/temp-dir-scoped",
+          "got_top3": [
+            "zig0.16/temp-dir-scoped"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 2.3
+        },
+        {
+          "qid": "h29",
+          "kind": "direct",
+          "query": "copiar el contenido de un archivo a otro sobrescribiendo el destino, como shutil.copyfile; o negarme a pisar si existe",
+          "expect": "POS",
+          "expected": "zig0.16/copyfile-replace",
+          "got_top3": [
+            "zig0.16/copyfile-replace",
+            "zig0.16/remove-file-rmtree"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 3.0
+        },
+        {
+          "qid": "h30",
+          "kind": "direct",
+          "query": "varios hilos incrementando un contador compartido y no quiero perder incrementos: con atomics o con std.Io.Mutex, que en 0.16 no es std.Thread.Mutex",
+          "expect": "POS",
+          "expected": "zig0.16/thread-shared-counter",
+          "got_top3": [
+            "zig0.16/thread-shared-counter",
+            "zig0.16/thread-spawn-join",
+            "zig0.16/io-async-group-future"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 2.2
+        },
+        {
+          "qid": "h31",
+          "kind": "long",
+          "query": "tengo tres tareas independientes y quiero lanzarlas a la vez y esperarlas como asyncio.gather; vi que std.Io tiene Future, concurrent y Group pero no se cual usar",
+          "expect": "POS",
+          "expected": "zig0.16/io-async-group-future",
+          "got_top3": [
+            "zig0.16/io-async-group-future"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.9
+        },
+        {
+          "qid": "h32",
+          "kind": "long",
+          "query": "montar un servidor TCP en 127.0.0.1 con puerto efimero, conectar un cliente en el mismo proceso, enviar una linea y recibir el eco, como haria con socket.listen/accept/connect en python",
+          "expect": "POS",
+          "expected": "zig0.16/tcp-loopback-echo",
+          "got_top3": [
+            "zig0.16/tcp-loopback-echo"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 2.4
+        },
+        {
+          "qid": "h33",
+          "kind": "direct",
+          "query": "hacer un GET con std.http.Client contra un servidor HTTP minimo levantado en el propio test y leer el codigo de estado y el cuerpo (requests.get local)",
+          "expect": "POS",
+          "expected": "zig0.16/http-client-get-local",
+          "got_top3": [
+            "zig0.16/http-client-get-local"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 2.3
+        },
+        {
+          "qid": "h34",
+          "kind": "direct",
+          "query": "llamar a una funcion C con extern fn sin usar @cImport; en el test hermetico exporto yo el simbolo con @export o uso libc",
+          "expect": "POS",
+          "expected": "zig0.16/ffi-extern-c-function",
+          "got_top3": [
+            "zig0.16/ffi-extern-c-function"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 2.4
+        },
+        {
+          "qid": "h35",
+          "kind": "direct",
+          "query": "json.loads de un texto sin conocer el esquema, a un arbol dinamico tipo dict/lista/str/int/bool/None y recorrerlo con switch (std.json.Value)",
+          "expect": "POS",
+          "expected": "zig0.16/json-loads-dynamic",
+          "got_top3": [
+            "zig0.16/json-loads-dynamic"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 2.6
+        },
+        {
+          "qid": "h36",
+          "kind": "long",
+          "query": "decodificar un JSON directamente en un struct de Zig con campos opcionales y valores por defecto, y decidir que hago con campos que no conozco; algo tipo dataclass/pydantic",
+          "expect": "POS",
+          "expected": "zig0.16/json-loads-typed-struct",
+          "got_top3": [
+            "zig0.16/json-loads-typed-struct"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 2.3
+        },
+        {
+          "qid": "h37",
+          "kind": "direct",
+          "query": "como capturo un JSON malformado o truncado sin que el programa abortara, el equivalente a try/except json.JSONDecodeError (o solo validar)",
+          "expect": "POS",
+          "expected": "zig0.16/json-invalid-input-error",
+          "got_top3": [
+            "zig0.16/json-invalid-input-error"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 2.3
+        },
+        {
+          "qid": "h38",
+          "kind": "direct",
+          "query": "construir un texto con variables y numeros interpolated como una f-string de python, ya sea asignando el resultado o escribiendo en un buffer que me pasa el llamador",
+          "expect": "POS",
+          "expected": "zig0.16/format-string-alloc-print",
+          "got_top3": [
+            "zig0.16/format-string-alloc-print"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 2.3
+        },
+        {
+          "qid": "h39",
+          "kind": "typo",
+          "query": "necesito que -7 // 3 me de -3 y que -7 % 3 me de 2 como en python, pero zig trunca hacia cero. como hago la division floor y el modulo con el signo del divisor?",
+          "expect": "POS",
+          "expected": "zig0.16/div-floor-mod-negative",
+          "got_top3": [
+            "zig0.16/div-floor-mod-negative"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 2.1
+        },
+        {
+          "qid": "h40",
+          "kind": "direct",
+          "query": "contar cuantos bits a 1 tiene un entero y cuantos bits necessita para representarse, o sea int.bit_count() y bit_length() de python",
+          "expect": "POS",
+          "expected": "zig0.16/int-bit-count-bit-length",
+          "got_top3": [
+            "zig0.16/int-bit-count-bit-length"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 2.0
+        },
+        {
+          "qid": "h41",
+          "kind": "direct",
+          "query": "convertir un char* terminado en NUL en un slice de bytes sin copiar, o cortar un buffer en el primer cero (span / sliceTo)",
+          "expect": "POS",
+          "expected": "zig0.16/cstring-span-slice-to",
+          "got_top3": [
+            "zig0.16/cstring-span-slice-to"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 2.1
+        },
+        {
+          "qid": "h42",
+          "kind": "direct",
+          "query": "migrando codigo a 0.16: std.ArrayList(T).init(allocator) ya no existe y me dice que el tipo no tiene miembro init; como se usa .empty y el allocator por llamada?",
+          "expect": "POS",
+          "expected": "zig0.16/migrate-arraylist-unmanaged",
+          "got_top3": [
+            "zig0.16/list-append-pop-insert",
+            "zig0.16/listdir-names-sorted",
+            "zig0.16/migrate-arraylist-unmanaged"
+          ],
+          "error": null,
+          "ok_top1": false,
+          "ok_top3": true,
+          "ms": 3.0
+        },
+        {
+          "qid": "h43",
+          "kind": "long",
+          "query": "estoy pasando un proyecto a zig 0.16 y std.fs.cwd().readFileAlloc ya no compila; oi que el directorio ahora es std.Io.Dir y toda llamada recibe io y un std.Io.Limit.¿como queda la lectura completa de un archivo?",
+          "expect": "POS",
+          "expected": "zig0.16/migrate-readfilealloc",
+          "got_top3": [
+            "zig0.16/migrate-readfilealloc"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 2.9
+        },
+        {
+          "qid": "h44",
+          "kind": "negative",
+          "query": "hay alguna receta para leer un CSV con csv.DictReader y usar la cabecera como claves? es para un script de importacion en zig 0.16",
+          "expect": "NONE",
+          "expected": null,
+          "got_top3": [],
+          "error": "NO_RESULTS",
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 2.0
+        },
+        {
+          "qid": "h45",
+          "kind": "negative",
+          "query": "como comprimo un buffer con gzip / zlib.compress y luego lo descomprimo en zig 0.16? necesito el equivalente de gzip.compress(bytes)",
+          "expect": "NONE",
+          "expected": null,
+          "got_top3": [],
+          "error": "NO_RESULTS",
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.8
+        },
+        {
+          "qid": "h46",
+          "kind": "negative",
+          "query": "quiero re.sub con una expresion regular para reemplazar todas las coincidencias de un patron en un texto; ¿hay algo en zig 0.16 que no sea buscar literal?",
+          "expect": "NONE",
+          "expected": null,
+          "got_top3": [],
+          "error": "NO_RESULTS",
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 2.0
+        },
+        {
+          "qid": "h47",
+          "kind": "negative",
+          "query": "mmap de un archivo grande para acceder por offset sin cargarlo todo en memoria, como el mmap module de python",
+          "expect": "NONE",
+          "expected": null,
+          "got_top3": [],
+          "error": "NO_RESULTS",
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.9
+        },
+        {
+          "qid": "h48",
+          "kind": "negative",
+          "query": "instalar un handler de SIGTERM con signal.signal para cerrar limpio los recursos antes de salir",
+          "expect": "NONE",
+          "expected": null,
+          "got_top3": [],
+          "error": "NO_RESULTS",
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.4
+        },
+        {
+          "qid": "h49",
+          "kind": "negative",
+          "query": "conectarme a SQLite desde zig y ejecutar un SELECT con parametros, como sqlite3.connect + execute en python",
+          "expect": "NONE",
+          "expected": null,
+          "got_top3": [],
+          "error": "NO_RESULTS",
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.5
+        },
+        {
+          "qid": "h50",
+          "kind": "negative",
+          "query": "dar formato a una fecha con strftime('%Y-%m-%d %H:%M') en zig 0.16, a partir de un epoch",
+          "expect": "NONE",
+          "expected": null,
+          "got_top3": [],
+          "error": "NO_RESULTS",
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 2.3
+        },
+        {
+          "qid": "h51",
+          "kind": "negative",
+          "query": "cargar un YAML con anidamiento y listas tipo yaml.safe_load en el arranque del programa",
+          "expect": "NONE",
+          "expected": null,
+          "got_top3": [],
+          "error": "NO_RESULTS",
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.3
+        },
+        {
+          "qid": "h52",
+          "kind": "negative",
+          "query": "levantar un daemon con start_new_session=True / setsid sin usar un shell externo; quiero que sobreviva al padre y tenga su propia sesion",
+          "expect": "NONE",
+          "expected": null,
+          "got_top3": [
+            "zig0.16/detached-daemon-no-shell"
+          ],
+          "error": null,
+          "ok_top1": false,
+          "ok_top3": false,
+          "ms": 1.7
+        },
+        {
+          "qid": "h53",
+          "kind": "negative",
+          "query": "cliente WebSocket que mantenga la conexion abierta y reciba mensajes push del servidor",
+          "expect": "NONE",
+          "expected": null,
+          "got_top3": [
+            "zig0.16/http-client-get-local"
+          ],
+          "error": null,
+          "ok_top1": false,
+          "ok_top3": false,
+          "ms": 1.1
+        },
+        {
+          "qid": "h54",
+          "kind": "error",
+          "query": "me sale esto al compilar: error: local variable is never mutated | note: consider using 'const'. que hago, declaro const?",
+          "expect": "POS",
+          "expected": "zig0.16/diag-never-mutated",
+          "got_top3": [
+            "zig0.16/diag-never-mutated"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.4
+        },
+        {
+          "qid": "h55",
+          "kind": "error",
+          "query": "el compilador de zig 0.16 me escupe: error: name shadows primitive 'u8' y note: consider using @\"u8\" to disambiguate. por que no puedo llamar u8 a mi constante?",
+          "expect": "POS",
+          "expected": "zig0.16/diag-shadow-primitive",
+          "got_top3": [
+            "zig0.16/diag-shadow-primitive"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 2.0
+        },
+        {
+          "qid": "h56",
+          "kind": "error",
+          "query": "fallo con error: use of undeclared identifier 'builtin' cuando uso builtin.os.tag. me falta algun import?",
+          "expect": "POS",
+          "expected": "zig0.16/diag-builtin-undeclared",
+          "got_top3": [
+            "zig0.16/diag-builtin-undeclared"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.3
+        },
+        {
+          "qid": "h57",
+          "kind": "error",
+          "query": "error: local constant 'x' shadows local constant from outer scope (y note: previous declaration here). tengo un x dentro de un bloque y otro fuera, como se arregla?",
+          "expect": "POS",
+          "expected": "zig0.16/diag-shadow-local",
+          "got_top3": [
+            "zig0.16/diag-shadow-local"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.9
+        },
+        {
+          "qid": "h58",
+          "kind": "error",
+          "query": "pegando el error real: error: @ptrCast discards const qualifier | note: use @constCast to discard const qualifier. es seguro hacer @constCast aqui?",
+          "expect": "POS",
+          "expected": "zig0.16/diag-ptrcast-const",
+          "got_top3": [
+            "zig0.16/diag-ptrcast-const"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.9
+        },
+        {
+          "qid": "h59",
+          "kind": "error",
+          "query": "compilando un comptime con un bucle me da error: evaluation exceeded 1000 backwards branches | note: use @setEvalBranchQuota() to raise the branch limit from 1000. como lo subo?",
+          "expect": "POS",
+          "expected": "zig0.16/diag-eval-branch-quota",
+          "got_top3": [
+            "zig0.16/diag-eval-branch-quota",
+            "zig0.16/struct-pack-endian-readint"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.9
+        },
+        {
+          "qid": "h60",
+          "kind": "error",
+          "query": "este error: error: unable to resolve comptime value | note: types must be comptime-known al declarar un array con una variable. como lo arreglo?",
+          "expect": "POS",
+          "expected": "zig0.16/diag-comptime-runtime-value",
+          "got_top3": [
+            "zig0.16/diag-comptime-runtime-value"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.7
+        },
+        {
+          "qid": "h61",
+          "kind": "error",
+          "query": "zig 0.16 dice error: expected type 'u8', found 'u32' | note: unsigned 8-bit int cannot represent all possible unsigned 32-bit values. ¿@truncate o @intCast?",
+          "expect": "POS",
+          "expected": "zig0.16/diag-narrowing-intcast",
+          "got_top3": [
+            "zig0.16/diag-narrowing-intcast"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 1.8
+        }
+      ]
+    },
+    "hybrid": {
+      "summary": {
+        "n": 61,
+        "precision_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "negativas_correctas": "1/10",
+        "status_correcto": "0/0",
+        "latencia_ms_media": 58.3,
+        "por_tipo": {
+          "direct": {
+            "n": 30,
+            "aciertos_top1": 30,
+            "aciertos_top3": 30
+          },
+          "error": {
+            "n": 8,
+            "aciertos_top1": 8,
+            "aciertos_top3": 8
+          },
+          "long": {
+            "n": 8,
+            "aciertos_top1": 8,
+            "aciertos_top3": 8
+          },
+          "negative": {
+            "n": 10,
+            "aciertos_top1": 1,
+            "aciertos_top3": 1
+          },
+          "paraphrase": {
+            "n": 2,
+            "aciertos_top1": 2,
+            "aciertos_top3": 2
+          },
+          "typo": {
+            "n": 3,
+            "aciertos_top1": 3,
+            "aciertos_top3": 3
+          }
+        },
+        "mrr_at_3": 1.0
+      },
+      "rows": [
+        {
+          "qid": "h01",
+          "kind": "direct",
+          "query": "necesito ejecutar un comando externo tipo git status --porcelain desde zig 0.16 y capturar stdout y stderr por separado, con un tope de como 1MB para que no se me desborde la memoria; ¿cómo se hace?",
+          "expect": "POS",
+          "expected": "zig0.16/subprocess-run-capture",
+          "got_top3": [
+            "zig0.16/subprocess-run-capture",
+            "zig0.16/diag-shadow-local"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 55.2
+        },
+        {
+          "qid": "h02",
+          "kind": "direct",
+          "query": "leer un archivo de texto entero en memoria con un limite de bytes, y que me sepa distinguir \"el archivo no existe\" de \"se paso el limite\". en python haria open().read(MAX) pero en zig?",
+          "expect": "POS",
+          "expected": "zig0.16/read-file-text-limited",
+          "got_top3": [
+            "zig0.16/read-file-text-limited",
+            "zig0.16/json-read-file-limited",
+            "zig0.16/int-from-bytes-to-bytes-endian"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 61.2
+        },
+        {
+          "qid": "h03",
+          "kind": "paraphrase",
+          "query": "quiero sobreescribir un archivo de bytes de forma atomica, o sea escribir en un temporal y hacer rename, para no dejar el fichero corrupto si se cae el proceso a mitad",
+          "expect": "POS",
+          "expected": "zig0.16/write-file-bytes-atomic",
+          "got_top3": [
+            "zig0.16/write-file-bytes-atomic",
+            "zig0.16/copyfile-replace",
+            "zig0.16/format-string-alloc-print"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 59.7
+        },
+        {
+          "qid": "h04",
+          "kind": "direct",
+          "query": "como compruebo si un path existe sin que un permiso denegado me lo reporte como inexistente? tipo os.path.exists pero con la distincion FileNotFound/AccessDenied",
+          "expect": "POS",
+          "expected": "zig0.16/file-exists-vs-error",
+          "got_top3": [
+            "zig0.16/file-exists-vs-error",
+            "zig0.16/makedirs-exist-ok",
+            "zig0.16/remove-file-rmtree"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 59.8
+        },
+        {
+          "qid": "h05",
+          "kind": "long",
+          "query": "mis prints en zig no aparecen hasta que termina el programa y parecen perdidos; como escribo lineas en stdout y stderr con flush explicito y propago el error de escritura?",
+          "expect": "POS",
+          "expected": "zig0.16/stdout-print-flush",
+          "got_top3": [
+            "zig0.16/stdout-print-flush",
+            "zig0.16/argparse-flags-parse",
+            "zig0.16/subprocess-run-capture"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 57.3
+        },
+        {
+          "qid": "h06",
+          "kind": "typo",
+          "query": "parsear un archivo de config KEY=VALOR con comillas y comentarios tipo # ..., sin ejecutar codigo del fichero. configparser pero sin secciones, en zig 0.16",
+          "expect": "POS",
+          "expected": "zig0.16/parse-kv-config",
+          "got_top3": [
+            "zig0.16/parse-kv-config",
+            "zig0.16/argparse-flags-parse",
+            "zig0.16/diag-comptime-runtime-value"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 60.7
+        },
+        {
+          "qid": "h07",
+          "kind": "direct",
+          "query": "cual es el equivalente de time.sleep(0.25) en zig 0.16? quiero dormir 250 ms sin quemar CPU y que se propague la cancelacion",
+          "expect": "POS",
+          "expected": "zig0.16/sleep-ms",
+          "got_top3": [
+            "zig0.16/sleep-ms",
+            "zig0.16/migrate-time-sleep",
+            "zig0.16/monotonic-duration-measure"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 58.0
+        },
+        {
+          "qid": "h08",
+          "kind": "direct",
+          "query": "partir una cadena por comas descartando los campos vacios, hacer strip de espacios y formatear un numero en un buffer de tamano fijo sin asignar heap (f-string pero bufPrint)",
+          "expect": "POS",
+          "expected": "zig0.16/string-split-strip-format",
+          "got_top3": [
+            "zig0.16/string-split-strip-format",
+            "zig0.16/format-string-alloc-print",
+            "zig0.16/heapq-priority-queue"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 66.7
+        },
+        {
+          "qid": "h09",
+          "kind": "direct",
+          "query": "lanzar un hijo con stdout y stderr redirigidos a un log en append, stdin ignorado, y esperar a que acabe para leer el exit code",
+          "expect": "POS",
+          "expected": "zig0.16/spawn-redirect-child",
+          "got_top3": [
+            "zig0.16/spawn-redirect-child",
+            "zig0.16/stdout-print-flush",
+            "zig0.16/subprocess-run-capture"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 61.3
+        },
+        {
+          "qid": "h10",
+          "kind": "direct",
+          "query": "getenv en zig que devuelva null si la variable no esta y no copie la cadena cuando no hace falta, como os.environ.get",
+          "expect": "POS",
+          "expected": "zig0.16/env-var-read",
+          "got_top3": [
+            "zig0.16/env-var-read",
+            "zig0.16/diag-shadow-local",
+            "zig0.16/argparse-flags-parse"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 57.1
+        },
+        {
+          "qid": "h11",
+          "kind": "direct",
+          "query": "calcular el sha256 de un buffer de bytes y pasarlo a hexadecimal en minusculas, tipo hashlib.sha256(data).hexdigest()",
+          "expect": "POS",
+          "expected": "zig0.16/sha256-bytes",
+          "got_top3": [
+            "zig0.16/sha256-bytes",
+            "zig0.16/md5-hexdigest",
+            "zig0.16/hex-encode-decode"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 57.9
+        },
+        {
+          "qid": "h12",
+          "kind": "long",
+          "query": "mi build.zig viejo usa b.addExecutable(.{ .root_source_file = b.path(\"src/main.zig\"), .target = ..., .optimize = ... }) y en zig 0.16 ya no compila; como se crea el modulo con createModule y se le pasa root_module?",
+          "expect": "POS",
+          "expected": "zig0.16/build-exe-root-module",
+          "got_top3": [
+            "zig0.16/build-exe-root-module",
+            "zig0.16/build-add-import",
+            "zig0.16/build-import-outside-module"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 60.9
+        },
+        {
+          "qid": "h13",
+          "kind": "direct",
+          "query": "en el build de 0.16 llamo a una funcion de libc con extern \"c\" y el enlazador se queja; donde va .link_libc = true?",
+          "expect": "POS",
+          "expected": "zig0.16/build-link-libc",
+          "got_top3": [
+            "zig0.16/build-link-libc",
+            "zig0.16/ffi-extern-c-function",
+            "zig0.16/build-c-source-files"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 62.8
+        },
+        {
+          "qid": "h14",
+          "kind": "typo",
+          "query": "@import(\"util\") no me lo encuentra aunque el fichero util.zig esta ahi al lado. me falta registrar el modulo con addImport en el build?",
+          "expect": "POS",
+          "expected": "zig0.16/build-add-import",
+          "got_top3": [
+            "zig0.16/build-add-import",
+            "zig0.16/build-import-outside-module",
+            "zig0.16/build-c-source-files"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 59.3
+        },
+        {
+          "qid": "h15",
+          "kind": "long",
+          "query": "tengo un @import(\"../lib/comun.zig\") fuera de src/ y zig dice que esta fuera de la carpeta del modulo. como declaro ese archivo como modulo propio y lo importo por nombre?",
+          "expect": "POS",
+          "expected": "zig0.16/build-import-outside-module",
+          "got_top3": [
+            "zig0.16/build-import-outside-module",
+            "zig0.16/build-add-import",
+            "zig0.16/build-shared-library"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 58.8
+        },
+        {
+          "qid": "h16",
+          "kind": "direct",
+          "query": "quiero generar un .so desde build.zig en 0.16, b.addSharedLibrary ya no existe; se usa b.addLibrary con linkage dynamic sobre un createModule no?",
+          "expect": "POS",
+          "expected": "zig0.16/build-shared-library",
+          "got_top3": [
+            "zig0.16/build-shared-library",
+            "zig0.16/build-exe-root-module",
+            "zig0.16/build-dynamic-library-pic"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 58.5
+        },
+        {
+          "qid": "h17",
+          "kind": "direct",
+          "query": "zig build test no corre nada de mis tests; como se monta el paso test con addTest, addRunArtifact y b.step(\"test\") en 0.16?",
+          "expect": "POS",
+          "expected": "zig0.16/build-test-step",
+          "got_top3": [
+            "zig0.16/build-test-step",
+            "zig0.16/build-add-import",
+            "zig0.16/build-exe-root-module"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 57.4
+        },
+        {
+          "qid": "h18",
+          "kind": "direct",
+          "query": "necesito un diccionario str -> int en zig: insertar, leer con valor por defecto, contains, acumular, borrar e iterar. StringHashMapUnmanaged no?",
+          "expect": "POS",
+          "expected": "zig0.16/dict-str-int-basic",
+          "got_top3": [
+            "zig0.16/dict-str-int-basic",
+            "zig0.16/set-str-membership",
+            "zig0.16/json-loads-dynamic"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 59.6
+        },
+        {
+          "qid": "h19",
+          "kind": "paraphrase",
+          "query": "lista dinamica con append, pop por indice (incluso negativo como python) e insert con recorte; se que en 0.16 el allocator va en cada llamada",
+          "expect": "POS",
+          "expected": "zig0.16/list-append-pop-insert",
+          "got_top3": [
+            "zig0.16/list-append-pop-insert",
+            "zig0.16/sorted-key-stable",
+            "zig0.16/string-split-strip-format"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 62.3
+        },
+        {
+          "qid": "h20",
+          "kind": "direct",
+          "query": "ordenar una lista de structs por una clave de forma estable y con reverse=True, como sorted(..., key=lambda x: x.edad); devolviendo copia o en sitio",
+          "expect": "POS",
+          "expected": "zig0.16/sorted-key-stable",
+          "got_top3": [
+            "zig0.16/sorted-key-stable",
+            "zig0.16/list-append-pop-insert",
+            "zig0.16/migrate-type-builtin"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 58.2
+        },
+        {
+          "qid": "h21",
+          "kind": "direct",
+          "query": "set de strings sin duplicados con add, discard, `in`, union e interseccion en zig 0.16",
+          "expect": "POS",
+          "expected": "zig0.16/set-str-membership",
+          "got_top3": [
+            "zig0.16/set-str-membership",
+            "zig0.16/dict-str-int-basic",
+            "zig0.16/string-split-strip-format"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 56.5
+        },
+        {
+          "qid": "h22",
+          "kind": "direct",
+          "query": "heapq.heappush/heappop en zig con std.PriorityQueue, y quiero que empaten por orden de insercion",
+          "expect": "POS",
+          "expected": "zig0.16/heapq-priority-queue",
+          "got_top3": [
+            "zig0.16/heapq-priority-queue",
+            "zig0.16/counter-most-common",
+            "zig0.16/listdir-names-sorted"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 56.2
+        },
+        {
+          "qid": "h23",
+          "kind": "direct",
+          "query": "contar palabras y sacar las 5 mas frecuentes de mayor a menor, o sea Counter(palabras).most_common(5)",
+          "expect": "POS",
+          "expected": "zig0.16/counter-most-common",
+          "got_top3": [
+            "zig0.16/counter-most-common"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 57.1
+        },
+        {
+          "qid": "h24",
+          "kind": "direct",
+          "query": "concatenar componentes de una ruta y sacar dirname, basename, stem y extension sin tocar el disco, como os.path.join/splitext",
+          "expect": "POS",
+          "expected": "zig0.16/path-join-basename-ext",
+          "got_top3": [
+            "zig0.16/path-join-basename-ext",
+            "zig0.16/string-split-strip-format"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 56.9
+        },
+        {
+          "qid": "h25",
+          "kind": "direct",
+          "query": "listar los nombres de un directorio con su tipo y orden determinista, equivalente a os.listdir ordenado en python",
+          "expect": "POS",
+          "expected": "zig0.16/listdir-names-sorted",
+          "got_top3": [
+            "zig0.16/listdir-names-sorted",
+            "zig0.16/walk-tree-files",
+            "zig0.16/path-join-basename-ext"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 58.9
+        },
+        {
+          "qid": "h26",
+          "kind": "long",
+          "query": "recorrer un arbol de directorios en plan os.walk para recoger solo los archivos regulares .zig y guardar sus rutas relativas",
+          "expect": "POS",
+          "expected": "zig0.16/walk-tree-files",
+          "got_top3": [
+            "zig0.16/walk-tree-files",
+            "zig0.16/makedirs-exist-ok",
+            "zig0.16/remove-file-rmtree"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 59.9
+        },
+        {
+          "qid": "h27",
+          "kind": "direct",
+          "query": "os.makedirs(ruta, exist_ok=True) en zig 0.16: crear todos los padres y no fallar si ya existe, idealmente sabiendo si cree algo",
+          "expect": "POS",
+          "expected": "zig0.16/makedirs-exist-ok",
+          "got_top3": [
+            "zig0.16/makedirs-exist-ok",
+            "zig0.16/path-join-basename-ext",
+            "zig0.16/build-import-outside-module"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 57.6
+        },
+        {
+          "qid": "h28",
+          "kind": "direct",
+          "query": "necesito un directorio temporal con nombre aleatorio, usarlo fuera de un test y borrarlo entero al terminar (TemporaryDirectory)",
+          "expect": "POS",
+          "expected": "zig0.16/temp-dir-scoped",
+          "got_top3": [
+            "zig0.16/temp-dir-scoped",
+            "zig0.16/remove-file-rmtree",
+            "zig0.16/listdir-names-sorted"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 58.4
+        },
+        {
+          "qid": "h29",
+          "kind": "direct",
+          "query": "copiar el contenido de un archivo a otro sobrescribiendo el destino, como shutil.copyfile; o negarme a pisar si existe",
+          "expect": "POS",
+          "expected": "zig0.16/copyfile-replace",
+          "got_top3": [
+            "zig0.16/copyfile-replace",
+            "zig0.16/remove-file-rmtree",
+            "zig0.16/makedirs-exist-ok"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 59.1
+        },
+        {
+          "qid": "h30",
+          "kind": "direct",
+          "query": "varios hilos incrementando un contador compartido y no quiero perder incrementos: con atomics o con std.Io.Mutex, que en 0.16 no es std.Thread.Mutex",
+          "expect": "POS",
+          "expected": "zig0.16/thread-shared-counter",
+          "got_top3": [
+            "zig0.16/thread-shared-counter",
+            "zig0.16/migrate-thread-mutex",
+            "zig0.16/thread-spawn-join"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 60.4
+        },
+        {
+          "qid": "h31",
+          "kind": "long",
+          "query": "tengo tres tareas independientes y quiero lanzarlas a la vez y esperarlas como asyncio.gather; vi que std.Io tiene Future, concurrent y Group pero no se cual usar",
+          "expect": "POS",
+          "expected": "zig0.16/io-async-group-future",
+          "got_top3": [
+            "zig0.16/io-async-group-future",
+            "zig0.16/thread-spawn-join"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 58.3
+        },
+        {
+          "qid": "h32",
+          "kind": "long",
+          "query": "montar un servidor TCP en 127.0.0.1 con puerto efimero, conectar un cliente en el mismo proceso, enviar una linea y recibir el eco, como haria con socket.listen/accept/connect en python",
+          "expect": "POS",
+          "expected": "zig0.16/tcp-loopback-echo",
+          "got_top3": [
+            "zig0.16/tcp-loopback-echo",
+            "zig0.16/udp-loopback-datagram",
+            "zig0.16/http-client-get-local"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 61.3
+        },
+        {
+          "qid": "h33",
+          "kind": "direct",
+          "query": "hacer un GET con std.http.Client contra un servidor HTTP minimo levantado en el propio test y leer el codigo de estado y el cuerpo (requests.get local)",
+          "expect": "POS",
+          "expected": "zig0.16/http-client-get-local",
+          "got_top3": [
+            "zig0.16/http-client-get-local",
+            "zig0.16/tcp-loopback-echo",
+            "zig0.16/udp-loopback-datagram"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 56.0
+        },
+        {
+          "qid": "h34",
+          "kind": "direct",
+          "query": "llamar a una funcion C con extern fn sin usar @cImport; en el test hermetico exporto yo el simbolo con @export o uso libc",
+          "expect": "POS",
+          "expected": "zig0.16/ffi-extern-c-function",
+          "got_top3": [
+            "zig0.16/ffi-extern-c-function",
+            "zig0.16/build-link-libc",
+            "zig0.16/build-c-source-files"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 58.1
+        },
+        {
+          "qid": "h35",
+          "kind": "direct",
+          "query": "json.loads de un texto sin conocer el esquema, a un arbol dinamico tipo dict/lista/str/int/bool/None y recorrerlo con switch (std.json.Value)",
+          "expect": "POS",
+          "expected": "zig0.16/json-loads-dynamic",
+          "got_top3": [
+            "zig0.16/json-loads-dynamic",
+            "zig0.16/json-dumps-indent",
+            "zig0.16/json-loads-typed-struct"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 59.7
+        },
+        {
+          "qid": "h36",
+          "kind": "long",
+          "query": "decodificar un JSON directamente en un struct de Zig con campos opcionales y valores por defecto, y decidir que hago con campos que no conozco; algo tipo dataclass/pydantic",
+          "expect": "POS",
+          "expected": "zig0.16/json-loads-typed-struct",
+          "got_top3": [
+            "zig0.16/json-loads-typed-struct",
+            "zig0.16/json-dumps-indent",
+            "zig0.16/json-loads-dynamic"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 59.6
+        },
+        {
+          "qid": "h37",
+          "kind": "direct",
+          "query": "como capturo un JSON malformado o truncado sin que el programa abortara, el equivalente a try/except json.JSONDecodeError (o solo validar)",
+          "expect": "POS",
+          "expected": "zig0.16/json-invalid-input-error",
+          "got_top3": [
+            "zig0.16/json-invalid-input-error",
+            "zig0.16/json-loads-typed-struct",
+            "zig0.16/json-string-escape-unicode"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 58.2
+        },
+        {
+          "qid": "h38",
+          "kind": "direct",
+          "query": "construir un texto con variables y numeros interpolated como una f-string de python, ya sea asignando el resultado o escribiendo en un buffer que me pasa el llamador",
+          "expect": "POS",
+          "expected": "zig0.16/format-string-alloc-print",
+          "got_top3": [
+            "zig0.16/format-string-alloc-print",
+            "zig0.16/parse-int-base-overflow",
+            "zig0.16/string-split-strip-format"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 59.0
+        },
+        {
+          "qid": "h39",
+          "kind": "typo",
+          "query": "necesito que -7 // 3 me de -3 y que -7 % 3 me de 2 como en python, pero zig trunca hacia cero. como hago la division floor y el modulo con el signo del divisor?",
+          "expect": "POS",
+          "expected": "zig0.16/div-floor-mod-negative",
+          "got_top3": [
+            "zig0.16/div-floor-mod-negative",
+            "zig0.16/round-floor-ceil-bankers",
+            "zig0.16/parse-float-format-decimals"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 57.4
+        },
+        {
+          "qid": "h40",
+          "kind": "direct",
+          "query": "contar cuantos bits a 1 tiene un entero y cuantos bits necessita para representarse, o sea int.bit_count() y bit_length() de python",
+          "expect": "POS",
+          "expected": "zig0.16/int-bit-count-bit-length",
+          "got_top3": [
+            "zig0.16/int-bit-count-bit-length",
+            "zig0.16/int-from-bytes-to-bytes-endian",
+            "zig0.16/utf8-codepoints-validate"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 57.2
+        },
+        {
+          "qid": "h41",
+          "kind": "direct",
+          "query": "convertir un char* terminado en NUL en un slice de bytes sin copiar, o cortar un buffer en el primer cero (span / sliceTo)",
+          "expect": "POS",
+          "expected": "zig0.16/cstring-span-slice-to",
+          "got_top3": [
+            "zig0.16/cstring-span-slice-to",
+            "zig0.16/hex-encode-decode",
+            "zig0.16/struct-pack-endian-readint"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 58.5
+        },
+        {
+          "qid": "h42",
+          "kind": "direct",
+          "query": "migrando codigo a 0.16: std.ArrayList(T).init(allocator) ya no existe y me dice que el tipo no tiene miembro init; como se usa .empty y el allocator por llamada?",
+          "expect": "POS",
+          "expected": "zig0.16/migrate-arraylist-unmanaged",
+          "got_top3": [
+            "zig0.16/migrate-arraylist-unmanaged",
+            "zig0.16/list-append-pop-insert",
+            "zig0.16/listdir-names-sorted"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 58.2
+        },
+        {
+          "qid": "h43",
+          "kind": "long",
+          "query": "estoy pasando un proyecto a zig 0.16 y std.fs.cwd().readFileAlloc ya no compila; oi que el directorio ahora es std.Io.Dir y toda llamada recibe io y un std.Io.Limit.¿como queda la lectura completa de un archivo?",
+          "expect": "POS",
+          "expected": "zig0.16/migrate-readfilealloc",
+          "got_top3": [
+            "zig0.16/migrate-readfilealloc",
+            "zig0.16/json-read-file-limited",
+            "zig0.16/read-file-text-limited"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 59.3
+        },
+        {
+          "qid": "h44",
+          "kind": "negative",
+          "query": "hay alguna receta para leer un CSV con csv.DictReader y usar la cabecera como claves? es para un script de importacion en zig 0.16",
+          "expect": "NONE",
+          "expected": null,
+          "got_top3": [
+            "zig0.16/dict-str-int-basic",
+            "zig0.16/json-invalid-input-error",
+            "zig0.16/json-dumps-indent"
+          ],
+          "error": null,
+          "ok_top1": false,
+          "ok_top3": false,
+          "ms": 56.9
+        },
+        {
+          "qid": "h45",
+          "kind": "negative",
+          "query": "como comprimo un buffer con gzip / zlib.compress y luego lo descomprimo en zig 0.16? necesito el equivalente de gzip.compress(bytes)",
+          "expect": "NONE",
+          "expected": null,
+          "got_top3": [
+            "zig0.16/crc32-checksum",
+            "zig0.16/hex-encode-decode",
+            "zig0.16/json-read-file-limited"
+          ],
+          "error": null,
+          "ok_top1": false,
+          "ok_top3": false,
+          "ms": 57.5
+        },
+        {
+          "qid": "h46",
+          "kind": "negative",
+          "query": "quiero re.sub con una expresion regular para reemplazar todas las coincidencias de un patron en un texto; ¿hay algo en zig 0.16 que no sea buscar literal?",
+          "expect": "NONE",
+          "expected": null,
+          "got_top3": [],
+          "error": "NO_RESULTS",
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 58.2
+        },
+        {
+          "qid": "h47",
+          "kind": "negative",
+          "query": "mmap de un archivo grande para acceder por offset sin cargarlo todo en memoria, como el mmap module de python",
+          "expect": "NONE",
+          "expected": null,
+          "got_top3": [
+            "zig0.16/process-args-iterate",
+            "zig0.16/int-from-bytes-to-bytes-endian",
+            "zig0.16/int-bit-count-bit-length"
+          ],
+          "error": null,
+          "ok_top1": false,
+          "ok_top3": false,
+          "ms": 56.3
+        },
+        {
+          "qid": "h48",
+          "kind": "negative",
+          "query": "instalar un handler de SIGTERM con signal.signal para cerrar limpio los recursos antes de salir",
+          "expect": "NONE",
+          "expected": null,
+          "got_top3": [
+            "zig0.16/argparse-flags-parse",
+            "zig0.16/build-add-import"
+          ],
+          "error": null,
+          "ok_top1": false,
+          "ok_top3": false,
+          "ms": 56.8
+        },
+        {
+          "qid": "h49",
+          "kind": "negative",
+          "query": "conectarme a SQLite desde zig y ejecutar un SELECT con parametros, como sqlite3.connect + execute en python",
+          "expect": "NONE",
+          "expected": null,
+          "got_top3": [
+            "zig0.16/thread-spawn-join",
+            "zig0.16/argparse-flags-parse",
+            "zig0.16/dict-str-int-basic"
+          ],
+          "error": null,
+          "ok_top1": false,
+          "ok_top3": false,
+          "ms": 54.6
+        },
+        {
+          "qid": "h50",
+          "kind": "negative",
+          "query": "dar formato a una fecha con strftime('%Y-%m-%d %H:%M') en zig 0.16, a partir de un epoch",
+          "expect": "NONE",
+          "expected": null,
+          "got_top3": [
+            "zig0.16/epoch-now-seconds",
+            "zig0.16/format-string-alloc-print",
+            "zig0.16/sleep-ms"
+          ],
+          "error": null,
+          "ok_top1": false,
+          "ok_top3": false,
+          "ms": 56.7
+        },
+        {
+          "qid": "h51",
+          "kind": "negative",
+          "query": "cargar un YAML con anidamiento y listas tipo yaml.safe_load en el arranque del programa",
+          "expect": "NONE",
+          "expected": null,
+          "got_top3": [
+            "zig0.16/json-invalid-input-error",
+            "zig0.16/argparse-flags-parse",
+            "zig0.16/build-import-outside-module"
+          ],
+          "error": null,
+          "ok_top1": false,
+          "ok_top3": false,
+          "ms": 55.9
+        },
+        {
+          "qid": "h52",
+          "kind": "negative",
+          "query": "levantar un daemon con start_new_session=True / setsid sin usar un shell externo; quiero que sobreviva al padre y tenga su propia sesion",
+          "expect": "NONE",
+          "expected": null,
+          "got_top3": [
+            "zig0.16/detached-daemon-no-shell",
+            "zig0.16/spawn-redirect-child",
+            "zig0.16/env-var-read"
+          ],
+          "error": null,
+          "ok_top1": false,
+          "ok_top3": false,
+          "ms": 56.2
+        },
+        {
+          "qid": "h53",
+          "kind": "negative",
+          "query": "cliente WebSocket que mantenga la conexion abierta y reciba mensajes push del servidor",
+          "expect": "NONE",
+          "expected": null,
+          "got_top3": [
+            "zig0.16/tcp-loopback-echo",
+            "zig0.16/http-client-get-local",
+            "zig0.16/udp-loopback-datagram"
+          ],
+          "error": null,
+          "ok_top1": false,
+          "ok_top3": false,
+          "ms": 54.4
+        },
+        {
+          "qid": "h54",
+          "kind": "error",
+          "query": "me sale esto al compilar: error: local variable is never mutated | note: consider using 'const'. que hago, declaro const?",
+          "expect": "POS",
+          "expected": "zig0.16/diag-never-mutated",
+          "got_top3": [
+            "zig0.16/diag-never-mutated",
+            "zig0.16/diag-shadow-local",
+            "zig0.16/diag-inline-redundant"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 55.8
+        },
+        {
+          "qid": "h55",
+          "kind": "error",
+          "query": "el compilador de zig 0.16 me escupe: error: name shadows primitive 'u8' y note: consider using @\"u8\" to disambiguate. por que no puedo llamar u8 a mi constante?",
+          "expect": "POS",
+          "expected": "zig0.16/diag-shadow-primitive",
+          "got_top3": [
+            "zig0.16/diag-shadow-primitive",
+            "zig0.16/diag-shadow-local"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 58.8
+        },
+        {
+          "qid": "h56",
+          "kind": "error",
+          "query": "fallo con error: use of undeclared identifier 'builtin' cuando uso builtin.os.tag. me falta algun import?",
+          "expect": "POS",
+          "expected": "zig0.16/diag-builtin-undeclared",
+          "got_top3": [
+            "zig0.16/diag-builtin-undeclared",
+            "zig0.16/build-import-outside-module",
+            "zig0.16/makedirs-exist-ok"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 56.8
+        },
+        {
+          "qid": "h57",
+          "kind": "error",
+          "query": "error: local constant 'x' shadows local constant from outer scope (y note: previous declaration here). tengo un x dentro de un bloque y otro fuera, como se arregla?",
+          "expect": "POS",
+          "expected": "zig0.16/diag-shadow-local",
+          "got_top3": [
+            "zig0.16/diag-shadow-local",
+            "zig0.16/diag-never-mutated",
+            "zig0.16/diag-inline-redundant"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 57.1
+        },
+        {
+          "qid": "h58",
+          "kind": "error",
+          "query": "pegando el error real: error: @ptrCast discards const qualifier | note: use @constCast to discard const qualifier. es seguro hacer @constCast aqui?",
+          "expect": "POS",
+          "expected": "zig0.16/diag-ptrcast-const",
+          "got_top3": [
+            "zig0.16/diag-ptrcast-const",
+            "zig0.16/parse-kv-config",
+            "zig0.16/migrate-type-builtin"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 57.6
+        },
+        {
+          "qid": "h59",
+          "kind": "error",
+          "query": "compilando un comptime con un bucle me da error: evaluation exceeded 1000 backwards branches | note: use @setEvalBranchQuota() to raise the branch limit from 1000. como lo subo?",
+          "expect": "POS",
+          "expected": "zig0.16/diag-eval-branch-quota",
+          "got_top3": [
+            "zig0.16/diag-eval-branch-quota",
+            "zig0.16/diag-inline-redundant",
+            "zig0.16/diag-comptime-runtime-call"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 57.7
+        },
+        {
+          "qid": "h60",
+          "kind": "error",
+          "query": "este error: error: unable to resolve comptime value | note: types must be comptime-known al declarar un array con una variable. como lo arreglo?",
+          "expect": "POS",
+          "expected": "zig0.16/diag-comptime-runtime-value",
+          "got_top3": [
+            "zig0.16/diag-comptime-runtime-value",
+            "zig0.16/diag-comptime-runtime-call",
+            "zig0.16/diag-comptime-redundant"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 56.6
+        },
+        {
+          "qid": "h61",
+          "kind": "error",
+          "query": "zig 0.16 dice error: expected type 'u8', found 'u32' | note: unsigned 8-bit int cannot represent all possible unsigned 32-bit values. ¿@truncate o @intCast?",
+          "expect": "POS",
+          "expected": "zig0.16/diag-narrowing-intcast",
+          "got_top3": [
+            "zig0.16/diag-narrowing-intcast",
+            "zig0.16/migrate-type-builtin",
+            "zig0.16/int-bit-count-bit-length"
+          ],
+          "error": null,
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 56.7
+        }
+      ]
+    }
+  },
+  "embed_mode": "onnx",
+  "embed_model": "all-MiniLM-L6-v2",
+  "entries": 95
+}
