@@ -1,15 +1,15 @@
 {
   "model": "all-MiniLM-L6-v2",
-  "peak_rss_mb": 200.2,
+  "peak_rss_mb": 200.4,
   "modes": {
     "lexical": {
       "summary": {
         "n": 216,
-        "precision_at_1": 0.976,
+        "precision_at_1": 0.981,
         "recall_at_3": 0.995,
         "negativas_correctas": "4/4",
         "status_correcto": "3/3",
-        "latencia_ms_media": 1.8,
+        "latencia_ms_media": 2.4,
         "por_tipo": {
           "api": {
             "n": 57,
@@ -18,7 +18,7 @@
           },
           "direct": {
             "n": 60,
-            "aciertos_top1": 57,
+            "aciertos_top1": 58,
             "aciertos_top3": 60
           },
           "error": {
@@ -47,7 +47,7 @@
             "aciertos_top3": 1
           }
         },
-        "mrr_at_3": 0.986
+        "mrr_at_3": 0.987
       },
       "rows": [
         {
@@ -64,7 +64,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.3
+          "ms": 2.4
         },
         {
           "qid": "q02",
@@ -79,7 +79,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.4
+          "ms": 1.5
         },
         {
           "qid": "q03",
@@ -93,7 +93,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 2.0
         },
         {
           "qid": "q04",
@@ -108,7 +108,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.7
+          "ms": 2.1
         },
         {
           "qid": "q05",
@@ -118,13 +118,13 @@
           "expected": "zig0.16/read-file-text-limited",
           "got_top3": [
             "zig0.16/read-file-text-limited",
-            "zig0.16/process-args-iterate",
-            "zig0.16/json-read-file-limited"
+            "zig0.16/json-read-file-limited",
+            "zig0.16/process-args-iterate"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.6
+          "ms": 3.4
         },
         {
           "qid": "q06",
@@ -139,7 +139,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.8
+          "ms": 2.3
         },
         {
           "qid": "q07",
@@ -155,7 +155,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 1.9
         },
         {
           "qid": "q08",
@@ -169,7 +169,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.7
+          "ms": 2.0
         },
         {
           "qid": "q09",
@@ -179,13 +179,13 @@
           "expected": "zig0.16/file-exists-vs-error",
           "got_top3": [
             "zig0.16/file-exists-vs-error",
-            "zig0.16/makedirs-exist-ok",
-            "zig0.16/path-join-basename-ext"
+            "zig0.16/diag-mined-module-conflict",
+            "zig0.16/makedirs-exist-ok"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.9
+          "ms": 3.7
         },
         {
           "qid": "q10",
@@ -201,7 +201,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.2
+          "ms": 3.0
         },
         {
           "qid": "q11",
@@ -215,7 +215,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.5
+          "ms": 1.9
         },
         {
           "qid": "q12",
@@ -231,7 +231,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 2.0
         },
         {
           "qid": "q13",
@@ -247,7 +247,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.9
+          "ms": 3.7
         },
         {
           "qid": "q14",
@@ -263,7 +263,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.4
+          "ms": 1.7
         },
         {
           "qid": "q15",
@@ -278,7 +278,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.3
+          "ms": 1.6
         },
         {
           "qid": "q16",
@@ -294,7 +294,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.7
+          "ms": 1.8
         },
         {
           "qid": "q17",
@@ -310,7 +310,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.2
+          "ms": 2.8
         },
         {
           "qid": "q18",
@@ -326,7 +326,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.9
+          "ms": 2.1
         },
         {
           "qid": "q19",
@@ -353,12 +353,12 @@
           "got_top3": [
             "zig0.16/env-var-read",
             "zig0.16/read-file-text-limited",
-            "zig0.16/json-read-file-limited"
+            "zig0.16/diag-mined-embed-outside"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.4
+          "ms": 1.6
         },
         {
           "qid": "q21",
@@ -374,7 +374,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.6
+          "ms": 3.0
         },
         {
           "qid": "q22",
@@ -390,7 +390,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.2
+          "ms": 1.9
         },
         {
           "qid": "q23",
@@ -405,7 +405,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.8
+          "ms": 1.2
         },
         {
           "qid": "q24",
@@ -417,7 +417,7 @@
           "error": "NO_RESULTS",
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.2
+          "ms": 1.5
         },
         {
           "qid": "q25",
@@ -429,7 +429,7 @@
           "error": "NO_RESULTS",
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.2
+          "ms": 1.6
         },
         {
           "qid": "q26",
@@ -441,7 +441,7 @@
           "error": "NO_RESULTS",
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.8
+          "ms": 1.2
         },
         {
           "qid": "q27",
@@ -453,7 +453,7 @@
           "error": "VERSION_MISMATCH",
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.2
+          "ms": 0.3
         },
         {
           "qid": "q28",
@@ -468,7 +468,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.1
+          "ms": 1.7
         },
         {
           "qid": "colecciones-01",
@@ -483,7 +483,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.8
+          "ms": 2.2
         },
         {
           "qid": "colecciones-02",
@@ -499,7 +499,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.0
+          "ms": 2.2
         },
         {
           "qid": "colecciones-03",
@@ -514,7 +514,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.0
+          "ms": 2.2
         },
         {
           "qid": "colecciones-04",
@@ -528,7 +528,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.3
+          "ms": 1.7
         },
         {
           "qid": "colecciones-05",
@@ -542,7 +542,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 2.1
         },
         {
           "qid": "colecciones-06",
@@ -557,7 +557,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 2.1
         },
         {
           "qid": "colecciones-07",
@@ -571,7 +571,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.8
+          "ms": 2.2
         },
         {
           "qid": "colecciones-08",
@@ -585,7 +585,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.7
+          "ms": 3.6
         },
         {
           "qid": "colecciones-09",
@@ -599,7 +599,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.3
+          "ms": 1.5
         },
         {
           "qid": "colecciones-10",
@@ -613,7 +613,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.3
+          "ms": 1.4
         },
         {
           "qid": "colecciones-11",
@@ -627,7 +627,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.1
+          "ms": 2.1
         },
         {
           "qid": "colecciones-12",
@@ -641,7 +641,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.4
+          "ms": 1.9
         },
         {
           "qid": "colecciones-13",
@@ -656,7 +656,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.1
+          "ms": 1.5
         },
         {
           "qid": "colecciones-14",
@@ -670,7 +670,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.2
+          "ms": 1.5
         },
         {
           "qid": "fs_rutas-01",
@@ -686,7 +686,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.6
+          "ms": 3.4
         },
         {
           "qid": "fs_rutas-02",
@@ -701,7 +701,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.0
+          "ms": 2.8
         },
         {
           "qid": "fs_rutas-03",
@@ -715,7 +715,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.2
+          "ms": 1.5
         },
         {
           "qid": "fs_rutas-04",
@@ -730,7 +730,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 2.0
         },
         {
           "qid": "fs_rutas-05",
@@ -745,7 +745,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.1
+          "ms": 1.5
         },
         {
           "qid": "fs_rutas-06",
@@ -759,7 +759,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 1.9
         },
         {
           "qid": "fs_rutas-07",
@@ -773,7 +773,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.2
+          "ms": 1.9
         },
         {
           "qid": "fs_rutas-08",
@@ -788,7 +788,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.4
+          "ms": 1.7
         },
         {
           "qid": "fs_rutas-09",
@@ -802,7 +802,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 0.9
         },
         {
           "qid": "fs_rutas-10",
@@ -816,7 +816,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.8
+          "ms": 2.0
         },
         {
           "qid": "fs_rutas-11",
@@ -826,12 +826,13 @@
           "expected": "zig0.16/copyfile-replace",
           "got_top3": [
             "zig0.16/copyfile-replace",
+            "zig0.16/diag-mined-bitcast-size",
             "zig0.16/remove-file-rmtree"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.5
+          "ms": 2.0
         },
         {
           "qid": "fs_rutas-12",
@@ -847,7 +848,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.8
+          "ms": 2.4
         },
         {
           "qid": "fs_rutas-13",
@@ -861,7 +862,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.0
+          "ms": 1.4
         },
         {
           "qid": "fs_rutas-14",
@@ -875,7 +876,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.2
+          "ms": 1.6
         },
         {
           "qid": "json-01",
@@ -891,7 +892,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.7
+          "ms": 2.4
         },
         {
           "qid": "json-02",
@@ -907,7 +908,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.0
+          "ms": 2.4
         },
         {
           "qid": "json-03",
@@ -923,7 +924,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.1
+          "ms": 2.5
         },
         {
           "qid": "json-04",
@@ -938,7 +939,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.5
+          "ms": 1.8
         },
         {
           "qid": "json-05",
@@ -954,7 +955,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.2
+          "ms": 3.2
         },
         {
           "qid": "json-06",
@@ -969,7 +970,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.3
+          "ms": 2.0
         },
         {
           "qid": "json-07",
@@ -983,7 +984,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.2
+          "ms": 1.6
         },
         {
           "qid": "json-08",
@@ -999,7 +1000,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.5
+          "ms": 2.2
         },
         {
           "qid": "json-09",
@@ -1014,7 +1015,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.9
+          "ms": 3.8
         },
         {
           "qid": "json-10",
@@ -1030,7 +1031,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.8
+          "ms": 3.4
         },
         {
           "qid": "json-11",
@@ -1044,7 +1045,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.8
+          "ms": 2.7
         },
         {
           "qid": "json-12",
@@ -1058,7 +1059,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.7
+          "ms": 1.9
         },
         {
           "qid": "texto_num-01",
@@ -1074,7 +1075,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 1.9
         },
         {
           "qid": "texto_num-02",
@@ -1089,7 +1090,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.2
+          "ms": 1.7
         },
         {
           "qid": "texto_num-03",
@@ -1105,7 +1106,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.4
+          "ms": 3.2
         },
         {
           "qid": "texto_num-04",
@@ -1121,7 +1122,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.4
+          "ms": 1.8
         },
         {
           "qid": "texto_num-05",
@@ -1137,7 +1138,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.0
+          "ms": 4.0
         },
         {
           "qid": "texto_num-06",
@@ -1148,12 +1149,12 @@
           "got_top3": [
             "zig0.16/parse-int-base-overflow",
             "zig0.16/int-from-bytes-to-bytes-endian",
-            "zig0.16/json-loads-typed-struct"
+            "zig0.16/diag-mined-int-range"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 3.2
+          "ms": 4.3
         },
         {
           "qid": "texto_num-07",
@@ -1169,7 +1170,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.8
+          "ms": 2.3
         },
         {
           "qid": "texto_num-08",
@@ -1184,7 +1185,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.3
+          "ms": 1.7
         },
         {
           "qid": "texto_num-09",
@@ -1200,7 +1201,7 @@
           "error": null,
           "ok_top1": false,
           "ok_top3": true,
-          "ms": 1.7
+          "ms": 2.2
         },
         {
           "qid": "texto_num-10",
@@ -1214,7 +1215,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.3
+          "ms": 1.6
         },
         {
           "qid": "texto_num-11",
@@ -1230,7 +1231,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.2
+          "ms": 2.8
         },
         {
           "qid": "texto_num-12",
@@ -1246,7 +1247,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.8
+          "ms": 2.4
         },
         {
           "qid": "texto_num-13",
@@ -1262,7 +1263,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.3
+          "ms": 1.7
         },
         {
           "qid": "texto_num-14",
@@ -1277,7 +1278,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.1
+          "ms": 1.3
         },
         {
           "qid": "texto_num-15",
@@ -1292,7 +1293,7 @@
           "error": null,
           "ok_top1": false,
           "ok_top3": true,
-          "ms": 1.9
+          "ms": 2.3
         },
         {
           "qid": "texto_num-16",
@@ -1308,7 +1309,7 @@
           "error": null,
           "ok_top1": false,
           "ok_top3": false,
-          "ms": 1.8
+          "ms": 2.4
         },
         {
           "qid": "tiempo_args-01",
@@ -1324,7 +1325,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.2
+          "ms": 4.3
         },
         {
           "qid": "tiempo_args-02",
@@ -1338,7 +1339,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.2
+          "ms": 1.6
         },
         {
           "qid": "tiempo_args-03",
@@ -1353,7 +1354,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.6
+          "ms": 1.4
         },
         {
           "qid": "tiempo_args-04",
@@ -1367,7 +1368,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.4
+          "ms": 1.6
         },
         {
           "qid": "tiempo_args-05",
@@ -1381,7 +1382,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.1
+          "ms": 1.4
         },
         {
           "qid": "tiempo_args-06",
@@ -1395,7 +1396,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.8
+          "ms": 1.6
         },
         {
           "qid": "tiempo_args-07",
@@ -1411,7 +1412,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.8
+          "ms": 2.3
         },
         {
           "qid": "tiempo_args-08",
@@ -1427,7 +1428,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.3
+          "ms": 2.1
         },
         {
           "qid": "tiempo_args-09",
@@ -1443,7 +1444,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.4
+          "ms": 2.1
         },
         {
           "qid": "tiempo_args-10",
@@ -1457,7 +1458,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.4
+          "ms": 1.5
         },
         {
           "qid": "tiempo_args-11",
@@ -1472,7 +1473,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.2
+          "ms": 1.4
         },
         {
           "qid": "tiempo_args-12",
@@ -1488,7 +1489,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.8
+          "ms": 2.1
         },
         {
           "qid": "tiempo_args-13",
@@ -1503,7 +1504,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.0
+          "ms": 1.4
         },
         {
           "qid": "tiempo_args-14",
@@ -1517,7 +1518,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.4
+          "ms": 2.1
         },
         {
           "qid": "migracion-01",
@@ -1533,7 +1534,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.5
+          "ms": 5.0
         },
         {
           "qid": "migracion-02",
@@ -1549,7 +1550,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.7
+          "ms": 2.4
         },
         {
           "qid": "migracion-03",
@@ -1565,7 +1566,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.4
+          "ms": 2.7
         },
         {
           "qid": "migracion-04",
@@ -1576,12 +1577,12 @@
           "got_top3": [
             "zig0.16/migrate-stdout-writer",
             "zig0.16/migrate-writefile",
-            "zig0.16/migrate-child-run"
+            "zig0.16/migrate-open-dir-absolute"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 3.0
+          "ms": 3.8
         },
         {
           "qid": "migracion-05",
@@ -1597,7 +1598,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.1
+          "ms": 3.1
         },
         {
           "qid": "migracion-06",
@@ -1613,7 +1614,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.9
+          "ms": 2.6
         },
         {
           "qid": "migracion-07",
@@ -1629,7 +1630,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.2
+          "ms": 2.2
         },
         {
           "qid": "migracion-08",
@@ -1645,7 +1646,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 3.3
+          "ms": 3.6
         },
         {
           "qid": "migracion-09",
@@ -1661,7 +1662,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.3
+          "ms": 5.0
         },
         {
           "qid": "migracion-10",
@@ -1693,7 +1694,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.3
+          "ms": 3.2
         },
         {
           "qid": "migracion-12",
@@ -1709,7 +1710,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.7
+          "ms": 2.2
         },
         {
           "qid": "migracion-13",
@@ -1725,7 +1726,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.9
+          "ms": 2.3
         },
         {
           "qid": "migracion-14",
@@ -1741,7 +1742,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.4
+          "ms": 2.7
         },
         {
           "qid": "migracion-15",
@@ -1752,12 +1753,12 @@
           "got_top3": [
             "zig0.16/migrate-type-builtin",
             "zig0.16/random-prng-ops",
-            "zig0.16/diag-narrowing-intcast"
+            "zig0.16/diag-mined-int-range"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.8
+          "ms": 2.6
         },
         {
           "qid": "migracion-16",
@@ -1773,7 +1774,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 2.3
         },
         {
           "qid": "migracion-17",
@@ -1789,7 +1790,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.6
+          "ms": 3.6
         },
         {
           "qid": "migracion-18",
@@ -1805,7 +1806,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.9
+          "ms": 3.1
         },
         {
           "qid": "migracion-19",
@@ -1821,7 +1822,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 3.0
+          "ms": 2.9
         },
         {
           "qid": "io_red-01",
@@ -1836,7 +1837,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 1.8
         },
         {
           "qid": "io_red-02",
@@ -1850,7 +1851,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 2.0
         },
         {
           "qid": "io_red-03",
@@ -1865,7 +1866,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.3
+          "ms": 1.8
         },
         {
           "qid": "io_red-04",
@@ -1880,7 +1881,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.4
+          "ms": 1.9
         },
         {
           "qid": "io_red-05",
@@ -1894,7 +1895,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.2
+          "ms": 1.6
         },
         {
           "qid": "io_red-06",
@@ -1908,7 +1909,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.4
+          "ms": 2.0
         },
         {
           "qid": "io_red-07",
@@ -1923,7 +1924,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 2.2
         },
         {
           "qid": "io_red-08",
@@ -1937,7 +1938,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 1.9
         },
         {
           "qid": "io_red-09",
@@ -1951,7 +1952,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.2
+          "ms": 1.7
         },
         {
           "qid": "io_red-10",
@@ -1965,7 +1966,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.8
+          "ms": 2.4
         },
         {
           "qid": "io_red-11",
@@ -1979,7 +1980,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.4
+          "ms": 2.4
         },
         {
           "qid": "io_red-12",
@@ -1993,7 +1994,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.8
+          "ms": 2.3
         },
         {
           "qid": "io_red-13",
@@ -2007,7 +2008,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.3
+          "ms": 1.6
         },
         {
           "qid": "io_red-14",
@@ -2037,7 +2038,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.1
+          "ms": 1.4
         },
         {
           "qid": "diag-02",
@@ -2051,7 +2052,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 1.9
         },
         {
           "qid": "diag-03",
@@ -2066,7 +2067,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.2
+          "ms": 1.5
         },
         {
           "qid": "diag-04",
@@ -2076,13 +2077,13 @@
           "expected": "zig0.16/diag-never-mutated",
           "got_top3": [
             "zig0.16/diag-never-mutated",
-            "zig0.16/diag-shadow-local",
-            "zig0.16/thread-spawn-join"
+            "zig0.16/diag-mined-unused-discard",
+            "zig0.16/diag-shadow-local"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.1
+          "ms": 1.6
         },
         {
           "qid": "diag-05",
@@ -2098,7 +2099,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.4
+          "ms": 1.8
         },
         {
           "qid": "diag-06",
@@ -2114,7 +2115,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.3
+          "ms": 1.5
         },
         {
           "qid": "diag-07",
@@ -2123,12 +2124,14 @@
           "expect": "POS",
           "expected": "zig0.16/diag-shadow-local",
           "got_top3": [
-            "zig0.16/diag-shadow-local"
+            "zig0.16/diag-shadow-local",
+            "zig0.16/diag-mined-unused-discard",
+            "zig0.16/diag-mined-duplicate-names"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.0
+          "ms": 1.5
         },
         {
           "qid": "diag-08",
@@ -2142,7 +2145,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.9
+          "ms": 1.3
         },
         {
           "qid": "diag-09",
@@ -2151,12 +2154,13 @@
           "expect": "POS",
           "expected": "zig0.16/diag-shadow-local",
           "got_top3": [
-            "zig0.16/diag-shadow-local"
+            "zig0.16/diag-shadow-local",
+            "zig0.16/diag-mined-duplicate-names"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.9
+          "ms": 1.8
         },
         {
           "qid": "diag-10",
@@ -2170,7 +2174,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.2
+          "ms": 2.5
         },
         {
           "qid": "diag-11",
@@ -2186,7 +2190,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.7
+          "ms": 2.5
         },
         {
           "qid": "diag-12",
@@ -2202,7 +2206,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.8
+          "ms": 2.0
         },
         {
           "qid": "diag-13",
@@ -2218,7 +2222,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.1
+          "ms": 1.6
         },
         {
           "qid": "diag-14",
@@ -2234,7 +2238,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.1
+          "ms": 2.8
         },
         {
           "qid": "diag-15",
@@ -2250,7 +2254,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.7
+          "ms": 2.4
         },
         {
           "qid": "diag-16",
@@ -2261,12 +2265,12 @@
           "got_top3": [
             "zig0.16/diag-inline-redundant",
             "zig0.16/diag-comptime-redundant",
-            "zig0.16/diag-comptime-runtime-value"
+            "zig0.16/diag-mined-asm-constraint"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.3
+          "ms": 1.9
         },
         {
           "qid": "diag-17",
@@ -2277,12 +2281,12 @@
           "got_top3": [
             "zig0.16/diag-inline-redundant",
             "zig0.16/diag-comptime-redundant",
-            "zig0.16/diag-comptime-runtime-call"
+            "zig0.16/diag-mined-asm-constraint"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 2.2
         },
         {
           "qid": "diag-18",
@@ -2298,7 +2302,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.5
+          "ms": 1.8
         },
         {
           "qid": "diag-19",
@@ -2309,12 +2313,12 @@
           "got_top3": [
             "zig0.16/diag-comptime-runtime-value",
             "zig0.16/diag-comptime-runtime-call",
-            "zig0.16/int-from-bytes-to-bytes-endian"
+            "zig0.16/diag-mined-comptime-flow"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.2
+          "ms": 1.4
         },
         {
           "qid": "diag-20",
@@ -2325,12 +2329,12 @@
           "got_top3": [
             "zig0.16/diag-comptime-runtime-value",
             "zig0.16/struct-pack-endian-readint",
-            "zig0.16/int-from-bytes-to-bytes-endian"
+            "zig0.16/diag-mined-comptime-flow"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.9
+          "ms": 2.2
         },
         {
           "qid": "diag-21",
@@ -2344,7 +2348,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.3
+          "ms": 2.9
         },
         {
           "qid": "diag-22",
@@ -2360,7 +2364,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.1
+          "ms": 1.4
         },
         {
           "qid": "diag-23",
@@ -2371,12 +2375,12 @@
           "got_top3": [
             "zig0.16/diag-comptime-runtime-call",
             "zig0.16/ffi-extern-c-function",
-            "zig0.16/diag-comptime-redundant"
+            "zig0.16/diag-mined-error-union"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.8
+          "ms": 2.6
         },
         {
           "qid": "diag-24",
@@ -2391,7 +2395,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.3
+          "ms": 2.3
         },
         {
           "qid": "diag-25",
@@ -2405,7 +2409,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.7
+          "ms": 1.6
         },
         {
           "qid": "diag-26",
@@ -2419,7 +2423,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.2
+          "ms": 2.0
         },
         {
           "qid": "diag-27",
@@ -2435,7 +2439,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.8
+          "ms": 2.7
         },
         {
           "qid": "diag-28",
@@ -2451,7 +2455,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.7
+          "ms": 2.1
         },
         {
           "qid": "diag-29",
@@ -2461,13 +2465,13 @@
           "expected": "zig0.16/diag-narrowing-intcast",
           "got_top3": [
             "zig0.16/diag-narrowing-intcast",
-            "zig0.16/int-from-bytes-to-bytes-endian",
-            "zig0.16/int-bit-count-bit-length"
+            "zig0.16/diag-mined-bitcast-size",
+            "zig0.16/diag-mined-int-range"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.1
+          "ms": 2.6
         },
         {
           "qid": "diag-30",
@@ -2477,13 +2481,13 @@
           "expected": "zig0.16/diag-narrowing-intcast",
           "got_top3": [
             "zig0.16/diag-narrowing-intcast",
-            "zig0.16/thread-spawn-join",
-            "zig0.16/cstring-sentinel-slice-ptr"
+            "zig0.16/diag-mined-comptime-flow",
+            "zig0.16/thread-spawn-join"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.5
+          "ms": 4.0
         },
         {
           "qid": "diag-31",
@@ -2492,12 +2496,13 @@
           "expect": "POS",
           "expected": "zig0.16/diag-builtin-undeclared",
           "got_top3": [
-            "zig0.16/diag-builtin-undeclared"
+            "zig0.16/diag-builtin-undeclared",
+            "zig0.16/diag-mined-undeclared-ident"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.9
+          "ms": 1.8
         },
         {
           "qid": "diag-32",
@@ -2507,13 +2512,13 @@
           "expected": "zig0.16/diag-builtin-undeclared",
           "got_top3": [
             "zig0.16/diag-builtin-undeclared",
-            "zig0.16/migrate-type-builtin",
-            "zig0.16/struct-pack-endian-readint"
+            "zig0.16/diag-mined-undeclared-ident",
+            "zig0.16/migrate-type-builtin"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.5
+          "ms": 3.4
         },
         {
           "qid": "diag-33",
@@ -2524,12 +2529,12 @@
           "got_top3": [
             "zig0.16/diag-builtin-undeclared",
             "zig0.16/diag-comptime-runtime-call",
-            "zig0.16/md5-hexdigest"
+            "zig0.16/diag-mined-undeclared-ident"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.3
+          "ms": 1.8
         },
         {
           "qid": "build-01",
@@ -2545,7 +2550,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.8
+          "ms": 3.6
         },
         {
           "qid": "build-02",
@@ -2560,7 +2565,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.4
+          "ms": 1.8
         },
         {
           "qid": "build-03",
@@ -2576,7 +2581,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.2
+          "ms": 2.3
         },
         {
           "qid": "build-04",
@@ -2586,13 +2591,13 @@
           "expected": "zig0.16/build-import-outside-module",
           "got_top3": [
             "zig0.16/build-import-outside-module",
-            "zig0.16/build-add-import",
-            "zig0.16/build-exe-root-module"
+            "zig0.16/diag-mined-embed-outside",
+            "zig0.16/build-add-import"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.3
+          "ms": 3.4
         },
         {
           "qid": "build-05",
@@ -2606,7 +2611,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.3
+          "ms": 1.8
         },
         {
           "qid": "build-06",
@@ -2617,12 +2622,12 @@
           "got_top3": [
             "zig0.16/build-shared-library",
             "zig0.16/build-c-source-files",
-            "zig0.16/migrate-arraylist-writer"
+            "zig0.16/diag-mined-member-format"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 2.2
         },
         {
           "qid": "build-07",
@@ -2638,7 +2643,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.7
+          "ms": 4.3
         },
         {
           "qid": "build-08",
@@ -2654,7 +2659,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 3.0
+          "ms": 3.8
         },
         {
           "qid": "build-09",
@@ -2669,7 +2674,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.7
+          "ms": 2.2
         },
         {
           "qid": "build-10",
@@ -2680,12 +2685,12 @@
           "got_top3": [
             "zig0.16/build-add-import",
             "zig0.16/build-import-outside-module",
-            "zig0.16/build-test-step"
+            "zig0.16/diag-mined-module-conflict"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.2
+          "ms": 3.5
         },
         {
           "qid": "build-11",
@@ -2695,13 +2700,13 @@
           "expected": "zig0.16/build-import-outside-module",
           "got_top3": [
             "zig0.16/build-import-outside-module",
-            "zig0.16/build-add-import",
-            "zig0.16/build-dynamic-library-pic"
+            "zig0.16/diag-mined-embed-outside",
+            "zig0.16/build-add-import"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 3.0
+          "ms": 4.5
         },
         {
           "qid": "build-12",
@@ -2716,7 +2721,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.8
+          "ms": 2.6
         },
         {
           "qid": "build-13",
@@ -2730,7 +2735,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.0
+          "ms": 2.4
         },
         {
           "qid": "build-14",
@@ -2746,7 +2751,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.6
+          "ms": 3.5
         },
         {
           "qid": "build-15",
@@ -2762,7 +2767,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.5
+          "ms": 2.9
         },
         {
           "qid": "build-16",
@@ -2773,12 +2778,12 @@
           "got_top3": [
             "zig0.16/build-exe-root-module",
             "zig0.16/build-shared-library",
-            "zig0.16/build-test-step"
+            "zig0.16/diag-mined-module-conflict"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 3.4
+          "ms": 3.8
         },
         {
           "qid": "mate_bytes-01",
@@ -2794,7 +2799,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.9
+          "ms": 2.4
         },
         {
           "qid": "mate_bytes-02",
@@ -2804,13 +2809,13 @@
           "expected": "zig0.16/format-string-alloc-print",
           "got_top3": [
             "zig0.16/format-string-alloc-print",
-            "zig0.16/epoch-to-utc-ymd-hms",
-            "zig0.16/parse-float-format-decimals"
+            "zig0.16/diag-mined-member-format",
+            "zig0.16/epoch-to-utc-ymd-hms"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.8
+          "ms": 2.0
         },
         {
           "qid": "mate_bytes-03",
@@ -2826,7 +2831,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.7
+          "ms": 2.3
         },
         {
           "qid": "mate_bytes-04",
@@ -2837,12 +2842,12 @@
           "got_top3": [
             "zig0.16/float-special-values-isinf-isnan",
             "zig0.16/build-import-outside-module",
-            "zig0.16/heapq-priority-queue"
+            "zig0.16/diag-mined-int-range"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.8
+          "ms": 2.5
         },
         {
           "qid": "mate_bytes-05",
@@ -2858,7 +2863,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.0
+          "ms": 2.9
         },
         {
           "qid": "mate_bytes-06",
@@ -2873,7 +2878,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.5
+          "ms": 2.4
         },
         {
           "qid": "mate_bytes-07",
@@ -2888,7 +2893,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 2.3
         },
         {
           "qid": "mate_bytes-08",
@@ -2904,7 +2909,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.8
+          "ms": 2.6
         },
         {
           "qid": "mate_bytes-09",
@@ -2919,7 +2924,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.4
+          "ms": 1.7
         },
         {
           "qid": "mate_bytes-10",
@@ -2935,7 +2940,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.7
+          "ms": 2.3
         },
         {
           "qid": "mate_bytes-11",
@@ -2946,12 +2951,12 @@
           "got_top3": [
             "zig0.16/int-bit-count-bit-length",
             "zig0.16/int-from-bytes-to-bytes-endian",
-            "zig0.16/diag-narrowing-intcast"
+            "zig0.16/diag-mined-comptime-flow"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.1
+          "ms": 4.6
         },
         {
           "qid": "mate_bytes-12",
@@ -2962,12 +2967,12 @@
           "got_top3": [
             "zig0.16/int-bit-count-bit-length",
             "zig0.16/diag-narrowing-intcast",
-            "zig0.16/random-prng-ops"
+            "zig0.16/diag-mined-int-range"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 2.3
         },
         {
           "qid": "mate_bytes-13",
@@ -2983,7 +2988,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.5
+          "ms": 1.9
         },
         {
           "qid": "mate_bytes-14",
@@ -2998,7 +3003,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 2.7
         },
         {
           "qid": "mate_bytes-15",
@@ -3013,7 +3018,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.7
+          "ms": 3.1
         },
         {
           "qid": "mate_bytes-16",
@@ -3029,7 +3034,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.6
+          "ms": 4.4
         },
         {
           "qid": "stdlib_extra-01",
@@ -3045,7 +3050,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 4.9
+          "ms": 5.2
         },
         {
           "qid": "stdlib_extra-02",
@@ -3061,7 +3066,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.1
+          "ms": 2.5
         },
         {
           "qid": "stdlib_extra-03",
@@ -3077,7 +3082,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.5
+          "ms": 2.3
         },
         {
           "qid": "stdlib_extra-04",
@@ -3088,12 +3093,12 @@
           "got_top3": [
             "zig0.16/migrate-arraylist-writer",
             "zig0.16/migrate-arraylist-unmanaged",
-            "zig0.16/migrate-stdout-writer"
+            "zig0.16/diag-mined-member-format"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.0
+          "ms": 2.5
         },
         {
           "qid": "stdlib_extra-05",
@@ -3102,14 +3107,14 @@
           "expect": "POS",
           "expected": "zig0.16/migrate-arraylist-writer",
           "got_top3": [
-            "zig0.16/migrate-stdout-writer",
             "zig0.16/migrate-arraylist-writer",
+            "zig0.16/migrate-stdout-writer",
             "zig0.16/stdout-print-flush"
           ],
           "error": null,
-          "ok_top1": false,
+          "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.4
+          "ms": 4.3
         },
         {
           "qid": "stdlib_extra-06",
@@ -3124,7 +3129,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.9
+          "ms": 2.5
         },
         {
           "qid": "stdlib_extra-07",
@@ -3134,13 +3139,13 @@
           "expected": "zig0.16/cstring-sentinel-slice-ptr",
           "got_top3": [
             "zig0.16/diag-narrowing-intcast",
-            "zig0.16/cstring-sentinel-slice-ptr",
-            "zig0.16/float-special-values-isinf-isnan"
+            "zig0.16/diag-mined-pointer-coercion",
+            "zig0.16/cstring-sentinel-slice-ptr"
           ],
           "error": null,
           "ok_top1": false,
           "ok_top3": true,
-          "ms": 2.1
+          "ms": 2.9
         },
         {
           "qid": "stdlib_extra-08",
@@ -3151,12 +3156,12 @@
           "got_top3": [
             "zig0.16/cstring-sentinel-slice-ptr",
             "zig0.16/cstring-span-slice-to",
-            "zig0.16/thread-spawn-join"
+            "zig0.16/diag-mined-pointer-coercion"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.6
+          "ms": 3.4
         },
         {
           "qid": "stdlib_extra-09",
@@ -3166,12 +3171,13 @@
           "expected": "zig0.16/cstring-sentinel-slice-ptr",
           "got_top3": [
             "zig0.16/cstring-sentinel-slice-ptr",
+            "zig0.16/diag-mined-pointer-coercion",
             "zig0.16/ffi-extern-c-function"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.4
+          "ms": 3.3
         },
         {
           "qid": "stdlib_extra-10",
@@ -3185,7 +3191,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.5
+          "ms": 1.8
         },
         {
           "qid": "stdlib_extra-11",
@@ -3199,7 +3205,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.5
+          "ms": 1.7
         },
         {
           "qid": "stdlib_extra-12",
@@ -3213,7 +3219,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.8
+          "ms": 1.6
         },
         {
           "qid": "stdlib_extra-13",
@@ -3228,7 +3234,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.5
+          "ms": 2.5
         },
         {
           "qid": "stdlib_extra-14",
@@ -3242,7 +3248,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.1
+          "ms": 1.7
         },
         {
           "qid": "stdlib_extra-15",
@@ -3256,7 +3262,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.4
+          "ms": 1.8
         },
         {
           "qid": "stdlib_extra-16",
@@ -3272,7 +3278,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.8
+          "ms": 2.4
         },
         {
           "qid": "stdlib_extra-17",
@@ -3287,7 +3293,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.3
+          "ms": 4.5
         },
         {
           "qid": "stdlib_extra-18",
@@ -3302,7 +3308,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 2.4
         },
         {
           "qid": "stdlib_extra-19",
@@ -3316,7 +3322,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.4
+          "ms": 2.3
         },
         {
           "qid": "stdlib_extra-20",
@@ -3332,7 +3338,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.8
+          "ms": 2.9
         }
       ]
     },
@@ -3343,7 +3349,7 @@
         "recall_at_3": 0.976,
         "negativas_correctas": "4/4",
         "status_correcto": "3/3",
-        "latencia_ms_media": 54.3,
+        "latencia_ms_media": 72.0,
         "por_tipo": {
           "api": {
             "n": 57,
@@ -3381,7 +3387,7 @@
             "aciertos_top3": 1
           }
         },
-        "mrr_at_3": 0.962
+        "mrr_at_3": 0.961
       },
       "rows": [
         {
@@ -3398,7 +3404,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 52.9
+          "ms": 64.2
         },
         {
           "qid": "q02",
@@ -3414,7 +3420,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 62.7
+          "ms": 65.8
         },
         {
           "qid": "q03",
@@ -3430,7 +3436,7 @@
           "error": null,
           "ok_top1": false,
           "ok_top3": true,
-          "ms": 53.4
+          "ms": 69.5
         },
         {
           "qid": "q04",
@@ -3441,12 +3447,12 @@
           "got_top3": [
             "zig0.16/read-file-text-limited",
             "zig0.16/json-read-file-limited",
-            "zig0.16/csv-reader-line-quoted"
+            "zig0.16/migrate-readfilealloc"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.6
+          "ms": 71.5
         },
         {
           "qid": "q05",
@@ -3462,7 +3468,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.3
+          "ms": 68.7
         },
         {
           "qid": "q06",
@@ -3472,12 +3478,13 @@
           "expected": "zig0.16/write-file-bytes-atomic",
           "got_top3": [
             "zig0.16/write-file-bytes-atomic",
-            "zig0.16/copyfile-replace"
+            "zig0.16/copyfile-replace",
+            "zig0.16/diag-mined-duplicate-names"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.1
+          "ms": 67.2
         },
         {
           "qid": "q07",
@@ -3493,7 +3500,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.9
+          "ms": 73.2
         },
         {
           "qid": "q08",
@@ -3508,7 +3515,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.4
+          "ms": 65.7
         },
         {
           "qid": "q09",
@@ -3524,7 +3531,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.1
+          "ms": 69.7
         },
         {
           "qid": "q10",
@@ -3540,7 +3547,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 52.9
+          "ms": 64.7
         },
         {
           "qid": "q11",
@@ -3554,7 +3561,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.2
+          "ms": 69.8
         },
         {
           "qid": "q12",
@@ -3570,7 +3577,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.3
+          "ms": 66.0
         },
         {
           "qid": "q13",
@@ -3586,7 +3593,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.8
+          "ms": 70.8
         },
         {
           "qid": "q14",
@@ -3602,7 +3609,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 52.6
+          "ms": 69.0
         },
         {
           "qid": "q15",
@@ -3618,7 +3625,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.8
+          "ms": 66.2
         },
         {
           "qid": "q16",
@@ -3634,7 +3641,7 @@
           "error": null,
           "ok_top1": false,
           "ok_top3": false,
-          "ms": 53.1
+          "ms": 65.9
         },
         {
           "qid": "q17",
@@ -3650,7 +3657,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.0
+          "ms": 76.3
         },
         {
           "qid": "q18",
@@ -3666,7 +3673,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.1
+          "ms": 78.1
         },
         {
           "qid": "q19",
@@ -3682,7 +3689,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 52.4
+          "ms": 70.8
         },
         {
           "qid": "q20",
@@ -3692,13 +3699,13 @@
           "expected": "zig0.16/env-var-read",
           "got_top3": [
             "zig0.16/env-var-read",
-            "zig0.16/read-file-text-limited",
-            "zig0.16/json-read-file-limited"
+            "zig0.16/diag-mined-embed-outside",
+            "zig0.16/read-file-text-limited"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.4
+          "ms": 65.1
         },
         {
           "qid": "q21",
@@ -3714,7 +3721,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.4
+          "ms": 76.2
         },
         {
           "qid": "q22",
@@ -3730,7 +3737,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 52.9
+          "ms": 68.4
         },
         {
           "qid": "q23",
@@ -3746,7 +3753,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 52.1
+          "ms": 64.4
         },
         {
           "qid": "q24",
@@ -3758,7 +3765,7 @@
           "error": "NO_RESULTS",
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 52.8
+          "ms": 68.0
         },
         {
           "qid": "q25",
@@ -3770,7 +3777,7 @@
           "error": "NO_RESULTS",
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.2
+          "ms": 65.6
         },
         {
           "qid": "q26",
@@ -3782,7 +3789,7 @@
           "error": "NO_RESULTS",
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 52.4
+          "ms": 64.7
         },
         {
           "qid": "q27",
@@ -3794,7 +3801,7 @@
           "error": "VERSION_MISMATCH",
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 0.3
+          "ms": 0.4
         },
         {
           "qid": "q28",
@@ -3810,7 +3817,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.0
+          "ms": 72.3
         },
         {
           "qid": "colecciones-01",
@@ -3819,14 +3826,14 @@
           "expect": "POS",
           "expected": "zig0.16/dict-str-int-basic",
           "got_top3": [
+            "zig0.16/diag-mined-undeclared-ident",
             "zig0.16/argparse-flags-parse",
-            "zig0.16/diag-shadow-local",
-            "zig0.16/makedirs-exist-ok"
+            "zig0.16/diag-shadow-local"
           ],
           "error": null,
           "ok_top1": false,
           "ok_top3": false,
-          "ms": 58.7
+          "ms": 69.1
         },
         {
           "qid": "colecciones-02",
@@ -3842,7 +3849,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.4
+          "ms": 71.6
         },
         {
           "qid": "colecciones-03",
@@ -3858,7 +3865,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.2
+          "ms": 76.0
         },
         {
           "qid": "colecciones-04",
@@ -3874,7 +3881,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.1
+          "ms": 73.2
         },
         {
           "qid": "colecciones-05",
@@ -3888,7 +3895,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.6
+          "ms": 68.1
         },
         {
           "qid": "colecciones-06",
@@ -3904,7 +3911,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.4
+          "ms": 71.1
         },
         {
           "qid": "colecciones-07",
@@ -3920,7 +3927,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.1
+          "ms": 77.5
         },
         {
           "qid": "colecciones-08",
@@ -3936,7 +3943,7 @@
           "error": null,
           "ok_top1": false,
           "ok_top3": true,
-          "ms": 54.3
+          "ms": 68.6
         },
         {
           "qid": "colecciones-09",
@@ -3952,7 +3959,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.9
+          "ms": 68.2
         },
         {
           "qid": "colecciones-10",
@@ -3966,7 +3973,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.3
+          "ms": 66.3
         },
         {
           "qid": "colecciones-11",
@@ -3981,7 +3988,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.4
+          "ms": 71.2
         },
         {
           "qid": "colecciones-12",
@@ -3995,7 +4002,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.2
+          "ms": 66.6
         },
         {
           "qid": "colecciones-13",
@@ -4010,7 +4017,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 52.6
+          "ms": 77.8
         },
         {
           "qid": "colecciones-14",
@@ -4025,7 +4032,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.8
+          "ms": 68.6
         },
         {
           "qid": "fs_rutas-01",
@@ -4041,7 +4048,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.6
+          "ms": 73.8
         },
         {
           "qid": "fs_rutas-02",
@@ -4051,12 +4058,13 @@
           "expected": "zig0.16/path-join-basename-ext",
           "got_top3": [
             "zig0.16/path-join-basename-ext",
-            "zig0.16/build-import-outside-module"
+            "zig0.16/build-import-outside-module",
+            "zig0.16/diag-mined-embed-outside"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.9
+          "ms": 70.1
         },
         {
           "qid": "fs_rutas-03",
@@ -4072,7 +4080,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.5
+          "ms": 69.1
         },
         {
           "qid": "fs_rutas-04",
@@ -4082,13 +4090,13 @@
           "expected": "zig0.16/listdir-names-sorted",
           "got_top3": [
             "zig0.16/listdir-names-sorted",
-            "zig0.16/build-import-outside-module",
-            "zig0.16/walk-tree-files"
+            "zig0.16/walk-tree-files",
+            "zig0.16/build-import-outside-module"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.6
+          "ms": 68.9
         },
         {
           "qid": "fs_rutas-05",
@@ -4104,7 +4112,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.2
+          "ms": 66.5
         },
         {
           "qid": "fs_rutas-06",
@@ -4118,7 +4126,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.4
+          "ms": 69.7
         },
         {
           "qid": "fs_rutas-07",
@@ -4134,7 +4142,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.3
+          "ms": 70.1
         },
         {
           "qid": "fs_rutas-08",
@@ -4149,7 +4157,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.6
+          "ms": 71.6
         },
         {
           "qid": "fs_rutas-09",
@@ -4165,7 +4173,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.0
+          "ms": 66.3
         },
         {
           "qid": "fs_rutas-10",
@@ -4181,7 +4189,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.6
+          "ms": 74.6
         },
         {
           "qid": "fs_rutas-11",
@@ -4192,12 +4200,12 @@
           "got_top3": [
             "zig0.16/copyfile-replace",
             "zig0.16/remove-file-rmtree",
-            "zig0.16/migrate-writefile"
+            "zig0.16/diag-mined-bitcast-size"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.7
+          "ms": 76.4
         },
         {
           "qid": "fs_rutas-12",
@@ -4213,7 +4221,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.1
+          "ms": 68.9
         },
         {
           "qid": "fs_rutas-13",
@@ -4229,7 +4237,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.2
+          "ms": 75.1
         },
         {
           "qid": "fs_rutas-14",
@@ -4244,7 +4252,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 52.9
+          "ms": 75.1
         },
         {
           "qid": "json-01",
@@ -4260,7 +4268,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.3
+          "ms": 66.5
         },
         {
           "qid": "json-02",
@@ -4276,7 +4284,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.8
+          "ms": 68.6
         },
         {
           "qid": "json-03",
@@ -4292,7 +4300,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.5
+          "ms": 70.3
         },
         {
           "qid": "json-04",
@@ -4308,7 +4316,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.1
+          "ms": 69.7
         },
         {
           "qid": "json-05",
@@ -4324,7 +4332,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.6
+          "ms": 77.7
         },
         {
           "qid": "json-06",
@@ -4340,7 +4348,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.5
+          "ms": 71.2
         },
         {
           "qid": "json-07",
@@ -4356,7 +4364,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.1
+          "ms": 71.1
         },
         {
           "qid": "json-08",
@@ -4372,7 +4380,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.4
+          "ms": 75.0
         },
         {
           "qid": "json-09",
@@ -4388,7 +4396,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.9
+          "ms": 82.0
         },
         {
           "qid": "json-10",
@@ -4404,7 +4412,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.5
+          "ms": 73.0
         },
         {
           "qid": "json-11",
@@ -4420,7 +4428,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.4
+          "ms": 72.0
         },
         {
           "qid": "json-12",
@@ -4436,7 +4444,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.8
+          "ms": 82.4
         },
         {
           "qid": "texto_num-01",
@@ -4452,7 +4460,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.0
+          "ms": 76.8
         },
         {
           "qid": "texto_num-02",
@@ -4468,7 +4476,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.5
+          "ms": 70.5
         },
         {
           "qid": "texto_num-03",
@@ -4484,7 +4492,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.8
+          "ms": 70.9
         },
         {
           "qid": "texto_num-04",
@@ -4500,7 +4508,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.5
+          "ms": 70.9
         },
         {
           "qid": "texto_num-05",
@@ -4516,7 +4524,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.1
+          "ms": 68.9
         },
         {
           "qid": "texto_num-06",
@@ -4527,12 +4535,12 @@
           "got_top3": [
             "zig0.16/parse-int-base-overflow",
             "zig0.16/int-from-bytes-to-bytes-endian",
-            "zig0.16/diag-narrowing-intcast"
+            "zig0.16/diag-mined-int-range"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.9
+          "ms": 69.7
         },
         {
           "qid": "texto_num-07",
@@ -4542,13 +4550,13 @@
           "expected": "zig0.16/parse-float-format-decimals",
           "got_top3": [
             "zig0.16/parse-float-format-decimals",
-            "zig0.16/round-floor-ceil-bankers",
-            "zig0.16/div-floor-mod-negative"
+            "zig0.16/diag-mined-int-range",
+            "zig0.16/round-floor-ceil-bankers"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.1
+          "ms": 69.8
         },
         {
           "qid": "texto_num-08",
@@ -4558,12 +4566,13 @@
           "expected": "zig0.16/parse-float-format-decimals",
           "got_top3": [
             "zig0.16/parse-float-format-decimals",
-            "zig0.16/format-string-alloc-print"
+            "zig0.16/format-string-alloc-print",
+            "zig0.16/diag-mined-member-format"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 52.7
+          "ms": 69.9
         },
         {
           "qid": "texto_num-09",
@@ -4574,12 +4583,12 @@
           "got_top3": [
             "zig0.16/str-find-replace-affix",
             "zig0.16/string-split-strip-format",
-            "zig0.16/json-loads-dynamic"
+            "zig0.16/diag-mined-duplicate-names"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.5
+          "ms": 74.6
         },
         {
           "qid": "texto_num-10",
@@ -4593,7 +4602,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.2
+          "ms": 73.0
         },
         {
           "qid": "texto_num-11",
@@ -4609,7 +4618,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.7
+          "ms": 69.8
         },
         {
           "qid": "texto_num-12",
@@ -4625,7 +4634,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.8
+          "ms": 69.0
         },
         {
           "qid": "texto_num-13",
@@ -4641,7 +4650,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.1
+          "ms": 65.6
         },
         {
           "qid": "texto_num-14",
@@ -4650,14 +4659,14 @@
           "expect": "POS",
           "expected": "zig0.16/ascii-case-lower-upper",
           "got_top3": [
+            "zig0.16/diag-mined-duplicate-names",
             "zig0.16/argparse-flags-parse",
-            "zig0.16/div-floor-mod-negative",
-            "zig0.16/thread-spawn-join"
+            "zig0.16/div-floor-mod-negative"
           ],
           "error": null,
           "ok_top1": false,
           "ok_top3": false,
-          "ms": 52.9
+          "ms": 72.1
         },
         {
           "qid": "texto_num-15",
@@ -4673,7 +4682,7 @@
           "error": null,
           "ok_top1": false,
           "ok_top3": false,
-          "ms": 53.9
+          "ms": 66.1
         },
         {
           "qid": "texto_num-16",
@@ -4689,7 +4698,7 @@
           "error": null,
           "ok_top1": false,
           "ok_top3": false,
-          "ms": 53.4
+          "ms": 66.3
         },
         {
           "qid": "tiempo_args-01",
@@ -4705,7 +4714,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 52.7
+          "ms": 63.7
         },
         {
           "qid": "tiempo_args-02",
@@ -4719,7 +4728,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.3
+          "ms": 67.6
         },
         {
           "qid": "tiempo_args-03",
@@ -4734,7 +4743,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.8
+          "ms": 67.1
         },
         {
           "qid": "tiempo_args-04",
@@ -4748,7 +4757,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.8
+          "ms": 83.3
         },
         {
           "qid": "tiempo_args-05",
@@ -4762,7 +4771,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.2
+          "ms": 88.6
         },
         {
           "qid": "tiempo_args-06",
@@ -4776,7 +4785,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.5
+          "ms": 90.2
         },
         {
           "qid": "tiempo_args-07",
@@ -4792,7 +4801,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.7
+          "ms": 76.3
         },
         {
           "qid": "tiempo_args-08",
@@ -4808,7 +4817,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.6
+          "ms": 78.9
         },
         {
           "qid": "tiempo_args-09",
@@ -4824,7 +4833,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.2
+          "ms": 72.1
         },
         {
           "qid": "tiempo_args-10",
@@ -4840,7 +4849,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.7
+          "ms": 67.9
         },
         {
           "qid": "tiempo_args-11",
@@ -4856,7 +4865,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.3
+          "ms": 68.3
         },
         {
           "qid": "tiempo_args-12",
@@ -4872,7 +4881,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.2
+          "ms": 70.9
         },
         {
           "qid": "tiempo_args-13",
@@ -4888,7 +4897,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.1
+          "ms": 66.1
         },
         {
           "qid": "tiempo_args-14",
@@ -4904,7 +4913,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.4
+          "ms": 67.2
         },
         {
           "qid": "migracion-01",
@@ -4920,7 +4929,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.9
+          "ms": 80.3
         },
         {
           "qid": "migracion-02",
@@ -4930,13 +4939,13 @@
           "expected": "zig0.16/migrate-readfilealloc",
           "got_top3": [
             "zig0.16/migrate-readfilealloc",
-            "zig0.16/migrate-arraylist-unmanaged",
-            "zig0.16/format-string-alloc-print"
+            "zig0.16/diag-mined-member-format",
+            "zig0.16/migrate-arraylist-unmanaged"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.6
+          "ms": 74.4
         },
         {
           "qid": "migracion-03",
@@ -4952,7 +4961,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.8
+          "ms": 72.4
         },
         {
           "qid": "migracion-04",
@@ -4968,7 +4977,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.0
+          "ms": 80.2
         },
         {
           "qid": "migracion-05",
@@ -4984,7 +4993,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.7
+          "ms": 67.3
         },
         {
           "qid": "migracion-06",
@@ -5000,7 +5009,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.9
+          "ms": 76.6
         },
         {
           "qid": "migracion-07",
@@ -5016,7 +5025,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 52.8
+          "ms": 70.0
         },
         {
           "qid": "migracion-08",
@@ -5026,13 +5035,13 @@
           "expected": "zig0.16/migrate-child-run",
           "got_top3": [
             "zig0.16/migrate-child-run",
-            "zig0.16/migrate-open-dir-absolute",
-            "zig0.16/build-exe-root-module"
+            "zig0.16/build-exe-root-module",
+            "zig0.16/migrate-open-dir-absolute"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.1
+          "ms": 71.7
         },
         {
           "qid": "migracion-09",
@@ -5048,7 +5057,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.1
+          "ms": 74.8
         },
         {
           "qid": "migracion-10",
@@ -5059,12 +5068,12 @@
           "got_top3": [
             "zig0.16/migrate-time-sleep",
             "zig0.16/migrate-thread-mutex",
-            "zig0.16/build-shared-library"
+            "zig0.16/build-c-source-files"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.6
+          "ms": 72.8
         },
         {
           "qid": "migracion-11",
@@ -5080,7 +5089,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.8
+          "ms": 66.3
         },
         {
           "qid": "migracion-12",
@@ -5096,7 +5105,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.3
+          "ms": 68.6
         },
         {
           "qid": "migracion-13",
@@ -5112,7 +5121,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.7
+          "ms": 74.9
         },
         {
           "qid": "migracion-14",
@@ -5128,7 +5137,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.2
+          "ms": 70.1
         },
         {
           "qid": "migracion-15",
@@ -5144,7 +5153,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.1
+          "ms": 75.9
         },
         {
           "qid": "migracion-16",
@@ -5160,7 +5169,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.7
+          "ms": 86.0
         },
         {
           "qid": "migracion-17",
@@ -5176,7 +5185,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.7
+          "ms": 83.8
         },
         {
           "qid": "migracion-18",
@@ -5192,7 +5201,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.4
+          "ms": 76.2
         },
         {
           "qid": "migracion-19",
@@ -5208,7 +5217,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.8
+          "ms": 94.1
         },
         {
           "qid": "io_red-01",
@@ -5224,7 +5233,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.5
+          "ms": 84.0
         },
         {
           "qid": "io_red-02",
@@ -5239,7 +5248,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.9
+          "ms": 73.2
         },
         {
           "qid": "io_red-03",
@@ -5255,7 +5264,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.0
+          "ms": 77.8
         },
         {
           "qid": "io_red-04",
@@ -5271,7 +5280,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.6
+          "ms": 69.5
         },
         {
           "qid": "io_red-05",
@@ -5285,7 +5294,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.2
+          "ms": 67.6
         },
         {
           "qid": "io_red-06",
@@ -5301,7 +5310,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.8
+          "ms": 70.8
         },
         {
           "qid": "io_red-07",
@@ -5316,7 +5325,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.6
+          "ms": 74.7
         },
         {
           "qid": "io_red-08",
@@ -5332,7 +5341,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.1
+          "ms": 69.3
         },
         {
           "qid": "io_red-09",
@@ -5347,7 +5356,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.1
+          "ms": 75.5
         },
         {
           "qid": "io_red-10",
@@ -5357,12 +5366,13 @@
           "expected": "zig0.16/udp-loopback-datagram",
           "got_top3": [
             "zig0.16/udp-loopback-datagram",
-            "zig0.16/csv-reader-line-quoted"
+            "zig0.16/csv-reader-line-quoted",
+            "zig0.16/diag-mined-duplicate-names"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.1
+          "ms": 73.4
         },
         {
           "qid": "io_red-11",
@@ -5378,7 +5388,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.4
+          "ms": 68.9
         },
         {
           "qid": "io_red-12",
@@ -5392,7 +5402,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.9
+          "ms": 74.0
         },
         {
           "qid": "io_red-13",
@@ -5407,7 +5417,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.7
+          "ms": 69.0
         },
         {
           "qid": "io_red-14",
@@ -5423,7 +5433,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.9
+          "ms": 72.0
         },
         {
           "qid": "diag-01",
@@ -5438,7 +5448,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 52.8
+          "ms": 68.2
         },
         {
           "qid": "diag-02",
@@ -5449,12 +5459,12 @@
           "got_top3": [
             "zig0.16/diag-eval-branch-quota",
             "zig0.16/diag-comptime-runtime-call",
-            "zig0.16/diag-inline-redundant"
+            "zig0.16/diag-mined-duplicate-names"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.3
+          "ms": 70.2
         },
         {
           "qid": "diag-03",
@@ -5470,7 +5480,7 @@
           "error": null,
           "ok_top1": false,
           "ok_top3": true,
-          "ms": 52.8
+          "ms": 80.2
         },
         {
           "qid": "diag-04",
@@ -5480,13 +5490,13 @@
           "expected": "zig0.16/diag-never-mutated",
           "got_top3": [
             "zig0.16/diag-never-mutated",
-            "zig0.16/diag-shadow-local",
-            "zig0.16/thread-spawn-join"
+            "zig0.16/diag-mined-unused-discard",
+            "zig0.16/diag-shadow-local"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 52.3
+          "ms": 66.0
         },
         {
           "qid": "diag-05",
@@ -5497,12 +5507,12 @@
           "got_top3": [
             "zig0.16/diag-never-mutated",
             "zig0.16/diag-shadow-local",
-            "zig0.16/diag-ptrcast-const"
+            "zig0.16/diag-mined-unused-discard"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.8
+          "ms": 69.2
         },
         {
           "qid": "diag-06",
@@ -5512,13 +5522,13 @@
           "expected": "zig0.16/diag-never-mutated",
           "got_top3": [
             "zig0.16/diag-never-mutated",
-            "zig0.16/diag-shadow-local",
-            "zig0.16/diag-narrowing-intcast"
+            "zig0.16/diag-mined-unused-discard",
+            "zig0.16/diag-shadow-local"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 52.2
+          "ms": 74.9
         },
         {
           "qid": "diag-07",
@@ -5534,7 +5544,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 51.8
+          "ms": 88.9
         },
         {
           "qid": "diag-08",
@@ -5549,7 +5559,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 52.5
+          "ms": 70.6
         },
         {
           "qid": "diag-09",
@@ -5559,13 +5569,13 @@
           "expected": "zig0.16/diag-shadow-local",
           "got_top3": [
             "zig0.16/diag-shadow-local",
-            "zig0.16/diag-never-mutated",
-            "zig0.16/build-import-outside-module"
+            "zig0.16/diag-mined-duplicate-names",
+            "zig0.16/diag-never-mutated"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.3
+          "ms": 70.7
         },
         {
           "qid": "diag-10",
@@ -5580,7 +5590,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.1
+          "ms": 65.3
         },
         {
           "qid": "diag-11",
@@ -5591,12 +5601,12 @@
           "got_top3": [
             "zig0.16/diag-shadow-primitive",
             "zig0.16/diag-shadow-local",
-            "zig0.16/diag-comptime-runtime-value"
+            "zig0.16/diag-mined-duplicate-names"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.8
+          "ms": 71.7
         },
         {
           "qid": "diag-12",
@@ -5606,13 +5616,13 @@
           "expected": "zig0.16/diag-shadow-primitive",
           "got_top3": [
             "zig0.16/diag-shadow-primitive",
-            "zig0.16/int-from-bytes-to-bytes-endian",
+            "zig0.16/diag-mined-unused-discard",
             "zig0.16/diag-never-mutated"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.9
+          "ms": 69.3
         },
         {
           "qid": "diag-13",
@@ -5628,7 +5638,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 52.8
+          "ms": 70.1
         },
         {
           "qid": "diag-14",
@@ -5644,7 +5654,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.6
+          "ms": 69.6
         },
         {
           "qid": "diag-15",
@@ -5660,7 +5670,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.7
+          "ms": 76.4
         },
         {
           "qid": "diag-16",
@@ -5671,12 +5681,12 @@
           "got_top3": [
             "zig0.16/diag-inline-redundant",
             "zig0.16/diag-comptime-redundant",
-            "zig0.16/diag-comptime-runtime-value"
+            "zig0.16/diag-mined-asm-constraint"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.0
+          "ms": 66.0
         },
         {
           "qid": "diag-17",
@@ -5687,12 +5697,12 @@
           "got_top3": [
             "zig0.16/diag-inline-redundant",
             "zig0.16/diag-comptime-redundant",
-            "zig0.16/diag-comptime-runtime-call"
+            "zig0.16/diag-mined-asm-constraint"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.1
+          "ms": 65.6
         },
         {
           "qid": "diag-18",
@@ -5703,12 +5713,12 @@
           "got_top3": [
             "zig0.16/diag-inline-redundant",
             "zig0.16/diag-comptime-redundant",
-            "zig0.16/diag-eval-branch-quota"
+            "zig0.16/diag-mined-duplicate-names"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.5
+          "ms": 74.5
         },
         {
           "qid": "diag-19",
@@ -5719,12 +5729,12 @@
           "got_top3": [
             "zig0.16/diag-comptime-runtime-value",
             "zig0.16/diag-comptime-runtime-call",
-            "zig0.16/diag-comptime-redundant"
+            "zig0.16/diag-mined-comptime-flow"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 52.2
+          "ms": 74.7
         },
         {
           "qid": "diag-20",
@@ -5734,13 +5744,13 @@
           "expected": "zig0.16/diag-comptime-runtime-value",
           "got_top3": [
             "zig0.16/diag-comptime-runtime-value",
-            "zig0.16/diag-comptime-runtime-call",
-            "zig0.16/format-string-alloc-print"
+            "zig0.16/diag-mined-comptime-flow",
+            "zig0.16/diag-comptime-runtime-call"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.4
+          "ms": 76.1
         },
         {
           "qid": "diag-21",
@@ -5755,7 +5765,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.2
+          "ms": 65.1
         },
         {
           "qid": "diag-22",
@@ -5771,7 +5781,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.0
+          "ms": 67.2
         },
         {
           "qid": "diag-23",
@@ -5787,7 +5797,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.0
+          "ms": 71.3
         },
         {
           "qid": "diag-24",
@@ -5803,7 +5813,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 52.9
+          "ms": 68.4
         },
         {
           "qid": "diag-25",
@@ -5813,12 +5823,13 @@
           "expected": "zig0.16/diag-ptrcast-const",
           "got_top3": [
             "zig0.16/diag-ptrcast-const",
+            "zig0.16/diag-mined-pointer-coercion",
             "zig0.16/cstring-sentinel-slice-ptr"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 52.3
+          "ms": 65.4
         },
         {
           "qid": "diag-26",
@@ -5828,13 +5839,13 @@
           "expected": "zig0.16/diag-ptrcast-const",
           "got_top3": [
             "zig0.16/diag-ptrcast-const",
-            "zig0.16/re-regex-gap",
-            "zig0.16/cstring-sentinel-slice-ptr"
+            "zig0.16/diag-mined-pointer-coercion",
+            "zig0.16/diag-mined-duplicate-names"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.3
+          "ms": 67.2
         },
         {
           "qid": "diag-27",
@@ -5850,7 +5861,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.5
+          "ms": 70.4
         },
         {
           "qid": "diag-28",
@@ -5860,13 +5871,13 @@
           "expected": "zig0.16/diag-narrowing-intcast",
           "got_top3": [
             "zig0.16/diag-narrowing-intcast",
-            "zig0.16/struct-pack-endian-readint",
-            "zig0.16/int-from-bytes-to-bytes-endian"
+            "zig0.16/diag-mined-bitcast-size",
+            "zig0.16/diag-mined-int-range"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.2
+          "ms": 72.8
         },
         {
           "qid": "diag-29",
@@ -5876,13 +5887,13 @@
           "expected": "zig0.16/diag-narrowing-intcast",
           "got_top3": [
             "zig0.16/diag-narrowing-intcast",
-            "zig0.16/int-from-bytes-to-bytes-endian",
-            "zig0.16/int-bit-count-bit-length"
+            "zig0.16/diag-mined-bitcast-size",
+            "zig0.16/diag-mined-int-range"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.2
+          "ms": 76.2
         },
         {
           "qid": "diag-30",
@@ -5892,13 +5903,13 @@
           "expected": "zig0.16/diag-narrowing-intcast",
           "got_top3": [
             "zig0.16/diag-narrowing-intcast",
-            "zig0.16/diag-shadow-primitive",
-            "zig0.16/diag-never-mutated"
+            "zig0.16/diag-mined-comptime-flow",
+            "zig0.16/diag-shadow-primitive"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.2
+          "ms": 75.3
         },
         {
           "qid": "diag-31",
@@ -5908,13 +5919,13 @@
           "expected": "zig0.16/diag-builtin-undeclared",
           "got_top3": [
             "zig0.16/diag-builtin-undeclared",
-            "zig0.16/build-exe-root-module",
-            "zig0.16/build-shared-library"
+            "zig0.16/diag-mined-undeclared-ident",
+            "zig0.16/build-exe-root-module"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 52.8
+          "ms": 69.2
         },
         {
           "qid": "diag-32",
@@ -5925,12 +5936,12 @@
           "got_top3": [
             "zig0.16/diag-builtin-undeclared",
             "zig0.16/build-test-step",
-            "zig0.16/build-add-import"
+            "zig0.16/ffi-extern-c-function"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.9
+          "ms": 71.1
         },
         {
           "qid": "diag-33",
@@ -5941,12 +5952,12 @@
           "got_top3": [
             "zig0.16/diag-builtin-undeclared",
             "zig0.16/build-import-outside-module",
-            "zig0.16/diag-comptime-runtime-call"
+            "zig0.16/diag-mined-duplicate-names"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 52.7
+          "ms": 69.1
         },
         {
           "qid": "build-01",
@@ -5962,7 +5973,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.3
+          "ms": 75.4
         },
         {
           "qid": "build-02",
@@ -5978,7 +5989,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.9
+          "ms": 70.7
         },
         {
           "qid": "build-03",
@@ -5994,7 +6005,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.4
+          "ms": 70.1
         },
         {
           "qid": "build-04",
@@ -6004,13 +6015,13 @@
           "expected": "zig0.16/build-import-outside-module",
           "got_top3": [
             "zig0.16/build-import-outside-module",
-            "zig0.16/build-add-import",
-            "zig0.16/build-c-source-files"
+            "zig0.16/diag-mined-embed-outside",
+            "zig0.16/diag-mined-module-conflict"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.7
+          "ms": 73.7
         },
         {
           "qid": "build-05",
@@ -6026,7 +6037,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.4
+          "ms": 70.9
         },
         {
           "qid": "build-06",
@@ -6042,7 +6053,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.8
+          "ms": 72.1
         },
         {
           "qid": "build-07",
@@ -6058,7 +6069,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.8
+          "ms": 88.3
         },
         {
           "qid": "build-08",
@@ -6074,7 +6085,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.8
+          "ms": 81.5
         },
         {
           "qid": "build-09",
@@ -6090,7 +6101,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.6
+          "ms": 73.2
         },
         {
           "qid": "build-10",
@@ -6101,12 +6112,12 @@
           "got_top3": [
             "zig0.16/build-add-import",
             "zig0.16/build-import-outside-module",
-            "zig0.16/build-test-step"
+            "zig0.16/diag-mined-module-conflict"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.5
+          "ms": 78.7
         },
         {
           "qid": "build-11",
@@ -6116,13 +6127,13 @@
           "expected": "zig0.16/build-import-outside-module",
           "got_top3": [
             "zig0.16/build-import-outside-module",
-            "zig0.16/build-add-import",
+            "zig0.16/diag-mined-embed-outside",
             "zig0.16/build-shared-library"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.8
+          "ms": 85.5
         },
         {
           "qid": "build-12",
@@ -6138,7 +6149,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.3
+          "ms": 82.9
         },
         {
           "qid": "build-13",
@@ -6154,7 +6165,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.2
+          "ms": 93.0
         },
         {
           "qid": "build-14",
@@ -6170,7 +6181,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.5
+          "ms": 82.1
         },
         {
           "qid": "build-15",
@@ -6186,7 +6197,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.5
+          "ms": 73.1
         },
         {
           "qid": "build-16",
@@ -6196,13 +6207,13 @@
           "expected": "zig0.16/build-exe-root-module",
           "got_top3": [
             "zig0.16/build-exe-root-module",
-            "zig0.16/build-import-outside-module",
-            "zig0.16/build-shared-library"
+            "zig0.16/diag-mined-module-conflict",
+            "zig0.16/build-import-outside-module"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.3
+          "ms": 94.8
         },
         {
           "qid": "mate_bytes-01",
@@ -6212,13 +6223,13 @@
           "expected": "zig0.16/format-string-alloc-print",
           "got_top3": [
             "zig0.16/format-string-alloc-print",
-            "zig0.16/string-split-strip-format",
-            "zig0.16/argparse-flags-parse"
+            "zig0.16/argparse-flags-parse",
+            "zig0.16/parse-float-format-decimals"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.0
+          "ms": 84.1
         },
         {
           "qid": "mate_bytes-02",
@@ -6228,13 +6239,13 @@
           "expected": "zig0.16/format-string-alloc-print",
           "got_top3": [
             "zig0.16/format-string-alloc-print",
-            "zig0.16/string-split-strip-format",
-            "zig0.16/parse-int-base-overflow"
+            "zig0.16/diag-mined-member-format",
+            "zig0.16/string-split-strip-format"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.1
+          "ms": 82.2
         },
         {
           "qid": "mate_bytes-03",
@@ -6245,12 +6256,12 @@
           "got_top3": [
             "zig0.16/float-special-values-isinf-isnan",
             "zig0.16/parse-float-format-decimals",
-            "zig0.16/json-loads-dynamic"
+            "zig0.16/diag-mined-comptime-flow"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.0
+          "ms": 74.7
         },
         {
           "qid": "mate_bytes-04",
@@ -6260,13 +6271,13 @@
           "expected": "zig0.16/float-special-values-isinf-isnan",
           "got_top3": [
             "zig0.16/float-special-values-isinf-isnan",
-            "zig0.16/build-import-outside-module",
-            "zig0.16/heapq-priority-queue"
+            "zig0.16/diag-mined-int-range",
+            "zig0.16/build-import-outside-module"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 52.8
+          "ms": 73.9
         },
         {
           "qid": "mate_bytes-05",
@@ -6282,7 +6293,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.3
+          "ms": 73.2
         },
         {
           "qid": "mate_bytes-06",
@@ -6298,7 +6309,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.7
+          "ms": 69.3
         },
         {
           "qid": "mate_bytes-07",
@@ -6314,7 +6325,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 52.5
+          "ms": 88.6
         },
         {
           "qid": "mate_bytes-08",
@@ -6330,7 +6341,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.7
+          "ms": 71.2
         },
         {
           "qid": "mate_bytes-09",
@@ -6346,7 +6357,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 52.7
+          "ms": 66.3
         },
         {
           "qid": "mate_bytes-10",
@@ -6362,7 +6373,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.1
+          "ms": 68.0
         },
         {
           "qid": "mate_bytes-11",
@@ -6378,7 +6389,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.5
+          "ms": 65.7
         },
         {
           "qid": "mate_bytes-12",
@@ -6389,12 +6400,12 @@
           "got_top3": [
             "zig0.16/int-bit-count-bit-length",
             "zig0.16/diag-narrowing-intcast",
-            "zig0.16/int-from-bytes-to-bytes-endian"
+            "zig0.16/diag-mined-int-range"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.0
+          "ms": 67.7
         },
         {
           "qid": "mate_bytes-13",
@@ -6410,7 +6421,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.9
+          "ms": 65.9
         },
         {
           "qid": "mate_bytes-14",
@@ -6426,7 +6437,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.8
+          "ms": 69.2
         },
         {
           "qid": "mate_bytes-15",
@@ -6442,7 +6453,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.3
+          "ms": 68.4
         },
         {
           "qid": "mate_bytes-16",
@@ -6458,7 +6469,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.6
+          "ms": 69.0
         },
         {
           "qid": "stdlib_extra-01",
@@ -6474,7 +6485,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.6
+          "ms": 83.5
         },
         {
           "qid": "stdlib_extra-02",
@@ -6490,7 +6501,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.0
+          "ms": 76.4
         },
         {
           "qid": "stdlib_extra-03",
@@ -6506,7 +6517,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.4
+          "ms": 67.1
         },
         {
           "qid": "stdlib_extra-04",
@@ -6517,12 +6528,12 @@
           "got_top3": [
             "zig0.16/migrate-arraylist-writer",
             "zig0.16/migrate-arraylist-unmanaged",
-            "zig0.16/migrate-stdout-writer"
+            "zig0.16/diag-mined-member-format"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.6
+          "ms": 69.2
         },
         {
           "qid": "stdlib_extra-05",
@@ -6538,7 +6549,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.9
+          "ms": 70.3
         },
         {
           "qid": "stdlib_extra-06",
@@ -6554,7 +6565,7 @@
           "error": null,
           "ok_top1": false,
           "ok_top3": true,
-          "ms": 57.2
+          "ms": 72.3
         },
         {
           "qid": "stdlib_extra-07",
@@ -6564,13 +6575,13 @@
           "expected": "zig0.16/cstring-sentinel-slice-ptr",
           "got_top3": [
             "zig0.16/diag-narrowing-intcast",
-            "zig0.16/cstring-sentinel-slice-ptr",
-            "zig0.16/struct-pack-endian-readint"
+            "zig0.16/diag-mined-pointer-coercion",
+            "zig0.16/cstring-sentinel-slice-ptr"
           ],
           "error": null,
           "ok_top1": false,
           "ok_top3": true,
-          "ms": 57.0
+          "ms": 77.2
         },
         {
           "qid": "stdlib_extra-08",
@@ -6581,12 +6592,12 @@
           "got_top3": [
             "zig0.16/cstring-sentinel-slice-ptr",
             "zig0.16/cstring-span-slice-to",
-            "zig0.16/diag-ptrcast-const"
+            "zig0.16/diag-mined-pointer-coercion"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.4
+          "ms": 72.3
         },
         {
           "qid": "stdlib_extra-09",
@@ -6596,13 +6607,13 @@
           "expected": "zig0.16/cstring-sentinel-slice-ptr",
           "got_top3": [
             "zig0.16/cstring-sentinel-slice-ptr",
-            "zig0.16/ffi-extern-c-function",
-            "zig0.16/cstring-span-slice-to"
+            "zig0.16/diag-mined-pointer-coercion",
+            "zig0.16/ffi-extern-c-function"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 60.8
+          "ms": 71.5
         },
         {
           "qid": "stdlib_extra-10",
@@ -6612,12 +6623,13 @@
           "expected": "zig0.16/csv-reader-line-quoted",
           "got_top3": [
             "zig0.16/csv-reader-line-quoted",
+            "zig0.16/diag-mined-duplicate-names",
             "zig0.16/json-loads-typed-struct"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 52.3
+          "ms": 71.3
         },
         {
           "qid": "stdlib_extra-11",
@@ -6631,7 +6643,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 52.7
+          "ms": 68.9
         },
         {
           "qid": "stdlib_extra-12",
@@ -6647,7 +6659,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.9
+          "ms": 70.5
         },
         {
           "qid": "stdlib_extra-13",
@@ -6663,7 +6675,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.5
+          "ms": 67.3
         },
         {
           "qid": "stdlib_extra-14",
@@ -6679,7 +6691,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.2
+          "ms": 74.0
         },
         {
           "qid": "stdlib_extra-15",
@@ -6695,7 +6707,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.1
+          "ms": 76.5
         },
         {
           "qid": "stdlib_extra-16",
@@ -6711,7 +6723,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 54.9
+          "ms": 88.0
         },
         {
           "qid": "stdlib_extra-17",
@@ -6727,7 +6739,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.1
+          "ms": 68.3
         },
         {
           "qid": "stdlib_extra-18",
@@ -6743,7 +6755,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.3
+          "ms": 67.4
         },
         {
           "qid": "stdlib_extra-19",
@@ -6757,7 +6769,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 53.6
+          "ms": 67.3
         },
         {
           "qid": "stdlib_extra-20",
@@ -6767,18 +6779,18 @@
           "expected": "zig0.16/re-regex-gap",
           "got_top3": [
             "zig0.16/re-regex-gap",
-            "zig0.16/read-file-text-limited",
-            "zig0.16/migrate-writefile"
+            "zig0.16/migrate-writefile",
+            "zig0.16/read-file-text-limited"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.4
+          "ms": 66.2
         }
       ]
     }
   },
   "embed_mode": "onnx",
   "embed_model": "all-MiniLM-L6-v2",
-  "entries": 102
+  "entries": 115
 }
