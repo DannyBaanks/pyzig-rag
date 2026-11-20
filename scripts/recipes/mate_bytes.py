@@ -6,7 +6,7 @@ con negativos, conteo de bits, redondeo y cadenas C terminadas en NUL.
 
 `error_signatures` son lineas `error: ...` REALES copiadas de ejecutar
 `zig test` 0.16.0 sobre el codigo roto (sin ruta ni posicion)."""
-from pyzig.fuzz.contracts import _c
+from pyzig.fuzz.contracts import CONTRACTS as _FUZZ, _c
 
 ZIG = "0.16.0"; PY = "3.12"; PROV = "std local de zig 0.16.0 (repo en lib/std); errores copiados de `zig test` 0.16.0"
 
@@ -752,14 +752,12 @@ CONTRACTS = {
         type_sig={"input": "valores", "output": "bytes"}, **_SKIP),
     "zig0.16/float-special-values-isinf-isnan": _c(None, None, None, [],
         type_sig={"input": "f64", "output": "bool"}, **_SKIP),
-    "zig0.16/struct-pack-endian-readint": _c(None, None, None, [],
-        type_sig={"input": "entero/bytes", "output": "bytes/entero o error"}, **_SKIP),
+    # fuzzables: el contrato vive en pyzig/fuzz/contracts.py (driver + modelo)
+    "zig0.16/struct-pack-endian-readint": _FUZZ["zig0.16/struct-pack-endian-readint"],
     "zig0.16/int-from-bytes-to-bytes-endian": _c(None, None, None, [],
         type_sig={"input": "entero/bytes", "output": "bytes/entero"}, **_SKIP),
-    "zig0.16/div-floor-mod-negative": _c(None, None, None, [],
-        type_sig={"input": "par de enteros", "output": "entero"}, **_SKIP),
-    "zig0.16/int-bit-count-bit-length": _c(None, None, None, [],
-        type_sig={"input": "entero", "output": "entero"}, **_SKIP),
+    "zig0.16/div-floor-mod-negative": _FUZZ["zig0.16/div-floor-mod-negative"],
+    "zig0.16/int-bit-count-bit-length": _FUZZ["zig0.16/int-bit-count-bit-length"],
     "zig0.16/round-floor-ceil-bankers": _c(None, None, None, [],
         type_sig={"input": "f64", "output": "f64"}, **_SKIP),
     "zig0.16/cstring-span-slice-to": _c(None, None, None, [],

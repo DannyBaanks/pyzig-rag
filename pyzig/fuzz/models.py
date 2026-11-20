@@ -19,7 +19,9 @@ import base64
 import binascii
 import hashlib
 import os
+import re
 import shutil
+import struct
 import subprocess
 import sys
 import time
@@ -438,6 +440,113 @@ def model_parseint(fields: list[bytes]) -> tuple[str, list[str]]:
     return "ok", ["ok", "", str(value)]
 
 
+# --- mate_bytes -------------------------------------------------------------
+
+#: Formato numerico estricto compartido con los drivers: `-?[0-9]+`, sin
+#: '+', espacios ni separadores. Fuera de este formato el caso es invalid.
+_STRICT_INT = re.compile(rb"-?[0-9]+")
+_I64_MIN, _I64_MAX = -(2 ** 63), 2 ** 63 - 1
+_U32_MAX = 2 ** 32 - 1
+
+
+def _strict_int(raw: bytes, lo: int, hi: int) -> int | None:
+    """Entero decimal estricto dentro de [lo, hi]; None si no cumple."""
+    if not _STRICT_INT.fullmatch(raw):
+        return None
+    value = int(raw)
+    return value if lo <= value <= hi else None
+
+
+#: Error canonico de division por cero (ZeroDivisionError en Python).
+DIVISION_BY_ZERO = "DivisionByZero"
+#: Error canonico de rango fuera del tipo (struct.error "argument out of range").
+OUT_OF_RANGE = "OutOfRange"
+#: Error canonico de buffer demasiado corto (struct.error de unpack/pack_into).
+SHORT_BUFFER = "ShortBuffer"
+
+
+def model_divmod(fields: list[bytes]) -> tuple[str, list[str]]:
+    """// y % de Python con negativos, enteros i32.
+
+    Division por cero -> DivisionByZero. El cociente se restringe a i32 (el
+    tipo de la receta): minInt // -1 == 2**31 no cabe y es Overflow.
+    """
+    n = 4
+    if len(fields) < 2:
+        return _invalid(n)
+    a = _strict_int(fields[0], _I32_MIN, _I32_MAX)
+    b = _strict_int(fields[1], _I32_MIN, _I32_MAX)
+    if a is None or b is None:
+        return _invalid(n)
+    if b == 0:
+        return "err", ["err", DIVISION_BY_ZERO, "", ""]
+    quot, rem = a // b, a % b
+    if not _I32_MIN <= quot <= _I32_MAX:
+        return "err", ["err", "Overflow", "", ""]
+    return "ok", ["ok", "", str(quot), str(rem)]
+
+
+def model_bits(fields: list[bytes]) -> tuple[str, list[str]]:
+    """int.bit_count() (con signo: cuenta bits de abs) e int.bit_length().
+
+    El texto se restringe a i64 (el tipo de la receta). Fuera de i64 -> invalid.
+    """
+    n = 3
+    if len(fields) < 2:
+        return _invalid(n)
+    x = _strict_int(fields[1], _I64_MIN, _I64_MAX)
+    if x is None:
+        return _invalid(n)
+    if fields[0] == b"count":
+        return "ok", ["ok", "", str(x.bit_count())]
+    if fields[0] == b"length":
+        return "ok", ["ok", "", str(x.bit_length())]
+    return _invalid(n)
+
+
+def model_packint(fields: list[bytes]) -> tuple[str, list[str]]:
+    """struct.pack / struct.unpack_from / struct.pack_into con '>I', '<i', ...
+
+    Orden de comprobacion (el de CPython: pack_into mira el tamano del buffer
+    antes que el rango del valor): formato -> limites -> rango.
+    """
+    n = 4
+    if len(fields) < 5:
+        return _invalid(n)
+    op, endian = fields[0], fields[1]
+    if op not in (b"pack", b"read", b"readi", b"write"):
+        return _invalid(n)
+    if endian not in (b"big", b"little"):
+        return _invalid(n)
+    value = _strict_int(fields[2], _I64_MIN, _I64_MAX)
+    offset = _strict_int(fields[3], 0, _I64_MAX)
+    if value is None or offset is None:
+        return _invalid(n)
+    data = fields[4]
+    prefix = ">" if endian == b"big" else "<"
+    if op == b"pack":
+        try:
+            out = struct.pack(prefix + "I", value)
+        except struct.error:
+            return "err", ["err", OUT_OF_RANGE, "", ""]
+        return "ok", ["ok", "", "", out.hex()]
+    if op in (b"read", b"readi"):
+        if offset + 4 > len(data):
+            return "err", ["err", SHORT_BUFFER, "", ""]
+        code = "I" if op == b"read" else "i"
+        (v,) = struct.unpack_from(prefix + code, data, offset)
+        return "ok", ["ok", "", str(v), ""]
+    # write
+    buf = bytearray(data)
+    if offset + 4 > len(buf):
+        return "err", ["err", SHORT_BUFFER, "", ""]
+    try:
+        struct.pack_into(prefix + "I", buf, offset, value)
+    except struct.error:
+        return "err", ["err", OUT_OF_RANGE, "", ""]
+    return "ok", ["ok", "", "", bytes(buf).hex()]
+
+
 #: nombre de modelo -> funcion
 MODELS: dict[str, Callable[[list[bytes]], tuple[str, list[str]]]] = {
     "argv": model_argv,
@@ -454,4 +563,7 @@ MODELS: dict[str, Callable[[list[bytes]], tuple[str, list[str]]]] = {
     "base64": model_base64,
     "hex": model_hex,
     "parseint": model_parseint,
+    "divmod": model_divmod,
+    "bits": model_bits,
+    "packint": model_packint,
 }
