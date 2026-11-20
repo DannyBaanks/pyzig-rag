@@ -6,8 +6,15 @@ from . import index as idx
 from .embed import Embedder, Unavailable
 
 RRF_K = 60
-COV_MIN = 0.40   # cobertura lexica minima (tokens discriminativos)
-COS_MIN = 0.35   # cosine minimo (all-MiniLM-L6-v2)
+# Admision (calibrada en eval/calib_queries.tsv, NO en heldout ni en dev; metodo en eval/CALIB.md):
+#   admitido = cobertura >= COV_MIN  o  (cosine >= COS_MIN  y  cobertura >= COS_COV_MIN)
+# Antes: cosine >= 0.35 solo. MiniLM da 0.33-0.59 a consultas sin equivalente (calib: 25/56
+# negativas admitidas, 20 solo por coseno). Con COS_MIN=0.40 y el respaldo lexico ninguna negativa
+# entra por coseno; la cobertura sola admite 5/56 (generico: "servidor", "argumentos", "contar").
+# Coste: c-pos05 (cobertura 1/3, sin coseno >= 0.40 en su doc) pasa a NO_RESULTS.
+COV_MIN = 0.40      # cobertura lexica minima (tokens discriminativos); sin cambios
+COS_MIN = 0.40      # cosine minimo (all-MiniLM-L6-v2); era 0.35
+COS_COV_MIN = 0.33  # cobertura minima que debe acompanar al coseno (1/3 de los tokens discriminativos)
 UNVERIFIED_PENALTY = 0.6  # entradas sin evidencia demostrada rankean por debajo
 # Recetas de migracion Zig->Zig (source_lang "zig-<version vieja>") ceden ante las Python->Zig
 # cuando la consulta no trae marcas de Zig: "time.sleep equivalente" es una pregunta de Python.
@@ -52,6 +59,10 @@ def _per_doc_coverage(con, disc: list[str]) -> dict[str, float]:
         for r in con.execute("SELECT operation_id FROM ops_fts WHERE ops_fts MATCH ?", (f'"{d}"',)).fetchall():
             per[r["operation_id"]] = per.get(r["operation_id"], 0) + 1
     return {k: v / len(disc) for k, v in per.items()}
+
+def admits(cov: float, cos: float) -> bool:
+    """Regla de admision: la cobertura lexica basta; el coseno solo cuenta con respaldo lexico."""
+    return cov >= COV_MIN or (cos >= COS_MIN and cov >= COS_COV_MIN)
 
 def _cos_of(con, oid: str, qv) -> float:
     if qv is None:
@@ -128,7 +139,7 @@ def search(query: str, zig_version: str | None = None, platform: str | None = No
         cov, disc = idx.coverage(con, query)
         per_doc_cov = _per_doc_coverage(con, disc)
         cos_map = {o: _cos_of(con, o, qv) for o in ids}
-        admitted = {o for o in ids if per_doc_cov.get(o, 0.0) >= COV_MIN or cos_map[o] >= COS_MIN}
+        admitted = {o for o in ids if admits(per_doc_cov.get(o, 0.0), cos_map[o])}
         fused = _fuse(lex, vec_res, mode)
         # mejor cobertura entre entradas tipo receta admitidas
         best_recipe_cov = max(
