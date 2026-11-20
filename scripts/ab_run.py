@@ -7,6 +7,16 @@ stderr. Opcionalmente el agente puede escribir un JSON en la ruta de
 ``AB_ATTEMPT_META`` con ``{"tokens": {"total": N}, "tool_calls": [...]}`` para
 que el arnés registre tokens y llamadas a herramientas.
 
+Cada intento corre en un directorio temporal vacío fuera del repo (aislamiento
+best-effort: cwd sin acceso obvio al corpus/ejemplos; el agente podría intentar
+leer rutas absolutas si las descubre). Para el brazo B se expone ``PYZIG_CLI``
+(un comando que invoca ``scripts/pyzig_cli.py`` contra este repo) sin documentar
+rutas del repo en el prompt.
+
+Si el agente termina con código de retorno distinto de 0 (o timeout/spawn error),
+el intento se registra como ``AGENT_ERROR`` y no cuenta como pasado, aunque el
+código producido compilara.
+
 El arnés NO puede activar/desactivar herramientas dentro de un agente arbitrario:
 pasa la intención del brazo en el prompt y en ``AB_TOOLS``, y lo deja escrito en
 el manifiesto. La verificación del aislamiento es responsabilidad del operador
@@ -22,9 +32,11 @@ import json
 import os
 import pathlib
 import random
+import shlex
 import shutil
 import subprocess
 import sys
+import tempfile
 from typing import Any
 
 try:  # importado como scripts.ab_run desde tests
@@ -46,11 +58,14 @@ ARM_INSTRUCTIONS = {
         "invocarlas. Resuelve la tarea solo con tu conocimiento de Zig 0.16."
     ),
     "B": (
-        "Entorno B: tienes disponibles las herramientas MCP de pyzig "
-        "(pyzig_search, pyzig_get, pyzig_check, pyzig_catalog) y debes usarlas "
-        "cuando ayuden: consulta la receta antes de escribir Zig y verifica el "
-        "código con pyzig_check. Registra cada llamada en AB_ATTEMPT_META "
-        "bajo la clave 'tool_calls'."
+        "Entorno B: puedes consultar pyzig mediante la CLI disponible en la "
+        "variable de entorno $PYZIG_CLI (ejecútala por shell). Comandos:\n"
+        "  $PYZIG_CLI search \"<intención>\" [--mode hybrid|lexical|vector] [--limit N]\n"
+        "  $PYZIG_CLI get <operation_id>\n"
+        "  printf '%s' \"$ZIG_CODE\" | $PYZIG_CLI check [--mode test|ast]\n"
+        "Úsala cuando ayude (buscar recetas, obtener detalles, verificar código). "
+        "Registra cada invocación relevante en AB_ATTEMPT_META bajo la clave "
+        "'tool_calls' como lista de cadenas."
     ),
 }
 
@@ -119,10 +134,39 @@ def _fresh_out(out: pathlib.Path, force: bool) -> None:
     out.mkdir(parents=True, exist_ok=True)
 
 
+def _isolated_base() -> pathlib.Path:
+    for base in (pathlib.Path("/tmp/opencode"), pathlib.Path(tempfile.gettempdir())):
+        try:
+            base.mkdir(parents=True, exist_ok=True)
+            return base
+        except OSError:
+            continue
+    return pathlib.Path(tempfile.gettempdir())
+
+
+def _pyzig_cli_command() -> str:
+    """Comando para invocar scripts/pyzig_cli.py con el intérprete del repo."""
+    py = str((ROOT / ".venv" / "bin" / "python").resolve())
+    if not pathlib.Path(py).is_file():
+        py = sys.executable
+    cli = str((ROOT / "scripts" / "pyzig_cli.py").resolve())
+    root = str(ROOT.resolve())
+    return f"PYTHONPATH={shlex.quote(root)} {shlex.quote(py)} {shlex.quote(cli)}"
+
+
+def _agent_failed(rc: Any) -> bool:
+    if isinstance(rc, int):
+        return rc != 0
+    return rc in {"TIMEOUT", "SPAWN_ERROR"}
+
+
 def run_agent(args: argparse.Namespace, tasks: list[dict[str, Any]],
               out: pathlib.Path, order: list[str], arm_order: dict[str, list[str]]) -> None:
     by_id = {t["task_id"]: t for t in tasks}
     global_log = out / "attempts.jsonl"
+    work_base = _isolated_base() / "ab-work"
+    work_base.mkdir(parents=True, exist_ok=True)
+    pyzig_cli = _pyzig_cli_command()
     for tid in order:
         task = by_id[tid]
         for arm in arm_order[tid]:
@@ -133,9 +177,8 @@ def run_agent(args: argparse.Namespace, tasks: list[dict[str, Any]],
             feedback: str | None = None
             for attempt in range(1, args.max_attempts + 1):
                 prompt = build_prompt(task, arm, feedback)
-                meta_path = task_dir / f"meta-attempt-{attempt:02d}.json"
-                if meta_path.exists():
-                    meta_path.unlink()  # nunca reutilices tokens de un run anterior
+                workdir = pathlib.Path(tempfile.mkdtemp(prefix=f"{tid}-{arm}-a{attempt}-", dir=work_base))
+                meta_path = workdir / f"meta-attempt-{attempt:02d}.json"
                 env = dict(os.environ)
                 env.update({
                     "AB_TASK_ID": tid,
@@ -145,12 +188,14 @@ def run_agent(args: argparse.Namespace, tasks: list[dict[str, Any]],
                     "AB_TOOLS": ",".join(TOOLS_B if arm == "B" else []),
                     "AB_PROMPT_SHA256": hashlib.sha256(prompt.encode("utf-8")).hexdigest(),
                 })
+                if arm == "B":
+                    env["PYZIG_CLI"] = pyzig_cli
                 started = _now()
                 agent_error = ""
                 try:
                     proc = subprocess.run(
                         args.agent_cmd, shell=True, input=prompt, text=True,
-                        capture_output=True, cwd=out, env=env, timeout=args.timeout,
+                        capture_output=True, cwd=workdir, env=env, timeout=args.timeout,
                     )
                     source, rc, agent_error = proc.stdout, proc.returncode, proc.stderr
                 except subprocess.TimeoutExpired as exc:
@@ -162,6 +207,8 @@ def run_agent(args: argparse.Namespace, tasks: list[dict[str, Any]],
                 solution = task_dir / f"attempt-{attempt:02d}.zig"
                 solution.write_text(source, encoding="utf-8")
                 scored = score_attempt(source, task, cache_dir=args.cache_dir)
+                if _agent_failed(rc):
+                    scored = {**scored, "status": "AGENT_ERROR", "passed": False}
                 meta = _read_meta(meta_path)
                 tokens = _tokens_from_meta(meta)
                 tool_calls = meta.get("tool_calls")
@@ -174,6 +221,7 @@ def run_agent(args: argparse.Namespace, tasks: list[dict[str, Any]],
                     "arm": arm,
                     "attempt": attempt,
                     "agent_rc": rc,
+                    "workdir": str(workdir),
                     "prompt_sha256": hashlib.sha256(prompt.encode("utf-8")).hexdigest(),
                     "prompt_chars": len(prompt),
                     "source_chars": len(source),
@@ -186,14 +234,28 @@ def run_agent(args: argparse.Namespace, tasks: list[dict[str, Any]],
                     "errors": [e["message"] for e in scored["errors"]],
                     "agent_stderr_tail": agent_error[-2000:],
                 }
+                # persist meta alongside attempt for traceability
+                try:
+                    meta_dst = task_dir / f"meta-attempt-{attempt:02d}.json"
+                    if meta_path.is_file():
+                        shutil.copyfile(meta_path, meta_dst)
+                except OSError:
+                    pass
                 line = json.dumps(record, ensure_ascii=False) + "\n"
                 with (task_dir / "attempts.jsonl").open("a", encoding="utf-8") as fh:
                     fh.write(line)
                 with global_log.open("a", encoding="utf-8") as fh:
                     fh.write(line)
+                try:
+                    shutil.rmtree(workdir)
+                except OSError:
+                    pass
                 if scored["passed"]:
                     break
-                feedback = _feedback(scored)
+                if _agent_failed(rc):
+                    feedback = f"El agente falló (rc={rc}). stderr_tail:\n{agent_error[-1200:]}\n\n" + _feedback(scored)
+                else:
+                    feedback = _feedback(scored)
 
 
 def run_dry_run(args: argparse.Namespace, tasks: list[dict[str, Any]],
