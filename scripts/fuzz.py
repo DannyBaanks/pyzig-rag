@@ -243,6 +243,8 @@ def triage(run: str, op: str | None = None) -> int:
         raise SystemExit("no se pudo determinar la operacion (--op o meta.json)")
     e = _entry_for_op(op_id)
     known = e.fuzz.get("known_divergences", [])
+    schema = e.fuzz.get("schema", "")
+    compared = e.fuzz.get("compared_fields", [])
 
     rows = [json.loads(l) for l in results_path.read_text(encoding="utf-8").splitlines() if l.strip()]
     buckets: dict[str, list[dict]] = {}
@@ -252,7 +254,7 @@ def triage(run: str, op: str | None = None) -> int:
         if not fields:
             buckets.setdefault(row.get("class", "?"), []).append(row)
             continue
-        match = triage_mod.match_known(fields, known)
+        match = triage_mod.classify(row, known, schema, compared)
         if match:
             buckets.setdefault(f"KNOWN:{match}", []).append(row)
         else:

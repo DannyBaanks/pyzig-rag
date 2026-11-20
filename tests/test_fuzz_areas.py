@@ -145,27 +145,37 @@ class KnownDivergenceTest(unittest.TestCase):
     def _known(self, oid):
         return contracts.CONTRACTS[oid]["known_divergences"]
 
+    def _ctx(self, subject=None, oracle=None, **inp):
+        """Contexto del caso: entrada (inp), y lados Zig/Python (campos del resultado)."""
+        return {"input": dict(inp), "subject": subject or {}, "oracle": oracle or {}}
+
     def test_espacios_y_prefijo_de_base(self):
         d = self._diffs([("status", "err", "ok"), ("error", "InvalidLiteral", ""),
                          ("value", "", "7")])
-        self.assertEqual(triage.match_known(d, self._known("zig0.16/parse-int-base-overflow")),
+        ctx = self._ctx(text=" 7 ", base="10", oracle={"status": "ok", "value": "7"})
+        self.assertEqual(triage.match_known(d, self._known("zig0.16/parse-int-base-overflow"), ctx),
                          "int-recorta-espacios-y-prefijo-de-base")
 
     def test_overflow_antes_que_caracter_invalido(self):
         d = self._diffs([("error", "Overflow", "InvalidLiteral")])
-        self.assertEqual(triage.match_known(d, self._known("zig0.16/parse-int-base-overflow")),
+        ctx = self._ctx(text="4d3ce2YZyYc0+6-31y Z8d", base="36",
+                        oracle={"status": "err", "error": "InvalidLiteral"})
+        self.assertEqual(triage.match_known(d, self._known("zig0.16/parse-int-base-overflow"), ctx),
                          "precedencia-overflow-sobre-caracter-invalido")
 
     def test_zig_acepta_guion_bajo_doble(self):
         d = self._diffs([("status", "ok", "err"), ("error", "", "InvalidLiteral"),
                          ("value", "10", "")])
-        self.assertEqual(triage.match_known(d, self._known("zig0.16/parse-int-base-overflow")),
+        ctx = self._ctx(text="1__0", base="10", subject={"status": "ok", "value": "10"},
+                        oracle={"status": "err", "error": "InvalidLiteral"})
+        self.assertEqual(triage.match_known(d, self._known("zig0.16/parse-int-base-overflow"), ctx),
                          "zig-acepta-lo-que-int-rechaza")
 
     def test_hex_espacios(self):
         d = self._diffs([("status", "err", "ok"), ("error", "BadEncoding", ""),
                          ("out", "", "\xde\xad")])
-        self.assertEqual(triage.match_known(d, self._known("zig0.16/hex-encode-decode")),
+        ctx = self._ctx(op="dec", data="de ad")
+        self.assertEqual(triage.match_known(d, self._known("zig0.16/hex-encode-decode"), ctx),
                          "hex-espacios-entre-pares")
 
     def test_divergencia_sin_declarar_es_nueva(self):

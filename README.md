@@ -119,7 +119,17 @@ ejecuta nada si bwrap falta.
 - Taxonomia: `EQUIV/DIVERGENT/UNSUPPORTED/INVALID_REFERENCE/INVALID_ACCEPTED/
   CRASH/TIMEOUT/INCONCLUSIVE/NONDETERMINISTIC`. Las divergencias conocidas se
   declaran en `pyzig/fuzz/contracts.py` (`fuzz.known_divergences`); `triage`
-  separa conocidas de nuevas.
+  separa conocidas de nuevas. Una declaracion puede acotarse por la **entrada** del caso
+  (`case` de `results.jsonl`): `"input": {"<campo>": {"regex": "..."}}` (campos en
+  `pyzig/fuzz/triage.py::INPUT_FIELDS`) o `"input": "<nombre>"` con un predicado
+  registrado en `triage.PREDICATES` que ve entrada, valor Zig y valor Python. Sin `input`
+  la declaracion solo mira campos (comportamiento anterior). Con `input` y sin caso
+  decodificable, no encaja: el caso queda NUEVO. Predicados vigentes: `parseint-recorta-ascii`
+  (solo ASCII en los bordes o prefijo 0x/0o/0b de la base), `parseint-precedencia-overflow`
+  (el prefijo valido desborda i32 antes del caracter invalido), `parseint-guion-bajo-valor`
+  (`__` entre digitos o base 0 con cero a la izquierda, y el valor Zig = el del texto sin `_`)
+  y la regex de `hex-espacios-entre-pares` (solo espacios ASCII entre o alrededor de pares hex).
+  Tests: `tests/test_triage_pred.py` (casos sinteticos con empaquetado real).
 - `assemble` admite solo `case_fixture` y `pipeline_entry` (una receta nueva
   nunca se auto-mergea) y siempre pasa por `pyzig.corpus.append_entry`.
 - `warden` aplica 7 invariantes (hash chain, tipo, procedencia, integridad del
@@ -310,12 +320,12 @@ regenera `scripts/run_eval.py`; no se copian aqui.
   la siguiente lista de recetas candidatas.
 - Embeddings requieren modelo local descargado (o degradacion declarada).
 - No hay equivalente para `setsid`/demonio: esa es la frontera real hoy.
-- Fuzz diferencial de `base64`, `hex` y `parse-int` (ola 4): `triage` clasifica las
-  divergencias conocidas solo por campos del resultado, no por la entrada. Dos clases de
-  `parse-int` (`int-recorta-espacios-y-prefijo-de-base`, `zig-acepta-lo-que-int-rechaza`)
-  absorberian tambien un fallo nuevo con el mismo patron de campos (p. ej. digitos
-  Unicode, o un valor erroneo). Hoy el generador solo emite ASCII; acotarlas exige
-  predicados de entrada en `triage`.
+- Fuzz diferencial de `parse-int` y `hex`: las cuatro clases conocidas tienen predicado de
+  entrada en `triage` (ver "Fuzzing diferencial"). Un digito Unicode o un valor erroneo ya
+  no se absorbe como conocido (tests sinteticos). Lo que sigue abierto: el generador de
+  `gen.zig` emite solo ASCII en `parseint/v1`, asi que ninguna campana real ejerce digitos
+  Unicode; esa parte solo esta cubierta por los tests sinteticos. Las declaraciones de
+  `base64` no tienen ninguna divergencia conocida, por lo que no tienen predicado.
 
 ## Reinicio
 

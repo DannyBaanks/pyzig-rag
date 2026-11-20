@@ -156,7 +156,13 @@ CONTRACTS: dict[str, dict] = {
             "fields": ["status", "error", "out"],
             "expect": {"status": "err", "error": "BadEncoding"},
             "oracle": {"status": "ok"},
-            "why": "bytes.fromhex ignora cualquier espacio ASCII (espacio, tab, salto) entre pares de digitos; hexToBytes lo rechaza (InvalidCharacter).",
+            # solo decodificacion ('dec') con espacios ASCII entre o alrededor de
+            # pares de hex; un byte no hex o un espacio dentro de un par NO encaja
+            "input": {
+                "op": {"regex": "dec"},
+                "data": {"regex": r"(?s)(?=.*[ \t\n\r\x0b\x0c])(?:[ \t\n\r\x0b\x0c]*[0-9A-Fa-f]{2})*[ \t\n\r\x0b\x0c]*"},
+            },
+            "why": "bytes.fromhex ignora cualquier espacio ASCII (espacio, tab, salto) entre pares de digitos y al borde; hexToBytes lo rechaza (InvalidCharacter).",
         }],
     ),
     "zig0.16/parse-int-base-overflow": _c(
@@ -170,6 +176,9 @@ CONTRACTS: dict[str, dict] = {
                 "fields": ["status", "error", "value"],
                 "expect": {"status": "err", "error": "InvalidLiteral"},
                 "oracle": {"status": "ok"},
+                # solo ASCII: espacios ASCII en los bordes o prefijo 0x/0o/0b que
+                # coincide con la base; el valor de Python es int(texto recortado)
+                "input": "parseint-recorta-ascii",
                 "why": "int() recorta espacios y saltos de linea (' 7 ', '7\\n') y acepta el prefijo 0x/0o/0b que coincide con la base ('0x10' base 16, '0o17' base 8); parseInt los rechaza (InvalidCharacter)",
             },
             {
@@ -177,6 +186,8 @@ CONTRACTS: dict[str, dict] = {
                 "fields": ["error"],
                 "expect": {"error": "Overflow"},
                 "oracle": {"error": "InvalidLiteral"},
+                # el prefijo valido antes del primer caracter invalido ya desborda i32
+                "input": "parseint-precedencia-overflow",
                 "why": "con una cadena a la vez desbordada y con caracter invalido, parseInt informa Overflow antes de ver el caracter; int() informa ValueError. Mismo estado (err), distinto nombre de error",
             },
             {
@@ -184,7 +195,10 @@ CONTRACTS: dict[str, dict] = {
                 "fields": ["status", "error", "value"],
                 "expect": {"status": "ok"},
                 "oracle": {"status": "err", "error": "InvalidLiteral"},
-                "why": "parseInt acepta guiones bajos consecutivos ('1__0') y, con base 0, ceros a la izquierda ('010' -> 10); int() rechaza ambos. La receta dice que parseInt acepta '_' como Python: no es cierto para '__'. Hallazgo, no corregido en la receta",
+                # '__' entre digitos, o base 0 con cero a la izquierda; el valor Zig
+                # tiene que ser el del texto sin '_' (1__0 -> 10, 010 base 0 -> 10)
+                "input": "parseint-guion-bajo-valor",
+                "why": "parseInt acepta guiones bajos consecutivos ('1__0', '1___0') y, con base 0, ceros a la izquierda sin prefijo ('010' -> 10, '0_1' -> 1); int() rechaza ambos. La receta dice que parseInt acepta '_' como Python: no es cierto para '__'. Hallazgo, no corregido en la receta",
             },
         ],
     ),
