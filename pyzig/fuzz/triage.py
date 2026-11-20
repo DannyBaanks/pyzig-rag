@@ -199,7 +199,12 @@ def pred_parseint_precedencia_overflow(ctx: dict) -> bool:
     prefix = rest[:first_bad].replace("_", "")
     if not prefix:
         return False
-    value = int(prefix, eff)
+    try:
+        value = int(prefix, eff)
+    except ValueError:
+        # Python limita int(str) a sys.get_int_max_str_digits() digitos (4300):
+        # un prefijo tan largo no cabe en i32 de ninguna forma.
+        return _oracle_is(ctx, "err", error="InvalidLiteral")
     if sign == "-":
         value = -value
     overflow = not (I32_MIN <= value <= I32_MAX)
