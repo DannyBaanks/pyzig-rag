@@ -1,0 +1,684 @@
+{
+  "schema": 1,
+  "tasks_dir": "ab/tasks",
+  "solutions_dir": "ab/runs/pilot-2026-11-20",
+  "scorer": "pyzig.check.check_zig(mode='test', suggest=False)",
+  "arms": {
+    "A": {
+      "tasks": {
+        "t01_bisect_left": {
+          "task_id": "t01_bisect_left",
+          "control": true,
+          "attempts": 3,
+          "compiles": 3,
+          "compiles_until_pass": null,
+          "passed": false,
+          "compile_errors": 3,
+          "error_records": 3,
+          "tests_passed_attempts": 0,
+          "runtime_failures": 0,
+          "unscored": 0,
+          "tokens": {
+            "available": false,
+            "measured_attempts": 0,
+            "total": "NOT_AVAILABLE",
+            "by_attempt": [
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE"
+            ]
+          },
+          "attempts_detail": [
+            {
+              "attempt": 1,
+              "file": "A/t01_bisect_left/attempt-01.zig",
+              "status": "COMPILE_FAIL",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:5:48: error: use of undeclared identifier 'bisectLeft'\n    try std.testing.expectEqual(@as(usize, 0), bisectLeft(&a, 0));\n                                               ^~~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 5,
+                  "col": 48,
+                  "message": "use of undeclared identifier 'bisectLeft'"
+                }
+              ],
+              "agent_rc": 0
+            },
+            {
+              "attempt": 2,
+              "file": "A/t01_bisect_left/attempt-02.zig",
+              "status": "COMPILE_FAIL",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:5:48: error: use of undeclared identifier 'bisectLeft'\n    try std.testing.expectEqual(@as(usize, 0), bisectLeft(&a, 0));\n                                               ^~~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 5,
+                  "col": 48,
+                  "message": "use of undeclared identifier 'bisectLeft'"
+                }
+              ],
+              "agent_rc": 0
+            },
+            {
+              "attempt": 3,
+              "file": "A/t01_bisect_left/attempt-03.zig",
+              "status": "COMPILE_FAIL",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:5:48: error: use of undeclared identifier 'bisectLeft'\n    try std.testing.expectEqual(@as(usize, 0), bisectLeft(&a, 0));\n                                               ^~~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 5,
+                  "col": 48,
+                  "message": "use of undeclared identifier 'bisectLeft'"
+                }
+              ],
+              "agent_rc": 0
+            }
+          ]
+        },
+        "t02_gcd_lcm": {
+          "task_id": "t02_gcd_lcm",
+          "control": true,
+          "attempts": 3,
+          "compiles": 3,
+          "compiles_until_pass": null,
+          "passed": false,
+          "compile_errors": 3,
+          "error_records": 3,
+          "tests_passed_attempts": 0,
+          "runtime_failures": 0,
+          "unscored": 0,
+          "tokens": {
+            "available": false,
+            "measured_attempts": 0,
+            "total": "NOT_AVAILABLE",
+            "by_attempt": [
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE"
+            ]
+          },
+          "attempts_detail": [
+            {
+              "attempt": 1,
+              "file": "A/t02_gcd_lcm/attempt-01.zig",
+              "status": "COMPILE_FAIL",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:4:46: error: use of undeclared identifier 'gcd'\n    try std.testing.expectEqual(@as(u64, 6), gcd(12, 18));\n                                             ^~~\n",
+              "errors": [
+                {
+                  "line": 4,
+                  "col": 46,
+                  "message": "use of undeclared identifier 'gcd'"
+                }
+              ],
+              "agent_rc": 0
+            },
+            {
+              "attempt": 2,
+              "file": "A/t02_gcd_lcm/attempt-02.zig",
+              "status": "COMPILE_FAIL",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:4:46: error: use of undeclared identifier 'gcd'\n    try std.testing.expectEqual(@as(u64, 6), gcd(12, 18));\n                                             ^~~\n",
+              "errors": [
+                {
+                  "line": 4,
+                  "col": 46,
+                  "message": "use of undeclared identifier 'gcd'"
+                }
+              ],
+              "agent_rc": 0
+            },
+            {
+              "attempt": 3,
+              "file": "A/t02_gcd_lcm/attempt-03.zig",
+              "status": "COMPILE_FAIL",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:4:46: error: use of undeclared identifier 'gcd'\n    try std.testing.expectEqual(@as(u64, 6), gcd(12, 18));\n                                             ^~~\n",
+              "errors": [
+                {
+                  "line": 4,
+                  "col": 46,
+                  "message": "use of undeclared identifier 'gcd'"
+                }
+              ],
+              "agent_rc": 0
+            }
+          ]
+        },
+        "t04_word_count": {
+          "task_id": "t04_word_count",
+          "control": false,
+          "attempts": 3,
+          "compiles": 3,
+          "compiles_until_pass": null,
+          "passed": false,
+          "compile_errors": 3,
+          "error_records": 3,
+          "tests_passed_attempts": 0,
+          "runtime_failures": 0,
+          "unscored": 0,
+          "tokens": {
+            "available": false,
+            "measured_attempts": 0,
+            "total": "NOT_AVAILABLE",
+            "by_attempt": [
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE"
+            ]
+          },
+          "attempts_detail": [
+            {
+              "attempt": 1,
+              "file": "A/t04_word_count/attempt-01.zig",
+              "status": "COMPILE_FAIL",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:4:48: error: use of undeclared identifier 'wordCount'\n    try std.testing.expectEqual(@as(usize, 2), wordCount(\"  hola\\tmundo\\n  \"));\n                                               ^~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 4,
+                  "col": 48,
+                  "message": "use of undeclared identifier 'wordCount'"
+                }
+              ],
+              "agent_rc": 0
+            },
+            {
+              "attempt": 2,
+              "file": "A/t04_word_count/attempt-02.zig",
+              "status": "COMPILE_FAIL",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:4:48: error: use of undeclared identifier 'wordCount'\n    try std.testing.expectEqual(@as(usize, 2), wordCount(\"  hola\\tmundo\\n  \"));\n                                               ^~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 4,
+                  "col": 48,
+                  "message": "use of undeclared identifier 'wordCount'"
+                }
+              ],
+              "agent_rc": 0
+            },
+            {
+              "attempt": 3,
+              "file": "A/t04_word_count/attempt-03.zig",
+              "status": "COMPILE_FAIL",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:4:48: error: use of undeclared identifier 'wordCount'\n    try std.testing.expectEqual(@as(usize, 2), wordCount(\"  hola\\tmundo\\n  \"));\n                                               ^~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 4,
+                  "col": 48,
+                  "message": "use of undeclared identifier 'wordCount'"
+                }
+              ],
+              "agent_rc": 0
+            }
+          ]
+        },
+        "t06_unique_sorted": {
+          "task_id": "t06_unique_sorted",
+          "control": false,
+          "attempts": 3,
+          "compiles": 3,
+          "compiles_until_pass": null,
+          "passed": false,
+          "compile_errors": 3,
+          "error_records": 3,
+          "tests_passed_attempts": 0,
+          "runtime_failures": 0,
+          "unscored": 0,
+          "tokens": {
+            "available": false,
+            "measured_attempts": 0,
+            "total": "NOT_AVAILABLE",
+            "by_attempt": [
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE"
+            ]
+          },
+          "attempts_detail": [
+            {
+              "attempt": 1,
+              "file": "A/t06_unique_sorted/attempt-01.zig",
+              "status": "COMPILE_FAIL",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:5:21: error: use of undeclared identifier 'uniqueSorted'\n    const out = try uniqueSorted(std.testing.allocator, &a);\n                    ^~~~~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 5,
+                  "col": 21,
+                  "message": "use of undeclared identifier 'uniqueSorted'"
+                }
+              ],
+              "agent_rc": 0
+            },
+            {
+              "attempt": 2,
+              "file": "A/t06_unique_sorted/attempt-02.zig",
+              "status": "COMPILE_FAIL",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:5:21: error: use of undeclared identifier 'uniqueSorted'\n    const out = try uniqueSorted(std.testing.allocator, &a);\n                    ^~~~~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 5,
+                  "col": 21,
+                  "message": "use of undeclared identifier 'uniqueSorted'"
+                }
+              ],
+              "agent_rc": 0
+            },
+            {
+              "attempt": 3,
+              "file": "A/t06_unique_sorted/attempt-03.zig",
+              "status": "COMPILE_FAIL",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:5:21: error: use of undeclared identifier 'uniqueSorted'\n    const out = try uniqueSorted(std.testing.allocator, &a);\n                    ^~~~~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 5,
+                  "col": 21,
+                  "message": "use of undeclared identifier 'uniqueSorted'"
+                }
+              ],
+              "agent_rc": 0
+            }
+          ]
+        }
+      },
+      "summary": {
+        "tasks_total": 4,
+        "tasks_with_solutions": 4,
+        "passed": 0,
+        "pass_rate": 0.0,
+        "compiles_total": 12,
+        "compiles_until_pass": {
+          "n": 0,
+          "mean": null,
+          "median": null
+        },
+        "compile_errors_total": 12,
+        "error_records_total": 12,
+        "tests_passed_attempts_total": 0,
+        "unscored_attempts_total": 0,
+        "tokens_available": false,
+        "tokens_total": "NOT_AVAILABLE"
+      }
+    },
+    "B": {
+      "tasks": {
+        "t01_bisect_left": {
+          "task_id": "t01_bisect_left",
+          "control": true,
+          "attempts": 3,
+          "compiles": 3,
+          "compiles_until_pass": null,
+          "passed": false,
+          "compile_errors": 3,
+          "error_records": 3,
+          "tests_passed_attempts": 0,
+          "runtime_failures": 0,
+          "unscored": 0,
+          "tokens": {
+            "available": false,
+            "measured_attempts": 0,
+            "total": "NOT_AVAILABLE",
+            "by_attempt": [
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE"
+            ]
+          },
+          "attempts_detail": [
+            {
+              "attempt": 1,
+              "file": "B/t01_bisect_left/attempt-01.zig",
+              "status": "COMPILE_FAIL",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:5:48: error: use of undeclared identifier 'bisectLeft'\n    try std.testing.expectEqual(@as(usize, 0), bisectLeft(&a, 0));\n                                               ^~~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 5,
+                  "col": 48,
+                  "message": "use of undeclared identifier 'bisectLeft'"
+                }
+              ],
+              "agent_rc": 0
+            },
+            {
+              "attempt": 2,
+              "file": "B/t01_bisect_left/attempt-02.zig",
+              "status": "COMPILE_FAIL",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:5:48: error: use of undeclared identifier 'bisectLeft'\n    try std.testing.expectEqual(@as(usize, 0), bisectLeft(&a, 0));\n                                               ^~~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 5,
+                  "col": 48,
+                  "message": "use of undeclared identifier 'bisectLeft'"
+                }
+              ],
+              "agent_rc": 0
+            },
+            {
+              "attempt": 3,
+              "file": "B/t01_bisect_left/attempt-03.zig",
+              "status": "COMPILE_FAIL",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:5:48: error: use of undeclared identifier 'bisectLeft'\n    try std.testing.expectEqual(@as(usize, 0), bisectLeft(&a, 0));\n                                               ^~~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 5,
+                  "col": 48,
+                  "message": "use of undeclared identifier 'bisectLeft'"
+                }
+              ],
+              "agent_rc": 0
+            }
+          ]
+        },
+        "t02_gcd_lcm": {
+          "task_id": "t02_gcd_lcm",
+          "control": true,
+          "attempts": 3,
+          "compiles": 3,
+          "compiles_until_pass": null,
+          "passed": false,
+          "compile_errors": 3,
+          "error_records": 3,
+          "tests_passed_attempts": 0,
+          "runtime_failures": 0,
+          "unscored": 0,
+          "tokens": {
+            "available": false,
+            "measured_attempts": 0,
+            "total": "NOT_AVAILABLE",
+            "by_attempt": [
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE"
+            ]
+          },
+          "attempts_detail": [
+            {
+              "attempt": 1,
+              "file": "B/t02_gcd_lcm/attempt-01.zig",
+              "status": "COMPILE_FAIL",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:4:46: error: use of undeclared identifier 'gcd'\n    try std.testing.expectEqual(@as(u64, 6), gcd(12, 18));\n                                             ^~~\n",
+              "errors": [
+                {
+                  "line": 4,
+                  "col": 46,
+                  "message": "use of undeclared identifier 'gcd'"
+                }
+              ],
+              "agent_rc": 0
+            },
+            {
+              "attempt": 2,
+              "file": "B/t02_gcd_lcm/attempt-02.zig",
+              "status": "COMPILE_FAIL",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:4:46: error: use of undeclared identifier 'gcd'\n    try std.testing.expectEqual(@as(u64, 6), gcd(12, 18));\n                                             ^~~\n",
+              "errors": [
+                {
+                  "line": 4,
+                  "col": 46,
+                  "message": "use of undeclared identifier 'gcd'"
+                }
+              ],
+              "agent_rc": 0
+            },
+            {
+              "attempt": 3,
+              "file": "B/t02_gcd_lcm/attempt-03.zig",
+              "status": "COMPILE_FAIL",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:4:46: error: use of undeclared identifier 'gcd'\n    try std.testing.expectEqual(@as(u64, 6), gcd(12, 18));\n                                             ^~~\n",
+              "errors": [
+                {
+                  "line": 4,
+                  "col": 46,
+                  "message": "use of undeclared identifier 'gcd'"
+                }
+              ],
+              "agent_rc": 0
+            }
+          ]
+        },
+        "t04_word_count": {
+          "task_id": "t04_word_count",
+          "control": false,
+          "attempts": 3,
+          "compiles": 3,
+          "compiles_until_pass": null,
+          "passed": false,
+          "compile_errors": 3,
+          "error_records": 3,
+          "tests_passed_attempts": 0,
+          "runtime_failures": 0,
+          "unscored": 0,
+          "tokens": {
+            "available": false,
+            "measured_attempts": 0,
+            "total": "NOT_AVAILABLE",
+            "by_attempt": [
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE"
+            ]
+          },
+          "attempts_detail": [
+            {
+              "attempt": 1,
+              "file": "B/t04_word_count/attempt-01.zig",
+              "status": "COMPILE_FAIL",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:4:48: error: use of undeclared identifier 'wordCount'\n    try std.testing.expectEqual(@as(usize, 2), wordCount(\"  hola\\tmundo\\n  \"));\n                                               ^~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 4,
+                  "col": 48,
+                  "message": "use of undeclared identifier 'wordCount'"
+                }
+              ],
+              "agent_rc": 0
+            },
+            {
+              "attempt": 2,
+              "file": "B/t04_word_count/attempt-02.zig",
+              "status": "COMPILE_FAIL",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:4:48: error: use of undeclared identifier 'wordCount'\n    try std.testing.expectEqual(@as(usize, 2), wordCount(\"  hola\\tmundo\\n  \"));\n                                               ^~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 4,
+                  "col": 48,
+                  "message": "use of undeclared identifier 'wordCount'"
+                }
+              ],
+              "agent_rc": 0
+            },
+            {
+              "attempt": 3,
+              "file": "B/t04_word_count/attempt-03.zig",
+              "status": "COMPILE_FAIL",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:4:48: error: use of undeclared identifier 'wordCount'\n    try std.testing.expectEqual(@as(usize, 2), wordCount(\"  hola\\tmundo\\n  \"));\n                                               ^~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 4,
+                  "col": 48,
+                  "message": "use of undeclared identifier 'wordCount'"
+                }
+              ],
+              "agent_rc": 0
+            }
+          ]
+        },
+        "t06_unique_sorted": {
+          "task_id": "t06_unique_sorted",
+          "control": false,
+          "attempts": 3,
+          "compiles": 3,
+          "compiles_until_pass": null,
+          "passed": false,
+          "compile_errors": 3,
+          "error_records": 3,
+          "tests_passed_attempts": 0,
+          "runtime_failures": 0,
+          "unscored": 0,
+          "tokens": {
+            "available": false,
+            "measured_attempts": 0,
+            "total": "NOT_AVAILABLE",
+            "by_attempt": [
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE"
+            ]
+          },
+          "attempts_detail": [
+            {
+              "attempt": 1,
+              "file": "B/t06_unique_sorted/attempt-01.zig",
+              "status": "COMPILE_FAIL",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:5:21: error: use of undeclared identifier 'uniqueSorted'\n    const out = try uniqueSorted(std.testing.allocator, &a);\n                    ^~~~~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 5,
+                  "col": 21,
+                  "message": "use of undeclared identifier 'uniqueSorted'"
+                }
+              ],
+              "agent_rc": 0
+            },
+            {
+              "attempt": 2,
+              "file": "B/t06_unique_sorted/attempt-02.zig",
+              "status": "COMPILE_FAIL",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:5:21: error: use of undeclared identifier 'uniqueSorted'\n    const out = try uniqueSorted(std.testing.allocator, &a);\n                    ^~~~~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 5,
+                  "col": 21,
+                  "message": "use of undeclared identifier 'uniqueSorted'"
+                }
+              ],
+              "agent_rc": 0
+            },
+            {
+              "attempt": 3,
+              "file": "B/t06_unique_sorted/attempt-03.zig",
+              "status": "COMPILE_FAIL",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:5:21: error: use of undeclared identifier 'uniqueSorted'\n    const out = try uniqueSorted(std.testing.allocator, &a);\n                    ^~~~~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 5,
+                  "col": 21,
+                  "message": "use of undeclared identifier 'uniqueSorted'"
+                }
+              ],
+              "agent_rc": 0
+            }
+          ]
+        }
+      },
+      "summary": {
+        "tasks_total": 4,
+        "tasks_with_solutions": 4,
+        "passed": 0,
+        "pass_rate": 0.0,
+        "compiles_total": 12,
+        "compiles_until_pass": {
+          "n": 0,
+          "mean": null,
+          "median": null
+        },
+        "compile_errors_total": 12,
+        "error_records_total": 12,
+        "tests_passed_attempts_total": 0,
+        "unscored_attempts_total": 0,
+        "tokens_available": false,
+        "tokens_total": "NOT_AVAILABLE"
+      }
+    }
+  }
+}
