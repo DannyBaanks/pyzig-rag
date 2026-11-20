@@ -28,6 +28,8 @@ La admision antes era `cobertura >= 0.40  o  cosine >= 0.35` (`pyzig/search.py`)
 
 Se eligio mirando solo calibracion. Alternativas barridas (aproximacion por consulta, ver nota):
 cobertura sola >= 0.33 admite 8 negativas; cosine >= 0.40 con cobertura >= 0.25 admite 10.
+(Estas dos cifras del barrido no tienen script en el repo: `NOT_DEMONSTRATED`, el verificador no
+pudo reproducirlas. Las tablas de abajo si salen de `scripts/run_eval.py`.)
 La regla elegida deja 5 negativas admitidas y pierde 1 positiva (c-pos05).
 
 ## Tabla antes / despues
@@ -94,3 +96,9 @@ medias).
 .venv/bin/python scripts/run_eval.py --queries eval/heldout_queries.tsv --out eval/heldout_results.json
 PYTHONPATH=. python3 -m pytest -q tests/test_abstencion.py
 ```
+
+## Reproducibilidad
+
+Las cifras de esta pagina salen con `.venv/bin/python` (onnxruntime + numpy del venv). Con el
+`python3` del sistema sin onnxruntime el embedder queda degradado y hybrid da otras filas
+(el verificador midio 0.941 / 1.000 / 0.967 y 6/10 negativas en held-out).
