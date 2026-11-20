@@ -20,43 +20,43 @@ capture shadows declaration of '_'	zig0.16/diag-shadow-local
 expected type 'uN', found 'uN'	zig0.16/diag-narrowing-intcast
 import of file outside module path	zig0.16/build-import-outside-module
 no module named '_' available within module '_'	zig0.16/build-add-import
-unused local constant	NONE
+unused local constant	zig0.16/diag-mined-unused-discard
 function parameter shadows declaration of '_'	zig0.16/diag-shadow-local
 name shadows primitive '_'	zig0.16/diag-shadow-primitive
 root source file struct 'Thread' has no member named 'sleep'	zig0.16/migrate-time-sleep
 root source file struct 'os' has no member named 'argv'	zig0.16/process-args-iterate
 dependency on dynamic library '_' requires enabling Position Independent Code; fixed by '_' or '_'	zig0.16/build-dynamic-library-pic
-invalid constraint: '_'	NONE
-expected type '_', found '*const _'	NONE
+invalid constraint: '_'	zig0.16/diag-mined-asm-constraint
+expected type '_', found '*const _'	zig0.16/diag-mined-pointer-coercion
 'comptime var' is redundant in comptime scope	zig0.16/diag-comptime-redundant
-embed of file outside package path: '_'	NONE
+embed of file outside package path: '_'	zig0.16/diag-mined-embed-outside
 no field or member function named '_' in '_'	NONE
 struct 'array_list._(uN,null)' has no member named '_'	zig0.16/migrate-arraylist-unmanaged
 C import failed	NONE
 expected N argument(s), found N	zig0.16/format-string-alloc-print
 expected integer or vector, found '[N]uN'	zig0.16/struct-pack-endian-readint
-file exists in modules '_' and '_'	NONE
+file exists in modules '_' and '_'	zig0.16/diag-mined-module-conflict
 function parameter shadows declaration of 'fmt'	zig0.16/diag-shadow-local
 no field or member function named '_' in 'array_list._(uN,null)'	zig0.16/migrate-arraylist-unmanaged,zig0.16/migrate-arraylist-writer
-redeclaration of local constant '_'	NONE
+redeclaration of local constant '_'	zig0.16/diag-mined-duplicate-names
 root source file struct 'Thread' has no member named 'Mutex'	zig0.16/migrate-thread-mutex
 root source file struct 'process.Child' has no member named 'run'	zig0.16/migrate-child-run,zig0.16/subprocess-run-capture
 root source file struct 'std' has no member named 'io'	zig0.16/migrate-stdout-writer
 root source file struct 'time' has no member named 'sleep'	zig0.16/migrate-time-sleep,zig0.16/sleep-ms
-type 'uN' cannot represent integer value 'N'	NONE
-value with comptime-only type 'comptime_int' depends on runtime control flow	NONE
-vector index not comptime known	NONE
+type 'uN' cannot represent integer value 'N'	zig0.16/diag-mined-int-range
+value with comptime-only type 'comptime_int' depends on runtime control flow	zig0.16/diag-mined-comptime-flow
+vector index not comptime known	zig0.16/diag-mined-vector-index
 'comptime const' is redundant; instead wrap the initialization expression with 'comptime'	zig0.16/diag-comptime-redundant
-@bitCast size mismatch: destination type 'uN' has N bits but source type 'iN' has N bits	NONE
-@bitCast size mismatch: destination type 'uN' has N bits but source type 'uN' has N bits	NONE
+@bitCast size mismatch: destination type 'uN' has N bits but source type 'iN' has N bits	zig0.16/diag-mined-bitcast-size
+@bitCast size mismatch: destination type 'uN' has N bits but source type 'uN' has N bits	zig0.16/diag-mined-bitcast-size
 COM object _._ must keep vtbl at offset N	NONE
 break expression outside loop	NONE
-cannot implicitly convert many pointer to single pointer	NONE
+cannot implicitly convert many pointer to single pointer	zig0.16/diag-mined-pointer-coercion
 coercion from enum '@_(builtin._).@"union"._.?' to union 'builtin._' must initialize 'builtin._._' field '_'	NONE
-duplicate struct member name '_'	NONE
-duplicate struct member name 'std'	NONE
+duplicate struct member name '_'	zig0.16/diag-mined-duplicate-names
+duplicate struct member name 'std'	zig0.16/diag-mined-duplicate-names
 enum '_' has no member named '_'	NONE
-error union is ignored	NONE
+error union is ignored	zig0.16/diag-mined-error-union
 expected ';' after statement	NONE
 expected '_', found 'resume'	NONE
 expected '}', found 'pub'	NONE
@@ -66,7 +66,7 @@ expected type '*const fn (_, _, _, _, _, _, _, _, _) callconv(.{ ._ = .{ ._ = nu
 expected type '?[*:N]const uN', found '*const [:N]const uN'	zig0.16/cstring-span-slice-to,zig0.16/cstring-sentinel-slice-ptr
 expected type '?uN', found '?uN'	NONE
 expected type '[*]os._._', found '*os._._'	NONE
-expected type '[]const uN', found '*[N]uN'	NONE
+expected type '[]const uN', found '*[N]uN'	zig0.16/diag-mined-pointer-coercion
 expected type '_', found '*const _._'	NONE
 expected type 'error{_,_,_}!iN', found 'error{_,_,_,_,_,_,_,_,_,_,_,_}'	NONE
 expected type 'error{_,_,_}!usize', found 'error{_,_,_,_,_,_,_,_,_,_,_,_}'	NONE
@@ -77,14 +77,14 @@ missing struct field: _	NONE
 name shadows primitive 'uN'	zig0.16/diag-shadow-primitive
 no field or member function named '_' in 'Build._._'	zig0.16/build-c-source-files
 no field or member function named 'addSharedLibrary' in 'Build'	zig0.16/build-shared-library
-no field or member function named 'format' in '[]const uN'	NONE
-pointless discard of local variable	NONE
+no field or member function named 'format' in '[]const uN'	zig0.16/diag-mined-member-format
+pointless discard of local variable	zig0.16/diag-mined-unused-discard
 root source file struct 'fmt' has no member named 'fmtSliceHexLower'	zig0.16/hex-encode-decode,zig0.16/format-string-alloc-print,zig0.16/sha256-bytes
 root source file struct 'fs' has no member named 'File'	zig0.16/migrate-stdout-writer
 root source file struct 'fs' has no member named 'openDirAbsolute'	zig0.16/listdir-names-sorted,zig0.16/walk-tree-files,zig0.16/migrate-open-dir-absolute
 root source file struct 'fs' has no member named 'openFileAbsolute'	zig0.16/read-file-text-limited,zig0.16/migrate-readfilealloc
 root source file struct 'testing' has no member named 'expectCrash'	NONE
 root source file struct 'time' has no member named 'nanoTimestamp'	zig0.16/monotonic-duration-measure,zig0.16/epoch-now-seconds
-type 'usize' cannot represent integer value 'N'	NONE
+type 'usize' cannot represent integer value 'N'	zig0.16/diag-mined-int-range
 unable to load '_': FileNotFound	NONE
-value with comptime-only type 'comptime_float' depends on runtime control flow	NONE
+value with comptime-only type 'comptime_float' depends on runtime control flow	zig0.16/diag-mined-comptime-flow

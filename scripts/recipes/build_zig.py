@@ -377,11 +377,17 @@ ENTRIES.append(entry(
     "zig0.16/build-dynamic-library-pic",
     "libreria dinamica exige PIC (.pic = true)",
     "Una libreria dinamica necesita codigo independiente de posicion: el modulo declara .pic = true (en 0.16, .pic = false con linkage dynamic no compila).",
-    ["Position Independent Code", "dynamic linking requires enabling PIC", "pic = true", "fPIC zig", "libreria dinamica PIC", "unable to create module root", "linking dinamico pic"],
+    ["Position Independent Code", "dynamic linking requires enabling PIC", "pic = true", "fPIC zig", "libreria dinamica PIC", "unable to create module root", "linking dinamico pic",
+     "dependency on dynamic library requires enabling Position Independent Code", "dependency on dynamic library", "requires enabling Position Independent Code", "fixed by -fPIC", "fixed by -l", "extern dynamic library pic"],
     {"build.zig": _PIC_BROKEN_BUILD, "src/plugin.zig": _PLUGIN_SRC},
     {"build.zig": _PIC_FIXED_BUILD, "src/plugin.zig": _PLUGIN_SRC},
     "src/plugin.zig",
-    ["error: unable to create module 'root': dynamic linking requires enabling Position Independent Code"],
+    ["error: unable to create module 'root': dynamic linking requires enabling Position Independent Code",
+     # Firma real minada (8x en 1 sesion): forma normalizada con el nombre
+     # concreto de la libreria y las dos salidas que propone el enlazador. Los
+     # tres huecos son literos: asi la firma minada con '_' (unica en el corpus)
+     # empareja sin depender de aliases ni de busqueda semantica.
+     "error: dependency on dynamic library 'omp' requires enabling Position Independent Code; fixed by '-lomp' or '-fPIC'"],
     ["std.Build.createModule", "std.Build.Module.pic", "std.Build.addLibrary", "std.Build.addTest"],
     ["pic es una opcion del modulo, no del Compile",
      "sin defecto explicito, la libreria dinamica decide PIC; forzar pic = false rompe el enlace dinamico"],
