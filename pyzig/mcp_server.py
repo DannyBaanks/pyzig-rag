@@ -12,6 +12,7 @@ import sys, json, pathlib
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 
 from fastmcp import FastMCP  # type: ignore
+from mcp.types import ToolAnnotations
 
 from pyzig import check as check_mod
 from pyzig import search as s
@@ -19,6 +20,15 @@ from pyzig.paths import VAR
 
 NORES_FILE = VAR / "nores.jsonl"
 _NORES_INTENT_LIMIT = 300
+
+# Anotaciones MCP completas: los directorios (p. ej. OpenAI) rechazan tools a las
+# que les falte cualquiera de las cuatro hints, o que las declaren como no-boolean.
+# `pyzig_search` solo escribe su log diagnostico local (var/nores.jsonl), no estado
+# del usuario; `pyzig_check` compila y ejecuta codigo, asi que no es read-only.
+_READ_ONLY = ToolAnnotations(read_only_hint=True, destructive_hint=False,
+                             idempotent_hint=True, open_world_hint=False)
+_EXECUTES = ToolAnnotations(read_only_hint=False, destructive_hint=False,
+                            idempotent_hint=True, open_world_hint=False)
 
 INSTRUCTIONS = """pyzig-rag: recetas Python -> Zig 0.16.0 VERIFICADAS (cada una compilo y paso `zig test` con zig 0.16.0).
 Consultalo ANTES de escribir Zig que toque std.Io, archivos/rutas, json, procesos, colecciones, texto/numeros, tiempo, argv o hashes:
@@ -56,7 +66,7 @@ def _count_nores() -> int:
     except Exception:  # noqa: BLE001
         return 0
 
-@mcp.tool
+@mcp.tool(annotations=_READ_ONLY)
 def pyzig_search(intent: str, py_code: str = "", zig_version: str = "0.16.0",
                  platform: str = "linux", max_results: int = 5,
                  mode: str = "hybrid", code: str = "top") -> dict:
@@ -89,7 +99,7 @@ def pyzig_search(intent: str, py_code: str = "", zig_version: str = "0.16.0",
     except Exception as e:  # noqa: BLE001
         return {"ok": False, "error": "INTERNAL", "message": f"{type(e).__name__}: {e}"}
 
-@mcp.tool
+@mcp.tool(annotations=_READ_ONLY)
 def pyzig_get(operation_id: str) -> dict:
     """Recupera una equivalencia por ID: contrato, codigo, tests, procedencia."""
     try:
@@ -100,7 +110,7 @@ def pyzig_get(operation_id: str) -> dict:
     except s.IndexUnavailable as e:
         return {"ok": False, "error": "INDEX_UNAVAILABLE", "message": str(e)}
 
-@mcp.tool
+@mcp.tool(annotations=_READ_ONLY)
 def pyzig_catalog() -> dict:
     """Operaciones disponibles, versiones soportadas y salud del indice."""
     try:
@@ -111,7 +121,7 @@ def pyzig_catalog() -> dict:
         return {"ok": False, "error": "INDEX_UNAVAILABLE", "message": str(e)}
 
 
-@mcp.tool
+@mcp.tool(annotations=_EXECUTES)
 def pyzig_check(zig_code: str, mode: str = "test") -> dict:
     """Verifica codigo Zig 0.16 con `zig test` (mode='test') o `zig ast-check` (mode='ast').
 

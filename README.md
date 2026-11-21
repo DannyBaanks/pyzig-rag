@@ -1,5 +1,7 @@
 # pyzig-rag — memoria operativa Python ↔ Zig 0.16 (RAG + MCP)
 
+[![M8ven Score](https://m8ven.ai/badge/mcp/dannybaanks-pyzig-rag-13r4sc?v=e6c24b429376c7398a39ab5f61b304d8)](https://m8ven.ai/mcp/dannybaanks-pyzig-rag-13r4sc?tab=readme)
+
 Prototipo funcional de recuperacion de equivalencias **Python → Zig 0.16.0**: un
 corpus versionado, un indice reconstruible (FTS5 + embeddings locales) y un
 servidor **MCP de solo lectura** para que un agente consulte recetas
@@ -334,3 +336,7 @@ cd pyzig-rag
 .venv/bin/python scripts/build_index.py   # reconstruye var/pyzig.db
 # gates (opcional, solo si cambia zig): .venv/bin/python scripts/run_gates.py
 ```
+
+## Licencia
+
+MIT — ver [LICENSE](LICENSE).
