@@ -1,15 +1,15 @@
 {
   "model": "all-MiniLM-L6-v2",
-  "peak_rss_mb": 198.0,
+  "peak_rss_mb": 198.2,
   "modes": {
     "lexical": {
       "summary": {
         "n": 61,
         "precision_at_1": 0.941,
         "recall_at_3": 1.0,
-        "negativas_correctas": "8/10",
+        "negativas_correctas": "6/10",
         "status_correcto": "0/0",
-        "latencia_ms_media": 2.2,
+        "latencia_ms_media": 3.0,
         "por_tipo": {
           "direct": {
             "n": 30,
@@ -28,8 +28,8 @@
           },
           "negative": {
             "n": 10,
-            "aciertos_top1": 8,
-            "aciertos_top3": 8
+            "aciertos_top1": 6,
+            "aciertos_top3": 6
           },
           "paraphrase": {
             "n": 2,
@@ -57,7 +57,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 3.9
+          "ms": 4.3
         },
         {
           "qid": "h02",
@@ -73,7 +73,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 4.2
+          "ms": 4.1
         },
         {
           "qid": "h03",
@@ -87,7 +87,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 3.4
+          "ms": 3.1
         },
         {
           "qid": "h04",
@@ -102,7 +102,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.6
+          "ms": 2.7
         },
         {
           "qid": "h05",
@@ -116,7 +116,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.7
+          "ms": 2.2
         },
         {
           "qid": "h06",
@@ -130,7 +130,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.6
+          "ms": 3.1
         },
         {
           "qid": "h07",
@@ -144,7 +144,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.7
+          "ms": 2.1
         },
         {
           "qid": "h08",
@@ -158,7 +158,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.7
+          "ms": 3.6
         },
         {
           "qid": "h09",
@@ -173,7 +173,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.3
+          "ms": 3.0
         },
         {
           "qid": "h10",
@@ -187,7 +187,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.6
+          "ms": 1.8
         },
         {
           "qid": "h11",
@@ -203,7 +203,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.2
+          "ms": 2.5
         },
         {
           "qid": "h12",
@@ -219,7 +219,7 @@
           "error": null,
           "ok_top1": false,
           "ok_top3": true,
-          "ms": 3.0
+          "ms": 4.1
         },
         {
           "qid": "h13",
@@ -234,7 +234,7 @@
           "error": null,
           "ok_top1": false,
           "ok_top3": true,
-          "ms": 3.1
+          "ms": 3.5
         },
         {
           "qid": "h14",
@@ -248,7 +248,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.8
+          "ms": 2.3
         },
         {
           "qid": "h15",
@@ -262,7 +262,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.2
+          "ms": 2.9
         },
         {
           "qid": "h16",
@@ -277,7 +277,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.2
+          "ms": 2.7
         },
         {
           "qid": "h17",
@@ -293,7 +293,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 3.1
+          "ms": 3.9
         },
         {
           "qid": "h18",
@@ -308,7 +308,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.1
+          "ms": 3.4
         },
         {
           "qid": "h19",
@@ -323,7 +323,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.3
+          "ms": 3.9
         },
         {
           "qid": "h20",
@@ -337,7 +337,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.2
+          "ms": 3.3
         },
         {
           "qid": "h21",
@@ -351,7 +351,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.9
+          "ms": 5.0
         },
         {
           "qid": "h22",
@@ -365,7 +365,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.7
+          "ms": 2.8
         },
         {
           "qid": "h23",
@@ -379,7 +379,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.7
+          "ms": 2.1
         },
         {
           "qid": "h24",
@@ -393,7 +393,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.7
+          "ms": 2.1
         },
         {
           "qid": "h25",
@@ -407,7 +407,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.0
+          "ms": 2.9
         },
         {
           "qid": "h26",
@@ -421,7 +421,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.8
+          "ms": 3.7
         },
         {
           "qid": "h27",
@@ -435,7 +435,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.9
+          "ms": 3.0
         },
         {
           "qid": "h28",
@@ -449,7 +449,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.3
+          "ms": 4.0
         },
         {
           "qid": "h29",
@@ -464,7 +464,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 3.0
+          "ms": 2.7
         },
         {
           "qid": "h30",
@@ -480,7 +480,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.2
+          "ms": 2.7
         },
         {
           "qid": "h31",
@@ -494,7 +494,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.9
+          "ms": 2.5
         },
         {
           "qid": "h32",
@@ -508,7 +508,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.4
+          "ms": 3.6
         },
         {
           "qid": "h33",
@@ -522,7 +522,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.3
+          "ms": 3.6
         },
         {
           "qid": "h34",
@@ -536,7 +536,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.4
+          "ms": 3.3
         },
         {
           "qid": "h35",
@@ -550,7 +550,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.6
+          "ms": 3.8
         },
         {
           "qid": "h36",
@@ -564,7 +564,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.3
+          "ms": 2.9
         },
         {
           "qid": "h37",
@@ -578,7 +578,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.3
+          "ms": 2.8
         },
         {
           "qid": "h38",
@@ -592,7 +592,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.3
+          "ms": 3.2
         },
         {
           "qid": "h39",
@@ -606,7 +606,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.1
+          "ms": 2.7
         },
         {
           "qid": "h40",
@@ -620,7 +620,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.0
+          "ms": 2.8
         },
         {
           "qid": "h41",
@@ -629,12 +629,13 @@
           "expect": "POS",
           "expected": "zig0.16/cstring-span-slice-to",
           "got_top3": [
-            "zig0.16/cstring-span-slice-to"
+            "zig0.16/cstring-span-slice-to",
+            "zig0.16/cstring-sentinel-slice-ptr"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.1
+          "ms": 2.9
         },
         {
           "qid": "h42",
@@ -643,14 +644,14 @@
           "expect": "POS",
           "expected": "zig0.16/migrate-arraylist-unmanaged",
           "got_top3": [
+            "zig0.16/migrate-arraylist-writer",
             "zig0.16/list-append-pop-insert",
-            "zig0.16/listdir-names-sorted",
             "zig0.16/migrate-arraylist-unmanaged"
           ],
           "error": null,
           "ok_top1": false,
           "ok_top3": true,
-          "ms": 3.0
+          "ms": 3.6
         },
         {
           "qid": "h43",
@@ -664,7 +665,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.9
+          "ms": 3.5
         },
         {
           "qid": "h44",
@@ -676,7 +677,7 @@
           "error": "NO_RESULTS",
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.0
+          "ms": 3.2
         },
         {
           "qid": "h45",
@@ -688,7 +689,7 @@
           "error": "NO_RESULTS",
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.8
+          "ms": 3.1
         },
         {
           "qid": "h46",
@@ -696,11 +697,13 @@
           "query": "quiero re.sub con una expresion regular para reemplazar todas las coincidencias de un patron en un texto; ¿hay algo en zig 0.16 que no sea buscar literal?",
           "expect": "NONE",
           "expected": null,
-          "got_top3": [],
-          "error": "NO_RESULTS",
-          "ok_top1": true,
-          "ok_top3": true,
-          "ms": 2.0
+          "got_top3": [
+            "zig0.16/re-regex-gap"
+          ],
+          "error": null,
+          "ok_top1": false,
+          "ok_top3": false,
+          "ms": 3.4
         },
         {
           "qid": "h47",
@@ -712,7 +715,7 @@
           "error": "NO_RESULTS",
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.9
+          "ms": 2.6
         },
         {
           "qid": "h48",
@@ -724,7 +727,7 @@
           "error": "NO_RESULTS",
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.4
+          "ms": 1.8
         },
         {
           "qid": "h49",
@@ -736,7 +739,7 @@
           "error": "NO_RESULTS",
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.5
+          "ms": 1.7
         },
         {
           "qid": "h50",
@@ -744,11 +747,13 @@
           "query": "dar formato a una fecha con strftime('%Y-%m-%d %H:%M') en zig 0.16, a partir de un epoch",
           "expect": "NONE",
           "expected": null,
-          "got_top3": [],
-          "error": "NO_RESULTS",
-          "ok_top1": true,
-          "ok_top3": true,
-          "ms": 2.3
+          "got_top3": [
+            "zig0.16/epoch-to-utc-ymd-hms"
+          ],
+          "error": null,
+          "ok_top1": false,
+          "ok_top3": false,
+          "ms": 3.0
         },
         {
           "qid": "h51",
@@ -760,7 +765,7 @@
           "error": "NO_RESULTS",
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.3
+          "ms": 1.6
         },
         {
           "qid": "h52",
@@ -774,7 +779,7 @@
           "error": null,
           "ok_top1": false,
           "ok_top3": false,
-          "ms": 1.7
+          "ms": 4.4
         },
         {
           "qid": "h53",
@@ -788,7 +793,7 @@
           "error": null,
           "ok_top1": false,
           "ok_top3": false,
-          "ms": 1.1
+          "ms": 1.8
         },
         {
           "qid": "h54",
@@ -802,7 +807,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.4
+          "ms": 2.1
         },
         {
           "qid": "h55",
@@ -816,7 +821,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 2.0
+          "ms": 2.8
         },
         {
           "qid": "h56",
@@ -830,7 +835,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.3
+          "ms": 1.8
         },
         {
           "qid": "h57",
@@ -844,7 +849,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.9
+          "ms": 2.3
         },
         {
           "qid": "h58",
@@ -858,7 +863,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.9
+          "ms": 2.7
         },
         {
           "qid": "h59",
@@ -873,7 +878,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.9
+          "ms": 2.4
         },
         {
           "qid": "h60",
@@ -887,7 +892,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.7
+          "ms": 2.5
         },
         {
           "qid": "h61",
@@ -901,7 +906,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 1.8
+          "ms": 2.4
         }
       ]
     },
@@ -910,9 +915,9 @@
         "n": 61,
         "precision_at_1": 1.0,
         "recall_at_3": 1.0,
-        "negativas_correctas": "1/10",
+        "negativas_correctas": "5/10",
         "status_correcto": "0/0",
-        "latencia_ms_media": 58.3,
+        "latencia_ms_media": 70.5,
         "por_tipo": {
           "direct": {
             "n": 30,
@@ -931,8 +936,8 @@
           },
           "negative": {
             "n": 10,
-            "aciertos_top1": 1,
-            "aciertos_top3": 1
+            "aciertos_top1": 5,
+            "aciertos_top3": 5
           },
           "paraphrase": {
             "n": 2,
@@ -955,13 +960,12 @@
           "expect": "POS",
           "expected": "zig0.16/subprocess-run-capture",
           "got_top3": [
-            "zig0.16/subprocess-run-capture",
-            "zig0.16/diag-shadow-local"
+            "zig0.16/subprocess-run-capture"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.2
+          "ms": 64.4
         },
         {
           "qid": "h02",
@@ -972,12 +976,12 @@
           "got_top3": [
             "zig0.16/read-file-text-limited",
             "zig0.16/json-read-file-limited",
-            "zig0.16/int-from-bytes-to-bytes-endian"
+            "zig0.16/migrate-readfilealloc"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 61.2
+          "ms": 74.3
         },
         {
           "qid": "h03",
@@ -986,14 +990,12 @@
           "expect": "POS",
           "expected": "zig0.16/write-file-bytes-atomic",
           "got_top3": [
-            "zig0.16/write-file-bytes-atomic",
-            "zig0.16/copyfile-replace",
-            "zig0.16/format-string-alloc-print"
+            "zig0.16/write-file-bytes-atomic"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.7
+          "ms": 67.5
         },
         {
           "qid": "h04",
@@ -1003,13 +1005,12 @@
           "expected": "zig0.16/file-exists-vs-error",
           "got_top3": [
             "zig0.16/file-exists-vs-error",
-            "zig0.16/makedirs-exist-ok",
-            "zig0.16/remove-file-rmtree"
+            "zig0.16/makedirs-exist-ok"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.8
+          "ms": 68.1
         },
         {
           "qid": "h05",
@@ -1018,14 +1019,12 @@
           "expect": "POS",
           "expected": "zig0.16/stdout-print-flush",
           "got_top3": [
-            "zig0.16/stdout-print-flush",
-            "zig0.16/argparse-flags-parse",
-            "zig0.16/subprocess-run-capture"
+            "zig0.16/stdout-print-flush"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.3
+          "ms": 73.8
         },
         {
           "qid": "h06",
@@ -1034,14 +1033,12 @@
           "expect": "POS",
           "expected": "zig0.16/parse-kv-config",
           "got_top3": [
-            "zig0.16/parse-kv-config",
-            "zig0.16/argparse-flags-parse",
-            "zig0.16/diag-comptime-runtime-value"
+            "zig0.16/parse-kv-config"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 60.7
+          "ms": 69.3
         },
         {
           "qid": "h07",
@@ -1050,14 +1047,12 @@
           "expect": "POS",
           "expected": "zig0.16/sleep-ms",
           "got_top3": [
-            "zig0.16/sleep-ms",
-            "zig0.16/migrate-time-sleep",
-            "zig0.16/monotonic-duration-measure"
+            "zig0.16/sleep-ms"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.0
+          "ms": 64.3
         },
         {
           "qid": "h08",
@@ -1068,12 +1063,12 @@
           "got_top3": [
             "zig0.16/string-split-strip-format",
             "zig0.16/format-string-alloc-print",
-            "zig0.16/heapq-priority-queue"
+            "zig0.16/parse-float-format-decimals"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 66.7
+          "ms": 71.8
         },
         {
           "qid": "h09",
@@ -1083,13 +1078,12 @@
           "expected": "zig0.16/spawn-redirect-child",
           "got_top3": [
             "zig0.16/spawn-redirect-child",
-            "zig0.16/stdout-print-flush",
             "zig0.16/subprocess-run-capture"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 61.3
+          "ms": 63.1
         },
         {
           "qid": "h10",
@@ -1098,14 +1092,12 @@
           "expect": "POS",
           "expected": "zig0.16/env-var-read",
           "got_top3": [
-            "zig0.16/env-var-read",
-            "zig0.16/diag-shadow-local",
-            "zig0.16/argparse-flags-parse"
+            "zig0.16/env-var-read"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.1
+          "ms": 66.2
         },
         {
           "qid": "h11",
@@ -1121,7 +1113,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.9
+          "ms": 63.1
         },
         {
           "qid": "h12",
@@ -1137,7 +1129,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 60.9
+          "ms": 69.3
         },
         {
           "qid": "h13",
@@ -1153,7 +1145,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 62.8
+          "ms": 67.9
         },
         {
           "qid": "h14",
@@ -1162,14 +1154,12 @@
           "expect": "POS",
           "expected": "zig0.16/build-add-import",
           "got_top3": [
-            "zig0.16/build-add-import",
-            "zig0.16/build-import-outside-module",
-            "zig0.16/build-c-source-files"
+            "zig0.16/build-add-import"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.3
+          "ms": 63.9
         },
         {
           "qid": "h15",
@@ -1178,14 +1168,12 @@
           "expect": "POS",
           "expected": "zig0.16/build-import-outside-module",
           "got_top3": [
-            "zig0.16/build-import-outside-module",
-            "zig0.16/build-add-import",
-            "zig0.16/build-shared-library"
+            "zig0.16/build-import-outside-module"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.8
+          "ms": 66.6
         },
         {
           "qid": "h16",
@@ -1195,13 +1183,12 @@
           "expected": "zig0.16/build-shared-library",
           "got_top3": [
             "zig0.16/build-shared-library",
-            "zig0.16/build-exe-root-module",
             "zig0.16/build-dynamic-library-pic"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.5
+          "ms": 67.0
         },
         {
           "qid": "h17",
@@ -1217,7 +1204,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.4
+          "ms": 67.1
         },
         {
           "qid": "h18",
@@ -1227,13 +1214,12 @@
           "expected": "zig0.16/dict-str-int-basic",
           "got_top3": [
             "zig0.16/dict-str-int-basic",
-            "zig0.16/set-str-membership",
             "zig0.16/json-loads-dynamic"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.6
+          "ms": 67.1
         },
         {
           "qid": "h19",
@@ -1243,13 +1229,13 @@
           "expected": "zig0.16/list-append-pop-insert",
           "got_top3": [
             "zig0.16/list-append-pop-insert",
-            "zig0.16/sorted-key-stable",
-            "zig0.16/string-split-strip-format"
+            "zig0.16/string-split-strip-format",
+            "zig0.16/deque-popleft-appendleft"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 62.3
+          "ms": 70.6
         },
         {
           "qid": "h20",
@@ -1258,14 +1244,12 @@
           "expect": "POS",
           "expected": "zig0.16/sorted-key-stable",
           "got_top3": [
-            "zig0.16/sorted-key-stable",
-            "zig0.16/list-append-pop-insert",
-            "zig0.16/migrate-type-builtin"
+            "zig0.16/sorted-key-stable"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.2
+          "ms": 71.2
         },
         {
           "qid": "h21",
@@ -1274,14 +1258,12 @@
           "expect": "POS",
           "expected": "zig0.16/set-str-membership",
           "got_top3": [
-            "zig0.16/set-str-membership",
-            "zig0.16/dict-str-int-basic",
-            "zig0.16/string-split-strip-format"
+            "zig0.16/set-str-membership"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.5
+          "ms": 72.4
         },
         {
           "qid": "h22",
@@ -1290,14 +1272,12 @@
           "expect": "POS",
           "expected": "zig0.16/heapq-priority-queue",
           "got_top3": [
-            "zig0.16/heapq-priority-queue",
-            "zig0.16/counter-most-common",
-            "zig0.16/listdir-names-sorted"
+            "zig0.16/heapq-priority-queue"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.2
+          "ms": 64.9
         },
         {
           "qid": "h23",
@@ -1311,7 +1291,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.1
+          "ms": 65.9
         },
         {
           "qid": "h24",
@@ -1320,13 +1300,12 @@
           "expect": "POS",
           "expected": "zig0.16/path-join-basename-ext",
           "got_top3": [
-            "zig0.16/path-join-basename-ext",
-            "zig0.16/string-split-strip-format"
+            "zig0.16/path-join-basename-ext"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.9
+          "ms": 66.0
         },
         {
           "qid": "h25",
@@ -1336,13 +1315,12 @@
           "expected": "zig0.16/listdir-names-sorted",
           "got_top3": [
             "zig0.16/listdir-names-sorted",
-            "zig0.16/walk-tree-files",
-            "zig0.16/path-join-basename-ext"
+            "zig0.16/walk-tree-files"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.9
+          "ms": 64.2
         },
         {
           "qid": "h26",
@@ -1351,14 +1329,12 @@
           "expect": "POS",
           "expected": "zig0.16/walk-tree-files",
           "got_top3": [
-            "zig0.16/walk-tree-files",
-            "zig0.16/makedirs-exist-ok",
-            "zig0.16/remove-file-rmtree"
+            "zig0.16/walk-tree-files"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.9
+          "ms": 69.9
         },
         {
           "qid": "h27",
@@ -1367,14 +1343,12 @@
           "expect": "POS",
           "expected": "zig0.16/makedirs-exist-ok",
           "got_top3": [
-            "zig0.16/makedirs-exist-ok",
-            "zig0.16/path-join-basename-ext",
-            "zig0.16/build-import-outside-module"
+            "zig0.16/makedirs-exist-ok"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.6
+          "ms": 67.9
         },
         {
           "qid": "h28",
@@ -1383,14 +1357,12 @@
           "expect": "POS",
           "expected": "zig0.16/temp-dir-scoped",
           "got_top3": [
-            "zig0.16/temp-dir-scoped",
-            "zig0.16/remove-file-rmtree",
-            "zig0.16/listdir-names-sorted"
+            "zig0.16/temp-dir-scoped"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.4
+          "ms": 68.0
         },
         {
           "qid": "h29",
@@ -1400,13 +1372,12 @@
           "expected": "zig0.16/copyfile-replace",
           "got_top3": [
             "zig0.16/copyfile-replace",
-            "zig0.16/remove-file-rmtree",
-            "zig0.16/makedirs-exist-ok"
+            "zig0.16/remove-file-rmtree"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.1
+          "ms": 74.3
         },
         {
           "qid": "h30",
@@ -1422,7 +1393,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 60.4
+          "ms": 78.6
         },
         {
           "qid": "h31",
@@ -1431,13 +1402,12 @@
           "expect": "POS",
           "expected": "zig0.16/io-async-group-future",
           "got_top3": [
-            "zig0.16/io-async-group-future",
-            "zig0.16/thread-spawn-join"
+            "zig0.16/io-async-group-future"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.3
+          "ms": 85.0
         },
         {
           "qid": "h32",
@@ -1453,7 +1423,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 61.3
+          "ms": 77.9
         },
         {
           "qid": "h33",
@@ -1462,14 +1432,12 @@
           "expect": "POS",
           "expected": "zig0.16/http-client-get-local",
           "got_top3": [
-            "zig0.16/http-client-get-local",
-            "zig0.16/tcp-loopback-echo",
-            "zig0.16/udp-loopback-datagram"
+            "zig0.16/http-client-get-local"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.0
+          "ms": 98.7
         },
         {
           "qid": "h34",
@@ -1479,13 +1447,12 @@
           "expected": "zig0.16/ffi-extern-c-function",
           "got_top3": [
             "zig0.16/ffi-extern-c-function",
-            "zig0.16/build-link-libc",
-            "zig0.16/build-c-source-files"
+            "zig0.16/build-link-libc"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.1
+          "ms": 83.0
         },
         {
           "qid": "h35",
@@ -1501,7 +1468,7 @@
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.7
+          "ms": 79.0
         },
         {
           "qid": "h36",
@@ -1510,14 +1477,12 @@
           "expect": "POS",
           "expected": "zig0.16/json-loads-typed-struct",
           "got_top3": [
-            "zig0.16/json-loads-typed-struct",
-            "zig0.16/json-dumps-indent",
-            "zig0.16/json-loads-dynamic"
+            "zig0.16/json-loads-typed-struct"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.6
+          "ms": 70.4
         },
         {
           "qid": "h37",
@@ -1526,14 +1491,12 @@
           "expect": "POS",
           "expected": "zig0.16/json-invalid-input-error",
           "got_top3": [
-            "zig0.16/json-invalid-input-error",
-            "zig0.16/json-loads-typed-struct",
-            "zig0.16/json-string-escape-unicode"
+            "zig0.16/json-invalid-input-error"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.2
+          "ms": 66.9
         },
         {
           "qid": "h38",
@@ -1542,14 +1505,12 @@
           "expect": "POS",
           "expected": "zig0.16/format-string-alloc-print",
           "got_top3": [
-            "zig0.16/format-string-alloc-print",
-            "zig0.16/parse-int-base-overflow",
-            "zig0.16/string-split-strip-format"
+            "zig0.16/format-string-alloc-print"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.0
+          "ms": 71.5
         },
         {
           "qid": "h39",
@@ -1558,14 +1519,12 @@
           "expect": "POS",
           "expected": "zig0.16/div-floor-mod-negative",
           "got_top3": [
-            "zig0.16/div-floor-mod-negative",
-            "zig0.16/round-floor-ceil-bankers",
-            "zig0.16/parse-float-format-decimals"
+            "zig0.16/div-floor-mod-negative"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.4
+          "ms": 69.2
         },
         {
           "qid": "h40",
@@ -1574,14 +1533,12 @@
           "expect": "POS",
           "expected": "zig0.16/int-bit-count-bit-length",
           "got_top3": [
-            "zig0.16/int-bit-count-bit-length",
-            "zig0.16/int-from-bytes-to-bytes-endian",
-            "zig0.16/utf8-codepoints-validate"
+            "zig0.16/int-bit-count-bit-length"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.2
+          "ms": 67.6
         },
         {
           "qid": "h41",
@@ -1591,13 +1548,12 @@
           "expected": "zig0.16/cstring-span-slice-to",
           "got_top3": [
             "zig0.16/cstring-span-slice-to",
-            "zig0.16/hex-encode-decode",
-            "zig0.16/struct-pack-endian-readint"
+            "zig0.16/cstring-sentinel-slice-ptr"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.5
+          "ms": 70.5
         },
         {
           "qid": "h42",
@@ -1607,13 +1563,13 @@
           "expected": "zig0.16/migrate-arraylist-unmanaged",
           "got_top3": [
             "zig0.16/migrate-arraylist-unmanaged",
-            "zig0.16/list-append-pop-insert",
-            "zig0.16/listdir-names-sorted"
+            "zig0.16/migrate-arraylist-writer",
+            "zig0.16/list-append-pop-insert"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.2
+          "ms": 79.3
         },
         {
           "qid": "h43",
@@ -1622,14 +1578,12 @@
           "expect": "POS",
           "expected": "zig0.16/migrate-readfilealloc",
           "got_top3": [
-            "zig0.16/migrate-readfilealloc",
-            "zig0.16/json-read-file-limited",
-            "zig0.16/read-file-text-limited"
+            "zig0.16/migrate-readfilealloc"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 59.3
+          "ms": 83.5
         },
         {
           "qid": "h44",
@@ -1638,14 +1592,12 @@
           "expect": "NONE",
           "expected": null,
           "got_top3": [
-            "zig0.16/dict-str-int-basic",
-            "zig0.16/json-invalid-input-error",
-            "zig0.16/json-dumps-indent"
+            "zig0.16/csv-reader-line-quoted"
           ],
           "error": null,
           "ok_top1": false,
           "ok_top3": false,
-          "ms": 56.9
+          "ms": 68.4
         },
         {
           "qid": "h45",
@@ -1653,15 +1605,11 @@
           "query": "como comprimo un buffer con gzip / zlib.compress y luego lo descomprimo en zig 0.16? necesito el equivalente de gzip.compress(bytes)",
           "expect": "NONE",
           "expected": null,
-          "got_top3": [
-            "zig0.16/crc32-checksum",
-            "zig0.16/hex-encode-decode",
-            "zig0.16/json-read-file-limited"
-          ],
-          "error": null,
-          "ok_top1": false,
-          "ok_top3": false,
-          "ms": 57.5
+          "got_top3": [],
+          "error": "NO_RESULTS",
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 70.4
         },
         {
           "qid": "h46",
@@ -1669,11 +1617,13 @@
           "query": "quiero re.sub con una expresion regular para reemplazar todas las coincidencias de un patron en un texto; ¿hay algo en zig 0.16 que no sea buscar literal?",
           "expect": "NONE",
           "expected": null,
-          "got_top3": [],
-          "error": "NO_RESULTS",
-          "ok_top1": true,
-          "ok_top3": true,
-          "ms": 58.2
+          "got_top3": [
+            "zig0.16/re-regex-gap"
+          ],
+          "error": null,
+          "ok_top1": false,
+          "ok_top3": false,
+          "ms": 74.8
         },
         {
           "qid": "h47",
@@ -1681,15 +1631,11 @@
           "query": "mmap de un archivo grande para acceder por offset sin cargarlo todo en memoria, como el mmap module de python",
           "expect": "NONE",
           "expected": null,
-          "got_top3": [
-            "zig0.16/process-args-iterate",
-            "zig0.16/int-from-bytes-to-bytes-endian",
-            "zig0.16/int-bit-count-bit-length"
-          ],
-          "error": null,
-          "ok_top1": false,
-          "ok_top3": false,
-          "ms": 56.3
+          "got_top3": [],
+          "error": "NO_RESULTS",
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 71.7
         },
         {
           "qid": "h48",
@@ -1697,14 +1643,11 @@
           "query": "instalar un handler de SIGTERM con signal.signal para cerrar limpio los recursos antes de salir",
           "expect": "NONE",
           "expected": null,
-          "got_top3": [
-            "zig0.16/argparse-flags-parse",
-            "zig0.16/build-add-import"
-          ],
-          "error": null,
-          "ok_top1": false,
-          "ok_top3": false,
-          "ms": 56.8
+          "got_top3": [],
+          "error": "NO_RESULTS",
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 72.5
         },
         {
           "qid": "h49",
@@ -1712,15 +1655,11 @@
           "query": "conectarme a SQLite desde zig y ejecutar un SELECT con parametros, como sqlite3.connect + execute en python",
           "expect": "NONE",
           "expected": null,
-          "got_top3": [
-            "zig0.16/thread-spawn-join",
-            "zig0.16/argparse-flags-parse",
-            "zig0.16/dict-str-int-basic"
-          ],
-          "error": null,
-          "ok_top1": false,
-          "ok_top3": false,
-          "ms": 54.6
+          "got_top3": [],
+          "error": "NO_RESULTS",
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 66.5
         },
         {
           "qid": "h50",
@@ -1729,14 +1668,13 @@
           "expect": "NONE",
           "expected": null,
           "got_top3": [
-            "zig0.16/epoch-now-seconds",
-            "zig0.16/format-string-alloc-print",
-            "zig0.16/sleep-ms"
+            "zig0.16/epoch-to-utc-ymd-hms",
+            "zig0.16/epoch-now-seconds"
           ],
           "error": null,
           "ok_top1": false,
           "ok_top3": false,
-          "ms": 56.7
+          "ms": 67.9
         },
         {
           "qid": "h51",
@@ -1744,15 +1682,11 @@
           "query": "cargar un YAML con anidamiento y listas tipo yaml.safe_load en el arranque del programa",
           "expect": "NONE",
           "expected": null,
-          "got_top3": [
-            "zig0.16/json-invalid-input-error",
-            "zig0.16/argparse-flags-parse",
-            "zig0.16/build-import-outside-module"
-          ],
-          "error": null,
-          "ok_top1": false,
-          "ok_top3": false,
-          "ms": 55.9
+          "got_top3": [],
+          "error": "NO_RESULTS",
+          "ok_top1": true,
+          "ok_top3": true,
+          "ms": 63.6
         },
         {
           "qid": "h52",
@@ -1762,13 +1696,12 @@
           "expected": null,
           "got_top3": [
             "zig0.16/detached-daemon-no-shell",
-            "zig0.16/spawn-redirect-child",
-            "zig0.16/env-var-read"
+            "zig0.16/spawn-redirect-child"
           ],
           "error": null,
           "ok_top1": false,
           "ok_top3": false,
-          "ms": 56.2
+          "ms": 65.2
         },
         {
           "qid": "h53",
@@ -1777,14 +1710,12 @@
           "expect": "NONE",
           "expected": null,
           "got_top3": [
-            "zig0.16/tcp-loopback-echo",
-            "zig0.16/http-client-get-local",
-            "zig0.16/udp-loopback-datagram"
+            "zig0.16/http-client-get-local"
           ],
           "error": null,
           "ok_top1": false,
           "ok_top3": false,
-          "ms": 54.4
+          "ms": 62.8
         },
         {
           "qid": "h54",
@@ -1793,14 +1724,12 @@
           "expect": "POS",
           "expected": "zig0.16/diag-never-mutated",
           "got_top3": [
-            "zig0.16/diag-never-mutated",
-            "zig0.16/diag-shadow-local",
-            "zig0.16/diag-inline-redundant"
+            "zig0.16/diag-never-mutated"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 55.8
+          "ms": 67.8
         },
         {
           "qid": "h55",
@@ -1809,13 +1738,12 @@
           "expect": "POS",
           "expected": "zig0.16/diag-shadow-primitive",
           "got_top3": [
-            "zig0.16/diag-shadow-primitive",
-            "zig0.16/diag-shadow-local"
+            "zig0.16/diag-shadow-primitive"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 58.8
+          "ms": 70.3
         },
         {
           "qid": "h56",
@@ -1824,14 +1752,12 @@
           "expect": "POS",
           "expected": "zig0.16/diag-builtin-undeclared",
           "got_top3": [
-            "zig0.16/diag-builtin-undeclared",
-            "zig0.16/build-import-outside-module",
-            "zig0.16/makedirs-exist-ok"
+            "zig0.16/diag-builtin-undeclared"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.8
+          "ms": 66.4
         },
         {
           "qid": "h57",
@@ -1840,14 +1766,12 @@
           "expect": "POS",
           "expected": "zig0.16/diag-shadow-local",
           "got_top3": [
-            "zig0.16/diag-shadow-local",
-            "zig0.16/diag-never-mutated",
-            "zig0.16/diag-inline-redundant"
+            "zig0.16/diag-shadow-local"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.1
+          "ms": 69.9
         },
         {
           "qid": "h58",
@@ -1856,14 +1780,12 @@
           "expect": "POS",
           "expected": "zig0.16/diag-ptrcast-const",
           "got_top3": [
-            "zig0.16/diag-ptrcast-const",
-            "zig0.16/parse-kv-config",
-            "zig0.16/migrate-type-builtin"
+            "zig0.16/diag-ptrcast-const"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.6
+          "ms": 69.8
         },
         {
           "qid": "h59",
@@ -1873,13 +1795,12 @@
           "expected": "zig0.16/diag-eval-branch-quota",
           "got_top3": [
             "zig0.16/diag-eval-branch-quota",
-            "zig0.16/diag-inline-redundant",
-            "zig0.16/diag-comptime-runtime-call"
+            "zig0.16/struct-pack-endian-readint"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 57.7
+          "ms": 78.4
         },
         {
           "qid": "h60",
@@ -1888,14 +1809,12 @@
           "expect": "POS",
           "expected": "zig0.16/diag-comptime-runtime-value",
           "got_top3": [
-            "zig0.16/diag-comptime-runtime-value",
-            "zig0.16/diag-comptime-runtime-call",
-            "zig0.16/diag-comptime-redundant"
+            "zig0.16/diag-comptime-runtime-value"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.6
+          "ms": 70.4
         },
         {
           "qid": "h61",
@@ -1905,18 +1824,17 @@
           "expected": "zig0.16/diag-narrowing-intcast",
           "got_top3": [
             "zig0.16/diag-narrowing-intcast",
-            "zig0.16/migrate-type-builtin",
             "zig0.16/int-bit-count-bit-length"
           ],
           "error": null,
           "ok_top1": true,
           "ok_top3": true,
-          "ms": 56.7
+          "ms": 71.0
         }
       ]
     }
   },
   "embed_mode": "onnx",
   "embed_model": "all-MiniLM-L6-v2",
-  "entries": 95
+  "entries": 102
 }

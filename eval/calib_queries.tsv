@@ -1,0 +1,118 @@
+c-neg01	neg-pandas	pandas agrupar un dataframe por columna y sumar los valores de cada grupo	NONE	NONE
+c-neg02	neg-pandas	leer un csv con pandas y quedarme con las filas donde una columna supera un valor	NONE	NONE
+c-neg03	neg-asyncio	servidor web asincrono con rutas, middleware y respuesta json	NONE	NONE
+c-neg04	neg-asyncio	cliente http concurrente con asyncio y limite de conexiones simultaneas	NONE	NONE
+c-neg05	neg-gui	ventana con tkinter que tenga un boton y un campo de texto	NONE	NONE
+c-neg06	neg-gui	mostrar un dialogo para elegir archivo en una aplicacion pyqt	NONE	NONE
+c-neg07	neg-regex	extraer fechas con expresion regular que use grupos nombrados y lookbehind	NONE	NONE
+c-neg08	neg-regex	validar una contraseña con regex y lookahead negativo	NONE	NONE
+c-neg09	neg-ml	entrenar un modelo de regresion logistica con scikit-learn y medir su precision	NONE	NONE
+c-neg10	neg-ml	fine-tuning de un transformer con pytorch usando la gpu	NONE	NONE
+c-neg11	neg-orm	relaciones uno a muchos en sqlalchemy con migraciones de alembic	NONE	NONE
+c-neg12	neg-orm	consultas de django orm con select_related y prefetch_related	NONE	NONE
+c-neg13	neg-web	como hago una aplicacion web con flask y login de usuarios	NONE	NONE
+c-neg14	neg-juegos	juego 2d con pygame que cargue sprites y detecte colisiones	NONE	NONE
+c-neg15	neg-plot	dibujar un grafico de lineas con matplotlib y su leyenda	NONE	NONE
+c-neg16	neg-ml	pipeline de machine learning con validacion cruzada y busqueda de hiperparametros	NONE	NONE
+c-neg17	neg-scraping	scraper con beautifulsoup que recorra la paginacion de un sitio	NONE	NONE
+c-neg18	neg-api	api rest con fastapi y validacion de entrada con pydantic	NONE	NONE
+c-neg19	neg-rust	como leo argumentos de linea de comandos en rust con la crate clap	NONE	NONE
+c-neg20	neg-rust	como implemento un tipo con lifetimes que el borrow checker de rust acepte	NONE	NONE
+c-neg21	neg-rust	servidor websocket con tokio en rust	NONE	NONE
+c-neg22	neg-gui	no bloquear la interfaz de qt mientras corre una tarea larga	NONE	NONE
+c-neg23	neg-dataclass	dataclass inmutable con frozen y valores por defecto	NONE	NONE
+c-neg24	neg-nlp	entrenar embeddings de palabras con word2vec de gensim	NONE	NONE
+c-neg25	neg-email	enviar un correo con smtp y un archivo adjunto	NONE	NONE
+c-neg26	neg-bots	bot de telegram que responda comandos con polling	NONE	NONE
+c-neg27	neg-crypto	cifrar un archivo con aes-gcm usando la libreria cryptography	NONE	NONE
+c-neg28	neg-pdf	generar un pdf con reportlab y una tabla de datos	NONE	NONE
+c-neg29	neg-html	extraer nodos de un html con xpath usando lxml	NONE	NONE
+c-neg30	neg-cli	cli con typer y autocompletado de la shell	NONE	NONE
+c-neg31	neg-deploy	servir una aplicacion con gunicorn y workers asincronos	NONE	NONE
+c-neg32	neg-sql	optimizar una consulta sql en postgres con indices compuestos	NONE	NONE
+c-neg33	neg-geo	mapa geografico interactivo con folium y marcadores	NONE	NONE
+c-neg34	neg-numpy	broadcasting de numpy para normalizar una matriz por filas	NONE	NONE
+c-neg35	neg-hard	ordenar un dataframe de pandas por varias columnas con direcciones distintas	NONE	NONE
+c-neg36	neg-hard	tokenizar un texto en oraciones y palabras con nltk y contar frecuencias	NONE	NONE
+c-neg37	neg-office	leer una hoja de un excel xlsx con openpyxl	NONE	NONE
+c-neg38	neg-hard	decorador de cache con lru_cache para funciones costosas	NONE	NONE
+c-neg39	neg-hard	procesar imagenes en paralelo con multiprocessing pool	NONE	NONE
+c-neg40	neg-hard	productor consumidor con asyncio.Queue y varias corutinas	NONE	NONE
+c-neg41	neg-misc	generar un uuid v4 y guardarlo en la base de datos	NONE	NONE
+c-neg42	neg-imagen	convertir una imagen a escala de grises con pillow	NONE	NONE
+c-neg43	neg-cloud	subir un archivo a s3 con boto3 y ponerle permisos publicos	NONE	NONE
+c-neg44	neg-misc	medir cuanta memoria ocupa un objeto con tracemalloc	NONE	NONE
+c-neg45	neg-concepto	que es el gil de python y como evitarlo para cargas de cpu	NONE	NONE
+c-neg46	neg-hard	tabla hash propia con resolucion de colisiones personalizada	NONE	NONE
+c-neg47	neg-iot	conectarse a un broker mqtt y suscribirse a un topic con paho	NONE	NONE
+c-neg48	neg-sci	calcular la transformada de Fourier de una señal con scipy	NONE	NONE
+c-neg49	neg-oop	clase abstracta con abc y metodos abstractos obligatorios	NONE	NONE
+c-neg50	neg-async	generador asincrono consumido con async for	NONE	NONE
+c-neg51	neg-yaml	leer un yaml con pyyaml y validar que tenga el esquema correcto	NONE	NONE
+c-neg52	neg-plot	grafico de barras interactivo con plotly y zoom	NONE	NONE
+c-neg53	neg-nlp	entrenar un tokenizador bpe para un modelo de lenguaje	NONE	NONE
+c-neg54	neg-test	tests con pytest y fixtures parametrizadas	NONE	NONE
+c-neg55	neg-gui	bucle de eventos de gtk para una app de escritorio	NONE	NONE
+c-neg56	neg-hard	convertir un diccionario anidado a una tabla plana con claves compuestas	NONE	NONE
+c-pos01	pos-title	lanzar un comando externo y recoger lo que imprime junto con su codigo de salida	zig0.16/subprocess-run-capture	POS
+c-pos02	pos-title	cargar un fichero de texto entero en memoria con un tope de tamano	zig0.16/read-file-text-limited	POS
+c-pos03	pos-title	guardar bytes en disco de forma atomica para no dejar un archivo a medias	zig0.16/write-file-bytes-atomic	POS
+c-pos04	pos-title	comprobar si un fichero existe sin tragarme los errores de permisos	zig0.16/file-exists-vs-error	POS
+c-pos05	pos-title	sacar texto por stdout y forzar que aparezca al momento	zig0.16/stdout-print-flush	POS
+c-pos06	pos-title	leer un fichero de configuracion KEY=VALOR con comentarios	zig0.16/parse-kv-config	POS
+c-pos07	pos-title	pausar la ejecucion unos milisegundos sin consumir cpu	zig0.16/sleep-ms	POS
+c-pos08	pos-title	trocear una cadena por un separador, quitar blancos y formatear un valor	zig0.16/string-split-strip-format	POS
+c-pos09	pos-title	arrancar un proceso hijo redirigiendo su salida a un fichero	zig0.16/spawn-redirect-child	POS
+c-pos10	pos-title	obtener el valor de una variable de entorno o nulo si no esta definida	zig0.16/env-var-read	POS
+c-pos11	pos-title	hash sha256 de un buffer de datos para comprobar integridad	zig0.16/sha256-bytes	POS
+c-pos12	pos-title	diccionario de cadenas a enteros con valor por defecto al leer una clave	zig0.16/dict-str-int-basic	POS
+c-pos13	pos-title	lista dinamica donde insertar en una posicion concreta y extraer elementos	zig0.16/list-append-pop-insert	POS
+c-pos14	pos-title	ordenar elementos por un campo manteniendo el orden relativo de los empates	zig0.16/sorted-key-stable	POS
+c-pos15	pos-title	conjunto de textos con union e interseccion	zig0.16/set-str-membership	POS
+c-pos16	pos-title	cola de prioridad minima para planificar tareas	zig0.16/heapq-priority-queue	POS
+c-pos17	pos-title	cola de doble extremo con tamano maximo	zig0.16/deque-popleft-appendleft	POS
+c-pos18	pos-title	contar frecuencias y devolver las k mas comunes	zig0.16/counter-most-common	POS
+c-pos19	pos-title	unir rutas y extraer el nombre base y la extension de un archivo	zig0.16/path-join-basename-ext	POS
+c-pos20	pos-title	listar los nombres de las entradas de un directorio	zig0.16/listdir-names-sorted	POS
+c-pos21	pos-title	recorrer un arbol de carpetas recogiendo la ruta de cada archivo	zig0.16/walk-tree-files	POS
+c-pos22	pos-title	crear directorios anidados sin fallar si ya existen	zig0.16/makedirs-exist-ok	POS
+c-pos23	pos-title	directorio temporal que se elimina al salir del bloque	zig0.16/temp-dir-scoped	POS
+c-pos24	pos-title	copiar un fichero a otra ruta sin pisar el destino	zig0.16/copyfile-replace	POS
+c-pos25	pos-title	borrar un arbol de directorios completo	zig0.16/remove-file-rmtree	POS
+c-pos26	pos-title	parsear un json cuyo esquema no conozco de antemano	zig0.16/json-loads-dynamic	POS
+c-pos27	pos-title	deserializar json en un struct con campos opcionales	zig0.16/json-loads-typed-struct	POS
+c-pos28	pos-title	serializar a json con indentacion	zig0.16/json-dumps-indent	POS
+c-pos29	pos-title	escapar caracteres unicode como secuencias de tipo backslash u en json	zig0.16/json-string-escape-unicode	POS
+c-pos30	pos-title	codificar bytes en base64 y volver a decodificarlos	zig0.16/base64-encode-decode	POS
+c-pos31	pos-title	convertir bytes a hexadecimal y viceversa	zig0.16/hex-encode-decode	POS
+c-pos32	pos-title	parsear un entero en base 16 detectando desbordamiento	zig0.16/parse-int-base-overflow	POS
+c-pos33	pos-title	convertir texto a float y mostrarlo con dos decimales fijos	zig0.16/parse-float-format-decimals	POS
+c-pos34	pos-title	reemplazar subcadenas y comprobar si un texto empieza por un prefijo	zig0.16/str-find-replace-affix	POS
+c-pos35	pos-title	validar que unos bytes son utf-8 correcto y contar sus codepoints	zig0.16/utf8-codepoints-validate	POS
+c-pos36	pos-title	timestamp unix actual en milisegundos	zig0.16/epoch-now-seconds	POS
+c-pos37	pos-title	medir la duracion de una operacion con un reloj monotonico	zig0.16/monotonic-duration-measure	POS
+c-pos38	pos-title	numeros aleatorios reproducibles con semilla fija y mezclar un array	zig0.16/random-prng-ops	POS
+c-pos39	pos-title	recorrer los argumentos de linea de comandos del programa	zig0.16/process-args-iterate	POS
+c-pos40	pos-title	flags --host y --port leidos desde la consola	zig0.16/argparse-flags-parse	POS
+c-pos41	pos-title	checksum crc32 de un bloque de datos en streaming	zig0.16/crc32-checksum	POS
+c-pos42	pos-title	md5 en hexadecimal de un texto	zig0.16/md5-hexdigest	POS
+c-pos43	pos-title	crear varios hilos del sistema operativo y esperar a que terminen	zig0.16/thread-spawn-join	POS
+c-pos44	pos-title	contador compartido por varios hilos sin condiciones de carrera	zig0.16/thread-shared-counter	POS
+c-pos45	pos-title	servidor de eco tcp en localhost con un cliente en el mismo programa	zig0.16/tcp-loopback-echo	POS
+c-pos46	pos-title	enviar un datagrama udp a localhost y recibirlo	zig0.16/udp-loopback-datagram	POS
+c-pos47	pos-title	peticion get http contra un servidor local con el cliente estandar	zig0.16/http-client-get-local	POS
+c-pos48	pos-title	llamar a strlen de libc con extern fn	zig0.16/ffi-extern-c-function	POS
+c-pos49	pos-title	formatear texto con variables en un buffer asignado	zig0.16/format-string-alloc-print	POS
+c-pos50	pos-title	detectar infinito o nan en un float	zig0.16/float-special-values-isinf-isnan	POS
+c-pos51	pos-title	empaquetar un entero en 4 bytes little endian	zig0.16/struct-pack-endian-readint	POS
+c-pos52	pos-title	division entera que redondea hacia menos infinito con numeros negativos	zig0.16/div-floor-mod-negative	POS
+c-pos53	pos-title	redondear un float hacia arriba y hacia abajo	zig0.16/round-floor-ceil-bankers	POS
+c-pos54	pos-title	convertir un string C terminado en cero en un slice de bytes	zig0.16/cstring-span-slice-to	POS
+c-pos55	pos-title	parsear una linea csv con campos entre comillas	zig0.16/csv-reader-line-quoted	POS
+c-pos56	pos-title	convertir un timestamp a fecha y hora UTC	zig0.16/epoch-to-utc-ymd-hms	POS
+c-pos57	pos-title	subcomandos add y list leidos de los argumentos del programa	zig0.16/argparse-subcommands	POS
+c-pos58	pos-title	migrar un ArrayList de init con allocator a la forma unmanaged	zig0.16/migrate-arraylist-unmanaged	POS
+c-pos59	pos-title	construir un entero de N bits en comptime sin el builtin @Type	zig0.16/migrate-type-builtin	POS
+c-pos60	pos-title	enlazar libc en el modulo de build.zig sin usar cImport	zig0.16/build-link-libc	POS
+c-pos61	pos-title	registrar un modulo importado por nombre en build.zig	zig0.16/build-add-import	POS
+c-pos62	pos-title	escribir un archivo de una sola vez con la API de directorios de std.Io	zig0.16/migrate-writefile	POS
