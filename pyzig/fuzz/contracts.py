@@ -207,13 +207,6 @@ CONTRACTS: dict[str, dict] = {
         "bits", "drivers/bits.zig", "bits",
         ["status", "error", "value"],
         type_sig={"input": "op/i64", "output": "u7"},
-        known=[{
-            "id": "bit-count-minint-desborda",
-            "fields": ["status", "error", "value"],
-            "expect": {"status": "err", "error": "Overflow"},
-            "oracle": {"status": "ok", "error": "", "value": "1"},
-            "why": "bitCountSigned hace -x con x = minInt(i64): desborda (panic en Zig). El driver lo responde Overflow antes de llamar. Python: (-2**63).bit_count() == 1. La receta dice 'usa abs', y eso solo vale fuera de minInt",
-        }],
     ),
     "zig0.16/struct-pack-endian-readint": _c(
         "packint", "drivers/packint.zig", "packint",

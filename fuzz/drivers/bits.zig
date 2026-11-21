@@ -23,9 +23,6 @@ fn handle(gpa: std.mem.Allocator, fields: []const []const u8, obs: *std.ArrayLis
     const x = parseI64(fields[1]) orelse return lib.invalid(gpa, obs, 3);
     var buf: [24]u8 = undefined;
     if (std.mem.eql(u8, op, "count")) {
-        // Guarda: bitCountSigned hace -x, que desborda para minInt (panic en Zig).
-        // Python: (-2**63).bit_count() == 1. Divergencia declarada en el contrato.
-        if (x == std.math.minInt(i64)) return lib.appendObs(gpa, obs, "err", &.{ "err", "Overflow", "" });
         const s = try std.fmt.bufPrint(&buf, "{d}", .{bitCountSigned(x)});
         return lib.appendObs(gpa, obs, "ok", &.{ "ok", "", s });
     }

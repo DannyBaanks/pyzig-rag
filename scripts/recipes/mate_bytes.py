@@ -496,10 +496,9 @@ pub fn bitLength(x: u64) u7 {
     return 64 - @clz(x);
 }
 
-/// bit_count de Python con signo: cuenta los bits de abs(x).
+/// bit_count de Python con signo: cuenta los bits de abs(x) (sin desbordar en minInt).
 pub fn bitCountSigned(x: i64) u7 {
-    if (x < 0) return @popCount(@as(u64, @bitCast(-x)));
-    return @popCount(@as(u64, @intCast(x)));
+    return @popCount(@abs(x));
 }''',
     zig_test=r'''const std = @import("std");
 
@@ -513,8 +512,7 @@ pub fn bitLength(x: u64) u7 {
 }
 
 pub fn bitCountSigned(x: i64) u7 {
-    if (x < 0) return @popCount(@as(u64, @bitCast(-x)));
-    return @popCount(@as(u64, @intCast(x)));
+    return @popCount(@abs(x));
 }
 
 test "bit_count" {
@@ -537,6 +535,7 @@ test "bit_count con signo (Python usa abs)" {
     try std.testing.expectEqual(@as(u7, 2), bitCountSigned(3));
     try std.testing.expectEqual(@as(u7, 1), bitCountSigned(-1));
     try std.testing.expectEqual(@as(u7, 0), bitCountSigned(0));
+    try std.testing.expectEqual(@as(u7, 1), bitCountSigned(std.math.minInt(i64)));
 }
 
 test "tipos estrechos: el resultado depende del ancho" {

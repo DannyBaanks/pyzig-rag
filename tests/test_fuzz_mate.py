@@ -122,7 +122,6 @@ class BitsModelTest(unittest.TestCase):
         self.assertEqual(models.model_bits([b"length", b"-1"]), ("ok", ["ok", "", "1"]))
 
     def test_minint_en_python(self):
-        # divergencia conocida: Python da 1, el driver responde Overflow
         self.assertEqual(models.model_bits([b"count", str(-(2 ** 63)).encode()]),
                          ("ok", ["ok", "", "1"]))
         self.assertEqual(models.model_bits([b"length", str(-(2 ** 63)).encode()]),
@@ -177,15 +176,12 @@ class PackIntModelTest(unittest.TestCase):
 
 
 class KnownDivergenceTest(unittest.TestCase):
-    def test_minint_declarado_y_clasificado(self):
-        known = contracts.CONTRACTS["zig0.16/int-bit-count-bit-length"]["known_divergences"]
-        d = [{"name": "status", "subject": "err", "oracle": "ok"},
-             {"name": "error", "subject": "Overflow", "oracle": ""},
-             {"name": "value", "subject": "", "oracle": "1"}]
-        self.assertEqual(triage.match_known(d, known), "bit-count-minint-desborda")
-
-    def test_packint_y_divmod_sin_divergencias_declaradas(self):
-        for oid in ("zig0.16/div-floor-mod-negative", "zig0.16/struct-pack-endian-readint"):
+    def test_mate_bytes_sin_divergencias_declaradas(self):
+        for oid in (
+            "zig0.16/div-floor-mod-negative",
+            "zig0.16/int-bit-count-bit-length",
+            "zig0.16/struct-pack-endian-readint",
+        ):
             with self.subTest(oid=oid):
                 self.assertEqual(contracts.CONTRACTS[oid]["known_divergences"], [])
 
