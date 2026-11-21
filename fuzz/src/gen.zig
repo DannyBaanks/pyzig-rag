@@ -22,6 +22,9 @@
 //   base64/v1   [op, data]                          op: enc | dec
 //   hex/v1      [op, data]                          op: enc | dec
 //   parseint/v1 [text, base]                        base: 0 o 2..36 (otra: invalid)
+//   divmod/v1   [a, b]                              enteros i32 decimales; b=0 -> err
+//   bits/v1     [op, text]                          op: count | length; text: i64 decimal
+//   packint/v1  [op, endian, value, offset, data]   op: pack | read | readi | write
 //   pipe/v1     [data]                              (reservado para pipelines, F2)
 const std = @import("std");
 const proto = @import("proto.zig");
@@ -44,6 +47,9 @@ pub const Schema = enum {
     base64,
     hex,
     parseint,
+    divmod,
+    bits,
+    packint,
     pipe,
 
     pub fn fromName(s: []const u8) ?Schema {
@@ -438,6 +444,88 @@ fn genParseInt(r: *Rng, gpa: std.mem.Allocator) ![]u8 {
     return proto.packFields(gpa, &.{ text, base });
 }
 
+// --- mate_bytes: enteros con borde (0, +-1, extremos, divisor 0) -------------
+// Formato estricto `-?[0-9]+` en ambos lados; lo demas es invalid.
+
+const DIV_EDGES = [_][]const u8{
+    "0",          "1",         "-1",         "2",          "-2",
+    "3",          "-3",        "7",          "-7",         "8",
+    "-8",         "65536",     "-65536",     "2147483646", "2147483647",
+    "-2147483647", "-2147483648",
+};
+const BIT_EDGES = [_][]const u8{
+    "0",                    "1",                  "-1",                  "2",
+    "-2",                   "255",                "-255",                "256",
+    "65535",                "65536",              "4294967295",          "4294967296",
+    "-4294967296",          "4611686018427387904", "9223372036854775807", "-9223372036854775807",
+    "-9223372036854775808",
+};
+/// Texto que los esquemas numericos rechazan (vacio, signos sueltos, decimales,
+/// espacios, prefijos, fuera de rango). Algunos son validos en i64 (2147483648):
+/// ambos lados deciden igual, asi que el caso sigue siendo una comparacion.
+const NUM_INVALID = [_][]const u8{
+    "",   "x",  "-",   "+5",  "1.5",  " 7",  "7 ",   "0x10", "1_000", "--7",
+    "2147483648", "-2147483649", "9223372036854775808", "99999999999999999999",
+};
+const PACK_OPS = [_][]const u8{ "pack", "read", "readi", "write" };
+const ENDIANS = [_][]const u8{ "big", "little" };
+const PACK_VALUES = [_][]const u8{
+    "0",          "1",          "255",        "256",        "65535",
+    "65536",      "2147483647", "2147483648", "4294967295", "4294967296",
+    "-1",         "-2147483648",
+};
+const PACK_OFFSETS = [_][]const u8{ "0", "1", "2", "3", "4", "5", "8", "12", "13" };
+
+/// Entero i32 decimal: borde, aleatorio uniforme o texto invalido.
+fn i32Text(r: *Rng, buf: []u8) []const u8 {
+    if (maybeInvalid(r)) return r.pick([]const u8, &NUM_INVALID);
+    if (r.chance(1, 2)) return r.pick([]const u8, &DIV_EDGES);
+    return std.fmt.bufPrint(buf, "{d}", .{r.random().int(i32)}) catch unreachable;
+}
+
+/// divmod/v1: a y b. El divisor 0 tiene peso propio: es el error de la receta.
+fn genDivMod(r: *Rng, gpa: std.mem.Allocator) ![]u8 {
+    var a_buf: [16]u8 = undefined;
+    var b_buf: [16]u8 = undefined;
+    const a: []const u8 = i32Text(r, &a_buf);
+    const b: []const u8 = if (r.chance(1, 6)) "0" else i32Text(r, &b_buf);
+    return proto.packFields(gpa, &.{ a, b });
+}
+
+/// bits/v1: count (bit_count con signo) o length (bit_length), i64 decimal.
+fn genBits(r: *Rng, gpa: std.mem.Allocator) ![]u8 {
+    var buf: [24]u8 = undefined;
+    const op: []const u8 = if (maybeInvalid(r)) "popcount" else if (r.chance(1, 2)) "count" else "length";
+    const text: []const u8 = if (maybeInvalid(r))
+        r.pick([]const u8, &NUM_INVALID)
+    else if (r.chance(1, 2))
+        r.pick([]const u8, &BIT_EDGES)
+    else
+        try std.fmt.bufPrint(&buf, "{d}", .{r.random().int(i64)});
+    return proto.packFields(gpa, &.{ op, text });
+}
+
+/// packint/v1: pack/read/readi/write de un u32/i32 con endian, en un offset.
+fn genPackInt(r: *Rng, gpa: std.mem.Allocator) ![]u8 {
+    var vbuf: [16]u8 = undefined;
+    const op: []const u8 = if (maybeInvalid(r)) "unpack" else r.pick([]const u8, &PACK_OPS);
+    const endian: []const u8 = if (maybeInvalid(r)) "middle" else r.pick([]const u8, &ENDIANS);
+    const value: []const u8 = if (maybeInvalid(r))
+        r.pick([]const u8, &NUM_INVALID)
+    else if (r.chance(1, 2))
+        r.pick([]const u8, &PACK_VALUES)
+    else
+        try std.fmt.bufPrint(&vbuf, "{d}", .{r.random().int(u32)});
+    const offset: []const u8 = if (maybeInvalid(r))
+        (if (r.chance(1, 2)) "-1" else r.pick([]const u8, &NUM_INVALID))
+    else
+        r.pick([]const u8, &PACK_OFFSETS);
+    var data: [12]u8 = undefined;
+    const len = r.boundaryLen(data.len);
+    r.fill(data[0..len]);
+    return proto.packFields(gpa, &.{ op, endian, value, offset, data[0..len] });
+}
+
 fn genPipe(r: *Rng, gpa: std.mem.Allocator) ![]u8 {
     var data: [4096]u8 = undefined;
     const len = switch (r.below(6)) {
@@ -468,6 +556,9 @@ pub fn generate(gpa: std.mem.Allocator, schema: Schema, r: *Rng) ![]u8 {
         .base64 => genBase64(r, gpa),
         .hex => genHex(r, gpa),
         .parseint => genParseInt(r, gpa),
+        .divmod => genDivMod(r, gpa),
+        .bits => genBits(r, gpa),
+        .packint => genPackInt(r, gpa),
         .pipe => genPipe(r, gpa),
     };
 }

@@ -25,7 +25,8 @@ import copy
 ERROR_NAMES = (
     "FileNotFound", "IsDir", "NotDir", "StreamTooLong", "PermissionDenied",
     "Timeout", "InvalidArgument", "OutOfMemory", "NoSpaceLeft", "Unknown",
-    "BadEncoding", "InvalidLiteral", "Overflow",
+    "BadEncoding", "InvalidLiteral", "Overflow", "DivisionByZero", "OutOfRange",
+    "ShortBuffer",
 )
 
 #: Estados de observacion del protocolo.
@@ -206,6 +207,25 @@ CONTRACTS: dict[str, dict] = {
         None, None, None, [],
         skip_reason=("gap NOT_DEMONSTRATED: std 0.16 no expone setsid ni doble-fork, "
                      "no hay implementacion contra la que comparar"),
+    ),
+    # --- mate_bytes (ola 5): contratos nuevos al final del dict ---
+    # Guardas del driver (no son divergencias): division por cero, minInt // -1
+    # y -minInt son panic en Zig; el driver las responde antes de llamar y el
+    # modelo Python responde lo mismo (DivisionByZero / Overflow).
+    "zig0.16/div-floor-mod-negative": _c(
+        "divmod", "drivers/divmod.zig", "divmod",
+        ["status", "error", "quot", "rem"],
+        type_sig={"input": "i32/i32", "output": "i32/i32"},
+    ),
+    "zig0.16/int-bit-count-bit-length": _c(
+        "bits", "drivers/bits.zig", "bits",
+        ["status", "error", "value"],
+        type_sig={"input": "op/i64", "output": "u7"},
+    ),
+    "zig0.16/struct-pack-endian-readint": _c(
+        "packint", "drivers/packint.zig", "packint",
+        ["status", "error", "value", "out"],
+        type_sig={"input": "op/endian/i64/offset/bytes", "output": "u32/i32/bytes"},
     ),
 }
 
