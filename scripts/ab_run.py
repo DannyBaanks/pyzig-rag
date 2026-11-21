@@ -144,14 +144,26 @@ def _isolated_base() -> pathlib.Path:
     return pathlib.Path(tempfile.gettempdir())
 
 
-def _pyzig_cli_command() -> str:
-    """Comando para invocar scripts/pyzig_cli.py con el intérprete del repo."""
+def _pyzig_cli_command(dest_dir: pathlib.Path | None = None) -> str:
+    """Comando para invocar scripts/pyzig_cli.py con el intérprete del repo.
+
+    El prompt de B lo usa como ``$PYZIG_CLI search ...`` (expansión sin comillas):
+    el valor no puede llevar espacios ni comillas, porque el shell lo parte en
+    palabras y no re-interpreta ``PYTHONPATH=``. Con ``dest_dir`` se escribe un
+    wrapper ejecutable allí (ruta sin espacios) y se devuelve su ruta.
+    """
     py = str((ROOT / ".venv" / "bin" / "python").resolve())
     if not pathlib.Path(py).is_file():
         py = sys.executable
     cli = str((ROOT / "scripts" / "pyzig_cli.py").resolve())
     root = str(ROOT.resolve())
-    return f"PYTHONPATH={shlex.quote(root)} {shlex.quote(py)} {shlex.quote(cli)}"
+    line = f"PYTHONPATH={shlex.quote(root)} exec {shlex.quote(py)} {shlex.quote(cli)} \"$@\""
+    if dest_dir is None:
+        return line
+    wrapper = dest_dir / "pyzig-cli"
+    wrapper.write_text("#!/bin/sh\n" + line + "\n", encoding="utf-8")
+    wrapper.chmod(0o755)
+    return str(wrapper)
 
 
 def _agent_failed(rc: Any) -> bool:
@@ -166,7 +178,7 @@ def run_agent(args: argparse.Namespace, tasks: list[dict[str, Any]],
     global_log = out / "attempts.jsonl"
     work_base = _isolated_base() / "ab-work"
     work_base.mkdir(parents=True, exist_ok=True)
-    pyzig_cli = _pyzig_cli_command()
+    pyzig_cli = _pyzig_cli_command(work_base)
     for tid in order:
         task = by_id[tid]
         for arm in arm_order[tid]:
