@@ -137,6 +137,36 @@ def _token_values(task_dir: pathlib.Path) -> dict[int, int]:
     return out
 
 
+def _agent_overrides(task_dir: pathlib.Path) -> dict[int, dict[str, Any]]:
+    """Metadatos de ejecución del agente por intento (rc, status forzado)."""
+    meta = task_dir / "attempts.jsonl"
+    if not meta.is_file():
+        return {}
+    out: dict[int, dict[str, Any]] = {}
+    for line in meta.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        try:
+            rec = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        n = rec.get("attempt")
+        if not isinstance(n, int):
+            continue
+        info: dict[str, Any] = {}
+        if "agent_rc" in rec:
+            info["agent_rc"] = rec.get("agent_rc")
+        if rec.get("status") == "AGENT_ERROR":
+            info["force_status"] = "AGENT_ERROR"
+        elif isinstance(rec.get("agent_rc"), int) and rec["agent_rc"] != 0:
+            info["force_status"] = "AGENT_ERROR"
+        elif rec.get("agent_rc") in {"TIMEOUT", "SPAWN_ERROR"}:
+            info["force_status"] = "AGENT_ERROR"
+        if info:
+            out[n] = info
+    return out
+
+
 def _attempt_files(task_dir: pathlib.Path) -> list[pathlib.Path]:
     return sorted(task_dir.glob("*.zig"), key=_natural_key)
 
@@ -205,6 +235,7 @@ def score_solutions(solutions_dir: pathlib.Path = DEFAULT_SOLUTIONS_DIR,
             task_dir = solutions_dir / arm / task["task_id"]
             files = _attempt_files(task_dir) if task_dir.is_dir() else []
             tokens_by_attempt = _token_values(task_dir)
+            overrides = _agent_overrides(task_dir)
             details: list[dict[str, Any]] = []
             token_values: list[int | None] = []
             first_pass: int | None = None
@@ -214,6 +245,11 @@ def score_solutions(solutions_dir: pathlib.Path = DEFAULT_SOLUTIONS_DIR,
                 n = int(m.group(1)) if m else attempt
                 scored = score_attempt(path.read_text(encoding="utf-8"), task,
                                        cache_dir=cache_dir)
+                ov = overrides.get(n, {})
+                if ov.get("force_status") == "AGENT_ERROR":
+                    scored = {**scored, "status": "AGENT_ERROR", "passed": False}
+                if "agent_rc" in ov:
+                    scored = {**scored, "agent_rc": ov["agent_rc"]}
                 token_values.append(tokens_by_attempt.get(n))
                 if scored["passed"] and first_pass is None:
                     first_pass = attempt  # centro el contador en intentos ejecutados

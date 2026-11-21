@@ -220,6 +220,39 @@ class RunTest(unittest.TestCase):
             self.assertEqual(t["compile_errors"], 1)
             self.assertEqual(t["tokens"]["total"], 34)
 
+    @NEEDS_ZIG
+    def test_agent_nonzero_rc_is_recorded_as_agent_error(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="pyzig-ab-rc-") as td:
+            root = pathlib.Path(td)
+            good = (GOOD / "A" / "t02_gcd_lcm" / "attempt-01.zig").read_text(encoding="utf-8")
+            src = root / "good.zig"
+            src.write_text(good, encoding="utf-8")
+            agent = root / "agent_fail.sh"
+            agent.write_text(
+                "#!/bin/sh\n"
+                f"cat {json.dumps(str(src))}\n"
+                "exit 7\n",
+                encoding="utf-8",
+            )
+            agent.chmod(0o755)
+            out = root / "run"
+            rc, _ = _run_main([
+                "--tasks", "t02_gcd_lcm", "--arms", "A", "--agent-cmd", str(agent),
+                "--max-attempts", "1", "--out", str(out), "--cache-dir", str(CACHE),
+            ])
+            self.assertEqual(rc, 0)
+            log = [json.loads(line) for line in
+                   (out / "A" / "t02_gcd_lcm" / "attempts.jsonl").read_text(
+                       encoding="utf-8").splitlines()]
+            self.assertEqual(log[0]["agent_rc"], 7)
+            self.assertEqual(log[0]["status"], "AGENT_ERROR")
+            score = json.loads((out / "score.json").read_text(encoding="utf-8"))
+            t = score["arms"]["A"]["tasks"]["t02_gcd_lcm"]
+            self.assertFalse(t["passed"])
+            self.assertIsNone(t["compiles_until_pass"])
+            self.assertEqual(t["attempts_detail"][0]["status"], "AGENT_ERROR")
+            self.assertEqual(t["attempts_detail"][0]["agent_rc"], 7)
+
     def test_agent_required_outside_dry_run(self) -> None:
         with tempfile.TemporaryDirectory(prefix="pyzig-ab-noagent-") as td:
             rc, _ = _run_main(["--out", str(pathlib.Path(td) / "unused")])
