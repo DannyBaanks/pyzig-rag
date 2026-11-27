@@ -1,0 +1,1316 @@
+{
+  "schema": 1,
+  "tasks_dir": "ab/tasks",
+  "solutions_dir": "ab/runs/hard-2026-11-27-bigpickle",
+  "scorer": "pyzig.check.check_zig(mode='test', suggest=False)",
+  "arms": {
+    "A": {
+      "tasks": {
+        "t13_arraylist_evens": {
+          "task_id": "t13_arraylist_evens",
+          "control": false,
+          "attempts": 3,
+          "compiles": 3,
+          "compiles_until_pass": null,
+          "passed": false,
+          "compile_errors": 3,
+          "error_records": 3,
+          "tests_passed_attempts": 0,
+          "runtime_failures": 0,
+          "unscored": 0,
+          "tokens": {
+            "available": false,
+            "measured_attempts": 0,
+            "total": "NOT_AVAILABLE",
+            "by_attempt": [
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE"
+            ]
+          },
+          "attempts_detail": [
+            {
+              "attempt": 1,
+              "file": "A/t13_arraylist_evens/attempt-01.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:7:21: error: use of undeclared identifier 'collectEvens'\n    const got = try collectEvens(std.testing.allocator, &xs);\n                    ^~~~~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 7,
+                  "col": 21,
+                  "message": "use of undeclared identifier 'collectEvens'"
+                }
+              ],
+              "agent_rc": 126
+            },
+            {
+              "attempt": 2,
+              "file": "A/t13_arraylist_evens/attempt-02.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:7:21: error: use of undeclared identifier 'collectEvens'\n    const got = try collectEvens(std.testing.allocator, &xs);\n                    ^~~~~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 7,
+                  "col": 21,
+                  "message": "use of undeclared identifier 'collectEvens'"
+                }
+              ],
+              "agent_rc": 126
+            },
+            {
+              "attempt": 3,
+              "file": "A/t13_arraylist_evens/attempt-03.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:7:21: error: use of undeclared identifier 'collectEvens'\n    const got = try collectEvens(std.testing.allocator, &xs);\n                    ^~~~~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 7,
+                  "col": 21,
+                  "message": "use of undeclared identifier 'collectEvens'"
+                }
+              ],
+              "agent_rc": 126
+            }
+          ]
+        },
+        "t13_hashmap_distinct": {
+          "task_id": "t13_hashmap_distinct",
+          "control": false,
+          "attempts": 3,
+          "compiles": 3,
+          "compiles_until_pass": null,
+          "passed": false,
+          "compile_errors": 3,
+          "error_records": 3,
+          "tests_passed_attempts": 0,
+          "runtime_failures": 0,
+          "unscored": 0,
+          "tokens": {
+            "available": false,
+            "measured_attempts": 0,
+            "total": "NOT_AVAILABLE",
+            "by_attempt": [
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE"
+            ]
+          },
+          "attempts_detail": [
+            {
+              "attempt": 1,
+              "file": "A/t13_hashmap_distinct/attempt-01.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:7:52: error: use of undeclared identifier 'distinctCount'\n    try std.testing.expectEqual(@as(usize, 3), try distinctCount(std.testing.allocator, &words));\n                                                   ^~~~~~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 7,
+                  "col": 52,
+                  "message": "use of undeclared identifier 'distinctCount'"
+                }
+              ],
+              "agent_rc": 126
+            },
+            {
+              "attempt": 2,
+              "file": "A/t13_hashmap_distinct/attempt-02.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:7:52: error: use of undeclared identifier 'distinctCount'\n    try std.testing.expectEqual(@as(usize, 3), try distinctCount(std.testing.allocator, &words));\n                                                   ^~~~~~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 7,
+                  "col": 52,
+                  "message": "use of undeclared identifier 'distinctCount'"
+                }
+              ],
+              "agent_rc": 126
+            },
+            {
+              "attempt": 3,
+              "file": "A/t13_hashmap_distinct/attempt-03.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:7:52: error: use of undeclared identifier 'distinctCount'\n    try std.testing.expectEqual(@as(usize, 3), try distinctCount(std.testing.allocator, &words));\n                                                   ^~~~~~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 7,
+                  "col": 52,
+                  "message": "use of undeclared identifier 'distinctCount'"
+                }
+              ],
+              "agent_rc": 126
+            }
+          ]
+        },
+        "t13_json_items": {
+          "task_id": "t13_json_items",
+          "control": false,
+          "attempts": 3,
+          "compiles": 3,
+          "compiles_until_pass": null,
+          "passed": false,
+          "compile_errors": 3,
+          "error_records": 3,
+          "tests_passed_attempts": 0,
+          "runtime_failures": 0,
+          "unscored": 0,
+          "tokens": {
+            "available": false,
+            "measured_attempts": 0,
+            "total": "NOT_AVAILABLE",
+            "by_attempt": [
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE"
+            ]
+          },
+          "attempts_detail": [
+            {
+              "attempt": 1,
+              "file": "A/t13_json_items/attempt-01.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:7:50: error: use of undeclared identifier 'totalQty'\n    try std.testing.expectEqual(@as(i64, 7), try totalQty(std.testing.allocator, txt));\n                                                 ^~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 7,
+                  "col": 50,
+                  "message": "use of undeclared identifier 'totalQty'"
+                }
+              ],
+              "agent_rc": 126
+            },
+            {
+              "attempt": 2,
+              "file": "A/t13_json_items/attempt-02.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:7:50: error: use of undeclared identifier 'totalQty'\n    try std.testing.expectEqual(@as(i64, 7), try totalQty(std.testing.allocator, txt));\n                                                 ^~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 7,
+                  "col": 50,
+                  "message": "use of undeclared identifier 'totalQty'"
+                }
+              ],
+              "agent_rc": 126
+            },
+            {
+              "attempt": 3,
+              "file": "A/t13_json_items/attempt-03.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:7:50: error: use of undeclared identifier 'totalQty'\n    try std.testing.expectEqual(@as(i64, 7), try totalQty(std.testing.allocator, txt));\n                                                 ^~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 7,
+                  "col": 50,
+                  "message": "use of undeclared identifier 'totalQty'"
+                }
+              ],
+              "agent_rc": 126
+            }
+          ]
+        },
+        "t13_process_stdout": {
+          "task_id": "t13_process_stdout",
+          "control": false,
+          "attempts": 3,
+          "compiles": 3,
+          "compiles_until_pass": null,
+          "passed": false,
+          "compile_errors": 3,
+          "error_records": 3,
+          "tests_passed_attempts": 0,
+          "runtime_failures": 0,
+          "unscored": 0,
+          "tokens": {
+            "available": false,
+            "measured_attempts": 0,
+            "total": "NOT_AVAILABLE",
+            "by_attempt": [
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE"
+            ]
+          },
+          "attempts_detail": [
+            {
+              "attempt": 1,
+              "file": "A/t13_process_stdout/attempt-01.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:6:20: error: use of undeclared identifier 'captureChildStdout'\n    const ok = try captureChildStdout(std.testing.allocator, std.testing.io, &.{ \"/usr/bin/sh\", \"-c\", \"printf 'hola'\" });\n                   ^~~~~~~~~~~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 6,
+                  "col": 20,
+                  "message": "use of undeclared identifier 'captureChildStdout'"
+                }
+              ],
+              "agent_rc": 126
+            },
+            {
+              "attempt": 2,
+              "file": "A/t13_process_stdout/attempt-02.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:6:20: error: use of undeclared identifier 'captureChildStdout'\n    const ok = try captureChildStdout(std.testing.allocator, std.testing.io, &.{ \"/usr/bin/sh\", \"-c\", \"printf 'hola'\" });\n                   ^~~~~~~~~~~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 6,
+                  "col": 20,
+                  "message": "use of undeclared identifier 'captureChildStdout'"
+                }
+              ],
+              "agent_rc": 126
+            },
+            {
+              "attempt": 3,
+              "file": "A/t13_process_stdout/attempt-03.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:6:20: error: use of undeclared identifier 'captureChildStdout'\n    const ok = try captureChildStdout(std.testing.allocator, std.testing.io, &.{ \"/usr/bin/sh\", \"-c\", \"printf 'hola'\" });\n                   ^~~~~~~~~~~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 6,
+                  "col": 20,
+                  "message": "use of undeclared identifier 'captureChildStdout'"
+                }
+              ],
+              "agent_rc": 126
+            }
+          ]
+        },
+        "t13_read_whole_file": {
+          "task_id": "t13_read_whole_file",
+          "control": false,
+          "attempts": 3,
+          "compiles": 3,
+          "compiles_until_pass": null,
+          "passed": false,
+          "compile_errors": 3,
+          "error_records": 3,
+          "tests_passed_attempts": 0,
+          "runtime_failures": 0,
+          "unscored": 0,
+          "tokens": {
+            "available": false,
+            "measured_attempts": 0,
+            "total": "NOT_AVAILABLE",
+            "by_attempt": [
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE"
+            ]
+          },
+          "attempts_detail": [
+            {
+              "attempt": 1,
+              "file": "A/t13_read_whole_file/attempt-01.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:10:21: error: use of undeclared identifier 'readWhole'\n    const got = try readWhole(std.testing.allocator, std.testing.io, tmp.dir, \"a.txt\");\n                    ^~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 10,
+                  "col": 21,
+                  "message": "use of undeclared identifier 'readWhole'"
+                }
+              ],
+              "agent_rc": 126
+            },
+            {
+              "attempt": 2,
+              "file": "A/t13_read_whole_file/attempt-02.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:10:21: error: use of undeclared identifier 'readWhole'\n    const got = try readWhole(std.testing.allocator, std.testing.io, tmp.dir, \"a.txt\");\n                    ^~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 10,
+                  "col": 21,
+                  "message": "use of undeclared identifier 'readWhole'"
+                }
+              ],
+              "agent_rc": 126
+            },
+            {
+              "attempt": 3,
+              "file": "A/t13_read_whole_file/attempt-03.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:10:21: error: use of undeclared identifier 'readWhole'\n    const got = try readWhole(std.testing.allocator, std.testing.io, tmp.dir, \"a.txt\");\n                    ^~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 10,
+                  "col": 21,
+                  "message": "use of undeclared identifier 'readWhole'"
+                }
+              ],
+              "agent_rc": 126
+            }
+          ]
+        },
+        "t13_sleep_elapsed": {
+          "task_id": "t13_sleep_elapsed",
+          "control": false,
+          "attempts": 3,
+          "compiles": 3,
+          "compiles_until_pass": null,
+          "passed": false,
+          "compile_errors": 3,
+          "error_records": 3,
+          "tests_passed_attempts": 0,
+          "runtime_failures": 0,
+          "unscored": 0,
+          "tokens": {
+            "available": false,
+            "measured_attempts": 0,
+            "total": "NOT_AVAILABLE",
+            "by_attempt": [
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE"
+            ]
+          },
+          "attempts_detail": [
+            {
+              "attempt": 1,
+              "file": "A/t13_sleep_elapsed/attempt-01.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:6:19: error: use of undeclared identifier 'napMeasured'\n    const e = try napMeasured(std.testing.io, 20);\n                  ^~~~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 6,
+                  "col": 19,
+                  "message": "use of undeclared identifier 'napMeasured'"
+                }
+              ],
+              "agent_rc": 126
+            },
+            {
+              "attempt": 2,
+              "file": "A/t13_sleep_elapsed/attempt-02.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:6:19: error: use of undeclared identifier 'napMeasured'\n    const e = try napMeasured(std.testing.io, 20);\n                  ^~~~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 6,
+                  "col": 19,
+                  "message": "use of undeclared identifier 'napMeasured'"
+                }
+              ],
+              "agent_rc": 126
+            },
+            {
+              "attempt": 3,
+              "file": "A/t13_sleep_elapsed/attempt-03.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:6:19: error: use of undeclared identifier 'napMeasured'\n    const e = try napMeasured(std.testing.io, 20);\n                  ^~~~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 6,
+                  "col": 19,
+                  "message": "use of undeclared identifier 'napMeasured'"
+                }
+              ],
+              "agent_rc": 126
+            }
+          ]
+        },
+        "t13_thread_mutex_sum": {
+          "task_id": "t13_thread_mutex_sum",
+          "control": false,
+          "attempts": 3,
+          "compiles": 3,
+          "compiles_until_pass": null,
+          "passed": false,
+          "compile_errors": 3,
+          "error_records": 3,
+          "tests_passed_attempts": 0,
+          "runtime_failures": 0,
+          "unscored": 0,
+          "tokens": {
+            "available": false,
+            "measured_attempts": 0,
+            "total": "NOT_AVAILABLE",
+            "by_attempt": [
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE"
+            ]
+          },
+          "attempts_detail": [
+            {
+              "attempt": 1,
+              "file": "A/t13_thread_mutex_sum/attempt-01.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:8:55: error: use of undeclared identifier 'parallelSum'\n    try std.testing.expectEqual(@as(i64, 500500), try parallelSum(std.testing.allocator, std.testing.io, &xs, 4));\n                                                      ^~~~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 8,
+                  "col": 55,
+                  "message": "use of undeclared identifier 'parallelSum'"
+                }
+              ],
+              "agent_rc": 126
+            },
+            {
+              "attempt": 2,
+              "file": "A/t13_thread_mutex_sum/attempt-02.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:8:55: error: use of undeclared identifier 'parallelSum'\n    try std.testing.expectEqual(@as(i64, 500500), try parallelSum(std.testing.allocator, std.testing.io, &xs, 4));\n                                                      ^~~~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 8,
+                  "col": 55,
+                  "message": "use of undeclared identifier 'parallelSum'"
+                }
+              ],
+              "agent_rc": 126
+            },
+            {
+              "attempt": 3,
+              "file": "A/t13_thread_mutex_sum/attempt-03.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:8:55: error: use of undeclared identifier 'parallelSum'\n    try std.testing.expectEqual(@as(i64, 500500), try parallelSum(std.testing.allocator, std.testing.io, &xs, 4));\n                                                      ^~~~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 8,
+                  "col": 55,
+                  "message": "use of undeclared identifier 'parallelSum'"
+                }
+              ],
+              "agent_rc": 126
+            }
+          ]
+        },
+        "t13_writer_rows": {
+          "task_id": "t13_writer_rows",
+          "control": false,
+          "attempts": 3,
+          "compiles": 3,
+          "compiles_until_pass": null,
+          "passed": false,
+          "compile_errors": 3,
+          "error_records": 3,
+          "tests_passed_attempts": 0,
+          "runtime_failures": 0,
+          "unscored": 0,
+          "tokens": {
+            "available": false,
+            "measured_attempts": 0,
+            "total": "NOT_AVAILABLE",
+            "by_attempt": [
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE"
+            ]
+          },
+          "attempts_detail": [
+            {
+              "attempt": 1,
+              "file": "A/t13_writer_rows/attempt-01.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:8:9: error: use of undeclared identifier 'writeRow'\n    try writeRow(&w, \"x\", -42);\n        ^~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 8,
+                  "col": 9,
+                  "message": "use of undeclared identifier 'writeRow'"
+                }
+              ],
+              "agent_rc": 126
+            },
+            {
+              "attempt": 2,
+              "file": "A/t13_writer_rows/attempt-02.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:8:9: error: use of undeclared identifier 'writeRow'\n    try writeRow(&w, \"x\", -42);\n        ^~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 8,
+                  "col": 9,
+                  "message": "use of undeclared identifier 'writeRow'"
+                }
+              ],
+              "agent_rc": 126
+            },
+            {
+              "attempt": 3,
+              "file": "A/t13_writer_rows/attempt-03.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:8:9: error: use of undeclared identifier 'writeRow'\n    try writeRow(&w, \"x\", -42);\n        ^~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 8,
+                  "col": 9,
+                  "message": "use of undeclared identifier 'writeRow'"
+                }
+              ],
+              "agent_rc": 126
+            }
+          ]
+        }
+      },
+      "summary": {
+        "tasks_total": 8,
+        "tasks_with_solutions": 8,
+        "passed": 0,
+        "pass_rate": 0.0,
+        "compiles_total": 24,
+        "compiles_until_pass": {
+          "n": 0,
+          "mean": null,
+          "median": null
+        },
+        "compile_errors_total": 24,
+        "error_records_total": 24,
+        "tests_passed_attempts_total": 0,
+        "unscored_attempts_total": 0,
+        "tokens_available": false,
+        "tokens_total": "NOT_AVAILABLE"
+      }
+    },
+    "B": {
+      "tasks": {
+        "t13_arraylist_evens": {
+          "task_id": "t13_arraylist_evens",
+          "control": false,
+          "attempts": 3,
+          "compiles": 3,
+          "compiles_until_pass": null,
+          "passed": false,
+          "compile_errors": 3,
+          "error_records": 3,
+          "tests_passed_attempts": 0,
+          "runtime_failures": 0,
+          "unscored": 0,
+          "tokens": {
+            "available": false,
+            "measured_attempts": 0,
+            "total": "NOT_AVAILABLE",
+            "by_attempt": [
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE"
+            ]
+          },
+          "attempts_detail": [
+            {
+              "attempt": 1,
+              "file": "B/t13_arraylist_evens/attempt-01.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:7:21: error: use of undeclared identifier 'collectEvens'\n    const got = try collectEvens(std.testing.allocator, &xs);\n                    ^~~~~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 7,
+                  "col": 21,
+                  "message": "use of undeclared identifier 'collectEvens'"
+                }
+              ],
+              "agent_rc": 126
+            },
+            {
+              "attempt": 2,
+              "file": "B/t13_arraylist_evens/attempt-02.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:7:21: error: use of undeclared identifier 'collectEvens'\n    const got = try collectEvens(std.testing.allocator, &xs);\n                    ^~~~~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 7,
+                  "col": 21,
+                  "message": "use of undeclared identifier 'collectEvens'"
+                }
+              ],
+              "agent_rc": 126
+            },
+            {
+              "attempt": 3,
+              "file": "B/t13_arraylist_evens/attempt-03.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:7:21: error: use of undeclared identifier 'collectEvens'\n    const got = try collectEvens(std.testing.allocator, &xs);\n                    ^~~~~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 7,
+                  "col": 21,
+                  "message": "use of undeclared identifier 'collectEvens'"
+                }
+              ],
+              "agent_rc": 126
+            }
+          ]
+        },
+        "t13_hashmap_distinct": {
+          "task_id": "t13_hashmap_distinct",
+          "control": false,
+          "attempts": 3,
+          "compiles": 3,
+          "compiles_until_pass": null,
+          "passed": false,
+          "compile_errors": 3,
+          "error_records": 3,
+          "tests_passed_attempts": 0,
+          "runtime_failures": 0,
+          "unscored": 0,
+          "tokens": {
+            "available": false,
+            "measured_attempts": 0,
+            "total": "NOT_AVAILABLE",
+            "by_attempt": [
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE"
+            ]
+          },
+          "attempts_detail": [
+            {
+              "attempt": 1,
+              "file": "B/t13_hashmap_distinct/attempt-01.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:7:52: error: use of undeclared identifier 'distinctCount'\n    try std.testing.expectEqual(@as(usize, 3), try distinctCount(std.testing.allocator, &words));\n                                                   ^~~~~~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 7,
+                  "col": 52,
+                  "message": "use of undeclared identifier 'distinctCount'"
+                }
+              ],
+              "agent_rc": 126
+            },
+            {
+              "attempt": 2,
+              "file": "B/t13_hashmap_distinct/attempt-02.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:7:52: error: use of undeclared identifier 'distinctCount'\n    try std.testing.expectEqual(@as(usize, 3), try distinctCount(std.testing.allocator, &words));\n                                                   ^~~~~~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 7,
+                  "col": 52,
+                  "message": "use of undeclared identifier 'distinctCount'"
+                }
+              ],
+              "agent_rc": 126
+            },
+            {
+              "attempt": 3,
+              "file": "B/t13_hashmap_distinct/attempt-03.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:7:52: error: use of undeclared identifier 'distinctCount'\n    try std.testing.expectEqual(@as(usize, 3), try distinctCount(std.testing.allocator, &words));\n                                                   ^~~~~~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 7,
+                  "col": 52,
+                  "message": "use of undeclared identifier 'distinctCount'"
+                }
+              ],
+              "agent_rc": 126
+            }
+          ]
+        },
+        "t13_json_items": {
+          "task_id": "t13_json_items",
+          "control": false,
+          "attempts": 3,
+          "compiles": 3,
+          "compiles_until_pass": null,
+          "passed": false,
+          "compile_errors": 3,
+          "error_records": 3,
+          "tests_passed_attempts": 0,
+          "runtime_failures": 0,
+          "unscored": 0,
+          "tokens": {
+            "available": false,
+            "measured_attempts": 0,
+            "total": "NOT_AVAILABLE",
+            "by_attempt": [
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE"
+            ]
+          },
+          "attempts_detail": [
+            {
+              "attempt": 1,
+              "file": "B/t13_json_items/attempt-01.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:7:50: error: use of undeclared identifier 'totalQty'\n    try std.testing.expectEqual(@as(i64, 7), try totalQty(std.testing.allocator, txt));\n                                                 ^~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 7,
+                  "col": 50,
+                  "message": "use of undeclared identifier 'totalQty'"
+                }
+              ],
+              "agent_rc": 126
+            },
+            {
+              "attempt": 2,
+              "file": "B/t13_json_items/attempt-02.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:7:50: error: use of undeclared identifier 'totalQty'\n    try std.testing.expectEqual(@as(i64, 7), try totalQty(std.testing.allocator, txt));\n                                                 ^~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 7,
+                  "col": 50,
+                  "message": "use of undeclared identifier 'totalQty'"
+                }
+              ],
+              "agent_rc": 126
+            },
+            {
+              "attempt": 3,
+              "file": "B/t13_json_items/attempt-03.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:7:50: error: use of undeclared identifier 'totalQty'\n    try std.testing.expectEqual(@as(i64, 7), try totalQty(std.testing.allocator, txt));\n                                                 ^~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 7,
+                  "col": 50,
+                  "message": "use of undeclared identifier 'totalQty'"
+                }
+              ],
+              "agent_rc": 126
+            }
+          ]
+        },
+        "t13_process_stdout": {
+          "task_id": "t13_process_stdout",
+          "control": false,
+          "attempts": 3,
+          "compiles": 3,
+          "compiles_until_pass": null,
+          "passed": false,
+          "compile_errors": 3,
+          "error_records": 3,
+          "tests_passed_attempts": 0,
+          "runtime_failures": 0,
+          "unscored": 0,
+          "tokens": {
+            "available": false,
+            "measured_attempts": 0,
+            "total": "NOT_AVAILABLE",
+            "by_attempt": [
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE"
+            ]
+          },
+          "attempts_detail": [
+            {
+              "attempt": 1,
+              "file": "B/t13_process_stdout/attempt-01.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:6:20: error: use of undeclared identifier 'captureChildStdout'\n    const ok = try captureChildStdout(std.testing.allocator, std.testing.io, &.{ \"/usr/bin/sh\", \"-c\", \"printf 'hola'\" });\n                   ^~~~~~~~~~~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 6,
+                  "col": 20,
+                  "message": "use of undeclared identifier 'captureChildStdout'"
+                }
+              ],
+              "agent_rc": 126
+            },
+            {
+              "attempt": 2,
+              "file": "B/t13_process_stdout/attempt-02.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:6:20: error: use of undeclared identifier 'captureChildStdout'\n    const ok = try captureChildStdout(std.testing.allocator, std.testing.io, &.{ \"/usr/bin/sh\", \"-c\", \"printf 'hola'\" });\n                   ^~~~~~~~~~~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 6,
+                  "col": 20,
+                  "message": "use of undeclared identifier 'captureChildStdout'"
+                }
+              ],
+              "agent_rc": 126
+            },
+            {
+              "attempt": 3,
+              "file": "B/t13_process_stdout/attempt-03.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:6:20: error: use of undeclared identifier 'captureChildStdout'\n    const ok = try captureChildStdout(std.testing.allocator, std.testing.io, &.{ \"/usr/bin/sh\", \"-c\", \"printf 'hola'\" });\n                   ^~~~~~~~~~~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 6,
+                  "col": 20,
+                  "message": "use of undeclared identifier 'captureChildStdout'"
+                }
+              ],
+              "agent_rc": 126
+            }
+          ]
+        },
+        "t13_read_whole_file": {
+          "task_id": "t13_read_whole_file",
+          "control": false,
+          "attempts": 3,
+          "compiles": 3,
+          "compiles_until_pass": null,
+          "passed": false,
+          "compile_errors": 3,
+          "error_records": 3,
+          "tests_passed_attempts": 0,
+          "runtime_failures": 0,
+          "unscored": 0,
+          "tokens": {
+            "available": false,
+            "measured_attempts": 0,
+            "total": "NOT_AVAILABLE",
+            "by_attempt": [
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE"
+            ]
+          },
+          "attempts_detail": [
+            {
+              "attempt": 1,
+              "file": "B/t13_read_whole_file/attempt-01.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:10:21: error: use of undeclared identifier 'readWhole'\n    const got = try readWhole(std.testing.allocator, std.testing.io, tmp.dir, \"a.txt\");\n                    ^~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 10,
+                  "col": 21,
+                  "message": "use of undeclared identifier 'readWhole'"
+                }
+              ],
+              "agent_rc": 126
+            },
+            {
+              "attempt": 2,
+              "file": "B/t13_read_whole_file/attempt-02.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:10:21: error: use of undeclared identifier 'readWhole'\n    const got = try readWhole(std.testing.allocator, std.testing.io, tmp.dir, \"a.txt\");\n                    ^~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 10,
+                  "col": 21,
+                  "message": "use of undeclared identifier 'readWhole'"
+                }
+              ],
+              "agent_rc": 126
+            },
+            {
+              "attempt": 3,
+              "file": "B/t13_read_whole_file/attempt-03.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:10:21: error: use of undeclared identifier 'readWhole'\n    const got = try readWhole(std.testing.allocator, std.testing.io, tmp.dir, \"a.txt\");\n                    ^~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 10,
+                  "col": 21,
+                  "message": "use of undeclared identifier 'readWhole'"
+                }
+              ],
+              "agent_rc": 126
+            }
+          ]
+        },
+        "t13_sleep_elapsed": {
+          "task_id": "t13_sleep_elapsed",
+          "control": false,
+          "attempts": 3,
+          "compiles": 3,
+          "compiles_until_pass": null,
+          "passed": false,
+          "compile_errors": 3,
+          "error_records": 3,
+          "tests_passed_attempts": 0,
+          "runtime_failures": 0,
+          "unscored": 0,
+          "tokens": {
+            "available": false,
+            "measured_attempts": 0,
+            "total": "NOT_AVAILABLE",
+            "by_attempt": [
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE"
+            ]
+          },
+          "attempts_detail": [
+            {
+              "attempt": 1,
+              "file": "B/t13_sleep_elapsed/attempt-01.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:6:19: error: use of undeclared identifier 'napMeasured'\n    const e = try napMeasured(std.testing.io, 20);\n                  ^~~~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 6,
+                  "col": 19,
+                  "message": "use of undeclared identifier 'napMeasured'"
+                }
+              ],
+              "agent_rc": 126
+            },
+            {
+              "attempt": 2,
+              "file": "B/t13_sleep_elapsed/attempt-02.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:6:19: error: use of undeclared identifier 'napMeasured'\n    const e = try napMeasured(std.testing.io, 20);\n                  ^~~~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 6,
+                  "col": 19,
+                  "message": "use of undeclared identifier 'napMeasured'"
+                }
+              ],
+              "agent_rc": 126
+            },
+            {
+              "attempt": 3,
+              "file": "B/t13_sleep_elapsed/attempt-03.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:6:19: error: use of undeclared identifier 'napMeasured'\n    const e = try napMeasured(std.testing.io, 20);\n                  ^~~~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 6,
+                  "col": 19,
+                  "message": "use of undeclared identifier 'napMeasured'"
+                }
+              ],
+              "agent_rc": 126
+            }
+          ]
+        },
+        "t13_thread_mutex_sum": {
+          "task_id": "t13_thread_mutex_sum",
+          "control": false,
+          "attempts": 3,
+          "compiles": 3,
+          "compiles_until_pass": null,
+          "passed": false,
+          "compile_errors": 3,
+          "error_records": 3,
+          "tests_passed_attempts": 0,
+          "runtime_failures": 0,
+          "unscored": 0,
+          "tokens": {
+            "available": false,
+            "measured_attempts": 0,
+            "total": "NOT_AVAILABLE",
+            "by_attempt": [
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE"
+            ]
+          },
+          "attempts_detail": [
+            {
+              "attempt": 1,
+              "file": "B/t13_thread_mutex_sum/attempt-01.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:8:55: error: use of undeclared identifier 'parallelSum'\n    try std.testing.expectEqual(@as(i64, 500500), try parallelSum(std.testing.allocator, std.testing.io, &xs, 4));\n                                                      ^~~~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 8,
+                  "col": 55,
+                  "message": "use of undeclared identifier 'parallelSum'"
+                }
+              ],
+              "agent_rc": 126
+            },
+            {
+              "attempt": 2,
+              "file": "B/t13_thread_mutex_sum/attempt-02.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:8:55: error: use of undeclared identifier 'parallelSum'\n    try std.testing.expectEqual(@as(i64, 500500), try parallelSum(std.testing.allocator, std.testing.io, &xs, 4));\n                                                      ^~~~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 8,
+                  "col": 55,
+                  "message": "use of undeclared identifier 'parallelSum'"
+                }
+              ],
+              "agent_rc": 126
+            },
+            {
+              "attempt": 3,
+              "file": "B/t13_thread_mutex_sum/attempt-03.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:8:55: error: use of undeclared identifier 'parallelSum'\n    try std.testing.expectEqual(@as(i64, 500500), try parallelSum(std.testing.allocator, std.testing.io, &xs, 4));\n                                                      ^~~~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 8,
+                  "col": 55,
+                  "message": "use of undeclared identifier 'parallelSum'"
+                }
+              ],
+              "agent_rc": 126
+            }
+          ]
+        },
+        "t13_writer_rows": {
+          "task_id": "t13_writer_rows",
+          "control": false,
+          "attempts": 3,
+          "compiles": 3,
+          "compiles_until_pass": null,
+          "passed": false,
+          "compile_errors": 3,
+          "error_records": 3,
+          "tests_passed_attempts": 0,
+          "runtime_failures": 0,
+          "unscored": 0,
+          "tokens": {
+            "available": false,
+            "measured_attempts": 0,
+            "total": "NOT_AVAILABLE",
+            "by_attempt": [
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE"
+            ]
+          },
+          "attempts_detail": [
+            {
+              "attempt": 1,
+              "file": "B/t13_writer_rows/attempt-01.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:8:9: error: use of undeclared identifier 'writeRow'\n    try writeRow(&w, \"x\", -42);\n        ^~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 8,
+                  "col": 9,
+                  "message": "use of undeclared identifier 'writeRow'"
+                }
+              ],
+              "agent_rc": 126
+            },
+            {
+              "attempt": 2,
+              "file": "B/t13_writer_rows/attempt-02.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:8:9: error: use of undeclared identifier 'writeRow'\n    try writeRow(&w, \"x\", -42);\n        ^~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 8,
+                  "col": 9,
+                  "message": "use of undeclared identifier 'writeRow'"
+                }
+              ],
+              "agent_rc": 126
+            },
+            {
+              "attempt": 3,
+              "file": "B/t13_writer_rows/attempt-03.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:8:9: error: use of undeclared identifier 'writeRow'\n    try writeRow(&w, \"x\", -42);\n        ^~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 8,
+                  "col": 9,
+                  "message": "use of undeclared identifier 'writeRow'"
+                }
+              ],
+              "agent_rc": 126
+            }
+          ]
+        }
+      },
+      "summary": {
+        "tasks_total": 8,
+        "tasks_with_solutions": 8,
+        "passed": 0,
+        "pass_rate": 0.0,
+        "compiles_total": 24,
+        "compiles_until_pass": {
+          "n": 0,
+          "mean": null,
+          "median": null
+        },
+        "compile_errors_total": 24,
+        "error_records_total": 24,
+        "tests_passed_attempts_total": 0,
+        "unscored_attempts_total": 0,
+        "tokens_available": false,
+        "tokens_total": "NOT_AVAILABLE"
+      }
+    }
+  }
+}

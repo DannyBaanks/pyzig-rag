@@ -1,0 +1,4 @@
+{"ts": "2026-11-27T11:39:32Z", "subcommand": "search", "args": ["search", "std.Io Mutex lock unlock in Zig 0.16", "--limit", "10"], "rc": 1, "pid": 1636954}
+{"ts": "2026-11-27T11:39:43Z", "subcommand": null, "args": ["--help"], "rc": 0, "pid": 1637284}
+{"ts": "2026-11-27T11:41:27Z", "subcommand": "check", "args": ["check", "--mode", "test"], "rc": 1, "pid": 1642260}
+{"ts": "2026-11-27T11:41:31Z", "subcommand": "check", "args": ["check", "--mode", "ast"], "rc": 0, "pid": 1642409}

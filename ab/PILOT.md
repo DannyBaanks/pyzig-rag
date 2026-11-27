@@ -1,5 +1,29 @@
 # Pilotos A/B (pyzig-rag)
 
+## `hard-2026-11-27-bp2` — t13 con agente real (opencode/big-pickle): EFECTO TECHO, sin efecto medible
+
+**Resultado [CURRENT 2026-11-27, 11:25–11:56Z]:** 8 tareas t13 × brazos A/B, `--max-attempts 3`, seed 1337.
+
+| brazo | tareas PASS | PASS al 1er intento | llamadas pyzig observadas | mediana s/intento* |
+|---|---|---|---|---|
+| A (sin pyzig) | 8/8 | 8/8 | 0 | ~45 |
+| B (con pyzig CLI) | 8/8 | 7/8 (t13_sleep_elapsed: 1 AGENT_ERROR y PASS al 2º) | 52 (3–14 por tarea) | ~128 |
+
+\* aproximado: diferencia entre marcas `ts` consecutivas de `attempts.jsonl` (incluye la puntuación).
+
+- big-pickle resuelve las 8 tareas de APIs 0.16 **sin** pyzig y al primer intento: tiene shell y `zig 0.16.0`
+  dentro del intento y se corrige con el compilador. Con estas tareas y este modelo **no hay margen** para
+  medir mejora; el brazo B usa pyzig mucho (el registro observado funciona) pero tarda ~2.8× más.
+- Efecto de pyzig sobre éxito: **NOT_DEMONSTRATED** (techo). Sobre coste: B más lento en esta muestra (n=8, un modelo).
+- Siguiente paso para que el A/B discrimine: intentos sin shell/compilador (un solo disparo), o un modelo más débil.
+
+Corridas fallidas conservadas como evidencia (no son resultados del ensayo):
+- `hard-2026-11-27/`: modelo `nvidia/nemotron-3-ultra-550b-a55b:free`; 38/41 `AGENT_ERROR` por
+  `Rate limit exceeded: free-models-per-day` (abortada a mano).
+- `hard-2026-11-27-bigpickle/`: 48/48 rc 126 — `--agent-cmd` con ruta con espacio sin comillas internas
+  (error del coordinador). Desde `09a638a`, `ab_run` aborta (rc 75) ante cuota agotada o rc 126/127.
+- `smoke-bp/`: humo de 1 tarea (B) antes de la corrida buena: PASS, 3 llamadas pyzig.
+
 ## `hard-2026-11-27` — tareas difíciles t13 (ola 6): arnés listo, corrida con agente BLOQUEADA
 
 **Estado: NOT_DEMONSTRATED.** El arnés, las 8 tareas y su verificación están listos y commiteados.

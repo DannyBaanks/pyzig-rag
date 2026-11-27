@@ -1,0 +1,4 @@
+{"ts": "2026-11-27T11:24:24Z", "subcommand": null, "args": ["--help"], "rc": 0, "pid": 1592492}
+{"ts": "2026-11-27T11:24:24Z", "subcommand": "search", "args": ["search", "ArrayList append with allocator in Zig 0.16", "--limit", "5"], "rc": 1, "pid": 1592491}
+{"ts": "2026-11-27T11:24:35Z", "subcommand": "check", "args": ["check", "--mode", "test"], "rc": 1, "pid": 1592913}
+{"ts": "2026-11-27T11:24:38Z", "subcommand": "check", "args": ["check", "--mode", "ast"], "rc": 0, "pid": 1593074}

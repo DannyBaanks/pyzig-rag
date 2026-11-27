@@ -1,0 +1,3 @@
+{"ts": "2026-11-27T11:37:29Z", "subcommand": "search", "args": ["search", "parse JSON into typed struct with std.json parseFromSlice and deinit ignore unknown fields", "--limit", "5"], "rc": 1, "pid": 1631669}
+{"ts": "2026-11-27T11:37:36Z", "subcommand": "check", "args": ["check", "--mode", "test"], "rc": 1, "pid": 1631930}
+{"ts": "2026-11-27T11:37:38Z", "subcommand": "check", "args": ["check", "--mode", "ast"], "rc": 0, "pid": 1632069}

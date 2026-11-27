@@ -1,0 +1,8 @@
+{"ts": "2026-11-27T11:51:52Z", "subcommand": null, "args": ["--help"], "rc": 0, "pid": 1738843}
+{"ts": "2026-11-27T11:51:58Z", "subcommand": "search", "args": ["search", "std.Io sleep milliseconds monotonic clock elapsed timestamp", "--limit", "10"], "rc": 1, "pid": 1739113}
+{"ts": "2026-11-27T11:52:19Z", "subcommand": "check", "args": ["check", "--mode", "test"], "rc": 1, "pid": 1740406}
+{"ts": "2026-11-27T11:54:04Z", "subcommand": "check", "args": ["check", "--mode", "test"], "rc": 1, "pid": 1747258}
+{"ts": "2026-11-27T11:54:33Z", "subcommand": "check", "args": ["check", "--mode", "test"], "rc": 1, "pid": 1749584}
+{"ts": "2026-11-27T11:54:45Z", "subcommand": "check", "args": ["check", "--mode", "test"], "rc": 1, "pid": 1750849}
+{"ts": "2026-11-27T11:54:53Z", "subcommand": "check", "args": ["check", "--mode", "test"], "rc": 0, "pid": 1751398}
+{"ts": "2026-11-27T11:55:19Z", "subcommand": "check", "args": ["check", "--mode", "test"], "rc": 0, "pid": 1753016}

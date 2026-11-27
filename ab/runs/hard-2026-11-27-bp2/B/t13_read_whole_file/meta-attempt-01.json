@@ -1,0 +1,11 @@
+{
+  "tool_calls": [
+    "$PYZIG_CLI --help",
+    "$PYZIG_CLI search \"Zig 0.16 std.Io.Dir read whole file to end allocated bytes io\" --mode hybrid --limit 10",
+    "printf '%s' \"$ZIG_CODE\" | $PYZIG_CLI check --mode ast",
+    "printf '%s' \"$ZIG_CODE\" | $PYZIG_CLI check --mode test",
+    "printf '%s' \"$ZIG_CODE\" | $PYZIG_CLI check --mode test",
+    "printf '%s' \"$ZIG_CODE\" | $PYZIG_CLI check --mode test",
+    "printf '%s' \"$ZIG_CODE\" | $PYZIG_CLI check --mode test"
+  ]
+}
