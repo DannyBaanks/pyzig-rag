@@ -1,0 +1,15 @@
+{
+  "task_id": "t13_read_whole_file",
+  "title": "lectura completa de un archivo con std.Io (0.16)",
+  "control": false,
+  "difficulty": "hard",
+  "coverage_note": "API de Zig 0.16 que cambió respecto a versiones anteriores; sin entradas de corpus para la función (ver ab/PROTOCOL.md).",
+  "prompt": "Tarea t13_read_whole_file: Dado un directorio abierto `dir` (de tipo `std.Io.Dir`) y una ruta relativa `sub_path` dentro de él, devuelve el contenido completo del archivo como bytes recién reservados con `allocator` (el llamador los libera). Usa la API de E/S de Zig 0.16 (`std.Io`, `std.Io.Dir`) y propaga los errores de E/S. El archivo puede estar vacío.\n\nEscribe un único archivo de código Zig 0.16.0 que defina exactamente estas funciones públicas:\n```zig\npub fn readWhole(allocator: std.mem.Allocator, io: std.Io, dir: std.Io.Dir, sub_path: []const u8) ![]u8\n```\n\nEl archivo debe empezar con `const std = @import(\"std\");` si necesitas la biblioteca estándar. No incluyas pruebas ni `pub fn main`: el arnés añadirá sus propias pruebas Zig al final de tu archivo. Devuelve SOLO el código Zig, sin texto explicativo ni cercas de código markdown.",
+  "py_ref": "import os\n\ndef read_whole(dir_path, sub_path):\n    with open(os.path.join(dir_path, sub_path), 'rb') as f:\n        return f.read()\n\nassert read_whole('.', __file__) is not None",
+  "signature": "pub fn readWhole(allocator: std.mem.Allocator, io: std.Io, dir: std.Io.Dir, sub_path: []const u8) ![]u8",
+  "oracle": [
+    "readWhole(dir, \"a.txt\") devuelve los bytes exactos del archivo, incluidos los saltos de línea",
+    "un archivo vacío devuelve un slice de longitud 0"
+  ],
+  "zig_test": "test \"t13 read whole file\" {\n    var tmp = std.testing.tmpDir(.{});\n    defer tmp.cleanup();\n    try tmp.dir.writeFile(std.testing.io, .{ .sub_path = \"a.txt\", .data = \"hola\\nmundo\\n\" });\n    try tmp.dir.writeFile(std.testing.io, .{ .sub_path = \"vacio.txt\", .data = \"\" });\n    const got = try readWhole(std.testing.allocator, std.testing.io, tmp.dir, \"a.txt\");\n    defer std.testing.allocator.free(got);\n    try std.testing.expectEqualStrings(\"hola\\nmundo\\n\", got);\n    const empty = try readWhole(std.testing.allocator, std.testing.io, tmp.dir, \"vacio.txt\");\n    defer std.testing.allocator.free(empty);\n    try std.testing.expectEqual(@as(usize, 0), empty.len);\n}\n"
+}
