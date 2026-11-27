@@ -88,3 +88,5 @@ root source file struct 'time' has no member named 'nanoTimestamp'	zig0.16/monot
 type 'usize' cannot represent integer value 'N'	zig0.16/diag-mined-int-range
 unable to load '_': FileNotFound	NONE
 value with comptime-only type 'comptime_float' depends on runtime control flow	zig0.16/diag-mined-comptime-flow
+@ptrCast must have a known result type	zig0.16/stdlib016-ptrcast-result-type
+no field named '_' in struct 'array_list._(uN,null)'	NONE
