@@ -48,16 +48,16 @@ iniciativa propia, y les sirve?** Este documento resume lo medido por
 
 | metrica | valor |
 |---|---|
-| transcripts/ficheros leidos | 523 |
-| sesiones (Claude/Codex/Gemini/Qwen + sesiones sqlite) | 990 |
-| volumen de entrada | ~3971 MB |
-| sesiones Zig | 103 |
+| transcripts/ficheros leidos | 524 |
+| sesiones (Claude/Codex/Gemini/Qwen + sesiones sqlite) | 991 |
+| volumen de entrada | ~3977 MB |
+| sesiones Zig | 102 |
 | sesiones Zig con alguna llamada a pyzig | 1 |
-| ejecuciones zig | 1764 |
+| ejecuciones zig | 1761 |
 | ejecuciones zig con errores | 128 |
-| duracion del script (12 procesos) | ~28 s |
+| duracion del script (16 procesos) | ~45 s |
 
-Fuentes: Claude 253 transcripts, Codex 252, OpenCode 2 sqlite (467 sesiones),
+Fuentes: Claude 253 transcripts, Codex 253, OpenCode 2 sqlite (467 sesiones),
 Gemini 2, Qwen 16. `unparsed_sessions = 0`.
 
 ## Llamadas a pyzig
@@ -103,7 +103,7 @@ por sesion. Top de firmas (las 10 primeras de `eval/usage.json`):
 
 ## Conclusiones prudentes
 
-1. **No hay evidencia de consulta habitual.** En este snapshot, 1 de 103
+1. **No hay evidencia de consulta habitual.** En este snapshot, 1 de 102
    sesiones Zig hizo una llamada a pyzig (~1 %). Es un unico caso y no permite
    afirmar una tasa estable.
 2. **La unica llamada fue espontanea y devolvio resultados.** No hubo
@@ -152,10 +152,10 @@ por sesion. Top de firmas (las 10 primeras de `eval/usage.json`):
 ## Reproducir
 
 ```sh
-python3 scripts/usage_sessions.py --out eval/usage.json --jobs 12
+python3 scripts/usage_sessions.py --out eval/usage.json --jobs 16
 PYTHONPATH=. python3 -m pytest -q tests/test_usage.py
 ```
 
-Salida observada de la ultima corrida: `sessions_with_zig=103`,
+Salida observada de la ultima corrida: `sessions_with_zig=102`,
 `sessions_with_pyzig=1`, `pyzig_calls_total=1`,
-`pyzig_calls_spontaneous=1`, `duration_s=28.14`; tests `11 passed`.
+`pyzig_calls_spontaneous=1`, `duration_s=44.86`; tests `11 passed`.
