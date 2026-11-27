@@ -1,0 +1,10 @@
+{
+  "tool_calls": [
+    "$PYZIG_CLI --help",
+    "$PYZIG_CLI search \"count words in string split whitespace ascii no allocation\" --mode hybrid --limit 5",
+    "$PYZIG_CLI get zig0.16/string-split-strip-format",
+    "$PYZIG_CLI search \"len(s.split()) word count whitespace consecutive ascii count tokens\" --mode hybrid --limit 8",
+    "cat solution.zig | $PYZIG_CLI check --mode ast",
+    "{ cat solution.zig; ... appended tests ...; } | $PYZIG_CLI check --mode test"
+  ]
+}

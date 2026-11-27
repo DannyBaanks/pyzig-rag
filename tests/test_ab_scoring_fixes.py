@@ -51,3 +51,16 @@ def test_fallo_de_bwrap_no_es_compile_fail(monkeypatch):
     r = check.check_zig(SOL_CON_STD + TASK["zig_test"], mode="test")
     assert r.get("error") == "SANDBOX_ERROR"
     assert r["compiled"] is None
+
+
+def test_force_aparta_la_corrida_previa_sin_mezclar(tmp_path):
+    import ab_run
+    out = tmp_path / "run"
+    (out / "A" / "t").mkdir(parents=True)
+    (out / "A" / "t" / "attempt-03.zig").write_text("viejo")
+    (out / "attempts.jsonl").write_text("{}\n")
+    with pytest.raises(ValueError):
+        ab_run._fresh_out(out, force=False)
+    moved = ab_run._fresh_out(out, force=True)
+    assert out.is_dir() and not any(out.iterdir())
+    assert (moved / "A" / "t" / "attempt-03.zig").read_text() == "viejo"

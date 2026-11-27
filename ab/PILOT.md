@@ -1,6 +1,60 @@
-# Piloto A/B (ola 5, pyzig-rag) — `pilot-2026-11-20`
+# Pilotos A/B (pyzig-rag)
 
-**Estado: piloto de arnés con agente sintético (stub). Comparación A/B de agentes LLM reales: `NOT_DEMONSTRATED`.**  
+## `pilot-llm-2026-11-27` — agente LLM real (opencode + big-pickle)
+
+**Estado: piloto con agente real ejecutado. Efecto de pyzig: `NOT_DEMONSTRATED` (efecto techo, n = 4).**
+
+Comando (desde la raíz del repo; agente `scripts/ab_agent_opencode.sh`, que corre
+`opencode run -m opencode/big-pickle` en el dir temporal del intento y devuelve `./solution.zig`):
+
+```sh
+PYTHONPATH=. .venv/bin/python scripts/ab_run.py \
+  --tasks t01_bisect_left,t02_gcd_lcm,t04_word_count,t06_unique_sorted \
+  --arms A,B --seed 1337 --max-attempts 3 --timeout 400 \
+  --agent-cmd "'$PWD/scripts/ab_agent_opencode.sh'" \
+  --out ab/runs/pilot-llm-2026-11-27 --cache-dir "$PWD/var/ab/cache"
+```
+
+rc 0. Resultado (de `ab/runs/pilot-llm-2026-11-27/score.json` y `attempts.jsonl`):
+
+| brazo | tareas | pasadas | intentos hasta pasar | errores de compilación | llamadas pyzig declaradas |
+|---|---|---|---|---|---|
+| A (sin pyzig) | 4 | 4 | 1 en las 4 | 0 | 0 |
+| B (`$PYZIG_CLI`) | 4 | 4 | 1 en las 4 | 0 | 4, 6, 6 y 9 por tarea |
+
+- **Sin diferencia medible**: ambos brazos resuelven todo al primer intento. Las 4 tareas son demasiado
+  fáciles para este modelo (efecto techo); el piloto no puede mostrar si pyzig ayuda.
+- B usa pyzig de verdad (`search`/`get`/`check`; comandos en `reported_tool_calls`), pero esas llamadas
+  las **declara el propio agente** en `AB_ATTEMPT_META`; el `agent_stderr_tail` está recortado y solo
+  confirma algunas. A verificó sus soluciones con `zig test` en su dir temporal (zig está instalado en
+  ambos brazos).
+- Tokens y latencias: `NOT_AVAILABLE` (opencode no los expone al wrapper).
+- Siguiente paso para un ensayo con poder: tareas donde el modelo falle sin ayuda (APIs que cambiaron
+  en 0.16: `std.Io`, `ArrayList` sin gestor, build.zig con `root_module`), más tareas y más de un modelo.
+
+Sha256 (tras quitar rutas locales: raíz del repo → relativa, home → `~/`): `attempts.jsonl` 4e2bfd80…, `score.json` b3f0afbb…, `manifest.json` ad89a09c….
+
+### Bugs del arnés encontrados al correrlo (arreglados antes de esta corrida)
+
+Las dos primeras corridas dieron 0/24 COMPILE_FAIL **falsos**:
+1. Con la ruta del repo con espacios, `--agent-cmd` sin comillas y `PYZIG_CLI` = `PYTHONPATH=... python ...`
+   no se ejecutaban (`$PYZIG_CLI` sin comillas no re-interpreta asignaciones ni comillas). Ahora
+   `PYZIG_CLI` es un wrapper ejecutable en una ruta sin espacios (e06b862).
+2. Las pruebas del arnés usan `std`, pero el prompt solo pide importarlo si hace falta: una solución
+   correcta sin `std` fallaba siempre. `ab_score.combine` lo añade si falta.
+3. `--cache-dir` relativo rompía el `--bind` de bwrap y `pyzig.check` lo contaba como COMPILE_FAIL sin
+   errores (afectaba también a `pyzig_check`): ahora se resuelve a absoluto y un fallo de bwrap devuelve
+   `SANDBOX_ERROR`.
+4. `--force` reusaba el `--out`: `attempts.jsonl` mezclaba filas viejas y `ab_score` puntuaba
+   `attempt-NN.zig` sobrantes. Ahora aparta la corrida previa a `<out>.prev-<UTC>` (no borra).
+
+Regresiones en `tests/test_ab_scoring_fixes.py`.
+
+---
+
+## `pilot-2026-11-20` — arnés con agente sintético (stub)
+
+**Estado: piloto de arnés con agente sintético (stub). Comparación A/B de agentes LLM reales: `NOT_DEMONSTRATED`** (cubierto después por `pilot-llm-2026-11-27`).  
 n = 4 tareas (diminuto): resultados **descriptivos**, sin afirmar efecto.
 
 ## Objetivo y alcance
