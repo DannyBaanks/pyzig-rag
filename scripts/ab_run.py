@@ -32,6 +32,7 @@ import json
 import os
 import pathlib
 import random
+import re
 import shlex
 import shutil
 import subprocess
@@ -198,6 +199,23 @@ def _read_tool_log(path: pathlib.Path) -> list[dict[str, Any]]:
     return calls
 
 
+_INFRA_PATTERNS = (
+    ("quota", re.compile(r"rate limit exceeded|free-models-per-day|quota (?:exceeded|agotad)|insufficient_quota|usage limit", re.I)),
+)
+
+
+def _infra_failure(rc, stderr: str) -> str:
+    """Fallo ajeno al modelo que invalida la corrida: devuelve el motivo o ''."""
+    if rc in (126, 127):
+        return f"agente no ejecutable (rc={rc}; ¿ruta con espacios sin comillas en --agent-cmd?)"
+    if rc == 0:
+        return ""
+    for name, rx in _INFRA_PATTERNS:
+        if rx.search(stderr or ""):
+            return name
+    return ""
+
+
 def _agent_failed(rc: Any) -> bool:
     if isinstance(rc, int):
         return rc != 0
@@ -303,6 +321,13 @@ def run_agent(args: argparse.Namespace, tasks: list[dict[str, Any]],
                     fh.write(line)
                 with global_log.open("a", encoding="utf-8") as fh:
                     fh.write(line)
+                infra = _infra_failure(rc, agent_error)
+                if infra:
+                    # cuota agotada / agente no ejecutable: seguir solo quema
+                    # intentos sin agente real y ensucia la comparacion A/B.
+                    print(f"ab_run: ABORT infraestructura ({infra}) en {tid} {arm} "
+                          f"intento {attempt}; corrida incompleta", file=sys.stderr)
+                    raise SystemExit(75)
                 try:
                     shutil.rmtree(workdir)
                 except OSError:

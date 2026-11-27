@@ -146,3 +146,12 @@ class ObservedToolCallsRunTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class InfraFailureTest(unittest.TestCase):
+    def test_quota_and_unrunnable_abort(self) -> None:
+        from scripts import ab_run
+        self.assertEqual(ab_run._infra_failure(1, "Error: Rate limit exceeded: free-models-per-day"), "quota")
+        self.assertIn("no ejecutable", ab_run._infra_failure(126, "/bin/sh: 1: x: Permission denied"))
+        self.assertEqual(ab_run._infra_failure(1, "error: use of undeclared identifier"), "")
+        self.assertEqual(ab_run._infra_failure(0, "rate limit exceeded"), "")
