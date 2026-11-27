@@ -48,16 +48,16 @@ iniciativa propia, y les sirve?** Este documento resume lo medido por
 
 | metrica | valor |
 |---|---|
-| transcripts/ficheros leidos | 524 |
-| sesiones (Claude/Codex/Gemini/Qwen + sesiones sqlite) | 991 |
-| volumen de entrada | ~3977 MB |
-| sesiones Zig | 102 |
+| transcripts/ficheros leidos | 525 |
+| sesiones (Claude/Codex/Gemini/Qwen + sesiones sqlite) | 992 |
+| volumen de entrada | ~3989 MB |
+| sesiones Zig | 103 |
 | sesiones Zig con alguna llamada a pyzig | 1 |
-| ejecuciones zig | 1761 |
+| ejecuciones zig | 1773 |
 | ejecuciones zig con errores | 128 |
-| duracion del script (16 procesos) | ~45 s |
+| duracion del script (16 procesos) | ~29 s |
 
-Fuentes: Claude 253 transcripts, Codex 253, OpenCode 2 sqlite (467 sesiones),
+Fuentes: Claude 254 transcripts, Codex 253, OpenCode 2 sqlite (467 sesiones),
 Gemini 2, Qwen 16. `unparsed_sessions = 0`.
 
 ## Llamadas a pyzig
@@ -103,7 +103,7 @@ por sesion. Top de firmas (las 10 primeras de `eval/usage.json`):
 
 ## Conclusiones prudentes
 
-1. **No hay evidencia de consulta habitual.** En este snapshot, 1 de 102
+1. **No hay evidencia de consulta habitual.** En este snapshot, 1 de 103
    sesiones Zig hizo una llamada a pyzig (~1 %). Es un unico caso y no permite
    afirmar una tasa estable.
 2. **La unica llamada fue espontanea y devolvio resultados.** No hubo
@@ -124,6 +124,12 @@ por sesion. Top de firmas (las 10 primeras de `eval/usage.json`):
 - **Snapshot y retencion:** los transcripts locales se podan. El informe es
   una foto del momento de la ejecucion; si una sesion se borra, deja de
   contar. Las cifras son un **limite inferior**, no un historico completo.
+- **Variacion entre corridas:** dos ejecuciones consecutivas sobre los mismos
+  transcripts dieron 102 frente a 103 sesiones Zig y 1761 frente a 1773
+  ejecuciones Zig (y 524 frente a 525 transcripts). Las llamadas a pyzig (1) y
+  las oportunidades con receta (122) no cambiaron. Los transcripts se escriben
+  en vivo, asi que los conteos absolutos se mueven; la conclusion estable es la
+  proporcion (1 de ~103 sesiones), no el total exacto.
 - **AGY:** los `brain/*/.system_generated/logs/transcript.jsonl` no entran por
   el descubrimiento del minero; el trabajo de AGY esta subrepresentado (sus
   menciones a pyzig observadas son ejecuciones de demos/tests por bash, no
@@ -156,6 +162,6 @@ python3 scripts/usage_sessions.py --out eval/usage.json --jobs 16
 PYTHONPATH=. python3 -m pytest -q tests/test_usage.py
 ```
 
-Salida observada de la ultima corrida: `sessions_with_zig=102`,
+Salida observada de la ultima corrida: `sessions_with_zig=103`,
 `sessions_with_pyzig=1`, `pyzig_calls_total=1`,
-`pyzig_calls_spontaneous=1`, `duration_s=44.86`; tests `11 passed`.
+`pyzig_calls_spontaneous=1`, `duration_s=28.98`; tests `11 passed`.

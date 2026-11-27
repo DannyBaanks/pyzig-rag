@@ -2,18 +2,18 @@
   "generated_by": "scripts/usage_sessions.py",
   "privacy": "solo agregados y firmas de error normalizadas; sin texto de mensajes, consultas literales, rutas, ids de sesion ni proyectos",
   "sources": {
-    "claude": "253 transcripts",
+    "claude": "254 transcripts",
     "codex": "253 transcripts",
     "gemini": "2 transcripts",
     "qwen": "16 transcripts",
     "opencode": "2 sqlite"
   },
   "labels_loaded": 64,
-  "transcripts": 524,
-  "volume_mb": 3977.4,
-  "duration_s": 44.86,
-  "sessions_total": 991,
-  "sessions_with_zig": 102,
+  "transcripts": 525,
+  "volume_mb": 3988.8,
+  "duration_s": 28.98,
+  "sessions_total": 992,
+  "sessions_with_zig": 103,
   "sessions_with_pyzig": 1,
   "pyzig_calls_total": 1,
   "pyzig_calls_requested": 0,
@@ -40,7 +40,7 @@
   "no_results_rate_by_tool": {
     "pyzig_search": 0.0
   },
-  "zig_runs": 1761,
+  "zig_runs": 1773,
   "zig_runs_with_errors": 128,
   "compile_error_opportunities": {
     "with_recipe": 122,
