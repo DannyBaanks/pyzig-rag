@@ -65,9 +65,20 @@ def load_tasks(tasks_dir: pathlib.Path = DEFAULT_TASKS_DIR) -> list[dict[str, An
     return sorted(tasks, key=lambda t: t["task_id"])
 
 
+_STD_DECL_RE = re.compile(r"^\s*(pub\s+)?const\s+std\s*=", re.MULTILINE)
+
+
 def combine(source: str, task: dict[str, Any]) -> str:
-    """Código del agente + pruebas del arnés, en un único archivo para ``check_zig``."""
-    return source.rstrip("\n") + "\n\n" + task["zig_test"].lstrip("\n")
+    """Código del agente + pruebas del arnés, en un único archivo para ``check_zig``.
+
+    Las pruebas del arnés usan ``std``; el prompt solo pide importarlo "si lo
+    necesitas", así que si la solución no lo declara lo añade el arnés (y no lo
+    duplica si ya está: sería una redeclaración).
+    """
+    tests = task["zig_test"].lstrip("\n")
+    if not _STD_DECL_RE.search(source):
+        tests = 'const std = @import("std");\n\n' + tests
+    return source.rstrip("\n") + "\n\n" + tests
 
 
 def score_attempt(source: str, task: dict[str, Any],

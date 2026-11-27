@@ -49,8 +49,10 @@ Decisiones (y por que):
   modelo falta, `pyzig_catalog`/`pyzig_search` declaran `embed_mode=unavailable`
   y el sistema degrada a lexical **declarandolo** (nunca en silencio).
 - **Admision antes de ranking** (cobertura lexica de tokens discriminativos
-  >= 0.40 **o** cosine >= 0.35): evita que una consulta sin equivalente devuelva
-  "el menos malo". Las negativas devuelven `NO_RESULTS`.
+  >= 0.40, **o** cosine >= 0.40 con al menos 0.33 de cobertura lexica): evita que
+  una consulta sin equivalente devuelva "el menos malo". Las negativas devuelven
+  `NO_RESULTS`. El coseno solo ya no admite: calibrado en `eval/calib_queries.tsv`,
+  metodo y tabla en `eval/CALIB.md`.
 - **Estado de evidencia explicito**: `DEMONSTRATED` (compilo y paso sus tests
   con zig 0.16.0), `NOT_DEMONSTRATED` (entrada tipo `gap` que documenta una
   limitacion), `FUZZ_EQUIV`, `ADMITTED`, `REGRESSED`, `MANUAL_REVIEW`, `REJECTED`.
