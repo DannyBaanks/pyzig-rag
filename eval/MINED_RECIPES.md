@@ -133,3 +133,91 @@ PYTHONPATH=. python3 -m pytest -q tests                         # rc=0, 121 pass
 `/tmp/opencode/mined_coverage_antes.json` es una copia del
 `eval/mined_coverage.json` que venía en `HEAD`, usada sólo como línea base para
 el bloque `antes` de `eval/mined_coverage.json`.
+
+## Ola 6 — re-minado y huecos de stdlib 0.16
+
+### Firmas nuevas
+
+Corrida observada con:
+
+```sh
+.venv/bin/python scripts/mine_sessions.py --out var/mined6 --corpus corpus/pyzig.corpus.jsonl
+```
+
+Leyó 989 transcripts (3,953 MB), encontró 103 sesiones con Zig, 1,750
+ejecuciones Zig, 131 ejecuciones con errores y 92 firmas distintas. Frente a
+`var/mined/signatures.jsonl` (90 firmas), las dos firmas nuevas tienen
+frecuencia 2:
+
+| Firma normalizada | Frecuencia | Top-3 antes de la receta | Etiqueta ola 6 |
+|---|---:|---|---|
+| `@ptrCast must have a known result type` | 2 | vacío | `zig0.16/stdlib016-ptrcast-result-type` |
+| `no field named '_' in struct 'array_list._(uN,null)'` | 2 | vacío | `NONE` |
+
+La firma de ArrayList conserva `NONE`: el nombre del campo se redactó y la
+evidencia no alcanza para distinguir un campo eliminado de otro acceso
+incorrecto. El contexto minado menciona `std.array_list.Aligned` y cita
+`migrate-arraylist-unmanaged`, pero esa proximidad no demuestra la causa
+concreta. La firma de `@ptrCast` sí queda resuelta directamente porque la
+receta muestra el destino tipado y lo prueba con el gate.
+
+### Recetas añadidas
+
+Las ocho entradas nuevas de `scripts/recipes/stdlib_016.py` son
+`DEMONSTRATED` con Zig 0.16.0:
+
+- `zig0.16/stdlib016-ptrcast-result-type`: tipo de destino explícito para
+  `@ptrCast`; lleva la firma nueva real.
+- `zig0.16/stdlib016-json-parse-struct` y
+  `zig0.16/stdlib016-json-stringify-struct`: parseo tipado con defaults y
+  campos extra, y serialización compacta con `Stringify.valueAlloc`.
+- `zig0.16/stdlib016-writer-allocating`: buffer dinámico con
+  `std.Io.Writer.Allocating` y transferencia mediante `toOwnedSlice`.
+- `zig0.16/stdlib016-format-f-any`: formato de tipo propio con `{f}` y salida
+  genérica con `{any}`.
+- `zig0.16/stdlib016-hashmap-custom-context`: `std.HashMap.initContext` con
+  `hash` y `eql` ASCII propios.
+- `zig0.16/stdlib016-generic-list-comptime`: constructor de tipo
+  `fn List(comptime T: type) type`.
+- `zig0.16/stdlib016-child-capture-stdout`: `std.process.spawn`, pipe de
+  stdout, lectura limitada y `Child.wait`.
+
+El `eval_mined` anterior y posterior se midió con corpus/etiquetas
+comparables: antes se reconstruyó el índice desde el corpus y labels de `HEAD`;
+después se usaron las ocho recetas y las dos etiquetas de ola 6. El falso
+positivo `std.testing.expectCrash` sigue presente y la firma de
+`std.fs.openFileAbsolute` sigue sin entrar en top-3.
+
+| Métrica de `eval_mined` | Antes | Después |
+|---|---:|---:|
+| Autoconsistencia hit@1 / hit@3 | 1.0 / 1.0 | 1.0 / 1.0 |
+| Firmas no-NONE | 64 | 65 |
+| Mined hit@1 | 63/64 (0.9844) | 64/65 (0.9846) |
+| Mined hit@3 | 63/64 (0.9844) | 64/65 (0.9846) |
+| Firmas NONE | 26 | 27 |
+| Falsos positivos sobre NONE | 1 | 1 |
+| FPR sobre NONE | 0.0385 | 0.0370 |
+
+El `run_eval` dev cubrió 216 consultas en ambos casos. Ningún modo bajó:
+
+| Métrica | Antes | Después |
+|---|---:|---:|
+| Lexical P@1 | 0.971 | 0.981 |
+| Lexical R@3 | 0.986 | 0.995 |
+| Hybrid P@1 | 0.967 | 0.971 |
+| Hybrid R@3 | 0.990 | 0.995 |
+
+Comandos de evaluación y gates:
+
+```sh
+.venv/bin/python scripts/build_index.py
+.venv/bin/python scripts/run_eval.py --out var/mined6/dev-after.json
+ZIG_GLOBAL_CACHE_DIR="$PWD/var/zig-global-cache" .venv/bin/python scripts/run_gates.py
+```
+
+El `run_gates.py` de ola 6 salió con rc=0 y las ocho recetas nuevas pasaron,
+sin tests saltados. Tres gates de red ya existentes
+(`tcp-loopback-echo`, `udp-loopback-datagram`, `http-client-get-local`)
+fallaron en esta corrida con `ConnectionRefused`; se conservó para esas entradas
+la evidencia demostrada que traían de `HEAD`, sin atribuir esas fallas a las
+recetas nuevas.
