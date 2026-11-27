@@ -1,5 +1,64 @@
 # Pilotos A/B (pyzig-rag)
 
+## `hard-2026-11-27` — tareas difíciles t13 (ola 6): arnés listo, corrida con agente BLOQUEADA
+
+**Estado: NOT_DEMONSTRATED.** El arnés, las 8 tareas y su verificación están listos y commiteados.
+La corrida real con agente no se ha podido ejecutar: el proveedor gratuito de `opencode/big-pickle`
+devolvió `Free usage limit reached` en todos los intentos (2026-11-27, 09:41–09:53Z, sondeo cada ~4 min).
+Los demás modelos gratuitos de `opencode models` probados (`opencode/beam-free`,
+`opencode/deepseek-v4.1-flash-free`, `opencode/flint-40b-free`, `opencode/hy4-flash-free`) dieron
+el mismo límite; los `aihubmix/*-free` respondieron `The requested API endpoint does not exist` y
+`kilo/kilo-auto/free` `authentication token is invalid`. **No hay ninguna observación de pyzig con
+agente real en esta sección.** Ningún número de este bloque es un resultado del ensayo.
+
+Comando previsto (no ejecutado; se lanza en segundo plano con `--cache-dir` y `--out` absolutos):
+
+```sh
+PYTHONPATH=. .venv/bin/python scripts/ab_run.py \
+  --tasks t13_arraylist_evens,t13_hashmap_distinct,t13_json_items,t13_process_stdout,t13_read_whole_file,t13_sleep_elapsed,t13_thread_mutex_sum,t13_writer_rows \
+  --arms A,B --seed 1337 --max-attempts 3 --timeout 400 \
+  --agent-cmd "'$PWD/scripts/ab_agent_opencode.sh'" \
+  --out "$PWD/ab/runs/hard-2026-11-27" --cache-dir "$PWD/var/ab/cache"
+```
+
+### Qué cambió en el arnés (verificado)
+
+- **`observed_tool_calls` (verdad de terreno).** `scripts/pyzig_cli.py` añade una línea JSON por
+  invocación (`ts`, `subcommand`, `args`, `rc`, `pid`) a `$AB_TOOL_LOG/tool-calls.jsonl`; `ab_run.py`
+  fija `AB_TOOL_LOG` al directorio del intento, guarda la lista en `attempts.jsonl` junto a
+  `reported_tool_calls` (lo que declara el agente) y copia el log a `tool-calls-attempt-NN.jsonl`.
+  Limitación: solo registra invocaciones de `$PYZIG_CLI`; las llamadas MCP directas del agente no pasan
+  por la CLI y no aparecen aquí.
+- **Rutas portables.** `manifest.json`, `score.json`, `attempts.jsonl` (incl. `agent_stderr_tail`) y los
+  `meta`/log copiados pasan por `ab_score.portable()`: raíz del repo → relativa, home → `~/`.
+- **Tareas t13_*** (8, con `zig_test` de `std` y oráculo, sin red ni archivos externos): APIs de Zig 0.16
+  que cambiaron respecto a versiones anteriores: `std.Io.Dir.readFileAlloc`, `std.ArrayList` con `.empty`
+  y allocator por llamada, `std.Io.Writer` (`print`, `fixed`), `std.process.run` (en 0.16 sustituye a la
+  forma `Child.run` que aparece en el enunciado), `std.json.parseFromSlice`, `std.StringHashMap`,
+  `std.Thread.spawn` + `std.Io.Mutex`, `std.Io.sleep` con reloj `awake`.
+  Caveat: las APIs tienen recetas en `corpus/pyzig.corpus.jsonl` (es el tratamiento B); los nombres de
+  función no aparecen en el corpus (`tests/test_ab.py` lo comprueba).
+
+### Verificación sin agente (comandos y salida resumida)
+
+- `PYTHONPATH=. python3 -m pytest -q tests/test_ab.py tests/test_ab_scoring_fixes.py tests/test_ab_observed.py`
+  → `21 passed` (tests de `test_ab_observed.py`: 6 nuevos; `test_ab.py` ya no fija 12 tareas).
+- `ab_run.py --dry-run` sobre las 8 tareas (soluciones de referencia `ab/examples/solutions/good/{A,B}`):
+  16/16 PASS en la pasada completa. Una primera pasada dio 2 `TIMEOUT` (brazo A, `t13_arraylist_evens` y
+  `t13_hashmap_distinct`, límite de 60 s de `pyzig.check`) con la carga de la máquina en load average ~33;
+  repetidos aislados pasan (`PASS`, rc 0). Se trata como fallo transitorio del entorno, no del código.
+- Un intento de `TIMEOUT` cuenta como `unscored` en `ab_score` (no como fallo ni como éxito).
+
+### Pendiente para cerrar el ensayo
+
+1. Repetir el comando de arriba cuando el proveedor vuelva a responder (`opencode run -m opencode/big-pickle 'Reply PONG'`).
+2. Publicar aquí `summary` por brazo de `score.json` y `observed_tool_calls` frente a `reported_tool_calls`.
+   Sin esas cifras, la sección no afirma efecto alguno de pyzig.
+3. Con n=8 pares, cualquier diferencia será descriptiva; la regla de decisión de `ab/PROTOCOL.md` §7 sigue
+   siendo la del pre-registro de 12 tareas (t01–t12), que no se ha modificado.
+
+---
+
 ## `pilot-llm-2026-11-27` — agente LLM real (opencode + big-pickle)
 
 **Estado: piloto con agente real ejecutado. Efecto de pyzig: `NOT_DEMONSTRATED` (efecto techo, n = 4).**
