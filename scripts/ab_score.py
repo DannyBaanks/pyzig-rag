@@ -29,6 +29,7 @@ if str(ROOT) not in sys.path:
 from pyzig import check as check_mod  # noqa: E402  (import tras fijar sys.path)
 
 SCHEMA = 1
+HOME = pathlib.Path.home()
 DEFAULT_TASKS_DIR = ROOT / "ab" / "tasks"
 DEFAULT_SOLUTIONS_DIR = ROOT / "var" / "ab" / "solutions"
 ARMS = ("A", "B")
@@ -41,6 +42,38 @@ _NUM = re.compile(r"(\d+)")
 def _natural_key(path: pathlib.Path) -> tuple:
     return tuple((0, int(part)) if part.isdigit() else (1, part)
                  for part in _NUM.split(path.name))
+
+
+def _portable_str(text: str, root: pathlib.Path = ROOT, home: pathlib.Path = HOME) -> str:
+    """Quita rutas locales de un texto: raíz del repo -> relativa, home -> ``~``.
+
+    Solo cuentan los límites de ruta (``home`` seguido de ``/`` o de fin de
+    token): un directorio hermano cuyo nombre empieza igual no se toca.
+    """
+    r = re.escape(str(root))
+    text = re.sub(r + "/", "", text)
+    text = re.sub(r + r"(?![\w.-])", ".", text)
+    h = re.escape(str(home))
+    text = re.sub(h + "/", "~/", text)
+    text = re.sub(h + r"(?![\w.-])", "~", text)
+    return text
+
+
+def portable(obj: Any, root: pathlib.Path = ROOT, home: pathlib.Path = HOME) -> Any:
+    """Copia recursiva de ``obj`` con rutas del repo y del home sustituidas.
+
+    Se aplica a todo lo que se escribe en disco (manifest, score, attempts), para
+    que los artefactos del ensayo no contengan rutas absolutas de la máquina.
+    """
+    if isinstance(obj, dict):
+        return {k: portable(v, root, home) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [portable(v, root, home) for v in obj]
+    if isinstance(obj, tuple):
+        return [portable(v, root, home) for v in obj]
+    if isinstance(obj, str):
+        return _portable_str(obj, root, home)
+    return obj
 
 
 def load_tasks(tasks_dir: pathlib.Path = DEFAULT_TASKS_DIR) -> list[dict[str, Any]]:
@@ -308,7 +341,7 @@ def main(argv: list[str] | None = None) -> int:
     except (ValueError, OSError, json.JSONDecodeError) as exc:
         print(f"ab_score: {exc}", file=sys.stderr)
         return 2
-    text = json.dumps(report, ensure_ascii=False, indent=2) + "\n"
+    text = json.dumps(portable(report), ensure_ascii=False, indent=2) + "\n"
     if args.out:
         args.out.parent.mkdir(parents=True, exist_ok=True)
         args.out.write_text(text, encoding="utf-8")
