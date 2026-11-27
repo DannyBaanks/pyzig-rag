@@ -8,6 +8,9 @@ sin bwrap se niega).
 from __future__ import annotations
 from datetime import datetime, timezone
 import sys, json, pathlib
+from typing import Annotated
+
+from pydantic import Field
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 
@@ -30,14 +33,13 @@ _READ_ONLY = ToolAnnotations(read_only_hint=True, destructive_hint=False,
 _EXECUTES = ToolAnnotations(read_only_hint=False, destructive_hint=False,
                             idempotent_hint=True, open_world_hint=False)
 
-INSTRUCTIONS = """pyzig-rag: recetas Python -> Zig 0.16.0 VERIFICADAS (cada una compilo y paso `zig test` con zig 0.16.0).
-Consultalo ANTES de escribir Zig que toque std.Io, archivos/rutas, json, procesos, colecciones, texto/numeros, tiempo, argv o hashes:
-la API de 0.16 (std.Io, Io.Dir, Io.Limit, writer/reader nuevos) difiere de lo que recuerdan los modelos.
-Flujo: pyzig_search(intent="que quieres hacer", py_code="opcional") -> el primer resultado trae zig_impl completo;
-pyzig_get(operation_id) para contrato, tests y procedencia de otro; pyzig_catalog() lista todas las operaciones;
-pyzig_check(zig_code, mode="test"|"ast") compila y ejecuta en bwrap sin red (sin bwrap se niega) y sugiere recetas del corpus para cada error.
-Lee 'status': solo DEMONSTRATED es equivalencia verificada; NOT_DEMONSTRATED documenta un hueco real de la std.
-'differences' lista las trampas Python vs Zig. NO_RESULTS = no hay receta: no inventes que la hay."""
+INSTRUCTIONS = """pyzig-rag: recetas Python -> Zig 0.16.0 verificadas con `zig test`.
+Usalo ANTES de escribir Zig que porte codigo Python y antes de usar APIs que cambiaron en 0.16, como `std.Io`, `ArrayList` o `build.zig`.
+Cubre archivos/rutas, json, procesos, hilos, red, colecciones, texto/numeros, tiempo, argv y hashes: la API 0.16 difiere de lo que recuerdan los modelos.
+Si aparece un error de compilacion 0.16, pega el mensaje exacto en `pyzig_search(intent=...)`; para compilar el fragmento y obtener sugerencias, usa `pyzig_check(zig_code=...)`.
+`pyzig_search(intent, py_code)` busca equivalencias; el primer resultado incluye `zig_impl`. Usa `pyzig_get(operation_id)` para contrato, tests y procedencia; `pyzig_catalog()` lista operaciones.
+`pyzig_check(zig_code, mode="test"|"ast")` compila y, en modo test, ejecuta en bwrap sin red; sin bwrap se niega. Devuelve hasta 2 recetas sugeridas por error.
+Solo `status=DEMONSTRATED` indica equivalencia verificada; `NOT_DEMONSTRATED` documenta un hueco. `NO_RESULTS` significa que no hay receta admitida."""
 
 mcp = FastMCP("pyzig-rag", instructions=INSTRUCTIONS)
 
@@ -67,10 +69,20 @@ def _count_nores() -> int:
         return 0
 
 @mcp.tool(annotations=_READ_ONLY)
-def pyzig_search(intent: str, py_code: str = "", zig_version: str = "0.16.0",
-                 platform: str = "linux", max_results: int = 5,
-                 mode: str = "hybrid", code: str = "top") -> dict:
-    """Busca equivalencias Python->Zig por intencion (y codigo Python opcional).
+def pyzig_search(
+    intent: Annotated[str, Field(description="Operacion que quieres portar o investigar. Ante un error Zig 0.16, pega aqui el mensaje exacto para buscar una receta de migracion.")],
+    py_code: Annotated[str, Field(description="Codigo Python de origen; incluyelo antes de portarlo para recuperar una equivalencia con su comportamiento.")] = "",
+    zig_version: Annotated[str, Field(description="Version Zig destino para filtrar recetas; usa 0.16.0 para la API actual.")] = "0.16.0",
+    platform: Annotated[str, Field(description="Plataforma destino para filtrar recetas.")] = "linux",
+    max_results: Annotated[int, Field(description="Maximo de recetas candidatas que devuelve la busqueda.")] = 5,
+    mode: Annotated[str, Field(description="Modo de recuperacion: hybrid o lexical.")] = "hybrid",
+    code: Annotated[str, Field(description="Codigo incluido en resultados: top, all o none.")] = "top",
+) -> dict:
+    """Busca equivalencias Python->Zig por intencion y codigo Python.
+
+    Usala antes de portar codigo Python a Zig 0.16, al revisar cambios en
+    std.Io, ArrayList o build.zig, y para buscar pegando un error de compilacion
+    0.16 exacto en intent.
 
     Devuelve candidatos ordenados con motivo de coincidencia, restricciones,
     estado de evidencia y referencia recuperable con pyzig_get.
@@ -100,8 +112,8 @@ def pyzig_search(intent: str, py_code: str = "", zig_version: str = "0.16.0",
         return {"ok": False, "error": "INTERNAL", "message": f"{type(e).__name__}: {e}"}
 
 @mcp.tool(annotations=_READ_ONLY)
-def pyzig_get(operation_id: str) -> dict:
-    """Recupera una equivalencia por ID: contrato, codigo, tests, procedencia."""
+def pyzig_get(operation_id: Annotated[str, Field(description="operation_id de un resultado de pyzig_search para recuperar su receta completa.")]) -> dict:
+    """Usala tras pyzig_search para leer contrato, codigo, tests y procedencia."""
     try:
         d = s.get(operation_id)
         return {"ok": True, "entry": d}
@@ -112,7 +124,7 @@ def pyzig_get(operation_id: str) -> dict:
 
 @mcp.tool(annotations=_READ_ONLY)
 def pyzig_catalog() -> dict:
-    """Operaciones disponibles, versiones soportadas y salud del indice."""
+    """Usala para descubrir operaciones disponibles o revisar versiones y salud del indice."""
     try:
         cat = s.catalog()
         cat["nores_count"] = _count_nores()
@@ -122,11 +134,18 @@ def pyzig_catalog() -> dict:
 
 
 @mcp.tool(annotations=_EXECUTES)
-def pyzig_check(zig_code: str, mode: str = "test") -> dict:
-    """Verifica codigo Zig 0.16 con `zig test` (mode='test') o `zig ast-check` (mode='ast').
+def pyzig_check(
+    zig_code: Annotated[str, Field(description="Fragmento Zig 0.16 que quieres compilar; al fallar devuelve errores y hasta 2 recetas sugeridas por error.")],
+    mode: Annotated[str, Field(description="test compila y ejecuta tests; ast solo valida sintaxis y tipos.")] = "test",
+) -> dict:
+    """Compila codigo Zig 0.16 y ofrece recetas para resolver errores.
 
-    pyzig_check compila y ejecuta en bwrap sin red; sin bwrap se niega (SANDBOX_UNAVAILABLE).
-    Parsea los errores y adjunta hasta 2 recetas sugeridas del corpus por cada error.
+    Usala para comprobar el fragmento tras consultar una receta o cuando falle
+    la compilacion. Para buscar por el texto exacto del error, pegalo en el
+    parametro intent de pyzig_search.
+
+    mode='test' compila y ejecuta en bwrap sin red; mode='ast' usa zig ast-check.
+    Sin bwrap se niega (SANDBOX_UNAVAILABLE). Devuelve hasta 2 recetas por error.
     """
     try:
         return check_mod.check_zig(zig_code, mode=mode)
