@@ -1,0 +1,7 @@
+{"ts": "2026-11-27T11:31:11Z", "subcommand": null, "args": ["--help"], "rc": 0, "pid": 1615726}
+{"ts": "2026-11-27T11:31:13Z", "subcommand": "search", "args": ["search", "capture child process stdout bytes allocator std.Io Zig 0.16", "--limit", "10"], "rc": 1, "pid": 1615782}
+{"ts": "2026-11-27T11:31:15Z", "subcommand": "catalog", "args": ["catalog", "--help"], "rc": 2, "pid": 1615866}
+{"ts": "2026-11-27T11:31:15Z", "subcommand": "check", "args": ["check", "--mode", "ast"], "rc": 0, "pid": 1615879}
+{"ts": "2026-11-27T11:34:03Z", "subcommand": "check", "args": ["check", "--mode", "ast"], "rc": 0, "pid": 1622673}
+{"ts": "2026-11-27T11:34:03Z", "subcommand": "check", "args": ["check", "--mode", "test"], "rc": 1, "pid": 1622692}
+{"ts": "2026-11-27T11:34:35Z", "subcommand": "check", "args": ["check", "--mode", "ast"], "rc": 0, "pid": 1624129}

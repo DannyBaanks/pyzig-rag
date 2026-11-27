@@ -1,0 +1,78 @@
+{
+  "schema": 1,
+  "mode": "agent",
+  "created_at": "2026-11-27T11:25:00Z",
+  "seed": 1337,
+  "max_attempts": 3,
+  "tasks": [
+    "t13_arraylist_evens",
+    "t13_hashmap_distinct",
+    "t13_json_items",
+    "t13_process_stdout",
+    "t13_read_whole_file",
+    "t13_sleep_elapsed",
+    "t13_thread_mutex_sum",
+    "t13_writer_rows"
+  ],
+  "controls": [],
+  "execution_order": [
+    "t13_arraylist_evens",
+    "t13_process_stdout",
+    "t13_writer_rows",
+    "t13_json_items",
+    "t13_hashmap_distinct",
+    "t13_thread_mutex_sum",
+    "t13_read_whole_file",
+    "t13_sleep_elapsed"
+  ],
+  "arm_order_by_task": {
+    "t13_arraylist_evens": [
+      "B",
+      "A"
+    ],
+    "t13_process_stdout": [
+      "A",
+      "B"
+    ],
+    "t13_writer_rows": [
+      "B",
+      "A"
+    ],
+    "t13_json_items": [
+      "A",
+      "B"
+    ],
+    "t13_hashmap_distinct": [
+      "B",
+      "A"
+    ],
+    "t13_thread_mutex_sum": [
+      "B",
+      "A"
+    ],
+    "t13_read_whole_file": [
+      "A",
+      "B"
+    ],
+    "t13_sleep_elapsed": [
+      "B",
+      "A"
+    ]
+  },
+  "arms": [
+    "A",
+    "B"
+  ],
+  "agent_cmd": "'scripts/ab_agent_opencode.sh'",
+  "tools_by_arm": {
+    "A": [],
+    "B": [
+      "pyzig_search",
+      "pyzig_get",
+      "pyzig_catalog",
+      "pyzig_check"
+    ]
+  },
+  "examples_dir": null,
+  "note": "El arnés NO enforcea herramientas dentro del agente; ver PROTOCOL.md."
+}

@@ -1,0 +1,8 @@
+{
+  "tool_calls": [
+    "$PYZIG_CLI --help",
+    "$PYZIG_CLI search \"ArrayList append with allocator in Zig 0.16\" --limit 5",
+    "printf '%s\\n' \"$(cat solution.zig)\" | $PYZIG_CLI check --mode test",
+    "printf '%s\\n' \"$(cat solution.zig)\" | $PYZIG_CLI check --mode ast"
+  ]
+}

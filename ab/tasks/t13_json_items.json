@@ -1,0 +1,15 @@
+{
+  "task_id": "t13_json_items",
+  "title": "parsear JSON a struct con std.json (0.16)",
+  "control": false,
+  "difficulty": "hard",
+  "coverage_note": "API de Zig 0.16 que cambió respecto a versiones anteriores; sin entradas de corpus para la función (ver ab/PROTOCOL.md).",
+  "prompt": "Tarea t13_json_items: Dado un texto JSON con la forma `{\"items\":[{\"name\":\"...\",\"qty\":N}, ...], ...}`, devuelve la suma de `qty` de todos los elementos de `items`. Ignora campos desconocidos (tanto de la raíz como de cada elemento). Si `items` está vacío, la suma es 0. Parsea con `std.json` a una struct tipada; libera toda la memoria del parseo antes de devolver.\n\nEscribe un único archivo de código Zig 0.16.0 que defina exactamente estas declaraciones públicas:\n```zig\npub const Item = struct { name: []const u8, qty: i64 };\npub fn totalQty(allocator: std.mem.Allocator, json_text: []const u8) !i64\n```\n\nEl archivo debe empezar con `const std = @import(\"std\");` si necesitas la biblioteca estándar. No incluyas pruebas ni `pub fn main`: el arnés añadirá sus propias pruebas Zig al final de tu archivo. Devuelve SOLO el código Zig, sin texto explicativo ni cercas de código markdown.",
+  "py_ref": "import json\n\ndef total_qty(text):\n    return sum(it['qty'] for it in json.loads(text)['items'])\n\nassert total_qty('{\"items\":[{\"name\":\"a\",\"qty\":2},{\"name\":\"b\",\"qty\":5}],\"v\":1}') == 7\nassert total_qty('{\"items\":[]}') == 0",
+  "signature": "pub const Item = struct { name: []const u8, qty: i64 };\npub fn totalQty(allocator: std.mem.Allocator, json_text: []const u8) !i64",
+  "oracle": [
+    "totalQty de items qty 2 y 5 con campos extra == 7",
+    "items vacío == 0"
+  ],
+  "zig_test": "test \"t13 json totals\" {\n    const txt = \"{\\\"items\\\":[{\\\"name\\\":\\\"a\\\",\\\"qty\\\":2},{\\\"name\\\":\\\"b\\\",\\\"qty\\\":5,\\\"extra\\\":true}],\\\"v\\\":1}\";\n    try std.testing.expectEqual(@as(i64, 7), try totalQty(std.testing.allocator, txt));\n    try std.testing.expectEqual(@as(i64, 0), try totalQty(std.testing.allocator, \"{\\\"items\\\":[]}\"));\n}\n"
+}

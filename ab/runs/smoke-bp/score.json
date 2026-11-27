@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "tasks_dir": "ab/tasks",
+  "solutions_dir": "ab/runs/smoke-bp",
+  "scorer": "pyzig.check.check_zig(mode='test', suggest=False)",
+  "arms": {
+    "B": {
+      "tasks": {
+        "t13_arraylist_evens": {
+          "task_id": "t13_arraylist_evens",
+          "control": false,
+          "attempts": 1,
+          "compiles": 1,
+          "compiles_until_pass": 1,
+          "passed": true,
+          "compile_errors": 0,
+          "error_records": 0,
+          "tests_passed_attempts": 1,
+          "runtime_failures": 0,
+          "unscored": 0,
+          "tokens": {
+            "available": false,
+            "measured_attempts": 0,
+            "total": "NOT_AVAILABLE",
+            "by_attempt": [
+              "NOT_AVAILABLE"
+            ]
+          },
+          "attempts_detail": [
+            {
+              "attempt": 1,
+              "file": "B/t13_arraylist_evens/attempt-01.zig",
+              "status": "PASS",
+              "compiled": true,
+              "tests_passed": true,
+              "passed": true,
+              "error_records": 0,
+              "stderr_tail": "1/1 check.test.t13 arraylist evens...OK\nAll 1 tests passed.\n",
+              "errors": [],
+              "agent_rc": 0
+            }
+          ]
+        }
+      },
+      "summary": {
+        "tasks_total": 1,
+        "tasks_with_solutions": 1,
+        "passed": 1,
+        "pass_rate": 1.0,
+        "compiles_total": 1,
+        "compiles_until_pass": {
+          "n": 1,
+          "mean": 1,
+          "median": 1
+        },
+        "compile_errors_total": 0,
+        "error_records_total": 0,
+        "tests_passed_attempts_total": 1,
+        "unscored_attempts_total": 0,
+        "tokens_available": false,
+        "tokens_total": "NOT_AVAILABLE"
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{"ts": "2026-11-27T11:34:51Z", "subcommand": null, "args": ["--help"], "rc": 0, "pid": 1624851}
+{"ts": "2026-11-27T11:35:00Z", "subcommand": "search", "args": ["search", "std.Io.Writer print formatted integer to writer", "--limit", "10"], "rc": 1, "pid": 1625254}
+{"ts": "2026-11-27T11:35:00Z", "subcommand": "search", "args": ["search", "std.Io.Writer writeAll writeByte API", "--limit", "10"], "rc": 1, "pid": 1625255}
+{"ts": "2026-11-27T11:35:00Z", "subcommand": "search", "args": ["search", "write integer decimal to std.Io.Writer without allocation", "--limit", "10"], "rc": 1, "pid": 1625253}
+{"ts": "2026-11-27T11:35:07Z", "subcommand": "check", "args": ["check", "--mode", "ast"], "rc": 0, "pid": 1625532}
+{"ts": "2026-11-27T11:35:10Z", "subcommand": "check", "args": ["check", "--mode", "test"], "rc": 1, "pid": 1625635}
+{"ts": "2026-11-27T11:35:14Z", "subcommand": "check", "args": ["check", "--mode", "test"], "rc": 1, "pid": 1625854}
+{"ts": "2026-11-27T11:35:18Z", "subcommand": "check", "args": ["check", "--mode", "test"], "rc": 0, "pid": 1626060}
+{"ts": "2026-11-27T11:35:27Z", "subcommand": "check", "args": ["check", "--mode", "test"], "rc": 0, "pid": 1626480}
+{"ts": "2026-11-27T11:35:48Z", "subcommand": "check", "args": ["check", "--mode", "ast"], "rc": 0, "pid": 1627463}
+{"ts": "2026-11-27T11:35:52Z", "subcommand": "check", "args": ["check", "--mode", "test"], "rc": 0, "pid": 1627576}

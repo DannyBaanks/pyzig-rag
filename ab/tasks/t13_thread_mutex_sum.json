@@ -1,0 +1,16 @@
+{
+  "task_id": "t13_thread_mutex_sum",
+  "title": "hilos (std.Thread) y mutex de std.Io en la suma",
+  "control": false,
+  "difficulty": "hard",
+  "coverage_note": "API de Zig 0.16 que cambió respecto a versiones anteriores; sin entradas de corpus para la función (ver ab/PROTOCOL.md).",
+  "prompt": "Tarea t13_thread_mutex_sum: Dado un slice de enteros de 64 bits `xs` y un número de hilos `workers` (>= 1), divide `xs` en trozos contiguos de tamaño `ceil(len / workers)` (el último puede ser más corto o vacío), suma cada trozo en un hilo propio y acumula los resultados parciales en un total compartido protegido por un mutex. Devuelve el total. Espera a que todos los hilos terminen antes de devolver. Si `workers` es 0 devuelve el error `error.NoWorkers`. Usa los hilos y el mutex de Zig 0.16 (`std.Thread`, y el mutex de `std.Io`, que necesita un `std.Io`).\n\nEscribe un único archivo de código Zig 0.16.0 que defina exactamente estas funciones públicas:\n```zig\npub fn parallelSum(allocator: std.mem.Allocator, io: std.Io, xs: []const i64, workers: usize) !i64\n```\n\nEl archivo debe empezar con `const std = @import(\"std\");` si necesitas la biblioteca estándar. No incluyas pruebas ni `pub fn main`: el arnés añadirá sus propias pruebas Zig al final de tu archivo. Devuelve SOLO el código Zig, sin texto explicativo ni cercas de código markdown.",
+  "py_ref": "def parallel_sum(xs, workers):\n    if workers == 0:\n        raise ValueError('NoWorkers')\n    chunk = -(-len(xs) // workers)\n    return sum(sum(xs[i * chunk:(i + 1) * chunk]) for i in range(workers))\n\nassert parallel_sum(list(range(1, 1001)), 4) == 500500\nassert parallel_sum([], 3) == 0",
+  "signature": "pub fn parallelSum(allocator: std.mem.Allocator, io: std.Io, xs: []const i64, workers: usize) !i64",
+  "oracle": [
+    "parallelSum(1..1000, 4) == 500500",
+    "parallelSum(1..1000, 7) == 500500",
+    "parallelSum([], 3) == 0"
+  ],
+  "zig_test": "test \"t13 thread mutex sum\" {\n    var xs: [1000]i64 = undefined;\n    for (&xs, 0..) |*x, i| x.* = @intCast(i + 1);\n    try std.testing.expectEqual(@as(i64, 500500), try parallelSum(std.testing.allocator, std.testing.io, &xs, 4));\n    try std.testing.expectEqual(@as(i64, 500500), try parallelSum(std.testing.allocator, std.testing.io, &xs, 7));\n    try std.testing.expectEqual(@as(i64, 0), try parallelSum(std.testing.allocator, std.testing.io, xs[0..0], 3));\n    try std.testing.expectError(error.NoWorkers, parallelSum(std.testing.allocator, std.testing.io, &xs, 0));\n}\n"
+}

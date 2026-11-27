@@ -32,6 +32,7 @@ import json
 import os
 import pathlib
 import random
+import re
 import shlex
 import shutil
 import subprocess
@@ -40,16 +41,20 @@ import tempfile
 from typing import Any
 
 try:  # importado como scripts.ab_run desde tests
-    from .ab_score import (ARMS, DEFAULT_TASKS_DIR, load_tasks, score_attempt,
-                           score_solutions)
+    from .ab_score import (ARMS, DEFAULT_TASKS_DIR, load_tasks, portable,
+                           score_attempt, score_solutions)
 except ImportError:  # ejecutado como script: scripts/ ya está en sys.path
-    from ab_score import (ARMS, DEFAULT_TASKS_DIR, load_tasks, score_attempt,
-                          score_solutions)
+    from ab_score import (ARMS, DEFAULT_TASKS_DIR, load_tasks, portable,
+                          score_attempt, score_solutions)
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 DEFAULT_EXAMPLES = ROOT / "ab" / "examples" / "solutions" / "good"
 DEFAULT_OUT = ROOT / "var" / "ab" / "runs"
 TOOLS_B = ["pyzig_search", "pyzig_get", "pyzig_catalog", "pyzig_check"]
+#: Nombre del log que ``scripts/pyzig_cli.py`` escribe dentro de ``$AB_TOOL_LOG``
+#: (que es el directorio del intento). Lo que contiene es la verdad de terreno de
+#: las llamadas a pyzig; ``reported_tool_calls`` es solo lo que declara el agente.
+TOOL_LOG_NAME = "tool-calls.jsonl"
 
 ARM_INSTRUCTIONS = {
     "A": (
@@ -175,6 +180,42 @@ def _pyzig_cli_command(dest_dir: pathlib.Path | None = None) -> str:
     return str(wrapper)
 
 
+def _read_tool_log(path: pathlib.Path) -> list[dict[str, Any]]:
+    """Lee las líneas JSON que el CLI de pyzig añadió durante un intento."""
+    try:
+        text = path.read_text(encoding="utf-8")
+    except OSError:
+        return []
+    calls: list[dict[str, Any]] = []
+    for line in text.splitlines():
+        if not line.strip():
+            continue
+        try:
+            rec = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if isinstance(rec, dict):
+            calls.append(rec)
+    return calls
+
+
+_INFRA_PATTERNS = (
+    ("quota", re.compile(r"rate limit exceeded|free-models-per-day|quota (?:exceeded|agotad)|insufficient_quota|usage limit", re.I)),
+)
+
+
+def _infra_failure(rc, stderr: str) -> str:
+    """Fallo ajeno al modelo que invalida la corrida: devuelve el motivo o ''."""
+    if rc in (126, 127):
+        return f"agente no ejecutable (rc={rc}; ¿ruta con espacios sin comillas en --agent-cmd?)"
+    if rc == 0:
+        return ""
+    for name, rx in _INFRA_PATTERNS:
+        if rx.search(stderr or ""):
+            return name
+    return ""
+
+
 def _agent_failed(rc: Any) -> bool:
     if isinstance(rc, int):
         return rc != 0
@@ -208,6 +249,8 @@ def run_agent(args: argparse.Namespace, tasks: list[dict[str, Any]],
                     "AB_ATTEMPT_META": str(meta_path),
                     "AB_TOOLS": ",".join(TOOLS_B if arm == "B" else []),
                     "AB_PROMPT_SHA256": hashlib.sha256(prompt.encode("utf-8")).hexdigest(),
+                    # directorio del intento: el CLI de pyzig escribe aquí su log
+                    "AB_TOOL_LOG": str(workdir),
                 })
                 if arm == "B":
                     env["PYZIG_CLI"] = pyzig_cli
@@ -235,6 +278,8 @@ def run_agent(args: argparse.Namespace, tasks: list[dict[str, Any]],
                 tool_calls = meta.get("tool_calls")
                 if not isinstance(tool_calls, list):
                     tool_calls = None
+                tool_log = workdir / TOOL_LOG_NAME
+                observed_calls = _read_tool_log(tool_log)
                 record = {
                     "ts": started,
                     "task_id": tid,
@@ -248,6 +293,8 @@ def run_agent(args: argparse.Namespace, tasks: list[dict[str, Any]],
                     "source_chars": len(source),
                     "tokens": tokens,
                     "reported_tool_calls": tool_calls,
+                    "observed_tool_calls": observed_calls,
+                    "tool_log_present": tool_log.is_file(),
                     "status": scored["status"],
                     "compiled": scored["compiled"],
                     "tests_passed": scored["tests_passed"],
@@ -255,18 +302,32 @@ def run_agent(args: argparse.Namespace, tasks: list[dict[str, Any]],
                     "errors": [e["message"] for e in scored["errors"]],
                     "agent_stderr_tail": agent_error[-2000:],
                 }
-                # persist meta alongside attempt for traceability
+                # persist meta and tool log alongside attempt for traceability
                 try:
                     meta_dst = task_dir / f"meta-attempt-{attempt:02d}.json"
                     if meta_path.is_file():
-                        shutil.copyfile(meta_path, meta_dst)
+                        meta_dst.write_text(json.dumps(
+                            portable(meta), ensure_ascii=False, indent=2) + "\n",
+                            encoding="utf-8")
+                    if tool_log.is_file():
+                        log_lines = [json.dumps(portable(c), ensure_ascii=False)
+                                     for c in observed_calls]
+                        (task_dir / f"tool-calls-attempt-{attempt:02d}.jsonl").write_text(
+                            "\n".join(log_lines) + "\n", encoding="utf-8")
                 except OSError:
                     pass
-                line = json.dumps(record, ensure_ascii=False) + "\n"
+                line = json.dumps(portable(record), ensure_ascii=False) + "\n"
                 with (task_dir / "attempts.jsonl").open("a", encoding="utf-8") as fh:
                     fh.write(line)
                 with global_log.open("a", encoding="utf-8") as fh:
                     fh.write(line)
+                infra = _infra_failure(rc, agent_error)
+                if infra:
+                    # cuota agotada / agente no ejecutable: seguir solo quema
+                    # intentos sin agente real y ensucia la comparacion A/B.
+                    print(f"ab_run: ABORT infraestructura ({infra}) en {tid} {arm} "
+                          f"intento {attempt}; corrida incompleta", file=sys.stderr)
+                    raise SystemExit(75)
                 try:
                     shutil.rmtree(workdir)
                 except OSError:
@@ -360,7 +421,8 @@ def main(argv: list[str] | None = None) -> int:
             "note": "El arnés NO enforcea herramientas dentro del agente; ver PROTOCOL.md.",
         }
         (out / "manifest.json").write_text(
-            json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+            json.dumps(portable(manifest), ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8")
         if args.dry_run:
             run_dry_run(args, tasks, out, args.examples_dir)
         else:
@@ -368,7 +430,8 @@ def main(argv: list[str] | None = None) -> int:
         report = score_solutions(out, args.tasks_dir, cache_dir=args.cache_dir, arms=arms,
                                  tasks=tasks)
         (out / "score.json").write_text(
-            json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+            json.dumps(portable(report), ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8")
     except (ValueError, OSError, json.JSONDecodeError) as exc:
         print(f"ab_run: {exc}", file=sys.stderr)
         return 2

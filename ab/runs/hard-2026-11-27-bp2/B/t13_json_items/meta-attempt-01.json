@@ -1,0 +1,8 @@
+{
+  "tool_calls": [
+    "$PYZIG_CLI search \"parse JSON into typed struct with std.json parseFromSlice and deinit ignore unknown fields\" --limit 5",
+    "cat ./solution.zig | $PYZIG_CLI check --mode test",
+    "cat ./solution.zig | $PYZIG_CLI check --mode ast",
+    "zig test local_test.zig"
+  ]
+}

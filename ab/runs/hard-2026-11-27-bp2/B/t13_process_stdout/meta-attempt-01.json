@@ -1,0 +1,10 @@
+{
+  "tool_calls": [
+    "$PYZIG_CLI --help",
+    "$PYZIG_CLI search \"capture child process stdout bytes allocator std.Io Zig 0.16\" --limit 10",
+    "$PYZIG_CLI catalog --help",
+    "printf '%s' \"$ZIG_CODE\" | $PYZIG_CLI check --mode ast",
+    "cat solution.zig | $PYZIG_CLI check --mode ast",
+    "cat solution.zig | $PYZIG_CLI check --mode test"
+  ]
+}

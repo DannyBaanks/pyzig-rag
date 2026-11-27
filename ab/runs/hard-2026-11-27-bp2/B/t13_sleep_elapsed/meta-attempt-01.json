@@ -1,0 +1,10 @@
+{
+  "tool_calls": [
+    "$PYZIG_CLI search \"std.Io sleep cancelable monotonic clock timestamp\" --mode hybrid --limit 10",
+    "$PYZIG_CLI --help",
+    "$PYZIG_CLI search \"sleep\" --limit 5",
+    "$PYZIG_CLI get std.Io.sleep",
+    "cat solution.zig | $PYZIG_CLI check --mode test",
+    "cat solution.zig | $PYZIG_CLI check --mode ast"
+  ]
+}

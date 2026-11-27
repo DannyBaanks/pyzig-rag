@@ -1,0 +1,8 @@
+{
+  "tool_calls": [
+    "$PYZIG_CLI search \"Zig 0.16 StringHashMap count distinct words []const u8 deinit\" --mode hybrid --limit 5",
+    "printf '%s\\n' \"$(cat solution.zig)\" | $PYZIG_CLI check --mode test",
+    "printf '%s\\n' \"$(cat solution.zig)\" | $PYZIG_CLI check --mode ast",
+    "zig test _test.zig"
+  ]
+}
