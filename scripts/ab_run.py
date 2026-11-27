@@ -128,10 +128,19 @@ def _random_plan(tasks: list[dict[str, Any]], seed: int) -> tuple[list[str], dic
     return order, arm_order
 
 
-def _fresh_out(out: pathlib.Path, force: bool) -> None:
-    if out.exists() and any(out.rglob("*.zig")) and not force:
-        raise ValueError(f"{out} ya contiene soluciones; usa --force u otro --out")
+def _fresh_out(out: pathlib.Path, force: bool) -> pathlib.Path | None:
+    """Garantiza un ``out`` vacío. Con ``--force`` la corrida previa se aparta a
+    ``<out>.prev-<UTC>`` (no se borra): si se reusara, ``attempts.jsonl`` mezclaría
+    filas viejas y ``ab_score`` puntuaría ``attempt-NN.zig`` sobrantes."""
+    moved = None
+    if out.exists() and any(out.iterdir()):
+        if not force:
+            raise ValueError(f"{out} no está vacío; usa --force (lo aparta) u otro --out")
+        moved = out.with_name(f"{out.name}.prev-{_now().replace(':', '').replace('-', '')}")
+        out.rename(moved)
+        print(f"ab_run: corrida previa apartada en {moved}", file=sys.stderr)
     out.mkdir(parents=True, exist_ok=True)
+    return moved
 
 
 def _isolated_base() -> pathlib.Path:

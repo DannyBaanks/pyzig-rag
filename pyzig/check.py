@@ -225,13 +225,17 @@ def probe_bwrap() -> str | None:
     return _BWRAP_BIN
 
 
+_BWRAP_SETUP_RE = re.compile(r"^bwrap: ", re.MULTILINE)
+
+
 def _resolve_global_cache(tmp_path: pathlib.Path,
                           cache_dir: pathlib.Path | None) -> pathlib.Path:
     target = cache_dir if cache_dir is not None else CACHE_DIR
     if target is not None:
         try:
             target.mkdir(parents=True, exist_ok=True)
-            return target
+            # absoluta: bwrap --bind no resuelve rutas relativas al cwd del llamador
+            return target.resolve()
         except OSError:
             pass
     fallback = tmp_path / "global-cache"
@@ -422,6 +426,18 @@ def check_zig(zig_code: str, mode: str = "test",
             compiled = True
             tests_passed = False
             ok = False
+        elif _BWRAP_SETUP_RE.search(stderr):
+            # bwrap no llego a ejecutar zig: no hay observacion de compilacion
+            return {
+                "ok": False,
+                "error": "SANDBOX_ERROR",
+                "message": "bwrap fallo al preparar el sandbox; zig no se ejecuto",
+                "sandbox": "bwrap",
+                "compiled": None,
+                "tests_passed": None,
+                "errors": [],
+                "stderr_tail": stderr_tail,
+            }
         else:
             compiled = False
             tests_passed = None

@@ -1,0 +1,8 @@
+{
+  "tool_calls": [
+    "$PYZIG_CLI search \"unique sorted slice i32 allocator deduplicate sort ArrayList\" --mode hybrid --limit 5",
+    "$PYZIG_CLI get zig0.16/sorted-key-stable",
+    "$PYZIG_CLI check --mode test < solution.zig",
+    "$PYZIG_CLI check --mode test < solution_checked.zig (solution.zig plus appended Zig tests)"
+  ]
+}

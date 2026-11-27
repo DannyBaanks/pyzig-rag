@@ -1,0 +1,10 @@
+{
+  "tool_calls": [
+    "$PYZIG_CLI search \"binary search lower bound first index insert sorted slice\" --mode hybrid --limit 5",
+    "$PYZIG_CLI search \"binary search\" --mode hybrid --limit 5",
+    "cat solution.zig | $PYZIG_CLI check --mode test",
+    "cat solution.zig | $PYZIG_CLI check --mode ast",
+    "{ cat solution.zig; test cases; } | $PYZIG_CLI check --mode test (expectation corrections)",
+    "{ cat solution.zig; final test cases; } | $PYZIG_CLI check --mode test -> passed"
+  ]
+}
