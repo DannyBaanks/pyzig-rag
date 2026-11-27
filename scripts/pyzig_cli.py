@@ -8,11 +8,19 @@ Comandos:
 
 `check` lee el código Zig desde stdin. Salida JSON en stdout; errores en stderr
 con exit code != 0.
+
+Registro observado (ensayo A/B): si la variable ``AB_TOOL_LOG`` apunta a un
+directorio, cada invocación añade una línea JSON a ``<AB_TOOL_LOG>/tool-calls.jsonl``
+con ``ts`` (UTC), ``subcommand``, ``args`` (sin el código de ``check``), ``rc`` y
+``pid``. ``ab_run.py`` lo lee como ``observed_tool_calls``. Un fallo al escribir el
+log no cambia la salida ni el código de retorno.
 """
 from __future__ import annotations
 
 import argparse
+import datetime as dt
 import json
+import os
 import pathlib
 import sys
 
@@ -24,8 +32,29 @@ from pyzig import check as check_mod  # noqa: E402
 from pyzig import search as search_mod  # noqa: E402
 
 
+TOOL_LOG_NAME = "tool-calls.jsonl"
+
+
 def _dump(obj: object) -> None:
     print(json.dumps(obj, ensure_ascii=False, indent=2))
+
+
+def _log_call(subcommand: str | None, args: list[str], rc: int) -> None:
+    log_dir = os.environ.get("AB_TOOL_LOG")
+    if not log_dir:
+        return
+    rec = {
+        "ts": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "subcommand": subcommand,
+        "args": args,
+        "rc": rc,
+        "pid": os.getpid(),
+    }
+    try:
+        with (pathlib.Path(log_dir) / TOOL_LOG_NAME).open("a", encoding="utf-8") as fh:
+            fh.write(json.dumps(rec, ensure_ascii=False) + "\n")
+    except OSError as exc:
+        print(f"pyzig_cli: no se pudo escribir el log de herramientas: {exc}", file=sys.stderr)
 
 
 def cmd_search(args: argparse.Namespace) -> int:
@@ -66,6 +95,19 @@ def cmd_check(args: argparse.Namespace) -> int:
 
 
 def main(argv: list[str] | None = None) -> int:
+    raw = list(sys.argv[1:] if argv is None else argv)
+    subcommand: str | None = None
+    rc = 2
+    try:
+        rc = _main(raw)
+    except SystemExit as exc:  # argparse: --help (0) o uso incorrecto (2)
+        rc = exc.code if isinstance(exc.code, int) else 2
+    subcommand = next((a for a in raw if not a.startswith("-")), None)
+    _log_call(subcommand, raw, rc)
+    return rc
+
+
+def _main(argv: list[str]) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     sub = ap.add_subparsers(dest="cmd", required=True)
 

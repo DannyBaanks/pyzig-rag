@@ -1,0 +1,10 @@
+{
+  "tool_calls": [
+    "$PYZIG_CLI --help",
+    "$PYZIG_CLI search \"std.Io sleep milliseconds monotonic clock elapsed timestamp\" --limit 10",
+    "cat solution.zig | $PYZIG_CLI check --mode test",
+    "cat solution.zig local_test.zig | $PYZIG_CLI check --mode test",
+    "cat local_test.zig | $PYZIG_CLI check --mode test",
+    "cat solution.zig local_test.zig | $PYZIG_CLI check --mode test (final verification, 4/4 passed)"
+  ]
+}

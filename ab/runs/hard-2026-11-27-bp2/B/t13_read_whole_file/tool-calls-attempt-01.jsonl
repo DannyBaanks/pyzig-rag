@@ -1,0 +1,7 @@
+{"ts": "2026-11-27T11:45:22Z", "subcommand": null, "args": ["--help"], "rc": 0, "pid": 1715430}
+{"ts": "2026-11-27T11:45:24Z", "subcommand": "search", "args": ["search", "Zig 0.16 std.Io.Dir read whole file to end allocated bytes io", "--mode", "hybrid", "--limit", "10"], "rc": 1, "pid": 1715510}
+{"ts": "2026-11-27T11:45:31Z", "subcommand": "check", "args": ["check", "--mode", "ast"], "rc": 0, "pid": 1720157}
+{"ts": "2026-11-27T11:45:36Z", "subcommand": "check", "args": ["check", "--mode", "test"], "rc": 0, "pid": 1722726}
+{"ts": "2026-11-27T11:46:14Z", "subcommand": "check", "args": ["check", "--mode", "test"], "rc": 1, "pid": 1725151}
+{"ts": "2026-11-27T11:46:19Z", "subcommand": "check", "args": ["check", "--mode", "test"], "rc": 0, "pid": 1725329}
+{"ts": "2026-11-27T11:47:05Z", "subcommand": "check", "args": ["check", "--mode", "test"], "rc": 0, "pid": 1727044}

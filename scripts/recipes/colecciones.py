@@ -2,7 +2,7 @@
 
 Cada zig_test fue ejecutado con `zig test` (0.16.0) y cada py_ref con python3."""
 
-from pyzig.fuzz.contracts import _c
+from pyzig.fuzz.contracts import CONTRACTS as _FUZZ, _c
 
 ZIG = "0.16.0"; PY = "3.12"; PROV = "std local de zig 0.16.0 (repo en lib/std)"
 
@@ -927,9 +927,7 @@ CONTRACTS = {
     "zig0.16/list-append-pop-insert": _c(None, None, None, [],
         type_sig={"input": 'ArrayList(i32) + gpa + indice isize', "output": '?i32 / i32 / void'},
         skip_reason="sin driver diferencial todavia"),
-    "zig0.16/sorted-key-stable": _c(None, None, None, [],
-        type_sig={"input": '[]Person + reverse: bool', "output": '[]Person'},
-        skip_reason="sin driver diferencial todavia"),
+    "zig0.16/sorted-key-stable": _FUZZ["zig0.16/sorted-key-stable"],
     "zig0.16/set-str-membership": _c(None, None, None, [],
         type_sig={"input": 'StrSet + []const u8', "output": 'bool / usize'},
         skip_reason="sin driver diferencial todavia"),

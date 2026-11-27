@@ -24,8 +24,14 @@
 //   parseint/v1 [text, base]                        base: 0 o 2..36 (otra: invalid)
 //   divmod/v1   [a, b]                              enteros i32 decimales; b=0 -> err
 //   bits/v1     [op, text]                          op: count | length; text: i64 decimal
-//   packint/v1  [op, endian, value, offset, data]   op: pack | read | readi | write
-//   pipe/v1     [data]                              (reservado para pipelines, F2)
+//   packint/v1     [op, endian, value, offset, data]   op: pack | read | readi | write
+//   straffix/v1    [op, s, a, b]                       op: starts | ends | find | replace
+//   parsefloat/v1  [op, text]                          op: parse | fmt2
+//   sortkey/v1     [op, rev, item...]                  op: byage | strings
+//   intbytes/v1    [op, width, signed, endian, value, data]
+//   roundfloat/v1  [op, hex_bits]                      op: round_even | floor | ceil | zig_round
+//   utf8cp/v1      [data]                              bytes arbitrarios (UTF-8 valido o invalido)
+//   pipe/v1        [data]                              (reservado para pipelines, F2)
 const std = @import("std");
 const proto = @import("proto.zig");
 const rngmod = @import("rng.zig");
@@ -50,6 +56,12 @@ pub const Schema = enum {
     divmod,
     bits,
     packint,
+    straffix,
+    parsefloat,
+    sortkey,
+    intbytes,
+    roundfloat,
+    utf8cp,
     pipe,
 
     pub fn fromName(s: []const u8) ?Schema {
@@ -539,6 +551,283 @@ fn genPipe(r: *Rng, gpa: std.mem.Allocator) ![]u8 {
     return payload;
 }
 
+// --- ola 6: straffix, parsefloat, sortkey, intbytes, roundfloat, utf8cp -----
+
+const AFFIX_OPS = [_][]const u8{ "starts", "ends", "find", "replace" };
+const UTF8_PIECES = [_][]const u8{
+    "a", "b", "aa", "foo", "bar", ".", "-", " ",
+    "\xc3\xa9", "\xc3\xb1", "\xe2\x82\xac", "\xf0\x9f\x98\x80",
+};
+
+fn buildUtf8(r: *Rng, buf: []u8, max_pieces: usize) []u8 {
+    const n_pieces = r.boundaryLen(max_pieces);
+    var pos: usize = 0;
+    var i: usize = 0;
+    while (i < n_pieces) : (i += 1) {
+        const piece = r.pick([]const u8, &UTF8_PIECES);
+        if (pos + piece.len > buf.len) break;
+        @memcpy(buf[pos..][0..piece.len], piece);
+        pos += piece.len;
+    }
+    return buf[0..pos];
+}
+
+fn genStrAffix(r: *Rng, gpa: std.mem.Allocator) ![]u8 {
+    const op: []const u8 = if (maybeInvalid(r)) "split" else r.pick([]const u8, &AFFIX_OPS);
+    var sbuf: [64]u8 = undefined;
+    var abuf: [24]u8 = undefined;
+    var bbuf: [24]u8 = undefined;
+    var s: []const u8 = buildUtf8(r, &sbuf, 8);
+    var a: []const u8 = if (r.chance(1, 5)) "" else buildUtf8(r, &abuf, 3);
+    const b: []const u8 = if (r.chance(1, 4)) "" else buildUtf8(r, &bbuf, 3);
+    // sesgar para que `a` aparezca como prefijo, sufijo o subcadena de `s`
+    if (s.len > 0 and r.chance(1, 3)) {
+        switch (r.below(3)) {
+            0 => {
+                // prefijo en limite de codepoint
+                var k = r.below(s.len + 1);
+                while (k < s.len and (s[k] & 0xc0) == 0x80) k += 1;
+                a = s[0..k];
+            },
+            1 => {
+                // sufijo en limite de codepoint
+                var k = r.below(s.len + 1);
+                while (k < s.len and (s[k] & 0xc0) == 0x80) k += 1;
+                a = s[k..];
+            },
+            else => {
+                var lo = r.below(s.len);
+                while (lo < s.len and (s[lo] & 0xc0) == 0x80) lo += 1;
+                var hi = lo + r.below(s.len - lo + 1);
+                while (hi < s.len and (s[hi] & 0xc0) == 0x80) hi += 1;
+                a = s[lo..hi];
+            },
+        }
+    }
+    if (maybeInvalid(r)) s = "\xff\xfe";
+    return proto.packFields(gpa, &.{ op, s, a, b });
+}
+
+const FLOAT_TEXTS = [_][]const u8{
+    "0",          "-0",       "0.0",        "-0.0",        "3.14",
+    "-1.5e3",     "+2",       ".5",         "5.",          "1e-10",
+    "1e309",      "-1e309",   "1e-325",     "inf",         "-inf",
+    "+inf",       "Infinity", "nan",        "-nan",        "NaN",
+    "1_000.5",    "1__0.5",   " 1.5 ",      "1.5\n",       "0x1p3",
+    "0x1.8p+1",   "",         "1,5",        "abc",         "1.5x",
+    ".",          "+",        "-",          "e10",         "1e",
+    "2.675",      "0.125",    "2.5",        "-2.5",        "1234.567",
+};
+
+const FLOAT_EDGE_BITS = [_]u64{
+    @bitCast(@as(f64, 0.0)),
+    @bitCast(@as(f64, -0.0)),
+    @bitCast(@as(f64, 0.5)),
+    @bitCast(@as(f64, -0.5)),
+    @bitCast(@as(f64, 1.5)),
+    @bitCast(@as(f64, -1.5)),
+    @bitCast(@as(f64, 2.5)),
+    @bitCast(@as(f64, -2.5)),
+    @bitCast(@as(f64, 3.5)),
+    @bitCast(@as(f64, -3.5)),
+    @bitCast(@as(f64, 2.675)),
+    @bitCast(@as(f64, 0.125)),
+    @bitCast(@as(f64, 2.4)),
+    @bitCast(@as(f64, -2.4)),
+    @bitCast(@as(f64, 2.6)),
+    @bitCast(@as(f64, 3.14159)),
+    @bitCast(@as(f64, 1234.567)),
+    @bitCast(@as(f64, 0.49999999999999994)), // 0.5 - 1 ulp
+    @bitCast(@as(f64, -0.49999999999999994)),
+    @bitCast(@as(f64, 0.5000000000000001)),  // 0.5 + 1 ulp
+    @bitCast(@as(f64, -0.5000000000000001)),
+    @bitCast(@as(f64, -0.49999999999999997)), // -(0.5 - 2^-54): diff == 0.5 al redondear!
+    @bitCast(@as(f64, 4503599627370495.5)),   // 2^52 - 0.5
+    @bitCast(@as(f64, -4503599627370495.5)),
+    @bitCast(@as(f64, 4503599627370496.0)),   // 2^52
+    @bitCast(@as(f64, 1e20)),
+    @bitCast(@as(f64, -1e20)),
+    @bitCast(@as(f64, 1e-308)),
+    0x0000000000000001, // subnormal minimo positivo
+    0x8000000000000001, // subnormal minimo negativo
+    @bitCast(std.math.inf(f64)),
+    @bitCast(-std.math.inf(f64)),
+    @bitCast(std.math.nan(f64)),
+};
+
+fn randomFiniteF64Bits(r: *Rng) u64 {
+    // floats moderados [-1e6, 1e6] mas potencias de 2 y medios enteros
+    switch (r.below(4)) {
+        0 => {
+            const k: f64 = @floatFromInt(r.random().intRangeAtMost(i32, -1000, 1000));
+            return @bitCast(k + 0.5);
+        },
+        1 => {
+            const raw: f64 = @floatFromInt(r.random().intRangeAtMost(i32, -100000, 100000));
+            return @bitCast(raw / 1000.0);
+        },
+        2 => {
+            const exp: u64 = r.random().intRangeAtMost(u64, 990, 1075);
+            const sign: u64 = @as(u64, @intFromBool(r.chance(1, 2))) << 63;
+            const mant: u64 = r.random().int(u64) & ((@as(u64, 1) << 52) - 1);
+            return sign | (exp << 52) | mant;
+        },
+        else => return r.pick(u64, &FLOAT_EDGE_BITS),
+    }
+}
+
+fn genParseFloat(r: *Rng, gpa: std.mem.Allocator) ![]u8 {
+    const op: []const u8 = if (maybeInvalid(r)) "fmt3" else if (r.chance(1, 2)) "parse" else "fmt2";
+    if (std.mem.eql(u8, op, "parse")) {
+        var buf: [24]u8 = undefined;
+        const text: []const u8 = if (r.chance(1, 3)) blk: {
+            const n = r.boundaryLen(buf.len);
+            r.ascii(buf[0..n], "0123456789.eE+-_ infanxXp,");
+            break :blk buf[0..n];
+        } else r.pick([]const u8, &FLOAT_TEXTS);
+        return proto.packFields(gpa, &.{ op, text });
+    }
+    var hbuf: [16]u8 = undefined;
+    const text: []const u8 = if (maybeInvalid(r))
+        "zzzz"
+    else
+        try std.fmt.bufPrint(&hbuf, "{x:0>16}", .{randomFiniteF64Bits(r)});
+    return proto.packFields(gpa, &.{ op, text });
+}
+
+const SORT_NAMES = [_][]const u8{
+    "a", "b", "c", "d", "e", "ana", "bob", "cy", "x1", "z9", "", "\xc3\xa9",
+};
+const SORT_AGES = [_][]const u8{
+    "0", "1", "2", "3", "4", "5", "20", "30", "4294967295",
+};
+const SORT_STRS = [_][]const u8{
+    "", "a", "aa", "ab", "b", "A", "Zeta", "ave", "manzana", "pera",
+    "\xc3\xa9", "\xc3\xb1", "\xe2\x82\xac", "\xf0\x9f\x98\x80", "a\xc3\xa9",
+};
+
+fn genSortKey(r: *Rng, gpa: std.mem.Allocator) ![]u8 {
+    var fields: std.ArrayList([]const u8) = .empty;
+    defer fields.deinit(gpa);
+    const op: []const u8 = if (maybeInvalid(r)) "rsort" else if (r.chance(2, 3)) "byage" else "strings";
+    try fields.append(gpa, op);
+    if (std.mem.eql(u8, op, "byage")) {
+        const rev: []const u8 = if (maybeInvalid(r)) "2" else if (r.chance(1, 2)) "1" else "0";
+        try fields.append(gpa, rev);
+        const count = r.boundaryLen(16);
+        var i: usize = 0;
+        while (i < count) : (i += 1) {
+            try fields.append(gpa, r.pick([]const u8, &SORT_NAMES));
+            const age = if (maybeInvalid(r)) "-1" else r.pick([]const u8, &SORT_AGES);
+            try fields.append(gpa, age);
+        }
+    } else {
+        const rev: []const u8 = if (maybeInvalid(r)) "1" else "0";
+        try fields.append(gpa, rev);
+        const count = r.boundaryLen(16);
+        var i: usize = 0;
+        while (i < count) : (i += 1) {
+            if (maybeInvalid(r)) {
+                try fields.append(gpa, "\xff");
+            } else {
+                try fields.append(gpa, r.pick([]const u8, &SORT_STRS));
+            }
+        }
+    }
+    return proto.packFields(gpa, fields.items);
+}
+
+const INTBYTES_WIDTHS = [_][]const u8{ "1", "4", "8" };
+const INTBYTES_VALUES = [_][]const u8{
+    "0", "1", "-1", "127", "128", "-128", "-129", "255", "256", "300",
+    "16909060", "-2", "2147483647", "2147483648", "-2147483648", "-2147483649",
+    "4294967295", "4294967296", "9223372036854775807", "9223372036854775808",
+    "-9223372036854775808", "-9223372036854775809",
+    "18446744073709551615", "18446744073709551616",
+};
+
+fn genIntBytes(r: *Rng, gpa: std.mem.Allocator) ![]u8 {
+    var vbuf: [40]u8 = undefined;
+    const op: []const u8 = if (maybeInvalid(r)) "cast" else if (r.chance(1, 2)) "to" else "from";
+    const width_s: []const u8 = if (maybeInvalid(r)) "3" else r.pick([]const u8, &INTBYTES_WIDTHS);
+    const signed_s: []const u8 = if (maybeInvalid(r)) "2" else if (r.chance(1, 2)) "1" else "0";
+    const endian: []const u8 = if (maybeInvalid(r)) "native" else r.pick([]const u8, &ENDIANS);
+    const val: []const u8 = if (maybeInvalid(r))
+        r.pick([]const u8, &NUM_INVALID)
+    else if (r.chance(2, 3))
+        r.pick([]const u8, &INTBYTES_VALUES)
+    else
+        try std.fmt.bufPrint(&vbuf, "{d}", .{r.random().int(i64)});
+    var data: [8]u8 = undefined;
+    const wlen: usize = if (std.mem.eql(u8, width_s, "1"))
+        1
+    else if (std.mem.eql(u8, width_s, "4"))
+        4
+    else if (std.mem.eql(u8, width_s, "8"))
+        8
+    else
+        2;
+    const dlen: usize = if (maybeInvalid(r)) r.below(8) else wlen;
+    r.fill(data[0..dlen]);
+    return proto.packFields(gpa, &.{ op, width_s, signed_s, endian, val, data[0..dlen] });
+}
+
+const ROUND_OPS = [_][]const u8{ "round_even", "floor", "ceil", "zig_round" };
+
+fn genRoundFloat(r: *Rng, gpa: std.mem.Allocator) ![]u8 {
+    const op: []const u8 = if (maybeInvalid(r)) "trunc" else r.pick([]const u8, &ROUND_OPS);
+    var hbuf: [16]u8 = undefined;
+    const hex_bits: []const u8 = if (maybeInvalid(r))
+        "0123"
+    else
+        try std.fmt.bufPrint(&hbuf, "{x:0>16}", .{randomFiniteF64Bits(r)});
+    return proto.packFields(gpa, &.{ op, hex_bits });
+}
+
+const UTF8_VALID = [_][]const u8{
+    "", "a", "abc", "\x00", "a\xc3\xa9\xe2\x82\xac", "\xf0\x9f\x98\x80",
+    "\xc2\x80", "\xdf\xbf", "\xe0\xa0\x80", "\xed\x9f\xbf", "\xee\x80\x80",
+    "\xef\xbf\xbf", "\xf0\x90\x80\x80", "\xf4\x8f\xbf\xbf",
+};
+const UTF8_INVALID = [_][]const u8{
+    "\x80", "\xbf", "\xc0\x80", "\xc1\xbf", "\xe0\x80\x80", "\xed\xa0\x80",
+    "\xed\xbf\xbf", "\xf0\x80\x80\x80", "\xf4\x90\x80\x80", "\xf5\x80\x80\x80",
+    "\xfe", "\xff", "\xc3", "\xe2\x82", "\xf0\x9f\x98",
+};
+
+fn genUtf8Cp(r: *Rng, gpa: std.mem.Allocator) ![]u8 {
+    var out: std.ArrayList(u8) = .empty;
+    defer out.deinit(gpa);
+    switch (r.below(4)) {
+        0 => {
+            const n = r.boundaryLen(8);
+            var i: usize = 0;
+            while (i < n) : (i += 1) {
+                try out.appendSlice(gpa, r.pick([]const u8, &UTF8_VALID));
+            }
+        },
+        1 => {
+            const n = r.boundaryLen(4);
+            var i: usize = 0;
+            while (i < n) : (i += 1) {
+                try out.appendSlice(gpa, r.pick([]const u8, &UTF8_VALID));
+            }
+            try out.appendSlice(gpa, r.pick([]const u8, &UTF8_INVALID));
+            if (r.chance(1, 2)) try out.appendSlice(gpa, r.pick([]const u8, &UTF8_VALID));
+        },
+        2 => {
+            try out.appendSlice(gpa, r.pick([]const u8, &UTF8_INVALID));
+        },
+        else => {
+            var buf: [32]u8 = undefined;
+            const n = r.boundaryLen(buf.len);
+            r.fill(buf[0..n]);
+            try out.appendSlice(gpa, buf[0..n]);
+        },
+    }
+    return proto.packFields(gpa, &.{out.items});
+}
+
 /// Build one case payload for a schema.
 pub fn generate(gpa: std.mem.Allocator, schema: Schema, r: *Rng) ![]u8 {
     return switch (schema) {
@@ -559,6 +848,12 @@ pub fn generate(gpa: std.mem.Allocator, schema: Schema, r: *Rng) ![]u8 {
         .divmod => genDivMod(r, gpa),
         .bits => genBits(r, gpa),
         .packint => genPackInt(r, gpa),
+        .straffix => genStrAffix(r, gpa),
+        .parsefloat => genParseFloat(r, gpa),
+        .sortkey => genSortKey(r, gpa),
+        .intbytes => genIntBytes(r, gpa),
+        .roundfloat => genRoundFloat(r, gpa),
+        .utf8cp => genUtf8Cp(r, gpa),
         .pipe => genPipe(r, gpa),
     };
 }

@@ -99,9 +99,10 @@ class ScoreTest(unittest.TestCase):
     @NEEDS_ZIG
     def test_good_examples_pass_first_attempt(self) -> None:
         report = ab_score.score_solutions(GOOD, TASKS_DIR, cache_dir=CACHE)
+        n_tasks = len(ab_score.load_tasks(TASKS_DIR))
         for arm, arm_report in report["arms"].items():
-            self.assertEqual(arm_report["summary"]["tasks_total"], 12, arm)
-            self.assertEqual(arm_report["summary"]["passed"], 12, arm)
+            self.assertEqual(arm_report["summary"]["tasks_total"], n_tasks, arm)
+            self.assertEqual(arm_report["summary"]["passed"], n_tasks, arm)
             for t in arm_report["tasks"].values():
                 self.assertTrue(t["passed"], t["task_id"])
                 self.assertEqual(t["compiles_until_pass"], 1, t["task_id"])
@@ -188,8 +189,9 @@ class RunTest(unittest.TestCase):
             self.assertEqual(manifest["tools_by_arm"]["A"], [])
             self.assertEqual(manifest["tools_by_arm"]["B"], ab_run.TOOLS_B)
             score = json.loads((out / "score.json").read_text(encoding="utf-8"))
-            self.assertEqual(score["arms"]["A"]["summary"]["passed"], 12)
-            self.assertEqual(score["arms"]["B"]["summary"]["passed"], 12)
+            n_tasks = len(ab_score.load_tasks(TASKS_DIR))
+            self.assertEqual(score["arms"]["A"]["summary"]["passed"], n_tasks)
+            self.assertEqual(score["arms"]["B"]["summary"]["passed"], n_tasks)
             self.assertFalse((out / "attempts.jsonl").exists())
 
     @NEEDS_ZIG

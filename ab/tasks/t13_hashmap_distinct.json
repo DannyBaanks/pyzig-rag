@@ -1,0 +1,16 @@
+{
+  "task_id": "t13_hashmap_distinct",
+  "title": "HashMap con claves string (std.StringHashMap)",
+  "control": false,
+  "difficulty": "hard",
+  "coverage_note": "API de Zig 0.16 que cambió respecto a versiones anteriores; sin entradas de corpus para la función (ver ab/PROTOCOL.md).",
+  "prompt": "Tarea t13_hashmap_distinct: Dado un slice de palabras, devuelve cuántas palabras distintas contiene. Dos palabras son iguales si tienen el mismo contenido de bytes, aunque estén en memoria distinta. Usa una tabla hash con claves `[]const u8` de la biblioteca estándar de Zig 0.16 y libérala antes de devolver. Con una lista vacía devuelve 0.\n\nEscribe un único archivo de código Zig 0.16.0 que defina exactamente estas funciones públicas:\n```zig\npub fn distinctCount(allocator: std.mem.Allocator, words: []const []const u8) !usize\n```\n\nEl archivo debe empezar con `const std = @import(\"std\");` si necesitas la biblioteca estándar. No incluyas pruebas ni `pub fn main`: el arnés añadirá sus propias pruebas Zig al final de tu archivo. Devuelve SOLO el código Zig, sin texto explicativo ni cercas de código markdown.",
+  "py_ref": "def distinct_count(words):\n    return len(set(words))\n\nassert distinct_count(['a', 'b', 'a', 'c', 'b', 'a']) == 3\nassert distinct_count([]) == 0",
+  "signature": "pub fn distinctCount(allocator: std.mem.Allocator, words: []const []const u8) !usize",
+  "oracle": [
+    "distinctCount([a,b,a,c,b,a]) == 3",
+    "distinctCount([]) == 0",
+    "\"ab\" y \"a\"++\"b\" cuentan como una sola palabra"
+  ],
+  "zig_test": "test \"t13 hashmap distinct\" {\n    const words = [_][]const u8{ \"a\", \"b\", \"a\", \"c\", \"b\", \"a\" };\n    try std.testing.expectEqual(@as(usize, 3), try distinctCount(std.testing.allocator, &words));\n    try std.testing.expectEqual(@as(usize, 0), try distinctCount(std.testing.allocator, &.{}));\n    const same = [_][]const u8{ \"ab\", \"a\" ++ \"b\" };\n    try std.testing.expectEqual(@as(usize, 1), try distinctCount(std.testing.allocator, &same));\n}\n"
+}

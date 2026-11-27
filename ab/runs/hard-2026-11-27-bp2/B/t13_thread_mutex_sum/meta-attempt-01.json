@@ -1,0 +1,11 @@
+{
+  "tool_calls": [
+    "$PYZIG_CLI search \"std.Io Mutex lock unlock in Zig 0.16\" --limit 10",
+    "$PYZIG_CLI --help",
+    "zig test scratch.zig (API introspection: Io.Mutex decls, init/lock/unlock signatures)",
+    "zig test scratch.zig (call parallelSum via std.testing.io)",
+    "zig test scratch.zig (call parallelSum via std.Io.Threaded.io())",
+    "printf '%s' \"$ZIG_CODE\" | $PYZIG_CLI check --mode test",
+    "printf '%s' \"$ZIG_CODE\" | $PYZIG_CLI check --mode ast"
+  ]
+}

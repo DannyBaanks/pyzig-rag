@@ -1,0 +1,254 @@
+{
+  "generated_by": "scripts/usage_sessions.py",
+  "privacy": "solo agregados y firmas de error normalizadas; sin texto de mensajes, consultas literales, rutas, ids de sesion ni proyectos",
+  "sources": {
+    "claude": "254 transcripts",
+    "codex": "253 transcripts",
+    "gemini": "2 transcripts",
+    "qwen": "16 transcripts",
+    "opencode": "2 sqlite"
+  },
+  "labels_loaded": 64,
+  "transcripts": 525,
+  "volume_mb": 3988.8,
+  "duration_s": 28.98,
+  "sessions_total": 992,
+  "sessions_with_zig": 103,
+  "sessions_with_pyzig": 1,
+  "pyzig_calls_total": 1,
+  "pyzig_calls_requested": 0,
+  "pyzig_calls_spontaneous": 1,
+  "pyzig_calls_by_tool": {
+    "pyzig_search": 1
+  },
+  "pyzig_calls_by_origin": {
+    "pyzig_search": {
+      "requested": 0,
+      "spontaneous": 1
+    }
+  },
+  "pyzig_status_by_tool": {
+    "pyzig_search": {
+      "results": 1,
+      "no_results": 0,
+      "version_mismatch": 0,
+      "compile_fail": 0,
+      "error": 0,
+      "unknown": 0
+    }
+  },
+  "no_results_rate_by_tool": {
+    "pyzig_search": 0.0
+  },
+  "zig_runs": 1773,
+  "zig_runs_with_errors": 128,
+  "compile_error_opportunities": {
+    "with_recipe": 122,
+    "consulted_pyzig": 0,
+    "not_consulted_with_recipe": 122,
+    "not_consulted_with_recipe_and_next_run_passed": 66
+  },
+  "top_error_signatures": [
+    {
+      "signature": "local variable is never mutated",
+      "count": 13,
+      "sessions": 6,
+      "recipe": "zig0.16/diag-never-mutated",
+      "consulted": 0,
+      "with_recipe_next_run_passed": 7
+    },
+    {
+      "signature": "dependency on libc must be explicitly specified in the build command",
+      "count": 11,
+      "sessions": 7,
+      "recipe": "zig0.16/build-link-libc",
+      "consulted": 0,
+      "with_recipe_next_run_passed": 5
+    },
+    {
+      "signature": "evaluation exceeded N backwards branches",
+      "count": 7,
+      "sessions": 4,
+      "recipe": "zig0.16/diag-eval-branch-quota",
+      "consulted": 0,
+      "with_recipe_next_run_passed": 5
+    },
+    {
+      "signature": "root source file struct '_' has no member named '_'",
+      "count": 6,
+      "sessions": 4,
+      "recipe": null,
+      "consulted": 0,
+      "with_recipe_next_run_passed": 0
+    },
+    {
+      "signature": "member function expected N argument(s), found N",
+      "count": 5,
+      "sessions": 3,
+      "recipe": "zig0.16/migrate-readfilealloc",
+      "consulted": 0,
+      "with_recipe_next_run_passed": 1
+    },
+    {
+      "signature": "dependency on dynamic library '_' requires enabling Position Independent Code; fixed by '_' or '_'",
+      "count": 4,
+      "sessions": 1,
+      "recipe": "zig0.16/build-dynamic-library-pic",
+      "consulted": 0,
+      "with_recipe_next_run_passed": 0
+    },
+    {
+      "signature": "invalid builtin function: '_'",
+      "count": 4,
+      "sessions": 2,
+      "recipe": "zig0.16/migrate-type-builtin",
+      "consulted": 0,
+      "with_recipe_next_run_passed": 1
+    },
+    {
+      "signature": "local constant shadows declaration of '_'",
+      "count": 4,
+      "sessions": 4,
+      "recipe": "zig0.16/diag-shadow-local",
+      "consulted": 0,
+      "with_recipe_next_run_passed": 3
+    },
+    {
+      "signature": "no field or member function named '_' in 'array_list._(uN,null)'",
+      "count": 4,
+      "sessions": 3,
+      "recipe": "zig0.16/migrate-arraylist-unmanaged",
+      "consulted": 0,
+      "with_recipe_next_run_passed": 2
+    },
+    {
+      "signature": "struct 'array_list._(uN,null)' has no member named '_'",
+      "count": 4,
+      "sessions": 2,
+      "recipe": "zig0.16/migrate-arraylist-unmanaged",
+      "consulted": 0,
+      "with_recipe_next_run_passed": 0
+    },
+    {
+      "signature": "unable to resolve comptime value",
+      "count": 4,
+      "sessions": 3,
+      "recipe": "zig0.16/diag-comptime-runtime-value",
+      "consulted": 0,
+      "with_recipe_next_run_passed": 2
+    },
+    {
+      "signature": "use of undeclared identifier '_'",
+      "count": 4,
+      "sessions": 3,
+      "recipe": "zig0.16/diag-mined-undeclared-ident",
+      "consulted": 0,
+      "with_recipe_next_run_passed": 3
+    },
+    {
+      "signature": "embed of file outside package path: '_'",
+      "count": 3,
+      "sessions": 1,
+      "recipe": "zig0.16/diag-mined-embed-outside",
+      "consulted": 0,
+      "with_recipe_next_run_passed": 2
+    },
+    {
+      "signature": "expected type '?[*:N]const uN', found '*const [:N]const uN'",
+      "count": 3,
+      "sessions": 3,
+      "recipe": "zig0.16/cstring-span-slice-to",
+      "consulted": 0,
+      "with_recipe_next_run_passed": 2
+    },
+    {
+      "signature": "expected type '_', found '*const _'",
+      "count": 3,
+      "sessions": 1,
+      "recipe": "zig0.16/diag-mined-pointer-coercion",
+      "consulted": 0,
+      "with_recipe_next_run_passed": 2
+    },
+    {
+      "signature": "local variable shadows declaration of '_'",
+      "count": 3,
+      "sessions": 3,
+      "recipe": "zig0.16/diag-shadow-local",
+      "consulted": 0,
+      "with_recipe_next_run_passed": 2
+    },
+    {
+      "signature": "no field named '_' in struct 'Build._'",
+      "count": 3,
+      "sessions": 2,
+      "recipe": "zig0.16/build-exe-root-module",
+      "consulted": 0,
+      "with_recipe_next_run_passed": 1
+    },
+    {
+      "signature": "root source file struct 'fs' has no member named 'cwd'",
+      "count": 3,
+      "sessions": 2,
+      "recipe": "zig0.16/migrate-readfilealloc",
+      "consulted": 0,
+      "with_recipe_next_run_passed": 0
+    },
+    {
+      "signature": "root source file struct 'fs' has no member named 'openDirAbsolute'",
+      "count": 3,
+      "sessions": 3,
+      "recipe": "zig0.16/migrate-open-dir-absolute",
+      "consulted": 0,
+      "with_recipe_next_run_passed": 1
+    },
+    {
+      "signature": "unable to evaluate comptime expression",
+      "count": 3,
+      "sessions": 3,
+      "recipe": "zig0.16/diag-comptime-runtime-call",
+      "consulted": 0,
+      "with_recipe_next_run_passed": 2
+    },
+    {
+      "signature": "unused local constant",
+      "count": 3,
+      "sessions": 2,
+      "recipe": "zig0.16/diag-mined-unused-discard",
+      "consulted": 0,
+      "with_recipe_next_run_passed": 3
+    },
+    {
+      "signature": "'comptime var' is redundant in comptime scope",
+      "count": 2,
+      "sessions": 1,
+      "recipe": "zig0.16/diag-comptime-redundant",
+      "consulted": 0,
+      "with_recipe_next_run_passed": 0
+    },
+    {
+      "signature": "@ptrCast discards const qualifier",
+      "count": 2,
+      "sessions": 2,
+      "recipe": "zig0.16/diag-ptrcast-const",
+      "consulted": 0,
+      "with_recipe_next_run_passed": 1
+    },
+    {
+      "signature": "C import failed",
+      "count": 2,
+      "sessions": 1,
+      "recipe": null,
+      "consulted": 0,
+      "with_recipe_next_run_passed": 0
+    },
+    {
+      "signature": "capture shadows declaration of '_'",
+      "count": 2,
+      "sessions": 2,
+      "recipe": "zig0.16/diag-shadow-local",
+      "consulted": 0,
+      "with_recipe_next_run_passed": 1
+    }
+  ],
+  "unparsed_sessions": 0
+}

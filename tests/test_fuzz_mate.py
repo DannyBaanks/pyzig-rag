@@ -77,8 +77,8 @@ class PromotedContractsTest(unittest.TestCase):
             with self.subTest(oid=oid):
                 self.assertIs(mod.CONTRACTS[oid], contracts.CONTRACTS[oid])
         for oid, c in mod.CONTRACTS.items():
-            if oid not in PROMOTED:
-                self.assertFalse(c["fuzzable"], oid)
+            if c["fuzzable"]:
+                self.assertIs(c, contracts.CONTRACTS[oid], oid)
 
 
 class DivModModelTest(unittest.TestCase):

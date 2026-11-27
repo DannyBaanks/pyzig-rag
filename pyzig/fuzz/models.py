@@ -18,6 +18,7 @@ from __future__ import annotations
 import base64
 import binascii
 import hashlib
+import math
 import os
 import re
 import shutil
@@ -547,6 +548,194 @@ def model_packint(fields: list[bytes]) -> tuple[str, list[str]]:
     return "ok", ["ok", "", "", bytes(buf).hex()]
 
 
+# --- ola 6: straffix, parsefloat, sortkey, intbytes, roundfloat, utf8cp -----
+
+_HEX16_LOWER = re.compile(rb"[0-9a-f]{16}")
+_U32_STRICT = re.compile(rb"[0-9]+")
+_I128_MIN, _I128_MAX = -(2 ** 127), 2 ** 127 - 1
+
+
+def _decode_utf8_strict(raw: bytes) -> str | None:
+    try:
+        return raw.decode("utf-8")
+    except UnicodeDecodeError:
+        return None
+
+
+def _unpack_f64_hex(raw: bytes) -> float | None:
+    if not _HEX16_LOWER.fullmatch(raw):
+        return None
+    return struct.unpack(">d", bytes.fromhex(raw.decode("ascii")))[0]
+
+
+def _pack_fields_local(items: list[bytes]) -> bytes:
+    parts = []
+    for item in items:
+        parts.append(struct.pack("<I", len(item)))
+        parts.append(item)
+    return b"".join(parts)
+
+
+def model_straffix(fields: list[bytes]) -> tuple[str, list[str]]:
+    """str.startswith, str.endswith, str.find, str.replace sobre UTF-8 valido."""
+    n = 3
+    if len(fields) < 4:
+        return _invalid(n)
+    op = fields[0]
+    s = _decode_utf8_strict(fields[1])
+    a = _decode_utf8_strict(fields[2])
+    b = _decode_utf8_strict(fields[3])
+    if s is None or a is None or b is None:
+        return _invalid(n)
+    if op == b"starts":
+        return "ok", ["ok", "", "1" if s.startswith(a) else "0"]
+    if op == b"ends":
+        return "ok", ["ok", "", "1" if s.endswith(a) else "0"]
+    if op == b"find":
+        return "ok", ["ok", "", str(s.find(a))]
+    if op == b"replace":
+        return "ok", ["ok", "", s.replace(a, b)]
+    return _invalid(n)
+
+
+def model_parsefloat(fields: list[bytes]) -> tuple[str, list[str]]:
+    """float(text) y f'{x:.2f}'."""
+    n = 3
+    if len(fields) < 2:
+        return _invalid(n)
+    op, text = fields[0], fields[1]
+    if op == b"parse":
+        try:
+            x = float(text.decode("utf-8"))
+        except (UnicodeDecodeError, ValueError):
+            return "err", ["err", "InvalidLiteral", ""]
+        if math.isnan(x):
+            return "ok", ["ok", "", "nan"]
+        return "ok", ["ok", "", struct.pack(">d", x).hex()]
+    if op == b"fmt2":
+        x = _unpack_f64_hex(text)
+        if x is None:
+            return _invalid(n)
+        return "ok", ["ok", "", f"{x:.2f}"]
+    return _invalid(n)
+
+
+def model_sortkey(fields: list[bytes]) -> tuple[str, list[str]]:
+    """sorted(people, key=lambda p: p[1], reverse=rev) estable y sorted(strings)."""
+    n = 3
+    if len(fields) < 2:
+        return _invalid(n)
+    op, rev_b = fields[0], fields[1]
+    rest = fields[2:]
+    if op == b"byage":
+        if rev_b == b"0":
+            rev = False
+        elif rev_b == b"1":
+            rev = True
+        else:
+            return _invalid(n)
+        if len(rest) % 2 != 0:
+            return _invalid(n)
+        people: list[tuple[str, int]] = []
+        for i in range(0, len(rest), 2):
+            name = _decode_utf8_strict(rest[i])
+            if name is None or ":" in name or "," in name:
+                return _invalid(n)
+            age_raw = rest[i + 1]
+            if not _U32_STRICT.fullmatch(age_raw):
+                return _invalid(n)
+            age = int(age_raw)
+            if age > _U32_MAX:
+                return _invalid(n)
+            people.append((name, age))
+        ordered = sorted(people, key=lambda p: p[1], reverse=rev)
+        out = ",".join(f"{name}:{age}" for name, age in ordered)
+        return "ok", ["ok", "", out]
+    if op == b"strings":
+        if rev_b != b"0":
+            return _invalid(n)
+        decoded: list[str] = []
+        for raw in rest:
+            s = _decode_utf8_strict(raw)
+            if s is None:
+                return _invalid(n)
+            decoded.append(s)
+        decoded.sort()
+        packed = _pack_fields_local([s.encode("utf-8") for s in decoded])
+        return "ok", ["ok", "", packed.hex()]
+    return _invalid(n)
+
+
+def model_intbytes(fields: list[bytes]) -> tuple[str, list[str]]:
+    """int.to_bytes / int.from_bytes con ancho 1/4/8, signed y endian."""
+    n = 4
+    if len(fields) < 6:
+        return _invalid(n)
+    op, width_b, signed_b, endian_b, val_b, data = fields[:6]
+    if op not in (b"to", b"from"):
+        return _invalid(n)
+    if width_b not in (b"1", b"4", b"8"):
+        return _invalid(n)
+    if signed_b not in (b"0", b"1"):
+        return _invalid(n)
+    if endian_b not in (b"big", b"little"):
+        return _invalid(n)
+    width = int(width_b)
+    signed = signed_b == b"1"
+    byteorder = endian_b.decode("ascii")
+    if op == b"to":
+        value = _strict_int(val_b, _I128_MIN, _I128_MAX)
+        if value is None:
+            return _invalid(n)
+        try:
+            out = value.to_bytes(width, byteorder, signed=signed)
+        except OverflowError:
+            return "err", ["err", OUT_OF_RANGE, "", ""]
+        return "ok", ["ok", "", "", out.hex()]
+    if len(data) != width:
+        return _invalid(n)
+    v = int.from_bytes(data, byteorder, signed=signed)
+    return "ok", ["ok", "", str(v), ""]
+
+
+def model_roundfloat(fields: list[bytes]) -> tuple[str, list[str]]:
+    """round(x), math.floor(x), math.ceil(x) sobre f64 IEEE-754."""
+    n = 3
+    if len(fields) < 2:
+        return _invalid(n)
+    op = fields[0]
+    if op not in (b"round_even", b"floor", b"ceil", b"zig_round"):
+        return _invalid(n)
+    x = _unpack_f64_hex(fields[1])
+    if x is None:
+        return _invalid(n)
+    try:
+        if op in (b"round_even", b"zig_round"):
+            res = round(x)
+        elif op == b"floor":
+            res = math.floor(x)
+        else:
+            res = math.ceil(x)
+    except OverflowError:
+        return "err", ["err", "Overflow", ""]
+    except ValueError:
+        return "err", ["err", "InvalidArgument", ""]
+    return "ok", ["ok", "", str(res)]
+
+
+def model_utf8cp(fields: list[bytes]) -> tuple[str, list[str]]:
+    """bytes.decode('utf-8'), len(s), sum(ord(c) for c in s)."""
+    n = 5
+    if not fields:
+        return _invalid(n)
+    data = fields[0]
+    try:
+        s = data.decode("utf-8")
+    except UnicodeDecodeError:
+        return "err", ["err", BAD_ENCODING, "0", "", ""]
+    return "ok", ["ok", "", "1", str(len(s)), str(sum(ord(c) for c in s))]
+
+
 #: nombre de modelo -> funcion
 MODELS: dict[str, Callable[[list[bytes]], tuple[str, list[str]]]] = {
     "argv": model_argv,
@@ -566,4 +755,10 @@ MODELS: dict[str, Callable[[list[bytes]], tuple[str, list[str]]]] = {
     "divmod": model_divmod,
     "bits": model_bits,
     "packint": model_packint,
+    "straffix": model_straffix,
+    "parsefloat": model_parsefloat,
+    "sortkey": model_sortkey,
+    "intbytes": model_intbytes,
+    "roundfloat": model_roundfloat,
+    "utf8cp": model_utf8cp,
 }

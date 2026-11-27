@@ -1,0 +1,15 @@
+{
+  "tool_calls": [
+    "$PYZIG_CLI --help",
+    "$PYZIG_CLI search \"std.Io.Writer print formatted integer to writer\" --limit 10",
+    "$PYZIG_CLI search \"std.Io.Writer writeAll writeByte API\" --limit 10",
+    "$PYZIG_CLI search \"write integer decimal to std.Io.Writer without allocation\" --limit 10",
+    "$PYZIG_CLI check --mode ast",
+    "$PYZIG_CLI check --mode test",
+    "$PYZIG_CLI check --mode test",
+    "$PYZIG_CLI check --mode test",
+    "$PYZIG_CLI check --mode test",
+    "$PYZIG_CLI check --mode ast",
+    "$PYZIG_CLI check --mode test"
+  ]
+}

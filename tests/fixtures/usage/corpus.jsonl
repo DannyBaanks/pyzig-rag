@@ -1,0 +1,1 @@
+{"operation_id": "zig0.16/migrate-cwd", "apis_used": ["std.Io.Dir.cwd"], "aliases": ["std.fs.cwd"], "error_signatures": ["error: root source file struct 'fs' has no member named 'cwd'"]}

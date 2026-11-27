@@ -1,0 +1,631 @@
+{
+  "schema": 1,
+  "tasks_dir": "ab/tasks",
+  "solutions_dir": "ab/runs/hard-2026-11-27-bp2",
+  "scorer": "pyzig.check.check_zig(mode='test', suggest=False)",
+  "arms": {
+    "A": {
+      "tasks": {
+        "t13_arraylist_evens": {
+          "task_id": "t13_arraylist_evens",
+          "control": false,
+          "attempts": 1,
+          "compiles": 1,
+          "compiles_until_pass": 1,
+          "passed": true,
+          "compile_errors": 0,
+          "error_records": 0,
+          "tests_passed_attempts": 1,
+          "runtime_failures": 0,
+          "unscored": 0,
+          "tokens": {
+            "available": false,
+            "measured_attempts": 0,
+            "total": "NOT_AVAILABLE",
+            "by_attempt": [
+              "NOT_AVAILABLE"
+            ]
+          },
+          "attempts_detail": [
+            {
+              "attempt": 1,
+              "file": "A/t13_arraylist_evens/attempt-01.zig",
+              "status": "PASS",
+              "compiled": true,
+              "tests_passed": true,
+              "passed": true,
+              "error_records": 0,
+              "stderr_tail": "1/1 check.test.t13 arraylist evens...OK\nAll 1 tests passed.\n",
+              "errors": [],
+              "agent_rc": 0
+            }
+          ]
+        },
+        "t13_hashmap_distinct": {
+          "task_id": "t13_hashmap_distinct",
+          "control": false,
+          "attempts": 1,
+          "compiles": 1,
+          "compiles_until_pass": 1,
+          "passed": true,
+          "compile_errors": 0,
+          "error_records": 0,
+          "tests_passed_attempts": 1,
+          "runtime_failures": 0,
+          "unscored": 0,
+          "tokens": {
+            "available": false,
+            "measured_attempts": 0,
+            "total": "NOT_AVAILABLE",
+            "by_attempt": [
+              "NOT_AVAILABLE"
+            ]
+          },
+          "attempts_detail": [
+            {
+              "attempt": 1,
+              "file": "A/t13_hashmap_distinct/attempt-01.zig",
+              "status": "PASS",
+              "compiled": true,
+              "tests_passed": true,
+              "passed": true,
+              "error_records": 0,
+              "stderr_tail": "1/1 check.test.t13 hashmap distinct...OK\nAll 1 tests passed.\n",
+              "errors": [],
+              "agent_rc": 0
+            }
+          ]
+        },
+        "t13_json_items": {
+          "task_id": "t13_json_items",
+          "control": false,
+          "attempts": 1,
+          "compiles": 1,
+          "compiles_until_pass": 1,
+          "passed": true,
+          "compile_errors": 0,
+          "error_records": 0,
+          "tests_passed_attempts": 1,
+          "runtime_failures": 0,
+          "unscored": 0,
+          "tokens": {
+            "available": false,
+            "measured_attempts": 0,
+            "total": "NOT_AVAILABLE",
+            "by_attempt": [
+              "NOT_AVAILABLE"
+            ]
+          },
+          "attempts_detail": [
+            {
+              "attempt": 1,
+              "file": "A/t13_json_items/attempt-01.zig",
+              "status": "PASS",
+              "compiled": true,
+              "tests_passed": true,
+              "passed": true,
+              "error_records": 0,
+              "stderr_tail": "1/1 check.test.t13 json totals...OK\nAll 1 tests passed.\n",
+              "errors": [],
+              "agent_rc": 0
+            }
+          ]
+        },
+        "t13_process_stdout": {
+          "task_id": "t13_process_stdout",
+          "control": false,
+          "attempts": 1,
+          "compiles": 1,
+          "compiles_until_pass": 1,
+          "passed": true,
+          "compile_errors": 0,
+          "error_records": 0,
+          "tests_passed_attempts": 1,
+          "runtime_failures": 0,
+          "unscored": 0,
+          "tokens": {
+            "available": false,
+            "measured_attempts": 0,
+            "total": "NOT_AVAILABLE",
+            "by_attempt": [
+              "NOT_AVAILABLE"
+            ]
+          },
+          "attempts_detail": [
+            {
+              "attempt": 1,
+              "file": "A/t13_process_stdout/attempt-01.zig",
+              "status": "PASS",
+              "compiled": true,
+              "tests_passed": true,
+              "passed": true,
+              "error_records": 0,
+              "stderr_tail": "1/1 check.test.t13 process stdout...OK\nAll 1 tests passed.\n",
+              "errors": [],
+              "agent_rc": 0
+            }
+          ]
+        },
+        "t13_read_whole_file": {
+          "task_id": "t13_read_whole_file",
+          "control": false,
+          "attempts": 1,
+          "compiles": 1,
+          "compiles_until_pass": 1,
+          "passed": true,
+          "compile_errors": 0,
+          "error_records": 0,
+          "tests_passed_attempts": 1,
+          "runtime_failures": 0,
+          "unscored": 0,
+          "tokens": {
+            "available": false,
+            "measured_attempts": 0,
+            "total": "NOT_AVAILABLE",
+            "by_attempt": [
+              "NOT_AVAILABLE"
+            ]
+          },
+          "attempts_detail": [
+            {
+              "attempt": 1,
+              "file": "A/t13_read_whole_file/attempt-01.zig",
+              "status": "PASS",
+              "compiled": true,
+              "tests_passed": true,
+              "passed": true,
+              "error_records": 0,
+              "stderr_tail": "1/1 check.test.t13 read whole file...OK\nAll 1 tests passed.\n",
+              "errors": [],
+              "agent_rc": 0
+            }
+          ]
+        },
+        "t13_sleep_elapsed": {
+          "task_id": "t13_sleep_elapsed",
+          "control": false,
+          "attempts": 1,
+          "compiles": 1,
+          "compiles_until_pass": 1,
+          "passed": true,
+          "compile_errors": 0,
+          "error_records": 0,
+          "tests_passed_attempts": 1,
+          "runtime_failures": 0,
+          "unscored": 0,
+          "tokens": {
+            "available": false,
+            "measured_attempts": 0,
+            "total": "NOT_AVAILABLE",
+            "by_attempt": [
+              "NOT_AVAILABLE"
+            ]
+          },
+          "attempts_detail": [
+            {
+              "attempt": 1,
+              "file": "A/t13_sleep_elapsed/attempt-01.zig",
+              "status": "PASS",
+              "compiled": true,
+              "tests_passed": true,
+              "passed": true,
+              "error_records": 0,
+              "stderr_tail": "1/1 check.test.t13 sleep elapsed...OK\nAll 1 tests passed.\n",
+              "errors": [],
+              "agent_rc": 0
+            }
+          ]
+        },
+        "t13_thread_mutex_sum": {
+          "task_id": "t13_thread_mutex_sum",
+          "control": false,
+          "attempts": 1,
+          "compiles": 1,
+          "compiles_until_pass": 1,
+          "passed": true,
+          "compile_errors": 0,
+          "error_records": 0,
+          "tests_passed_attempts": 1,
+          "runtime_failures": 0,
+          "unscored": 0,
+          "tokens": {
+            "available": false,
+            "measured_attempts": 0,
+            "total": "NOT_AVAILABLE",
+            "by_attempt": [
+              "NOT_AVAILABLE"
+            ]
+          },
+          "attempts_detail": [
+            {
+              "attempt": 1,
+              "file": "A/t13_thread_mutex_sum/attempt-01.zig",
+              "status": "PASS",
+              "compiled": true,
+              "tests_passed": true,
+              "passed": true,
+              "error_records": 0,
+              "stderr_tail": "1/1 check.test.t13 thread mutex sum...OK\nAll 1 tests passed.\n",
+              "errors": [],
+              "agent_rc": 0
+            }
+          ]
+        },
+        "t13_writer_rows": {
+          "task_id": "t13_writer_rows",
+          "control": false,
+          "attempts": 1,
+          "compiles": 1,
+          "compiles_until_pass": 1,
+          "passed": true,
+          "compile_errors": 0,
+          "error_records": 0,
+          "tests_passed_attempts": 1,
+          "runtime_failures": 0,
+          "unscored": 0,
+          "tokens": {
+            "available": false,
+            "measured_attempts": 0,
+            "total": "NOT_AVAILABLE",
+            "by_attempt": [
+              "NOT_AVAILABLE"
+            ]
+          },
+          "attempts_detail": [
+            {
+              "attempt": 1,
+              "file": "A/t13_writer_rows/attempt-01.zig",
+              "status": "PASS",
+              "compiled": true,
+              "tests_passed": true,
+              "passed": true,
+              "error_records": 0,
+              "stderr_tail": "1/1 check.test.t13 writer rows...OK\nAll 1 tests passed.\n",
+              "errors": [],
+              "agent_rc": 0
+            }
+          ]
+        }
+      },
+      "summary": {
+        "tasks_total": 8,
+        "tasks_with_solutions": 8,
+        "passed": 8,
+        "pass_rate": 1.0,
+        "compiles_total": 8,
+        "compiles_until_pass": {
+          "n": 8,
+          "mean": 1,
+          "median": 1.0
+        },
+        "compile_errors_total": 0,
+        "error_records_total": 0,
+        "tests_passed_attempts_total": 8,
+        "unscored_attempts_total": 0,
+        "tokens_available": false,
+        "tokens_total": "NOT_AVAILABLE"
+      }
+    },
+    "B": {
+      "tasks": {
+        "t13_arraylist_evens": {
+          "task_id": "t13_arraylist_evens",
+          "control": false,
+          "attempts": 1,
+          "compiles": 1,
+          "compiles_until_pass": 1,
+          "passed": true,
+          "compile_errors": 0,
+          "error_records": 0,
+          "tests_passed_attempts": 1,
+          "runtime_failures": 0,
+          "unscored": 0,
+          "tokens": {
+            "available": false,
+            "measured_attempts": 0,
+            "total": "NOT_AVAILABLE",
+            "by_attempt": [
+              "NOT_AVAILABLE"
+            ]
+          },
+          "attempts_detail": [
+            {
+              "attempt": 1,
+              "file": "B/t13_arraylist_evens/attempt-01.zig",
+              "status": "PASS",
+              "compiled": true,
+              "tests_passed": true,
+              "passed": true,
+              "error_records": 0,
+              "stderr_tail": "1/1 check.test.t13 arraylist evens...OK\nAll 1 tests passed.\n",
+              "errors": [],
+              "agent_rc": 0
+            }
+          ]
+        },
+        "t13_hashmap_distinct": {
+          "task_id": "t13_hashmap_distinct",
+          "control": false,
+          "attempts": 1,
+          "compiles": 1,
+          "compiles_until_pass": 1,
+          "passed": true,
+          "compile_errors": 0,
+          "error_records": 0,
+          "tests_passed_attempts": 1,
+          "runtime_failures": 0,
+          "unscored": 0,
+          "tokens": {
+            "available": false,
+            "measured_attempts": 0,
+            "total": "NOT_AVAILABLE",
+            "by_attempt": [
+              "NOT_AVAILABLE"
+            ]
+          },
+          "attempts_detail": [
+            {
+              "attempt": 1,
+              "file": "B/t13_hashmap_distinct/attempt-01.zig",
+              "status": "PASS",
+              "compiled": true,
+              "tests_passed": true,
+              "passed": true,
+              "error_records": 0,
+              "stderr_tail": "1/1 check.test.t13 hashmap distinct...OK\nAll 1 tests passed.\n",
+              "errors": [],
+              "agent_rc": 0
+            }
+          ]
+        },
+        "t13_json_items": {
+          "task_id": "t13_json_items",
+          "control": false,
+          "attempts": 1,
+          "compiles": 1,
+          "compiles_until_pass": 1,
+          "passed": true,
+          "compile_errors": 0,
+          "error_records": 0,
+          "tests_passed_attempts": 1,
+          "runtime_failures": 0,
+          "unscored": 0,
+          "tokens": {
+            "available": false,
+            "measured_attempts": 0,
+            "total": "NOT_AVAILABLE",
+            "by_attempt": [
+              "NOT_AVAILABLE"
+            ]
+          },
+          "attempts_detail": [
+            {
+              "attempt": 1,
+              "file": "B/t13_json_items/attempt-01.zig",
+              "status": "PASS",
+              "compiled": true,
+              "tests_passed": true,
+              "passed": true,
+              "error_records": 0,
+              "stderr_tail": "1/1 check.test.t13 json totals...OK\nAll 1 tests passed.\n",
+              "errors": [],
+              "agent_rc": 0
+            }
+          ]
+        },
+        "t13_process_stdout": {
+          "task_id": "t13_process_stdout",
+          "control": false,
+          "attempts": 1,
+          "compiles": 1,
+          "compiles_until_pass": 1,
+          "passed": true,
+          "compile_errors": 0,
+          "error_records": 0,
+          "tests_passed_attempts": 1,
+          "runtime_failures": 0,
+          "unscored": 0,
+          "tokens": {
+            "available": false,
+            "measured_attempts": 0,
+            "total": "NOT_AVAILABLE",
+            "by_attempt": [
+              "NOT_AVAILABLE"
+            ]
+          },
+          "attempts_detail": [
+            {
+              "attempt": 1,
+              "file": "B/t13_process_stdout/attempt-01.zig",
+              "status": "PASS",
+              "compiled": true,
+              "tests_passed": true,
+              "passed": true,
+              "error_records": 0,
+              "stderr_tail": "1/1 check.test.t13 process stdout...OK\nAll 1 tests passed.\n",
+              "errors": [],
+              "agent_rc": 0
+            }
+          ]
+        },
+        "t13_read_whole_file": {
+          "task_id": "t13_read_whole_file",
+          "control": false,
+          "attempts": 1,
+          "compiles": 1,
+          "compiles_until_pass": 1,
+          "passed": true,
+          "compile_errors": 0,
+          "error_records": 0,
+          "tests_passed_attempts": 1,
+          "runtime_failures": 0,
+          "unscored": 0,
+          "tokens": {
+            "available": false,
+            "measured_attempts": 0,
+            "total": "NOT_AVAILABLE",
+            "by_attempt": [
+              "NOT_AVAILABLE"
+            ]
+          },
+          "attempts_detail": [
+            {
+              "attempt": 1,
+              "file": "B/t13_read_whole_file/attempt-01.zig",
+              "status": "PASS",
+              "compiled": true,
+              "tests_passed": true,
+              "passed": true,
+              "error_records": 0,
+              "stderr_tail": "1/1 check.test.t13 read whole file...OK\nAll 1 tests passed.\n",
+              "errors": [],
+              "agent_rc": 0
+            }
+          ]
+        },
+        "t13_sleep_elapsed": {
+          "task_id": "t13_sleep_elapsed",
+          "control": false,
+          "attempts": 2,
+          "compiles": 2,
+          "compiles_until_pass": 2,
+          "passed": true,
+          "compile_errors": 1,
+          "error_records": 1,
+          "tests_passed_attempts": 1,
+          "runtime_failures": 0,
+          "unscored": 0,
+          "tokens": {
+            "available": false,
+            "measured_attempts": 0,
+            "total": "NOT_AVAILABLE",
+            "by_attempt": [
+              "NOT_AVAILABLE",
+              "NOT_AVAILABLE"
+            ]
+          },
+          "attempts_detail": [
+            {
+              "attempt": 1,
+              "file": "B/t13_sleep_elapsed/attempt-01.zig",
+              "status": "AGENT_ERROR",
+              "compiled": false,
+              "tests_passed": null,
+              "passed": false,
+              "error_records": 1,
+              "stderr_tail": "check.zig:6:19: error: use of undeclared identifier 'napMeasured'\n    const e = try napMeasured(std.testing.io, 20);\n                  ^~~~~~~~~~~\n",
+              "errors": [
+                {
+                  "line": 6,
+                  "col": 19,
+                  "message": "use of undeclared identifier 'napMeasured'"
+                }
+              ],
+              "agent_rc": 1
+            },
+            {
+              "attempt": 2,
+              "file": "B/t13_sleep_elapsed/attempt-02.zig",
+              "status": "PASS",
+              "compiled": true,
+              "tests_passed": true,
+              "passed": true,
+              "error_records": 0,
+              "stderr_tail": "1/1 check.test.t13 sleep elapsed...OK\nAll 1 tests passed.\n",
+              "errors": [],
+              "agent_rc": 0
+            }
+          ]
+        },
+        "t13_thread_mutex_sum": {
+          "task_id": "t13_thread_mutex_sum",
+          "control": false,
+          "attempts": 1,
+          "compiles": 1,
+          "compiles_until_pass": 1,
+          "passed": true,
+          "compile_errors": 0,
+          "error_records": 0,
+          "tests_passed_attempts": 1,
+          "runtime_failures": 0,
+          "unscored": 0,
+          "tokens": {
+            "available": false,
+            "measured_attempts": 0,
+            "total": "NOT_AVAILABLE",
+            "by_attempt": [
+              "NOT_AVAILABLE"
+            ]
+          },
+          "attempts_detail": [
+            {
+              "attempt": 1,
+              "file": "B/t13_thread_mutex_sum/attempt-01.zig",
+              "status": "PASS",
+              "compiled": true,
+              "tests_passed": true,
+              "passed": true,
+              "error_records": 0,
+              "stderr_tail": "1/1 check.test.t13 thread mutex sum...OK\nAll 1 tests passed.\n",
+              "errors": [],
+              "agent_rc": 0
+            }
+          ]
+        },
+        "t13_writer_rows": {
+          "task_id": "t13_writer_rows",
+          "control": false,
+          "attempts": 1,
+          "compiles": 1,
+          "compiles_until_pass": 1,
+          "passed": true,
+          "compile_errors": 0,
+          "error_records": 0,
+          "tests_passed_attempts": 1,
+          "runtime_failures": 0,
+          "unscored": 0,
+          "tokens": {
+            "available": false,
+            "measured_attempts": 0,
+            "total": "NOT_AVAILABLE",
+            "by_attempt": [
+              "NOT_AVAILABLE"
+            ]
+          },
+          "attempts_detail": [
+            {
+              "attempt": 1,
+              "file": "B/t13_writer_rows/attempt-01.zig",
+              "status": "PASS",
+              "compiled": true,
+              "tests_passed": true,
+              "passed": true,
+              "error_records": 0,
+              "stderr_tail": "1/1 check.test.t13 writer rows...OK\nAll 1 tests passed.\n",
+              "errors": [],
+              "agent_rc": 0
+            }
+          ]
+        }
+      },
+      "summary": {
+        "tasks_total": 8,
+        "tasks_with_solutions": 8,
+        "passed": 8,
+        "pass_rate": 1.0,
+        "compiles_total": 9,
+        "compiles_until_pass": {
+          "n": 8,
+          "mean": 1.125,
+          "median": 1.0
+        },
+        "compile_errors_total": 1,
+        "error_records_total": 1,
+        "tests_passed_attempts_total": 8,
+        "unscored_attempts_total": 0,
+        "tokens_available": false,
+        "tokens_total": "NOT_AVAILABLE"
+      }
+    }
+  }
+}
