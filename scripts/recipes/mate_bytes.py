@@ -753,12 +753,10 @@ CONTRACTS = {
         type_sig={"input": "f64", "output": "bool"}, **_SKIP),
     # fuzzables: el contrato vive en pyzig/fuzz/contracts.py (driver + modelo)
     "zig0.16/struct-pack-endian-readint": _FUZZ["zig0.16/struct-pack-endian-readint"],
-    "zig0.16/int-from-bytes-to-bytes-endian": _c(None, None, None, [],
-        type_sig={"input": "entero/bytes", "output": "bytes/entero"}, **_SKIP),
+    "zig0.16/int-from-bytes-to-bytes-endian": _FUZZ["zig0.16/int-from-bytes-to-bytes-endian"],
     "zig0.16/div-floor-mod-negative": _FUZZ["zig0.16/div-floor-mod-negative"],
     "zig0.16/int-bit-count-bit-length": _FUZZ["zig0.16/int-bit-count-bit-length"],
-    "zig0.16/round-floor-ceil-bankers": _c(None, None, None, [],
-        type_sig={"input": "f64", "output": "f64"}, **_SKIP),
+    "zig0.16/round-floor-ceil-bankers": _FUZZ["zig0.16/round-floor-ceil-bankers"],
     "zig0.16/cstring-span-slice-to": _c(None, None, None, [],
         type_sig={"input": "puntero/bytes", "output": "bytes"}, **_SKIP),
 }

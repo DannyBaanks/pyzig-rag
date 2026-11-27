@@ -26,7 +26,7 @@ ERROR_NAMES = (
     "FileNotFound", "IsDir", "NotDir", "StreamTooLong", "PermissionDenied",
     "Timeout", "InvalidArgument", "OutOfMemory", "NoSpaceLeft", "Unknown",
     "BadEncoding", "InvalidLiteral", "Overflow", "DivisionByZero", "OutOfRange",
-    "ShortBuffer",
+    "ShortBuffer", "EmptyNeedle",
 )
 
 #: Estados de observacion del protocolo.
@@ -226,6 +226,107 @@ CONTRACTS: dict[str, dict] = {
         "packint", "drivers/packint.zig", "packint",
         ["status", "error", "value", "out"],
         type_sig={"input": "op/endian/i64/offset/bytes", "output": "u32/i32/bytes"},
+    ),
+    # --- ola 6: 6 recetas nuevas (texto_num, colecciones, mate_bytes) ---
+    "zig0.16/str-find-replace-affix": _c(
+        "straffix", "drivers/straffix.zig", "straffix",
+        ["status", "error", "out"],
+        type_sig={"input": "op/utf8/utf8/utf8", "output": "bool/int/utf8"},
+        known=[
+            {
+                "id": "straffix-find-bytes-vs-codepoints",
+                "fields": ["out"],
+                "expect": {"out": "digits"},
+                "oracle": {"out": "digits"},
+                "input": "straffix-find-bytes-vs-codepoints",
+                "why": "std.mem.find devuelve indice en bytes UTF-8; str.find de Python devuelve indice en codepoints",
+            },
+            {
+                "id": "straffix-replace-empty-needle",
+                "fields": ["status", "error", "out"],
+                "expect": {"status": "err", "error": "EmptyNeedle", "out": ""},
+                "oracle": {"status": "ok", "error": ""},
+                "input": "straffix-replace-empty-needle",
+                "why": "replaceAll rechaza old=='' con error.EmptyNeedle (std.mem.replaceOwned asserta needle.len>0); str.replace('', new) intercala new entre cada codepoint",
+            },
+        ],
+    ),
+    "zig0.16/parse-float-format-decimals": _c(
+        "parsefloat", "drivers/parsefloat.zig", "parsefloat",
+        ["status", "error", "value"],
+        type_sig={"input": "op/text_or_f64hex", "output": "f64hex/text"},
+        known=[
+            {
+                "id": "parsefloat-recorta-espacios-ascii",
+                "fields": ["status", "error", "value"],
+                "expect": {"status": "err", "error": "InvalidLiteral", "value": ""},
+                "oracle": {"status": "ok", "error": ""},
+                "input": "parsefloat-recorta-ascii",
+                "why": "float() recorta espacios ASCII en los bordes (' 1.5 ', '1.5\\n'); std.fmt.parseFloat los rechaza (InvalidCharacter)",
+            },
+            {
+                "id": "parsefloat-hexfloat-zig",
+                "fields": ["status", "error", "value"],
+                "expect": {"status": "ok", "error": ""},
+                "oracle": {"status": "err", "error": "InvalidLiteral", "value": ""},
+                "input": "parsefloat-hexfloat-zig",
+                "why": "std.fmt.parseFloat acepta literales hexfloat ('0x1p3', '0x1.8p+1'); float() de Python los rechaza (usa float.fromhex)",
+            },
+            {
+                "id": "parsefloat-fmt2-shortest-decimal",
+                "fields": ["value"],
+                "expect": {"value": "*"},
+                "oracle": {"value": "*"},
+                "input": "parsefloat-fmt2-shortest-decimal",
+                "why": "Zig {d:.2} redondea mitad-lejos-de-cero sobre la representacion decimal mas corta (2.675->2.68, 0.125->0.13, 1849355331531703.75->.80); Python f'{x:.2f}' redondea al par sobre el binario exacto",
+            },
+        ],
+    ),
+    "zig0.16/sorted-key-stable": _c(
+        "sortkey", "drivers/sortkey.zig", "sortkey",
+        ["status", "error", "out"],
+        type_sig={"input": "op/rev/items", "output": "sorted_items"},
+    ),
+    "zig0.16/int-from-bytes-to-bytes-endian": _c(
+        "intbytes", "drivers/intbytes.zig", "intbytes",
+        ["status", "error", "value", "out"],
+        type_sig={"input": "op/width/signed/endian/int/bytes", "output": "int/hex"},
+    ),
+    "zig0.16/round-floor-ceil-bankers": _c(
+        "roundfloat", "drivers/roundfloat.zig", "roundfloat",
+        ["status", "error", "value"],
+        type_sig={"input": "op/f64hex", "output": "int_or_special"},
+        known=[
+            {
+                "id": "roundfloat-no-finito",
+                "fields": ["status", "error", "value"],
+                "expect": {"status": "ok", "error": ""},
+                "oracle": {"status": "err"},
+                "input": "roundfloat-no-finito",
+                "why": "@round/@floor/@ceil/roundHalfEven devuelven f64 y propagan inf/-inf/nan; Python round/math.floor/math.ceil devuelven int y lanzan OverflowError/ValueError",
+            },
+            {
+                "id": "roundfloat-menos-cero",
+                "fields": ["value"],
+                "expect": {"value": "-0"},
+                "oracle": {"value": "0"},
+                "input": "roundfloat-menos-cero",
+                "why": "las operaciones IEEE-754 sobre f64 preservan -0.0 (formateado '-0'); int de Python no distingue cero negativo (0)",
+            },
+            {
+                "id": "roundfloat-zig-round-empate",
+                "fields": ["value"],
+                "expect": {"value": "*"},
+                "oracle": {"value": "*"},
+                "input": "roundfloat-zig-round-empate",
+                "why": "zigRound (@round) redondea empates .5 alejando de cero (2.5->3, -2.5->-3); round() de Python redondea al par (2.5->2, -2.5->-2). roundHalfEven si coincide",
+            },
+        ],
+    ),
+    "zig0.16/utf8-codepoints-validate": _c(
+        "utf8cp", "drivers/utf8cp.zig", "utf8cp",
+        ["status", "error", "valid", "count", "sum"],
+        type_sig={"input": "bytes", "output": "bool/usize/u64"},
     ),
 }
 
