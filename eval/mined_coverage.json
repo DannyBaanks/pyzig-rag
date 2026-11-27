@@ -1,8 +1,8 @@
 {
   "autoconsistencia": {
-    "total": 76,
-    "hit1": 76,
-    "hit3": 76,
+    "total": 78,
+    "hit1": 78,
+    "hit3": 78,
     "hit1_rate": 1.0,
     "hit3_rate": 1.0,
     "cases": [
@@ -569,6 +569,15 @@
         "hit3": true
       },
       {
+        "operation_id": "zig0.16/migrate-readfilealloc",
+        "signature": "error: root source file struct 'fs' has no member named 'openFileAbsolute'",
+        "got_top3": [
+          "zig0.16/migrate-readfilealloc"
+        ],
+        "hit1": true,
+        "hit3": true
+      },
+      {
         "operation_id": "zig0.16/migrate-writefile",
         "signature": "error: root source file struct 'fs' has no member named 'cwd'",
         "got_top3": [
@@ -670,6 +679,15 @@
         "hit3": true
       },
       {
+        "operation_id": "zig0.16/stdlib016-ptrcast-result-type",
+        "signature": "@ptrCast must have a known result type",
+        "got_top3": [
+          "zig0.16/stdlib016-ptrcast-result-type"
+        ],
+        "hit1": true,
+        "hit3": true
+      },
+      {
         "operation_id": "zig0.16/migrate-open-dir-absolute",
         "signature": "error: root source file struct 'fs' has no member named 'openDirAbsolute'",
         "got_top3": [
@@ -699,14 +717,14 @@
     ]
   },
   "mined_reales": {
-    "non_none_n": 64,
-    "hit1": 63,
-    "hit3": 64,
-    "hit1_rate": 0.9844,
+    "non_none_n": 65,
+    "hit1": 65,
+    "hit3": 65,
+    "hit1_rate": 1.0,
     "hit3_rate": 1.0,
-    "none_n": 26,
+    "none_n": 27,
     "false_positives": 1,
-    "fpr": 0.0385,
+    "fpr": 0.037,
     "unknown_labels": [],
     "cases": [
       {
@@ -1357,9 +1375,7 @@
           "zig0.16/sha256-bytes"
         ],
         "got_top3": [
-          "zig0.16/sha256-bytes",
-          "zig0.16/ascii-case-lower-upper",
-          "zig0.16/unicode-case-mapping"
+          "zig0.16/sha256-bytes"
         ],
         "hit1": true,
         "hit3": true
@@ -1395,11 +1411,9 @@
           "zig0.16/read-file-text-limited"
         ],
         "got_top3": [
-          "zig0.16/migrate-open-dir-absolute",
-          "zig0.16/migrate-writefile",
           "zig0.16/migrate-readfilealloc"
         ],
-        "hit1": false,
+        "hit1": true,
         "hit3": true
       },
       {
@@ -1434,6 +1448,17 @@
         ],
         "got_top3": [
           "zig0.16/diag-mined-comptime-flow"
+        ],
+        "hit1": true,
+        "hit3": true
+      },
+      {
+        "signature": "@ptrCast must have a known result type",
+        "label": [
+          "zig0.16/stdlib016-ptrcast-result-type"
+        ],
+        "got_top3": [
+          "zig0.16/stdlib016-ptrcast-result-type"
         ],
         "hit1": true,
         "hit3": true
@@ -1563,8 +1588,6 @@
       {
         "signature": "root source file struct 'testing' has no member named 'expectCrash'",
         "got_top3": [
-          "zig0.16/diag-mined-undeclared-ident",
-          "zig0.16/diag-mined-error-union",
           "zig0.16/build-test-step"
         ],
         "false_positive": true
@@ -1573,14 +1596,19 @@
         "signature": "unable to load '_': FileNotFound",
         "got_top3": [],
         "false_positive": false
+      },
+      {
+        "signature": "no field named '_' in struct 'array_list._(uN,null)'",
+        "got_top3": [],
+        "false_positive": false
       }
     ]
   },
   "antes": {
     "autoconsistencia": {
-      "total": 53,
-      "hit1": 53,
-      "hit3": 53,
+      "total": 76,
+      "hit1": 76,
+      "hit3": 76,
       "hit1_rate": 1.0,
       "hit3_rate": 1.0,
       "cases": [
@@ -1639,6 +1667,15 @@
           "hit3": true
         },
         {
+          "operation_id": "zig0.16/build-dynamic-library-pic",
+          "signature": "error: dependency on dynamic library 'omp' requires enabling Position Independent Code; fixed by '-lomp' or '-fPIC'",
+          "got_top3": [
+            "zig0.16/build-dynamic-library-pic"
+          ],
+          "hit1": true,
+          "hit3": true
+        },
+        {
           "operation_id": "zig0.16/build-test-step",
           "signature": "error: no field named 'root_source_file' in struct 'Build.TestOptions'",
           "got_top3": [
@@ -1652,6 +1689,204 @@
           "signature": "error: no field or member function named 'addCSourceFile' in 'Build.Step.Compile'",
           "got_top3": [
             "zig0.16/build-c-source-files"
+          ],
+          "hit1": true,
+          "hit3": true
+        },
+        {
+          "operation_id": "zig0.16/diag-mined-member-format",
+          "signature": "error: no field or member function named 'format' in '[]const u8'",
+          "got_top3": [
+            "zig0.16/diag-mined-member-format"
+          ],
+          "hit1": true,
+          "hit3": true
+        },
+        {
+          "operation_id": "zig0.16/diag-mined-undeclared-ident",
+          "signature": "error: use of undeclared identifier 'expectEqual'",
+          "got_top3": [
+            "zig0.16/diag-mined-undeclared-ident"
+          ],
+          "hit1": true,
+          "hit3": true
+        },
+        {
+          "operation_id": "zig0.16/diag-mined-asm-constraint",
+          "signature": "error: invalid constraint: '=X'",
+          "got_top3": [
+            "zig0.16/diag-mined-asm-constraint"
+          ],
+          "hit1": true,
+          "hit3": true
+        },
+        {
+          "operation_id": "zig0.16/diag-mined-unused-discard",
+          "signature": "error: unused local constant",
+          "got_top3": [
+            "zig0.16/diag-mined-unused-discard"
+          ],
+          "hit1": true,
+          "hit3": true
+        },
+        {
+          "operation_id": "zig0.16/diag-mined-unused-discard",
+          "signature": "error: pointless discard of local variable",
+          "got_top3": [
+            "zig0.16/diag-mined-unused-discard"
+          ],
+          "hit1": true,
+          "hit3": true
+        },
+        {
+          "operation_id": "zig0.16/diag-mined-unused-discard",
+          "signature": "error: pointless discard of local constant",
+          "got_top3": [
+            "zig0.16/diag-mined-unused-discard"
+          ],
+          "hit1": true,
+          "hit3": true
+        },
+        {
+          "operation_id": "zig0.16/diag-mined-duplicate-names",
+          "signature": "error: redeclaration of local constant 'x'",
+          "got_top3": [
+            "zig0.16/diag-mined-duplicate-names"
+          ],
+          "hit1": true,
+          "hit3": true
+        },
+        {
+          "operation_id": "zig0.16/diag-mined-duplicate-names",
+          "signature": "error: duplicate struct member name 'x'",
+          "got_top3": [
+            "zig0.16/diag-mined-duplicate-names"
+          ],
+          "hit1": true,
+          "hit3": true
+        },
+        {
+          "operation_id": "zig0.16/diag-mined-duplicate-names",
+          "signature": "error: duplicate struct member name 'std'",
+          "got_top3": [
+            "zig0.16/diag-mined-duplicate-names"
+          ],
+          "hit1": true,
+          "hit3": true
+        },
+        {
+          "operation_id": "zig0.16/diag-mined-int-range",
+          "signature": "error: type 'u8' cannot represent integer value '300'",
+          "got_top3": [
+            "zig0.16/diag-mined-int-range"
+          ],
+          "hit1": true,
+          "hit3": true
+        },
+        {
+          "operation_id": "zig0.16/diag-mined-int-range",
+          "signature": "error: type 'usize' cannot represent integer value '-1'",
+          "got_top3": [
+            "zig0.16/diag-mined-int-range"
+          ],
+          "hit1": true,
+          "hit3": true
+        },
+        {
+          "operation_id": "zig0.16/diag-mined-comptime-flow",
+          "signature": "error: value with comptime-only type 'comptime_int' depends on runtime control flow",
+          "got_top3": [
+            "zig0.16/diag-mined-comptime-flow"
+          ],
+          "hit1": true,
+          "hit3": true
+        },
+        {
+          "operation_id": "zig0.16/diag-mined-comptime-flow",
+          "signature": "error: value with comptime-only type 'comptime_float' depends on runtime control flow",
+          "got_top3": [
+            "zig0.16/diag-mined-comptime-flow"
+          ],
+          "hit1": true,
+          "hit3": true
+        },
+        {
+          "operation_id": "zig0.16/diag-mined-vector-index",
+          "signature": "error: vector index not comptime known",
+          "got_top3": [
+            "zig0.16/diag-mined-vector-index"
+          ],
+          "hit1": true,
+          "hit3": true
+        },
+        {
+          "operation_id": "zig0.16/diag-mined-bitcast-size",
+          "signature": "error: @bitCast size mismatch: destination type 'u64' has 64 bits but source type 'i32' has 32 bits",
+          "got_top3": [
+            "zig0.16/diag-mined-bitcast-size"
+          ],
+          "hit1": true,
+          "hit3": true
+        },
+        {
+          "operation_id": "zig0.16/diag-mined-bitcast-size",
+          "signature": "error: @bitCast size mismatch: destination type 'u32' has 32 bits but source type 'u16' has 16 bits",
+          "got_top3": [
+            "zig0.16/diag-mined-bitcast-size"
+          ],
+          "hit1": true,
+          "hit3": true
+        },
+        {
+          "operation_id": "zig0.16/diag-mined-error-union",
+          "signature": "error: error union is ignored",
+          "got_top3": [
+            "zig0.16/diag-mined-error-union"
+          ],
+          "hit1": true,
+          "hit3": true
+        },
+        {
+          "operation_id": "zig0.16/diag-mined-pointer-coercion",
+          "signature": "error: expected type '[]const u8', found '*const u8'",
+          "got_top3": [
+            "zig0.16/diag-mined-pointer-coercion"
+          ],
+          "hit1": true,
+          "hit3": true
+        },
+        {
+          "operation_id": "zig0.16/diag-mined-pointer-coercion",
+          "signature": "error: expected type '[]const u8', found '*[4]u8'",
+          "got_top3": [
+            "zig0.16/diag-mined-pointer-coercion"
+          ],
+          "hit1": true,
+          "hit3": true
+        },
+        {
+          "operation_id": "zig0.16/diag-mined-pointer-coercion",
+          "signature": "error: cannot implicitly convert many pointer to single pointer",
+          "got_top3": [
+            "zig0.16/diag-mined-pointer-coercion"
+          ],
+          "hit1": true,
+          "hit3": true
+        },
+        {
+          "operation_id": "zig0.16/diag-mined-embed-outside",
+          "signature": "error: embed of file outside package path: '../../etc/hostname'",
+          "got_top3": [
+            "zig0.16/diag-mined-embed-outside"
+          ],
+          "hit1": true,
+          "hit3": true
+        },
+        {
+          "operation_id": "zig0.16/diag-mined-module-conflict",
+          "signature": "error: file exists in modules 'modA' and 'modB'",
+          "got_top3": [
+            "zig0.16/diag-mined-module-conflict"
           ],
           "hit1": true,
           "hit3": true
@@ -2070,14 +2305,14 @@
       ]
     },
     "mined_reales": {
-      "non_none_n": 44,
-      "hit1": 42,
-      "hit3": 43,
-      "hit1_rate": 0.9545,
-      "hit3_rate": 0.9773,
-      "none_n": 46,
+      "non_none_n": 64,
+      "hit1": 63,
+      "hit3": 64,
+      "hit1_rate": 0.9844,
+      "hit3_rate": 1.0,
+      "none_n": 26,
       "false_positives": 1,
-      "fpr": 0.0217,
+      "fpr": 0.0385,
       "unknown_labels": [],
       "cases": [
         {
@@ -2297,6 +2532,17 @@
           "hit3": true
         },
         {
+          "signature": "unused local constant",
+          "label": [
+            "zig0.16/diag-mined-unused-discard"
+          ],
+          "got_top3": [
+            "zig0.16/diag-mined-unused-discard"
+          ],
+          "hit1": true,
+          "hit3": true
+        },
+        {
           "signature": "function parameter shadows declaration of '_'",
           "label": [
             "zig0.16/diag-shadow-local"
@@ -2347,9 +2593,33 @@
           "label": [
             "zig0.16/build-dynamic-library-pic"
           ],
-          "got_top3": [],
-          "hit1": false,
-          "hit3": false
+          "got_top3": [
+            "zig0.16/build-dynamic-library-pic"
+          ],
+          "hit1": true,
+          "hit3": true
+        },
+        {
+          "signature": "invalid constraint: '_'",
+          "label": [
+            "zig0.16/diag-mined-asm-constraint"
+          ],
+          "got_top3": [
+            "zig0.16/diag-mined-asm-constraint"
+          ],
+          "hit1": true,
+          "hit3": true
+        },
+        {
+          "signature": "expected type '_', found '*const _'",
+          "label": [
+            "zig0.16/diag-mined-pointer-coercion"
+          ],
+          "got_top3": [
+            "zig0.16/diag-mined-pointer-coercion"
+          ],
+          "hit1": true,
+          "hit3": true
         },
         {
           "signature": "'comptime var' is redundant in comptime scope",
@@ -2358,6 +2628,17 @@
           ],
           "got_top3": [
             "zig0.16/diag-comptime-redundant"
+          ],
+          "hit1": true,
+          "hit3": true
+        },
+        {
+          "signature": "embed of file outside package path: '_'",
+          "label": [
+            "zig0.16/diag-mined-embed-outside"
+          ],
+          "got_top3": [
+            "zig0.16/diag-mined-embed-outside"
           ],
           "hit1": true,
           "hit3": true
@@ -2396,6 +2677,17 @@
           "hit3": true
         },
         {
+          "signature": "file exists in modules '_' and '_'",
+          "label": [
+            "zig0.16/diag-mined-module-conflict"
+          ],
+          "got_top3": [
+            "zig0.16/diag-mined-module-conflict"
+          ],
+          "hit1": true,
+          "hit3": true
+        },
+        {
           "signature": "function parameter shadows declaration of 'fmt'",
           "label": [
             "zig0.16/diag-shadow-local"
@@ -2414,6 +2706,17 @@
           ],
           "got_top3": [
             "zig0.16/migrate-arraylist-writer"
+          ],
+          "hit1": true,
+          "hit3": true
+        },
+        {
+          "signature": "redeclaration of local constant '_'",
+          "label": [
+            "zig0.16/diag-mined-duplicate-names"
+          ],
+          "got_top3": [
+            "zig0.16/diag-mined-duplicate-names"
           ],
           "hit1": true,
           "hit3": true
@@ -2465,12 +2768,111 @@
           "hit3": true
         },
         {
+          "signature": "type 'uN' cannot represent integer value 'N'",
+          "label": [
+            "zig0.16/diag-mined-int-range"
+          ],
+          "got_top3": [
+            "zig0.16/diag-mined-int-range"
+          ],
+          "hit1": true,
+          "hit3": true
+        },
+        {
+          "signature": "value with comptime-only type 'comptime_int' depends on runtime control flow",
+          "label": [
+            "zig0.16/diag-mined-comptime-flow"
+          ],
+          "got_top3": [
+            "zig0.16/diag-mined-comptime-flow"
+          ],
+          "hit1": true,
+          "hit3": true
+        },
+        {
+          "signature": "vector index not comptime known",
+          "label": [
+            "zig0.16/diag-mined-vector-index"
+          ],
+          "got_top3": [
+            "zig0.16/diag-mined-vector-index"
+          ],
+          "hit1": true,
+          "hit3": true
+        },
+        {
           "signature": "'comptime const' is redundant; instead wrap the initialization expression with 'comptime'",
           "label": [
             "zig0.16/diag-comptime-redundant"
           ],
           "got_top3": [
             "zig0.16/diag-comptime-redundant"
+          ],
+          "hit1": true,
+          "hit3": true
+        },
+        {
+          "signature": "@bitCast size mismatch: destination type 'uN' has N bits but source type 'iN' has N bits",
+          "label": [
+            "zig0.16/diag-mined-bitcast-size"
+          ],
+          "got_top3": [
+            "zig0.16/diag-mined-bitcast-size"
+          ],
+          "hit1": true,
+          "hit3": true
+        },
+        {
+          "signature": "@bitCast size mismatch: destination type 'uN' has N bits but source type 'uN' has N bits",
+          "label": [
+            "zig0.16/diag-mined-bitcast-size"
+          ],
+          "got_top3": [
+            "zig0.16/diag-mined-bitcast-size"
+          ],
+          "hit1": true,
+          "hit3": true
+        },
+        {
+          "signature": "cannot implicitly convert many pointer to single pointer",
+          "label": [
+            "zig0.16/diag-mined-pointer-coercion"
+          ],
+          "got_top3": [
+            "zig0.16/diag-mined-pointer-coercion"
+          ],
+          "hit1": true,
+          "hit3": true
+        },
+        {
+          "signature": "duplicate struct member name '_'",
+          "label": [
+            "zig0.16/diag-mined-duplicate-names"
+          ],
+          "got_top3": [
+            "zig0.16/diag-mined-duplicate-names"
+          ],
+          "hit1": true,
+          "hit3": true
+        },
+        {
+          "signature": "duplicate struct member name 'std'",
+          "label": [
+            "zig0.16/diag-mined-duplicate-names"
+          ],
+          "got_top3": [
+            "zig0.16/diag-mined-duplicate-names"
+          ],
+          "hit1": true,
+          "hit3": true
+        },
+        {
+          "signature": "error union is ignored",
+          "label": [
+            "zig0.16/diag-mined-error-union"
+          ],
+          "got_top3": [
+            "zig0.16/diag-mined-error-union"
           ],
           "hit1": true,
           "hit3": true
@@ -2483,6 +2885,17 @@
           ],
           "got_top3": [
             "zig0.16/cstring-sentinel-slice-ptr"
+          ],
+          "hit1": true,
+          "hit3": true
+        },
+        {
+          "signature": "expected type '[]const uN', found '*[N]uN'",
+          "label": [
+            "zig0.16/diag-mined-pointer-coercion"
+          ],
+          "got_top3": [
+            "zig0.16/diag-mined-pointer-coercion"
           ],
           "hit1": true,
           "hit3": true
@@ -2516,6 +2929,28 @@
           ],
           "got_top3": [
             "zig0.16/build-shared-library"
+          ],
+          "hit1": true,
+          "hit3": true
+        },
+        {
+          "signature": "no field or member function named 'format' in '[]const uN'",
+          "label": [
+            "zig0.16/diag-mined-member-format"
+          ],
+          "got_top3": [
+            "zig0.16/diag-mined-member-format"
+          ],
+          "hit1": true,
+          "hit3": true
+        },
+        {
+          "signature": "pointless discard of local variable",
+          "label": [
+            "zig0.16/diag-mined-unused-discard"
+          ],
+          "got_top3": [
+            "zig0.16/diag-mined-unused-discard"
           ],
           "hit1": true,
           "hit3": true
@@ -2586,6 +3021,28 @@
           ],
           "hit1": true,
           "hit3": true
+        },
+        {
+          "signature": "type 'usize' cannot represent integer value 'N'",
+          "label": [
+            "zig0.16/diag-mined-int-range"
+          ],
+          "got_top3": [
+            "zig0.16/diag-mined-int-range"
+          ],
+          "hit1": true,
+          "hit3": true
+        },
+        {
+          "signature": "value with comptime-only type 'comptime_float' depends on runtime control flow",
+          "label": [
+            "zig0.16/diag-mined-comptime-flow"
+          ],
+          "got_top3": [
+            "zig0.16/diag-mined-comptime-flow"
+          ],
+          "hit1": true,
+          "hit3": true
         }
       ],
       "none_cases": [
@@ -2605,67 +3062,12 @@
           "false_positive": false
         },
         {
-          "signature": "unused local constant",
-          "got_top3": [],
-          "false_positive": false
-        },
-        {
-          "signature": "invalid constraint: '_'",
-          "got_top3": [],
-          "false_positive": false
-        },
-        {
-          "signature": "expected type '_', found '*const _'",
-          "got_top3": [],
-          "false_positive": false
-        },
-        {
-          "signature": "embed of file outside package path: '_'",
-          "got_top3": [],
-          "false_positive": false
-        },
-        {
           "signature": "no field or member function named '_' in '_'",
           "got_top3": [],
           "false_positive": false
         },
         {
           "signature": "C import failed",
-          "got_top3": [],
-          "false_positive": false
-        },
-        {
-          "signature": "file exists in modules '_' and '_'",
-          "got_top3": [],
-          "false_positive": false
-        },
-        {
-          "signature": "redeclaration of local constant '_'",
-          "got_top3": [],
-          "false_positive": false
-        },
-        {
-          "signature": "type 'uN' cannot represent integer value 'N'",
-          "got_top3": [],
-          "false_positive": false
-        },
-        {
-          "signature": "value with comptime-only type 'comptime_int' depends on runtime control flow",
-          "got_top3": [],
-          "false_positive": false
-        },
-        {
-          "signature": "vector index not comptime known",
-          "got_top3": [],
-          "false_positive": false
-        },
-        {
-          "signature": "@bitCast size mismatch: destination type 'uN' has N bits but source type 'iN' has N bits",
-          "got_top3": [],
-          "false_positive": false
-        },
-        {
-          "signature": "@bitCast size mismatch: destination type 'uN' has N bits but source type 'uN' has N bits",
           "got_top3": [],
           "false_positive": false
         },
@@ -2680,32 +3082,12 @@
           "false_positive": false
         },
         {
-          "signature": "cannot implicitly convert many pointer to single pointer",
-          "got_top3": [],
-          "false_positive": false
-        },
-        {
           "signature": "coercion from enum '@_(builtin._).@\"union\"._.?' to union 'builtin._' must initialize 'builtin._._' field '_'",
           "got_top3": [],
           "false_positive": false
         },
         {
-          "signature": "duplicate struct member name '_'",
-          "got_top3": [],
-          "false_positive": false
-        },
-        {
-          "signature": "duplicate struct member name 'std'",
-          "got_top3": [],
-          "false_positive": false
-        },
-        {
           "signature": "enum '_' has no member named '_'",
-          "got_top3": [],
-          "false_positive": false
-        },
-        {
-          "signature": "error union is ignored",
           "got_top3": [],
           "false_positive": false
         },
@@ -2750,11 +3132,6 @@
           "false_positive": false
         },
         {
-          "signature": "expected type '[]const uN', found '*[N]uN'",
-          "got_top3": [],
-          "false_positive": false
-        },
-        {
           "signature": "expected type '_', found '*const _._'",
           "got_top3": [],
           "false_positive": false
@@ -2790,38 +3167,1268 @@
           "false_positive": false
         },
         {
-          "signature": "no field or member function named 'format' in '[]const uN'",
-          "got_top3": [],
-          "false_positive": false
-        },
-        {
-          "signature": "pointless discard of local variable",
-          "got_top3": [],
-          "false_positive": false
-        },
-        {
           "signature": "root source file struct 'testing' has no member named 'expectCrash'",
           "got_top3": [
+            "zig0.16/diag-mined-undeclared-ident",
+            "zig0.16/diag-mined-error-union",
             "zig0.16/build-test-step"
           ],
           "false_positive": true
         },
         {
-          "signature": "type 'usize' cannot represent integer value 'N'",
-          "got_top3": [],
-          "false_positive": false
-        },
-        {
           "signature": "unable to load '_': FileNotFound",
-          "got_top3": [],
-          "false_positive": false
-        },
-        {
-          "signature": "value with comptime-only type 'comptime_float' depends on runtime control flow",
           "got_top3": [],
           "false_positive": false
         }
       ]
+    },
+    "antes": {
+      "autoconsistencia": {
+        "total": 53,
+        "hit1": 53,
+        "hit3": 53,
+        "hit1_rate": 1.0,
+        "hit3_rate": 1.0,
+        "cases": [
+          {
+            "operation_id": "zig0.16/build-exe-root-module",
+            "signature": "error: no field named 'root_source_file' in struct 'Build.ExecutableOptions'",
+            "got_top3": [
+              "zig0.16/build-exe-root-module"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/build-link-libc",
+            "signature": "error: dependency on libc must be explicitly specified in the build command",
+            "got_top3": [
+              "zig0.16/build-link-libc"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/build-add-import",
+            "signature": "error: no module named 'util' available within module 'root'",
+            "got_top3": [
+              "zig0.16/build-add-import"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/build-import-outside-module",
+            "signature": "error: import of file outside module path",
+            "got_top3": [
+              "zig0.16/build-import-outside-module"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/build-shared-library",
+            "signature": "error: no field or member function named 'addSharedLibrary' in 'Build'",
+            "got_top3": [
+              "zig0.16/build-shared-library"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/build-dynamic-library-pic",
+            "signature": "error: unable to create module 'root': dynamic linking requires enabling Position Independent Code",
+            "got_top3": [
+              "zig0.16/build-dynamic-library-pic"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/build-test-step",
+            "signature": "error: no field named 'root_source_file' in struct 'Build.TestOptions'",
+            "got_top3": [
+              "zig0.16/build-test-step"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/build-c-source-files",
+            "signature": "error: no field or member function named 'addCSourceFile' in 'Build.Step.Compile'",
+            "got_top3": [
+              "zig0.16/build-c-source-files"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/diag-eval-branch-quota",
+            "signature": "error: evaluation exceeded 1000 backwards branches",
+            "got_top3": [
+              "zig0.16/diag-eval-branch-quota",
+              "zig0.16/struct-pack-endian-readint"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/diag-never-mutated",
+            "signature": "error: local variable is never mutated",
+            "got_top3": [
+              "zig0.16/diag-never-mutated"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/diag-shadow-local",
+            "signature": "error: local constant shadows declaration of 'limite'",
+            "got_top3": [
+              "zig0.16/diag-shadow-local"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/diag-shadow-local",
+            "signature": "error: local variable shadows declaration of 'cuenta'",
+            "got_top3": [
+              "zig0.16/diag-shadow-local"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/diag-shadow-local",
+            "signature": "error: capture shadows declaration of 'x'",
+            "got_top3": [
+              "zig0.16/diag-shadow-local"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/diag-shadow-local",
+            "signature": "error: function parameter shadows declaration of 'n'",
+            "got_top3": [
+              "zig0.16/diag-shadow-local"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/diag-shadow-primitive",
+            "signature": "error: name shadows primitive 'u8'",
+            "got_top3": [
+              "zig0.16/diag-shadow-primitive"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/diag-comptime-redundant",
+            "signature": "error: redundant comptime keyword in already comptime scope",
+            "got_top3": [
+              "zig0.16/diag-comptime-redundant"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/diag-comptime-redundant",
+            "signature": "error: 'comptime var' is redundant in comptime scope",
+            "got_top3": [
+              "zig0.16/diag-comptime-redundant"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/diag-comptime-redundant",
+            "signature": "error: 'comptime const' is redundant; instead wrap the initialization expression with 'comptime'",
+            "got_top3": [
+              "zig0.16/diag-comptime-redundant"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/diag-inline-redundant",
+            "signature": "error: redundant inline keyword in comptime scope",
+            "got_top3": [
+              "zig0.16/diag-inline-redundant"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/diag-comptime-runtime-value",
+            "signature": "error: unable to resolve comptime value",
+            "got_top3": [
+              "zig0.16/diag-comptime-runtime-value"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/diag-comptime-runtime-call",
+            "signature": "error: unable to evaluate comptime expression",
+            "got_top3": [
+              "zig0.16/diag-comptime-runtime-call"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/diag-ptrcast-const",
+            "signature": "error: @ptrCast discards const qualifier",
+            "got_top3": [
+              "zig0.16/diag-ptrcast-const"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/diag-narrowing-intcast",
+            "signature": "error: expected type 'u8', found 'u32'",
+            "got_top3": [
+              "zig0.16/diag-narrowing-intcast"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/diag-builtin-undeclared",
+            "signature": "error: use of undeclared identifier 'builtin'",
+            "got_top3": [
+              "zig0.16/diag-builtin-undeclared"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/format-string-alloc-print",
+            "signature": "error: expected 3 argument(s), found 2",
+            "got_top3": [
+              "zig0.16/format-string-alloc-print"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/format-string-alloc-print",
+            "signature": "error: cannot format slice without a specifier (i.e. {s}, {x}, {b64}, or {any})",
+            "got_top3": [
+              "zig0.16/format-string-alloc-print"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/float-special-values-isinf-isnan",
+            "signature": "error: root source file struct 'math' has no member named 'isinf'",
+            "got_top3": [
+              "zig0.16/float-special-values-isinf-isnan"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/float-special-values-isinf-isnan",
+            "signature": "error: expected type 'f64', found 'fn (comptime type) callconv(.@\"inline\") anytype'",
+            "got_top3": [
+              "zig0.16/float-special-values-isinf-isnan"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/struct-pack-endian-readint",
+            "signature": "error: expected type '*const [4]u8', found '[]const u8'",
+            "got_top3": [
+              "zig0.16/struct-pack-endian-readint"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/struct-pack-endian-readint",
+            "signature": "error: expected integer or vector, found '[4]u8'",
+            "got_top3": [
+              "zig0.16/struct-pack-endian-readint"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/struct-pack-endian-readint",
+            "signature": "error: evaluation exceeded 1000 backwards branches",
+            "got_top3": [
+              "zig0.16/diag-eval-branch-quota",
+              "zig0.16/struct-pack-endian-readint"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/int-from-bytes-to-bytes-endian",
+            "signature": "error: expected type '*const [4]u8', found '*const [8]u8'",
+            "got_top3": [
+              "zig0.16/int-from-bytes-to-bytes-endian"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/div-floor-mod-negative",
+            "signature": "error: remainder division with 'i32' and 'i32': signed integers and floats must use @rem or @mod",
+            "got_top3": [
+              "zig0.16/div-floor-mod-negative"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/int-bit-count-bit-length",
+            "signature": "error: expected integer or vector, found 'f64'",
+            "got_top3": [
+              "zig0.16/int-bit-count-bit-length"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/round-floor-ceil-bankers",
+            "signature": "error: expected vector of floats or float type, found 'i32'",
+            "got_top3": [
+              "zig0.16/round-floor-ceil-bankers"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/round-floor-ceil-bankers",
+            "signature": "error: @intFromFloat must have a known result type",
+            "got_top3": [
+              "zig0.16/round-floor-ceil-bankers"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/cstring-span-slice-to",
+            "signature": "error: invalid type given to std.mem.span: *const [4:0]u8",
+            "got_top3": [
+              "zig0.16/cstring-span-slice-to"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/migrate-readfilealloc",
+            "signature": "error: root source file struct 'fs' has no member named 'cwd'",
+            "got_top3": [
+              "zig0.16/migrate-readfilealloc",
+              "zig0.16/migrate-writefile"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/migrate-readfilealloc",
+            "signature": "error: member function expected 4 argument(s), found 3",
+            "got_top3": [
+              "zig0.16/migrate-readfilealloc",
+              "zig0.16/migrate-arraylist-unmanaged"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/migrate-writefile",
+            "signature": "error: root source file struct 'fs' has no member named 'cwd'",
+            "got_top3": [
+              "zig0.16/migrate-readfilealloc",
+              "zig0.16/migrate-writefile"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/migrate-stdout-writer",
+            "signature": "error: root source file struct 'std' has no member named 'io'",
+            "got_top3": [
+              "zig0.16/migrate-stdout-writer"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/migrate-stdout-writer",
+            "signature": "error: root source file struct 'fs' has no member named 'File'",
+            "got_top3": [
+              "zig0.16/migrate-stdout-writer"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/migrate-arraylist-unmanaged",
+            "signature": "error: struct 'array_list.Aligned(u32,null)' has no member named 'init'",
+            "got_top3": [
+              "zig0.16/migrate-arraylist-unmanaged"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/migrate-arraylist-unmanaged",
+            "signature": "error: struct 'array_list.Aligned(u8,null)' has no member named 'init'",
+            "got_top3": [
+              "zig0.16/migrate-arraylist-unmanaged"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/migrate-arraylist-unmanaged",
+            "signature": "error: member function expected 2 argument(s), found 1",
+            "got_top3": [
+              "zig0.16/migrate-readfilealloc",
+              "zig0.16/migrate-arraylist-unmanaged"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/migrate-type-builtin",
+            "signature": "error: invalid builtin function: '@Type'",
+            "got_top3": [
+              "zig0.16/migrate-type-builtin"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/migrate-child-run",
+            "signature": "error: root source file struct 'process.Child' has no member named 'run'",
+            "got_top3": [
+              "zig0.16/migrate-child-run"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/migrate-time-sleep",
+            "signature": "error: root source file struct 'time' has no member named 'sleep'",
+            "got_top3": [
+              "zig0.16/migrate-time-sleep"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/migrate-time-sleep",
+            "signature": "error: root source file struct 'Thread' has no member named 'sleep'",
+            "got_top3": [
+              "zig0.16/migrate-time-sleep"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/migrate-thread-mutex",
+            "signature": "error: root source file struct 'Thread' has no member named 'Mutex'",
+            "got_top3": [
+              "zig0.16/migrate-thread-mutex"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/migrate-open-dir-absolute",
+            "signature": "error: root source file struct 'fs' has no member named 'openDirAbsolute'",
+            "got_top3": [
+              "zig0.16/migrate-open-dir-absolute"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/migrate-arraylist-writer",
+            "signature": "error: no field or member function named 'writer' in 'array_list.Aligned(u8,null)'",
+            "got_top3": [
+              "zig0.16/migrate-arraylist-writer"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "operation_id": "zig0.16/cstring-sentinel-slice-ptr",
+            "signature": "error: expected type '?[*:0]const u8', found '*const [:0]const u8'",
+            "got_top3": [
+              "zig0.16/cstring-sentinel-slice-ptr"
+            ],
+            "hit1": true,
+            "hit3": true
+          }
+        ]
+      },
+      "mined_reales": {
+        "non_none_n": 44,
+        "hit1": 42,
+        "hit3": 43,
+        "hit1_rate": 0.9545,
+        "hit3_rate": 0.9773,
+        "none_n": 46,
+        "false_positives": 1,
+        "fpr": 0.0217,
+        "unknown_labels": [],
+        "cases": [
+          {
+            "signature": "dependency on libc must be explicitly specified in the build command",
+            "label": [
+              "zig0.16/build-link-libc"
+            ],
+            "got_top3": [
+              "zig0.16/build-link-libc"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "signature": "local variable is never mutated",
+            "label": [
+              "zig0.16/diag-never-mutated"
+            ],
+            "got_top3": [
+              "zig0.16/diag-never-mutated"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "signature": "evaluation exceeded N backwards branches",
+            "label": [
+              "zig0.16/diag-eval-branch-quota"
+            ],
+            "got_top3": [
+              "zig0.16/diag-eval-branch-quota",
+              "zig0.16/struct-pack-endian-readint"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "signature": "local constant shadows declaration of '_'",
+            "label": [
+              "zig0.16/diag-shadow-local"
+            ],
+            "got_top3": [
+              "zig0.16/diag-shadow-local"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "signature": "unable to resolve comptime value",
+            "label": [
+              "zig0.16/diag-comptime-runtime-value"
+            ],
+            "got_top3": [
+              "zig0.16/diag-comptime-runtime-value"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "signature": "member function expected N argument(s), found N",
+            "label": [
+              "zig0.16/migrate-arraylist-unmanaged",
+              "zig0.16/migrate-readfilealloc"
+            ],
+            "got_top3": [
+              "zig0.16/migrate-readfilealloc",
+              "zig0.16/migrate-arraylist-unmanaged"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "signature": "local variable shadows declaration of '_'",
+            "label": [
+              "zig0.16/diag-shadow-local"
+            ],
+            "got_top3": [
+              "zig0.16/diag-shadow-local"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "signature": "unable to evaluate comptime expression",
+            "label": [
+              "zig0.16/diag-comptime-runtime-call"
+            ],
+            "got_top3": [
+              "zig0.16/diag-comptime-runtime-call"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "signature": "redundant comptime keyword in already comptime scope",
+            "label": [
+              "zig0.16/diag-comptime-redundant"
+            ],
+            "got_top3": [
+              "zig0.16/diag-comptime-redundant"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "signature": "invalid builtin function: '_'",
+            "label": [
+              "zig0.16/migrate-type-builtin"
+            ],
+            "got_top3": [
+              "zig0.16/migrate-type-builtin"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "signature": "redundant inline keyword in comptime scope",
+            "label": [
+              "zig0.16/diag-inline-redundant"
+            ],
+            "got_top3": [
+              "zig0.16/diag-inline-redundant"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "signature": "@ptrCast discards const qualifier",
+            "label": [
+              "zig0.16/diag-ptrcast-const"
+            ],
+            "got_top3": [
+              "zig0.16/diag-ptrcast-const"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "signature": "no field named '_' in struct 'Build._'",
+            "label": [
+              "zig0.16/build-exe-root-module",
+              "zig0.16/build-test-step"
+            ],
+            "got_top3": [
+              "zig0.16/build-exe-root-module",
+              "zig0.16/build-test-step"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "signature": "root source file struct 'fs' has no member named 'cwd'",
+            "label": [
+              "zig0.16/migrate-readfilealloc",
+              "zig0.16/migrate-writefile"
+            ],
+            "got_top3": [
+              "zig0.16/migrate-readfilealloc",
+              "zig0.16/migrate-writefile"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "signature": "use of undeclared identifier 'builtin'",
+            "label": [
+              "zig0.16/diag-builtin-undeclared"
+            ],
+            "got_top3": [
+              "zig0.16/diag-builtin-undeclared"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "signature": "capture shadows declaration of '_'",
+            "label": [
+              "zig0.16/diag-shadow-local"
+            ],
+            "got_top3": [
+              "zig0.16/diag-shadow-local"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "signature": "expected type 'uN', found 'uN'",
+            "label": [
+              "zig0.16/diag-narrowing-intcast"
+            ],
+            "got_top3": [
+              "zig0.16/diag-narrowing-intcast"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "signature": "import of file outside module path",
+            "label": [
+              "zig0.16/build-import-outside-module"
+            ],
+            "got_top3": [
+              "zig0.16/build-import-outside-module"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "signature": "no module named '_' available within module '_'",
+            "label": [
+              "zig0.16/build-add-import"
+            ],
+            "got_top3": [
+              "zig0.16/build-add-import"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "signature": "function parameter shadows declaration of '_'",
+            "label": [
+              "zig0.16/diag-shadow-local"
+            ],
+            "got_top3": [
+              "zig0.16/diag-shadow-local"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "signature": "name shadows primitive '_'",
+            "label": [
+              "zig0.16/diag-shadow-primitive"
+            ],
+            "got_top3": [
+              "zig0.16/diag-shadow-primitive"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "signature": "root source file struct 'Thread' has no member named 'sleep'",
+            "label": [
+              "zig0.16/migrate-time-sleep"
+            ],
+            "got_top3": [
+              "zig0.16/migrate-time-sleep"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "signature": "root source file struct 'os' has no member named 'argv'",
+            "label": [
+              "zig0.16/process-args-iterate"
+            ],
+            "got_top3": [
+              "zig0.16/process-args-iterate",
+              "zig0.16/migrate-child-run",
+              "zig0.16/argparse-subcommands"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "signature": "dependency on dynamic library '_' requires enabling Position Independent Code; fixed by '_' or '_'",
+            "label": [
+              "zig0.16/build-dynamic-library-pic"
+            ],
+            "got_top3": [],
+            "hit1": false,
+            "hit3": false
+          },
+          {
+            "signature": "'comptime var' is redundant in comptime scope",
+            "label": [
+              "zig0.16/diag-comptime-redundant"
+            ],
+            "got_top3": [
+              "zig0.16/diag-comptime-redundant"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "signature": "struct 'array_list._(uN,null)' has no member named '_'",
+            "label": [
+              "zig0.16/migrate-arraylist-unmanaged"
+            ],
+            "got_top3": [
+              "zig0.16/migrate-arraylist-unmanaged"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "signature": "expected N argument(s), found N",
+            "label": [
+              "zig0.16/format-string-alloc-print"
+            ],
+            "got_top3": [
+              "zig0.16/format-string-alloc-print"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "signature": "expected integer or vector, found '[N]uN'",
+            "label": [
+              "zig0.16/struct-pack-endian-readint"
+            ],
+            "got_top3": [
+              "zig0.16/struct-pack-endian-readint"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "signature": "function parameter shadows declaration of 'fmt'",
+            "label": [
+              "zig0.16/diag-shadow-local"
+            ],
+            "got_top3": [
+              "zig0.16/diag-shadow-local"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "signature": "no field or member function named '_' in 'array_list._(uN,null)'",
+            "label": [
+              "zig0.16/migrate-arraylist-unmanaged",
+              "zig0.16/migrate-arraylist-writer"
+            ],
+            "got_top3": [
+              "zig0.16/migrate-arraylist-writer"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "signature": "root source file struct 'Thread' has no member named 'Mutex'",
+            "label": [
+              "zig0.16/migrate-thread-mutex"
+            ],
+            "got_top3": [
+              "zig0.16/migrate-thread-mutex"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "signature": "root source file struct 'process.Child' has no member named 'run'",
+            "label": [
+              "zig0.16/migrate-child-run",
+              "zig0.16/subprocess-run-capture"
+            ],
+            "got_top3": [
+              "zig0.16/migrate-child-run"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "signature": "root source file struct 'std' has no member named 'io'",
+            "label": [
+              "zig0.16/migrate-stdout-writer"
+            ],
+            "got_top3": [
+              "zig0.16/migrate-stdout-writer"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "signature": "root source file struct 'time' has no member named 'sleep'",
+            "label": [
+              "zig0.16/migrate-time-sleep",
+              "zig0.16/sleep-ms"
+            ],
+            "got_top3": [
+              "zig0.16/migrate-time-sleep"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "signature": "'comptime const' is redundant; instead wrap the initialization expression with 'comptime'",
+            "label": [
+              "zig0.16/diag-comptime-redundant"
+            ],
+            "got_top3": [
+              "zig0.16/diag-comptime-redundant"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "signature": "expected type '?[*:N]const uN', found '*const [:N]const uN'",
+            "label": [
+              "zig0.16/cstring-sentinel-slice-ptr",
+              "zig0.16/cstring-span-slice-to"
+            ],
+            "got_top3": [
+              "zig0.16/cstring-sentinel-slice-ptr"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "signature": "name shadows primitive 'uN'",
+            "label": [
+              "zig0.16/diag-shadow-primitive"
+            ],
+            "got_top3": [
+              "zig0.16/diag-shadow-primitive"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "signature": "no field or member function named '_' in 'Build._._'",
+            "label": [
+              "zig0.16/build-c-source-files"
+            ],
+            "got_top3": [
+              "zig0.16/build-c-source-files"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "signature": "no field or member function named 'addSharedLibrary' in 'Build'",
+            "label": [
+              "zig0.16/build-shared-library"
+            ],
+            "got_top3": [
+              "zig0.16/build-shared-library"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "signature": "root source file struct 'fmt' has no member named 'fmtSliceHexLower'",
+            "label": [
+              "zig0.16/format-string-alloc-print",
+              "zig0.16/hex-encode-decode",
+              "zig0.16/sha256-bytes"
+            ],
+            "got_top3": [
+              "zig0.16/sha256-bytes",
+              "zig0.16/ascii-case-lower-upper",
+              "zig0.16/unicode-case-mapping"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "signature": "root source file struct 'fs' has no member named 'File'",
+            "label": [
+              "zig0.16/migrate-stdout-writer"
+            ],
+            "got_top3": [
+              "zig0.16/migrate-stdout-writer"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "signature": "root source file struct 'fs' has no member named 'openDirAbsolute'",
+            "label": [
+              "zig0.16/listdir-names-sorted",
+              "zig0.16/migrate-open-dir-absolute",
+              "zig0.16/walk-tree-files"
+            ],
+            "got_top3": [
+              "zig0.16/migrate-open-dir-absolute"
+            ],
+            "hit1": true,
+            "hit3": true
+          },
+          {
+            "signature": "root source file struct 'fs' has no member named 'openFileAbsolute'",
+            "label": [
+              "zig0.16/migrate-readfilealloc",
+              "zig0.16/read-file-text-limited"
+            ],
+            "got_top3": [
+              "zig0.16/migrate-open-dir-absolute",
+              "zig0.16/migrate-writefile",
+              "zig0.16/migrate-readfilealloc"
+            ],
+            "hit1": false,
+            "hit3": true
+          },
+          {
+            "signature": "root source file struct 'time' has no member named 'nanoTimestamp'",
+            "label": [
+              "zig0.16/epoch-now-seconds",
+              "zig0.16/monotonic-duration-measure"
+            ],
+            "got_top3": [
+              "zig0.16/epoch-now-seconds",
+              "zig0.16/epoch-to-utc-ymd-hms",
+              "zig0.16/migrate-time-sleep"
+            ],
+            "hit1": true,
+            "hit3": true
+          }
+        ],
+        "none_cases": [
+          {
+            "signature": "root source file struct '_' has no member named '_'",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "use of undeclared identifier '_'",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "expected type '_', found '_'",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "unused local constant",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "invalid constraint: '_'",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "expected type '_', found '*const _'",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "embed of file outside package path: '_'",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "no field or member function named '_' in '_'",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "C import failed",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "file exists in modules '_' and '_'",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "redeclaration of local constant '_'",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "type 'uN' cannot represent integer value 'N'",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "value with comptime-only type 'comptime_int' depends on runtime control flow",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "vector index not comptime known",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "@bitCast size mismatch: destination type 'uN' has N bits but source type 'iN' has N bits",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "@bitCast size mismatch: destination type 'uN' has N bits but source type 'uN' has N bits",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "COM object _._ must keep vtbl at offset N",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "break expression outside loop",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "cannot implicitly convert many pointer to single pointer",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "coercion from enum '@_(builtin._).@\"union\"._.?' to union 'builtin._' must initialize 'builtin._._' field '_'",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "duplicate struct member name '_'",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "duplicate struct member name 'std'",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "enum '_' has no member named '_'",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "error union is ignored",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "expected ';' after statement",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "expected '_', found 'resume'",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "expected '}', found 'pub'",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "expected enum or union; found 'uN'",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "expected signed integer type, found 'uN'",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "expected type '*const fn (_, _, _, _, _, _, _, _, _) callconv(.{ ._ = .{ ._ = null } }) _', found '*const fn (_, ?*uN) callconv(.{ ._ = .{ ._ = null } }) _'",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "expected type '?uN', found '?uN'",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "expected type '[*]os._._', found '*os._._'",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "expected type '[]const uN', found '*[N]uN'",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "expected type '_', found '*const _._'",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "expected type 'error{_,_,_}!iN', found 'error{_,_,_,_,_,_,_,_,_,_,_,_}'",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "expected type 'error{_,_,_}!usize', found 'error{_,_,_,_,_,_,_,_,_,_,_,_}'",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "expected type 'fmt._', found pointer",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "expected type 'isize', found 'uN'",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "expected type 'os._._(c_int)', found 'iN'",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "missing struct field: _",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "no field or member function named 'format' in '[]const uN'",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "pointless discard of local variable",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "root source file struct 'testing' has no member named 'expectCrash'",
+            "got_top3": [
+              "zig0.16/build-test-step"
+            ],
+            "false_positive": true
+          },
+          {
+            "signature": "type 'usize' cannot represent integer value 'N'",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "unable to load '_': FileNotFound",
+            "got_top3": [],
+            "false_positive": false
+          },
+          {
+            "signature": "value with comptime-only type 'comptime_float' depends on runtime control flow",
+            "got_top3": [],
+            "false_positive": false
+          }
+        ]
+      }
     }
   }
 }

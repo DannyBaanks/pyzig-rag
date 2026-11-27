@@ -77,7 +77,8 @@ test "std.Io.Dir.cwd existe y es el punto de entrada" {
      "cambia el orden de argumentos: io y ruta primero, el allocator despues",
      "al exceder el limite el error es error.StreamTooLong"],
     ["error: root source file struct 'fs' has no member named 'cwd'",
-     "error: member function expected 4 argument(s), found 3"],
+     "error: member function expected 4 argument(s), found 3",
+     "error: root source file struct 'fs' has no member named 'openFileAbsolute'"],
     side_effects=["lee del sistema de archivos"],
     error_behavior="FileNotFound si no existe; StreamTooLong si supera el limite",
     ownership="el llamador libera el slice devuelto con gpa.free"))
