@@ -37,7 +37,10 @@ NO encaja: el caso queda como NUEVO (fallo cerrado).
 
 from __future__ import annotations
 
+from decimal import Decimal, ROUND_HALF_UP
+import math
 import re
+import struct
 from typing import Callable
 
 from pyzig.fuzz.oracle import decode_fields
@@ -55,6 +58,9 @@ INPUT_FIELDS: dict[str, tuple[str, ...]] = {
     "parseint": ("text", "base"),
     "hex": ("op", "data"),
     "base64": ("op", "data"),
+    "straffix": ("op", "s", "a", "b"),
+    "parsefloat": ("op", "text"),
+    "roundfloat": ("op", "hex_bits"),
 }
 
 
@@ -238,11 +244,167 @@ def pred_parseint_guion_bajo_valor(ctx: dict) -> bool:
     return _subject_is(ctx, "ok", value=str(expected))
 
 
+def _f64_from_hex(hex_bits: str | None) -> float | None:
+    if not hex_bits or len(hex_bits) != 16:
+        return None
+    if not re.fullmatch(r"[0-9a-f]{16}", hex_bits):
+        return None
+    return struct.unpack(">d", bytes.fromhex(hex_bits))[0]
+
+
+def _f64_canon(x: float) -> str:
+    return "nan" if math.isnan(x) else struct.pack(">d", x).hex()
+
+
+def pred_straffix_find_bytes_vs_codepoints(ctx: dict) -> bool:
+    """find devuelve indice en bytes UTF-8 en Zig y en codepoints en Python."""
+    inp = ctx["input"]
+    if inp.get("op") != "find":
+        return False
+    s, a = inp.get("s"), inp.get("a")
+    if s is None or a is None:
+        return False
+    idx = s.find(a)
+    if idx < 0:
+        return False
+    byte_idx = len(s[:idx].encode("utf-8"))
+    if byte_idx == idx:
+        return False
+    return _subject_is(ctx, "ok", out=str(byte_idx)) and _oracle_is(ctx, "ok", out=str(idx))
+
+
+def pred_straffix_replace_empty_needle(ctx: dict) -> bool:
+    """replaceAll con old=='' devuelve EmptyNeedle; Python str.replace intercala."""
+    inp = ctx["input"]
+    if inp.get("op") != "replace" or inp.get("a") != "":
+        return False
+    s, b = inp.get("s"), inp.get("b")
+    if s is None or b is None:
+        return False
+    return (_subject_is(ctx, "err", error="EmptyNeedle", out="")
+            and _oracle_is(ctx, "ok", out=s.replace("", b)))
+
+
+def pred_parsefloat_recorta_ascii(ctx: dict) -> bool:
+    """float() recorta espacios ASCII en los bordes; parseFloat los rechaza."""
+    inp = ctx["input"]
+    if inp.get("op") != "parse":
+        return False
+    text = inp.get("text")
+    if text is None or not text.isascii():
+        return False
+    core = text.strip(ASCII_WS)
+    if not core or core == text:
+        return False
+    try:
+        x = float(core)
+    except ValueError:
+        return False
+    return (_subject_is(ctx, "err", error="InvalidLiteral", value="")
+            and _oracle_is(ctx, "ok", value=_f64_canon(x)))
+
+
+def pred_parsefloat_hexfloat_zig(ctx: dict) -> bool:
+    """parseFloat acepta hexfloat (0x...p...); float() de Python lo rechaza."""
+    inp = ctx["input"]
+    if inp.get("op") != "parse":
+        return False
+    text = inp.get("text")
+    if text is None or not text.isascii():
+        return False
+    _, body = _sign_split(text)
+    if not body[:2].lower() == "0x":
+        return False
+    try:
+        x = float.fromhex(text)
+    except ValueError:
+        return False
+    return (_subject_is(ctx, "ok", value=_f64_canon(x))
+            and _oracle_is(ctx, "err", error="InvalidLiteral", value=""))
+
+
+def pred_parsefloat_fmt2_shortest_decimal(ctx: dict) -> bool:
+    """Zig {d:.2} redondea mitad-lejos-de-cero sobre la representacion decimal
+    mas corta (repr(x)); Python f'{x:.2f}' redondea al par sobre el binario exacto."""
+    inp = ctx["input"]
+    if inp.get("op") != "fmt2":
+        return False
+    x = _f64_from_hex(inp.get("text"))
+    if x is None or not math.isfinite(x):
+        return False
+    zig_want = str(Decimal(repr(x)).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP))
+    py_want = f"{x:.2f}"
+    if zig_want == py_want:
+        return False
+    return _subject_is(ctx, "ok", value=zig_want) and _oracle_is(ctx, "ok", value=py_want)
+
+
+def pred_roundfloat_no_finito(ctx: dict) -> bool:
+    """@round/@floor/@ceil/roundHalfEven propagan inf/-inf/nan como f64;
+    Python round/floor/ceil lanzan OverflowError/ValueError al producir int."""
+    inp = ctx["input"]
+    if inp.get("op") not in ("round_even", "floor", "ceil", "zig_round"):
+        return False
+    x = _f64_from_hex(inp.get("hex_bits"))
+    if x is None or math.isfinite(x):
+        return False
+    if math.isnan(x):
+        return _subject_is(ctx, "ok", value="nan") and _oracle_is(ctx, "err", error="InvalidArgument")
+    want = "inf" if x > 0 else "-inf"
+    return _subject_is(ctx, "ok", value=want) and _oracle_is(ctx, "err", error="Overflow")
+
+
+def pred_roundfloat_menos_cero(ctx: dict) -> bool:
+    """IEEE-754 preserva -0.0 ('-0' en {d:.0}); Python int no tiene cero negativo."""
+    inp = ctx["input"]
+    op = inp.get("op")
+    if op not in ("round_even", "floor", "ceil", "zig_round"):
+        return False
+    x = _f64_from_hex(inp.get("hex_bits"))
+    if x is None or not math.isfinite(x) or math.copysign(1.0, x) >= 0.0:
+        return False
+    if op in ("round_even", "zig_round"):
+        py_val = round(x)
+    elif op == "floor":
+        py_val = math.floor(x)
+    else:
+        py_val = math.ceil(x)
+    if py_val != 0:
+        return False
+    return _subject_is(ctx, "ok", value="-0") and _oracle_is(ctx, "ok", value="0")
+
+
+def pred_roundfloat_zig_round_empate(ctx: dict) -> bool:
+    """zigRound (@round) redondea empates .5 alejando de cero; Python round() al par."""
+    inp = ctx["input"]
+    if inp.get("op") != "zig_round":
+        return False
+    x = _f64_from_hex(inp.get("hex_bits"))
+    if x is None or not math.isfinite(x):
+        return False
+    f = math.floor(x)
+    if x - f != 0.5:
+        return False
+    py_val = round(x)
+    zig_val = int(f + 1) if x > 0 else int(f)
+    if zig_val == py_val:
+        return False
+    return _subject_is(ctx, "ok", value=str(zig_val)) and _oracle_is(ctx, "ok", value=str(py_val))
+
+
 #: nombre -> predicado sobre el contexto completo del caso
 PREDICATES: dict[str, Callable[[dict], bool]] = {
     "parseint-recorta-ascii": pred_parseint_recorta_ascii,
     "parseint-precedencia-overflow": pred_parseint_precedencia_overflow,
     "parseint-guion-bajo-valor": pred_parseint_guion_bajo_valor,
+    "straffix-find-bytes-vs-codepoints": pred_straffix_find_bytes_vs_codepoints,
+    "straffix-replace-empty-needle": pred_straffix_replace_empty_needle,
+    "parsefloat-recorta-ascii": pred_parsefloat_recorta_ascii,
+    "parsefloat-hexfloat-zig": pred_parsefloat_hexfloat_zig,
+    "parsefloat-fmt2-shortest-decimal": pred_parsefloat_fmt2_shortest_decimal,
+    "roundfloat-no-finito": pred_roundfloat_no_finito,
+    "roundfloat-menos-cero": pred_roundfloat_menos_cero,
+    "roundfloat-zig-round-empate": pred_roundfloat_zig_round_empate,
 }
 
 
